@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 RUN apt update -y && apt upgrade
 
 FROM python:latest
@@ -7,9 +7,8 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /usr/app
 
-RUN pip3 install flask &&  \
-    pip3 install requests &&  \
-    pip3 install rpi_ws281x
+RUN pip3 install rpi_ws281x && \
+    pip3 install paho-mqtt
 
 COPY *.py ./
 
