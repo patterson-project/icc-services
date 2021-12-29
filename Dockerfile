@@ -13,4 +13,4 @@ RUN pip3 install rpi_ws281x && \
 COPY *.py ./
 
 EXPOSE 1883
-CMD [ "python", "./led_api.py"]
+CMD [ "python", "-u", "./led_api.py"]

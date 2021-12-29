@@ -22,23 +22,25 @@ def mqtt_init() -> mqtt.Client:
     return client
 
 
-def on_message(message) -> None:
+def on_message(client, userdata, message) -> None:
+    command = message.payload.decode("utf-8")   
+
     print("message received ", str(message.payload.decode("utf-8")))
     print("message topic=", message.topic)
     print("message qos=", message.qos)
     print("message retain flag=", message.retain)
 
-    if message == "ColorWipe":
+    if command == "ColorWipe":
         print('Color wipe animations.')
         colorWipe(strip, Color(255, 0, 0))  # Red wipe
         colorWipe(strip, Color(0, 255, 0))  # Blue wipe
         colorWipe(strip, Color(0, 0, 255))  # Green wipe
-    elif message == "TheaterChase":
+    elif command == "TheaterChase":
         print('Theater chase animations.')
         theaterChase(strip, Color(127, 127, 127))  # White theater chase
         theaterChase(strip, Color(127,   0,   0))  # Red theater chase
         theaterChase(strip, Color(0,   0, 127))  # Blue theater chase
-    elif message == "Rainbow":
+    elif command == "Rainbow":
         print('Rainbow animations.')
         rainbow(strip)
         rainbowCycle(strip)
@@ -48,7 +50,8 @@ def on_message(message) -> None:
 if __name__ == '__main__':
     strip = led_strip_init()
     client = mqtt_init()
-
+    
+    print("Initialization complete.")
     try:
         while True:
             continue
