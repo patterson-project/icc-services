@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	led_control "github.com/rpi-ws281x/rpi-ws281x-go"
-	"time"
 )
 
 const (
 	brightness = 90
-	ledCounts  = 64
+	ledCounts  = 88
 	sleepTime  = 50
 )
 
