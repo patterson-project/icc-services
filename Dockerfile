@@ -1,3 +1,6 @@
+FROM ubuntu:latest
+RUN apt update -y && apt upgrade
+
 FROM python:latest
 
 LABEL Maintainer="canadrian72"
@@ -10,5 +13,5 @@ RUN pip3 install flask &&  \
 
 COPY *.py ./
 
-EXPOSE 5000
+EXPOSE 1883
 CMD [ "python", "./led_api.py"]
