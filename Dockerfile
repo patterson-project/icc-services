@@ -1,7 +1,7 @@
 FROM debian AS lib_builder
 
 # Step 1: Building WS281x 
-WORKDIR /foundry
+WORKDIR /app
 
 RUN apt-get update -y && apt-get install -y \
   build-essential \
@@ -23,17 +23,14 @@ COPY --from=lib_builder /usr/local/include/ws2811 /usr/local/include/ws2811
 
 RUN go get github.com/rpi-ws281x/rpi-ws281x-go
 
-ENV GIN_MODE=release
-ENV PORT=8000
+WORKDIR /src
 
-WORKDIR /go/src
+COPY /src/go.mod ./
+COPY /src/go.sum ./
 
-COPY src /src
-
-COPY src/go.mod .
-COPY src/go.sum .
 RUN go mod download
 
+COPY /src/main.go ./
 RUN go build /src/main.go
-EXPOSE $PORT
-ENTRYPOINT ["./main"]
+
+ENTRYPOINT [ "./main" ]
