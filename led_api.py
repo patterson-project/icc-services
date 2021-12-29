@@ -1,4 +1,3 @@
-from flask import Flask
 from rpi_ws281x import *
 from led_operations import *
 from led_config import LedConfig as conf
