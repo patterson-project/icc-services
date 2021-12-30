@@ -23,7 +23,7 @@ def off():
 
 def start():
     client.connect(BROKER_ADDRESS)
-    app.run(host='', threaded=True, port=8000, debug=True)
+    app.run(host='0.0.0.0', threaded=True, port=8000, debug=True)
 
 
 start()
