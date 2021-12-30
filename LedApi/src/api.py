@@ -16,6 +16,11 @@ def rainbow():
     client.publish("leds", "rainbow")
 
 
+@app.route("/off")
+def off():
+    client.publish("leds", "off")
+
+
 def start():
     client.connect(BROKER_ADDRESS)
     app.run(host='', threaded=True, port=8000, debug=True)

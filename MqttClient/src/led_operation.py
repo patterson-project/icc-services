@@ -9,7 +9,8 @@ class LedOperation:
         self.operation_name = operation_name
         self.strip = strip
         self.executing = True
-        self.operation_names = {'colorWipe': self.color_wipe,
+        self.operation_names = {'off': self.off,
+                                'colorWipe': self.color_wipe,
                                 'theaterChase': self.theater_chase,
                                 'rainbow': self.rainbow,
                                 'rainbowCycle': self.rainbow_cycle,
@@ -20,11 +21,15 @@ class LedOperation:
             operation_thread = Thread(
                 target=self.operation_names[self.operation_name])
             operation_thread.start()
+            operation_thread.join()
         except KeyError as e:
             print(f"{bcolors.WARNING}ERROR:\n {e.message}{bcolors.ENDC}")
 
     def terminate(self) -> None:
         self.executing = False
+
+    def off(self) -> None:
+        self.strip.setPixelColorRGB(0, 0, 0)
 
     def color_wipe(self, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
         while self.executing:

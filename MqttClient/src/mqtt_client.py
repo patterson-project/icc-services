@@ -37,10 +37,8 @@ class MqttClient:
     def on_message(self, client, userdata, message) -> None:
         operation = message.payload.decode("utf-8")
 
-        print("message received ", str(message.payload.decode("utf-8")))
-        print("message topic=", message.topic)
-        print("message qos=", message.qos)
-        print("message retain flag=", message.retain)
+        print("MESSAGE:\t", str(message.payload.decode("utf-8")))
+        print("TOPIC:\t", message.topic)
 
         self.led_operation.terminate()
         self.led_operation = LedOperation(operation, self.strip)
