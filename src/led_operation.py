@@ -1,5 +1,6 @@
-import time
 from rpi_ws281x import Color
+import time
+from threading import Thread
 from utils import bcolors
 
 
@@ -13,7 +14,9 @@ class LedOperation:
 
     def run(self) -> None:
         try:
-            self.operation_names[self.operation_name]()
+            operation_thread = Thread(
+                target=self.operation_names[self.operation_name])
+            operation_thread.start()
         except KeyError as e:
             print(f"{bcolors.WARNING}ERROR:\n {e.message}{bcolors.ENDC}")
 
