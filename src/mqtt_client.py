@@ -11,6 +11,8 @@ class MqttClient:
     def __init__(self):
         self.BROKER_ADDRESS = "10.0.0.35"
         self.led_operation = LedOperation(None)
+        self.strip = self.led_strip_init()
+        self.client = self.mqtt_init()
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
         strip = Adafruit_NeoPixel(
@@ -22,7 +24,6 @@ class MqttClient:
             LedConfig.BRIGHTNESS,
             LedConfig.CHANNEL)
         strip.begin()
-
         return strip
 
     def mqtt_init(self) -> mqtt.Client:
@@ -48,13 +49,10 @@ class MqttClient:
 
 if __name__ == '__main__':
     mqtt_client = MqttClient()
-    mqtt_client.led_strip_init()
-    client = mqtt_client.mqtt_init()
-
     print("Initialization complete.")
 
     try:
         while True:
             continue
     except SystemError as e:
-        client.loop_stop()
+        mqtt_client.client.loop_stop()
