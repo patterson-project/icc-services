@@ -10,7 +10,7 @@ WORKDIR /usr/app
 RUN pip3 install rpi_ws281x && \
     pip3 install paho-mqtt
 
-COPY *.py ./
+COPY src/*.py ./
 
 EXPOSE 1883
-CMD [ "python", "-u", "./led_api.py"]
+CMD [ "python", "-u", "led_api.py"]
