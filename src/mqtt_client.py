@@ -10,9 +10,9 @@ class MqttClient:
 
     def __init__(self):
         self.BROKER_ADDRESS = "10.0.0.35"
-        self.led_operation = LedOperation(None)
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
+        self.led_operation = LedOperation(None, self.strip)
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
         strip = Adafruit_NeoPixel(
@@ -43,7 +43,7 @@ class MqttClient:
         print("message retain flag=", message.retain)
 
         self.led_operation.terminate()
-        self.led_operation = LedOperation(operation)
+        self.led_operation = LedOperation(operation, self.strip)
         self.led_operation.run()
 
 
