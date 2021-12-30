@@ -9,8 +9,11 @@ class LedOperation:
         self.operation_name = operation_name
         self.strip = strip
         self.executing = True
-        self.operation_names = {'colorWipe': self.color_wipe, 'theaterChase': self.theater_chase, 'rainbow': self.rainbow,
-                                'rainbowCycle': self.rainbow_cycle, 'theaterChaseRainbow': self.theater_chase_rainbow}
+        self.operation_names = {'colorWipe': self.color_wipe,
+                                'theaterChase': self.theater_chase,
+                                'rainbow': self.rainbow,
+                                'rainbowCycle': self.rainbow_cycle,
+                                'theaterChaseRainbow': self.theater_chase_rainbow}
 
     def run(self) -> None:
         try:
@@ -25,7 +28,6 @@ class LedOperation:
 
     def color_wipe(self, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
         while self.executing:
-            print("Color wipe")
             for color in colors:
                 self.wipe(color, wait_ms)
 
@@ -40,7 +42,6 @@ class LedOperation:
     def theater_chase(self, color=Color(127, 127, 127), wait_ms=50) -> None:
         """Movie theater light style chaser animation."""
         while self.executing:
-            print("Theater Chase")
             for q in range(3):
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, color)
@@ -63,28 +64,25 @@ class LedOperation:
     def rainbow(self, wait_ms=20) -> None:
         """Draw rainbow that fades across all pixels at once."""
         while self.executing:
-            print("Rainbow")
             for j in range(255):
                 for i in range(self.strip.numPixels()):
                     self.strip.setPixelColor(i, self.wheel((i+j) & 255))
                 self.strip.show()
                 time.sleep(wait_ms/1000.0)
 
-    def rainbow_cycle(self, strip, wait_ms=20) -> None:
+    def rainbow_cycle(self, wait_ms=20) -> None:
         """Draw rainbow that uniformly distributes itself across all pixels."""
         while self.executing:
-            print("Rainbow Cycles")
             for j in range(255):
-                for i in range(strip.numPixels()):
-                    strip.setPixelColor(
-                        i, self.wheel((int(i * 256 / strip.numPixels()) + j) & 255))
-                strip.show()
+                for i in range(self.strip.numPixels()):
+                    self.strip.setPixelColor(
+                        i, self.wheel((int(i * 256 / self.strip.numPixels()) + j) & 255))
+                self.strip.show()
                 time.sleep(wait_ms/1000.0)
 
     def theater_chase_rainbow(self, wait_ms=50) -> None:
         """Rainbow movie theater light style chaser animation."""
         while self.executing:
-            print("Theater Chase Rainbow")
             for j in range(255):
                 for q in range(3):
                     for i in range(0, self.strip.numPixels(), 3):
