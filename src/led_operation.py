@@ -7,7 +7,7 @@ class LedOperation:
     def __init__(self, operation_name, strip) -> None:
         self.operation_name = operation_name
         self.strip = strip
-        self.running = True
+        self.executing = True
         self.operation_names = {'colorWipe': self.color_wipe, 'theaterChase': self.theater_chase, 'rainbow': self.rainbow,
                                 'rainbowCycle': self.rainbow_cycle, 'theaterChaseRainbow': self.theater_chase_rainbow}
 
@@ -18,7 +18,7 @@ class LedOperation:
             print(f"{bcolors.WARNING}ERROR:\n {e.message}{bcolors.ENDC}")
 
     def terminate(self) -> None:
-        self.running = False
+        self.executing = False
 
     def color_wipe(self, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
         while self.executing:
