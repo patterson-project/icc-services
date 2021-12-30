@@ -23,7 +23,7 @@ class LedOperation:
     def color_wipe(self, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
         while self.executing:
             for color in colors:
-                self.wipe(self.strip, color, wait_ms)
+                self.wipe(color, wait_ms)
 
     def wipe(self, color, wait_ms=50) -> None:
         """Wipe color across display a pixel at a time."""
