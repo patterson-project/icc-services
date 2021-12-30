@@ -7,7 +7,7 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /usr/app
 
-RUN pip3 install flask requests json
+RUN pip3 install flask requests
 
 COPY src/*.py ./
 
