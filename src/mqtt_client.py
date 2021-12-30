@@ -10,7 +10,6 @@ class MqttClient:
 
     def __init__(self):
         self.BROKER_ADDRESS = "10.0.0.35"
-        self.dev = None
         self.led_operation = LedOperation(None)
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
@@ -22,9 +21,7 @@ class MqttClient:
             LedConfig.INVERT,
             LedConfig.BRIGHTNESS,
             LedConfig.CHANNEL)
-
-        if not self.dev:
-            strip.begin()
+        strip.begin()
 
         return strip
 
@@ -51,8 +48,6 @@ class MqttClient:
 
 if __name__ == '__main__':
     mqtt_client = MqttClient()
-    mqtt_client.dev = True
-
     mqtt_client.led_strip_init()
     client = mqtt_client.mqtt_init()
 
