@@ -7,8 +7,8 @@ from utils import TerminalColors, LedConfig
 
 class MqttClient:
 
-    def __init__(self):
-        self.BROKER_ADDRESS = "10.0.0.35"
+    def __init__(self, broker_address):
+        self.broker_address = broker_address
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
         self.led_process = None
@@ -26,8 +26,8 @@ class MqttClient:
         return strip
 
     def mqtt_init(self) -> mqtt.Client:
-        client = mqtt.Client("LedController")
-        client.connect(self.BROKER_ADDRESS)
+        client = mqtt.Client("LedPi")
+        client.connect(self.broker_address)
         client.on_message = self.on_message
         client.loop_start()
         client.subscribe("leds")
@@ -51,7 +51,8 @@ class MqttClient:
 
 
 if __name__ == '__main__':
-    mqtt_client = MqttClient()
+    broker_address = input("Enter broker Pi Address: ")
+    mqtt_client = MqttClient(broker_address)
     print("Initialization complete.")
 
     try:

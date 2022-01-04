@@ -7,7 +7,7 @@ class Message:
         self.topic = "leds"
 
 message = Message()
-client = mqtt_client.MqttClient()
+client = mqtt_client.MqttClient("10.0.0.35")
 client.on_message("x", "x", message)
 
 time.sleep(5)

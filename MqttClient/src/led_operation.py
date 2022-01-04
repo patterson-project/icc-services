@@ -2,7 +2,9 @@ from rpi_ws281x import Color
 import time
 
 def off(strip) -> None:
-    strip.setPixelColorRGB(0, 0, 0)
+    for i in range(strip.numPixels()):
+        strip.setPixelColorRGB(i, 0, 0, 0)
+        strip.show()
 
 def color_wipe(strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
     while True:
@@ -28,7 +30,7 @@ def theater_chase(strip, color=Color(127, 127, 127), wait_ms=50) -> None:
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i+q, 0)
 
-def wheel(strip, pos) -> None:
+def wheel(pos) -> None:
     """Generate rainbow colors across 0-255 positions."""
     if pos < 85:
         return Color(pos * 3, 255 - pos * 3, 0)
