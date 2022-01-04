@@ -1,4 +1,4 @@
-class bcolors:
+class TerminalColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -8,3 +8,12 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+class LedConfig:
+    COUNT = 88
+    PIN = 18
+    FREQ_HZ = 800000
+    DMA = 10
+    BRIGHTNESS = 255
+    INVERT = False
+    CHANNEL = 0

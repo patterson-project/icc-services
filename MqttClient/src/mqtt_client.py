@@ -1,9 +1,8 @@
 import paho.mqtt.client as mqtt
-
-from led_config import LedConfig
+import led_operation
 from rpi_ws281x import *
-from led_operation import *
-from led_operation import LedOperation
+from multiprocessing import Process
+from utils import TerminalColors, LedConfig
 
 
 class MqttClient:
@@ -12,7 +11,7 @@ class MqttClient:
         self.BROKER_ADDRESS = "10.0.0.35"
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
-        self.led_operation = LedOperation(None, self.strip)
+        self.led_process = None
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
         strip = Adafruit_NeoPixel(
@@ -40,9 +39,15 @@ class MqttClient:
         print("MESSAGE:\t", str(message.payload.decode("utf-8")))
         print("TOPIC:\t", message.topic)
 
-        self.led_operation.terminate()
-        self.led_operation = LedOperation(operation, self.strip)
-        self.led_operation.run()
+        if self.led_process is not None:
+            self.led_process.terminate()
+        
+        try:
+            self.led_process = Process(target=getattr(led_operation, operation), args=(self.strip,))
+            self.led_process.start()
+
+        except AttributeError as e:
+            print(f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
 
 
 if __name__ == '__main__':
