@@ -9,6 +9,7 @@ class TerminalColors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 class LedConfig:
     COUNT = 88
     PIN = 18
@@ -17,3 +18,4 @@ class LedConfig:
     BRIGHTNESS = 255
     INVERT = False
     CHANNEL = 0
+    BROKER_ADDRESS = "10.0.0.35"

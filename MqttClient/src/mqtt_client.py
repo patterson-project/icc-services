@@ -7,8 +7,7 @@ from utils import TerminalColors, LedConfig
 
 class MqttClient:
 
-    def __init__(self, broker_address):
-        self.broker_address = broker_address
+    def __init__(self):
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
         self.led_process = None
@@ -27,7 +26,7 @@ class MqttClient:
 
     def mqtt_init(self) -> mqtt.Client:
         client = mqtt.Client("LedPi")
-        client.connect(self.broker_address)
+        client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
         client.loop_start()
         client.subscribe("leds")
@@ -41,18 +40,19 @@ class MqttClient:
 
         if self.led_process is not None:
             self.led_process.terminate()
-        
+
         try:
-            self.led_process = Process(target=getattr(led_operation, operation), args=(self.strip,))
+            self.led_process = Process(target=getattr(
+                led_operation, operation), args=(self.strip,))
             self.led_process.start()
 
         except AttributeError as e:
-            print(f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
+            print(
+                f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
 
 
 if __name__ == '__main__':
-    broker_address = input("Enter broker Pi Address: ")
-    mqtt_client = MqttClient(broker_address)
+    mqtt_client = MqttClient()
     print("Initialization complete.")
 
     try:
