@@ -24,6 +24,14 @@ class LedConfig:
     BROKER_ADDRESS = "10.0.0.35"
 
 
+class LedRequest:
+    def __init__(self, operation: str, r: int = None, g: int = None, b: int = None):
+        self.operation = operation
+        self.r = r
+        self.g = g
+        self.b = b
+
+
 def log(topic, message):
     now = datetime.now()
     print(str(now.strftime('%Y-%m-%d %H:%M:%S')))

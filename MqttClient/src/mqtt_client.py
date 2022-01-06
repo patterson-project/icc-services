@@ -1,8 +1,9 @@
+import json
 import paho.mqtt.client as mqtt
 import led_operation
 from rpi_ws281x import *
 from multiprocessing import Process
-from utils import TerminalColors, LedConfig, log
+from utils import LedRequest, TerminalColors, LedConfig, log
 
 
 class MqttClient:
@@ -32,16 +33,20 @@ class MqttClient:
         return client
 
     def on_message(self, client, userdata, message) -> None:
-        operation = message.payload.decode("utf-8")
+        led_request = LedRequest(**json.loads(message.payload))
 
-        log(message.topic, str(message.payload.decode("utf-8")))
+        log(message.topic, str(led_request))
 
         if self.led_process is not None:
             self.led_process.terminate()
 
         try:
-            self.led_process = Process(target=getattr(
-                led_operation, operation), args=(self.strip,))
+            if led_request.operation == "rgb":
+                self.led_process = Process(target=getattr(
+                    led_operation, led_request.operation), args=(self.strip, led_request.r, led_request.g, led_request.b,))
+            else:
+                self.led_process = Process(target=getattr(
+                    led_operation, led_request.operation), args=(self.strip,))
             self.led_process.start()
 
         except AttributeError as e:
