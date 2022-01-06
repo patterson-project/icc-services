@@ -28,7 +28,6 @@ class MqttClient:
         client = mqtt.Client("LedPi")
         client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
-        client.loop_forever()
         client.subscribe("leds")
         return client
 
@@ -56,7 +55,6 @@ if __name__ == '__main__':
     print("Initialization complete.")
 
     try:
-        while True:
-            continue
+        mqtt_client.client.loop_forever()
     except SystemError as e:
         mqtt_client.client.loop_stop()
