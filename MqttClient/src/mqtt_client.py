@@ -35,7 +35,7 @@ class MqttClient:
     def on_message(self, client, userdata, message) -> None:
         led_request = LedRequest(**json.loads(message.payload))
 
-        log(message.topic, str(led_request))
+        log(message.topic, str(led_request.__dict__))
 
         if self.led_process is not None:
             self.led_process.terminate()
