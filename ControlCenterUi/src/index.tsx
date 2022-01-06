@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ColorWheel from "./ColorWheel";
+import ColorSelectPage from "./ColorSelectPage";
 import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ColorWheel />
+    <ColorSelectPage />
   </React.StrictMode>,
   document.getElementById("root")
 );

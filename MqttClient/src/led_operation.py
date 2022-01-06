@@ -10,7 +10,7 @@ def off(strip) -> None:
 
 def rgb(strip, r, g, b) -> None:
     for i in range(strip.numPixels()):
-        strip.setPixelColorRGB(i, r, g, b)
+        strip.setPixelColorRGB(i, r, b, g)
         strip.show()
 
 

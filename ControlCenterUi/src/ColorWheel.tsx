@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
-import config from "./config.json";
+import config from "./config";
 
 interface LedRequest {
   operation: string;
@@ -11,22 +11,8 @@ interface LedRequest {
 }
 
 function ColorWheel() {
-  const [color, setColor] = useState({
-    hue: 0,
-    saturation: 100,
-    luminosity: 50,
-    alpha: 1,
-  });
-
-  const onInput = (hue: number) => {
-    setColor((prev) => {
-      return {
-        ...prev,
-        hue,
-      };
-    });
-
-    const rgb = hslToRgb(color.hue, color.saturation, color.luminosity);
+  const onChange = (hue: number) => {
+    const rgb = hslToRgb(hue);
     const ledRequest: LedRequest = {
       operation: "rgb",
       r: rgb.r,
@@ -46,10 +32,16 @@ function ColorWheel() {
   };
 
   const onSelect = () => {
-    console.log("Toggled");
+    fetch(config.LED_API_URL + "off", {
+      method: "GET",
+    }).catch((error) => {
+      console.log("ERROR", error);
+    });
   };
 
-  const hslToRgb = (h: number, s: number, l: number) => {
+  const hslToRgb = (h: number) => {
+    var s = 100;
+    var l = 50;
     var r, g, b, m, c, x;
 
     if (!isFinite(h)) h = 0;
@@ -100,7 +92,7 @@ function ColorWheel() {
     return { r: r, g: g, b: b };
   };
 
-  return <ColorPicker {...color} onInput={onInput} onSelect={onSelect} />;
+  return <ColorPicker onChange={onChange} onSelect={onSelect} />;
 }
 
 export default ColorWheel;
