@@ -1,5 +1,5 @@
 {
-  "name": "control-center",
+  "name": "ControlCenterUi",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
