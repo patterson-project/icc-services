@@ -5,7 +5,7 @@ FROM python:latest
 
 LABEL Maintainer="canadrian72"
 
-WORKDIR /usr/app
+WORKDIR /app
 
 RUN pip3 install rpi_ws281x && \
     pip3 install paho-mqtt

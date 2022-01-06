@@ -5,7 +5,7 @@ FROM python:latest
 
 LABEL Maintainer="canadrian72"
 
-WORKDIR /usr/app
+WORKDIR /app
 
 RUN pip3 install flask requests paho-mqtt
 

@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+
+  led-api:
+    container_name: led-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+
