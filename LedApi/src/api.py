@@ -1,9 +1,12 @@
 from flask import Flask, Response, request
+from flask_cors import CORS
 from paho.mqtt.client import Client
 from utils import LedRequest, log
 import json
 
 app = Flask("__main__")
+CORS(app)
+
 BROKER_ADDRESS = "10.0.0.35"
 BROKER_PORT = 1883
 

@@ -7,7 +7,7 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /app
 
-RUN pip3 install flask requests paho-mqtt
+RUN pip3 install flask requests paho-mqtt flask-cors
 
 COPY src/*.py ./
 
