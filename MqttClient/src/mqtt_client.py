@@ -36,7 +36,7 @@ class MqttClient:
         operation = message.payload.decode("utf-8")
 
         print("MESSAGE:\t", str(message.payload.decode("utf-8")))
-        print("TOPIC:\t", message.topic)
+        print("TOPIC:\t\t", message.topic)
 
         if self.led_process is not None:
             self.led_process.terminate()
