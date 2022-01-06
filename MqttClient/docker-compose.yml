@@ -4,6 +4,7 @@ services:
 
   mqtt-client:
     container_name: mqtt-client
+    privileged: true
     build:
       context: .
       dockerfile: Dockerfile
