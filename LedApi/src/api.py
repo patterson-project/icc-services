@@ -16,7 +16,7 @@ def index() -> Response:
 @app.route("/off")
 def off() -> Response:
     led_request = LedRequest("off")
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
@@ -24,42 +24,42 @@ def off() -> Response:
 def rgb() -> Response:
     r, g, b = request.form['r'], request.form['g'], request.form['b']
     led_request = LedRequest("rgb", r, g, b)
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
 @app.route("/colorwipe")
 def color_wipe() -> Response:
     led_request = LedRequest("color_wipe")
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
 @app.route("/theaterchase")
 def theater_chase() -> Response:
     led_request = LedRequest("theater_chase")
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
 @app.route("/rainbow")
 def rainbow() -> Response:
     led_request = LedRequest("rainbow")
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
 @app.route("/rainbowcycle")
 def rainbow_cycle() -> Response:
     led_request = LedRequest("rainbow_cycle")
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
 @app.route("/theaterchaserainbow")
 def theater_chase_rainbow() -> Response:
     led_request = LedRequest("theater_chase_rainbow")
-    publish("leds", json.dumps(led_request))
+    publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
 
