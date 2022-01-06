@@ -22,8 +22,8 @@ def off() -> Response:
 
 @app.route("/rgb", methods=["POST"])
 def rgb() -> Response:
-    r, g, b = request.form['r'], request.form['g'], request.form['b']
-    led_request = LedRequest("rgb", r, g, b)
+    body = request.get_json()
+    led_request = LedRequest(**body)
     publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 

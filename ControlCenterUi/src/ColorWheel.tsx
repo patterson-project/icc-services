@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
 import config from "./config.json";
+import axios from "axios";
 
 type LedRequest = {
   operation: string;
@@ -34,10 +35,11 @@ function ColorWheel() {
       b: rgb.b,
     };
 
-    fetch(config.LED_API_URL, {
-      method: "POST",
-      body: JSON.stringify(ledRequest),
-    });
+    axios
+      .post(config.LED_API_URL + "rgb", JSON.stringify(ledRequest))
+      .catch((error) => {
+        console.log("ERROR", error);
+      });
   };
 
   const onSelect = () => {
