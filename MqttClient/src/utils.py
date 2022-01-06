@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class TerminalColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -19,3 +22,10 @@ class LedConfig:
     INVERT = False
     CHANNEL = 0
     BROKER_ADDRESS = "10.0.0.35"
+
+
+def log(topic, message):
+    now = datetime.now()
+    print(str(now.strftime('%Y-%m-%d %H:%M:%S')), end="")
+    print("\tTOPIC:\t\t" + topic)
+    print("\tMESSAGE:\t" + message)

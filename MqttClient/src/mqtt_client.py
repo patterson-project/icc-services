@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import led_operation
 from rpi_ws281x import *
 from multiprocessing import Process
-from utils import TerminalColors, LedConfig
+from utils import TerminalColors, LedConfig, log
 
 
 class MqttClient:
@@ -34,8 +34,7 @@ class MqttClient:
     def on_message(self, client, userdata, message) -> None:
         operation = message.payload.decode("utf-8")
 
-        print("MESSAGE:\t", str(message.payload.decode("utf-8")))
-        print("TOPIC:\t\t", message.topic)
+        log(message.topic, str(message.payload.decode("utf-8")))
 
         if self.led_process is not None:
             self.led_process.terminate()
