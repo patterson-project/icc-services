@@ -26,6 +26,6 @@ class LedConfig:
 
 def log(topic, message):
     now = datetime.now()
-    print(str(now.strftime('%Y-%m-%d %H:%M:%S')), end="")
+    print(str(now.strftime('%Y-%m-%d %H:%M:%S')))
     print("\tTOPIC:\t\t" + topic)
     print("\tMESSAGE:\t" + message)

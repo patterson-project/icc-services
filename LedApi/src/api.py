@@ -53,7 +53,7 @@ def start():
 
 
 def on_publish(client, userdata, result) -> None:
-    log("\tData Published. Mid: " + result)
+    log("\tData Published. Mid: " + str(result))
     pass
 
 
