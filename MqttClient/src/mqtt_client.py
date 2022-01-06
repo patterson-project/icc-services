@@ -28,7 +28,7 @@ class MqttClient:
         client = mqtt.Client("LedPi")
         client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
-        client.loop_start()
+        client.loop_forever()
         client.subscribe("leds")
         return client
 
