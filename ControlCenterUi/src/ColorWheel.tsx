@@ -15,9 +15,11 @@ const colorWheelStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  width: "300px",
+  height: "300px",
   backgroundColor: "#3B3B3B",
   padding: "20px",
-  borderRadius: "6px",
+  borderRadius: "10px",
 };
 
 function ColorWheel() {

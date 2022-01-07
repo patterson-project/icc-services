@@ -15,20 +15,22 @@ const brightnessSliderStyle = {
   justifyContent: "center",
   height: "50px",
   backgroundColor: "#3B3B3B",
-  width: "300px",
+  width: "320px",
   paddingLeft: "12px",
   paddingRight: "12px",
-  borderRadius: "6px",
+  borderRadius: "10px",
   marginBottom: "20px",
 };
 
 const iconStyle = {
+  color: "white",
+  fontSize: "medium",
+};
+
+const gridItemStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  paddingTop: "7px",
-  color: "white",
-  fontSize: "medium",
 };
 
 function BrightnessSlider() {
@@ -52,10 +54,10 @@ function BrightnessSlider() {
   return (
     <Box style={brightnessSliderStyle}>
       <Grid container spacing={2}>
-        <Grid item xs={1}>
+        <Grid item xs={1} style={gridItemStyle}>
           <BrightnessLowIcon style={iconStyle} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={10} style={gridItemStyle}>
           <Slider
             aria-label="Brightness"
             defaultValue={100}
@@ -67,7 +69,7 @@ function BrightnessSlider() {
             onChangeCommitted={(_e, v) => onChangeBrightness(v as number)}
           />
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={1} style={gridItemStyle}>
           <BrightnessHighIcon style={iconStyle} />
         </Grid>
       </Grid>

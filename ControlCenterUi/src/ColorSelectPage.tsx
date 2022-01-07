@@ -10,8 +10,7 @@ const colorSelectPageStyle = {
   backgroundColor: "#222222",
 };
 
-const gridStyle = {
-  marginTop: "20px",
+const gridItemStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -20,20 +19,22 @@ const gridStyle = {
 const titleStyle = {
   color: "white",
   fontSize: "40px",
-  fontFamily: "Ubuntu",
+  marginTop: "20px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "bold",
 };
 
 function ColorSelectPage() {
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2}>
-        <Grid item xs={12} style={gridStyle}>
+        <Grid item xs={12} style={gridItemStyle}>
           <Typography style={titleStyle}>Led Control</Typography>
         </Grid>
-        <Grid item xs={12} style={gridStyle}>
+        <Grid item xs={12} style={gridItemStyle}>
           <ColorWheel />
         </Grid>
-        <Grid item xs={12} style={gridStyle}>
+        <Grid item xs={12} style={gridItemStyle}>
           <BrightnessSlider />
         </Grid>
       </Grid>
