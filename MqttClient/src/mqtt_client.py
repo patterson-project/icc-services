@@ -41,9 +41,13 @@ class MqttClient:
             self.led_process.terminate()
 
         try:
+            # TODO make a switch-esque statement
             if led_request.operation == "rgb":
                 self.led_process = Process(target=getattr(
                     led_operation, led_request.operation), args=(self.strip, led_request.r, led_request.g, led_request.b,))
+            elif led_request.operation == "brightness":
+                self.led_process = Process(target=getattr(
+                    led_operation, led_request.operation), args=(self.strip, led_request.brightness,))
             else:
                 self.led_process = Process(target=getattr(
                     led_operation, led_request.operation), args=(self.strip,))

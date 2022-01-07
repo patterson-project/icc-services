@@ -8,10 +8,16 @@ def off(strip) -> None:
         strip.show()
 
 
-def rgb(strip, r, g, b) -> None:
+def rgb(strip, r, g, b, wait_ms=5) -> None:
     for i in range(strip.numPixels()):
         strip.setPixelColorRGB(i, r, b, g)
         strip.show()
+        time.sleep(wait_ms/1000.0)
+
+
+def brightness(strip, brightness) -> None:
+    brightness = int(255*(brightness/100))
+    strip.setBrightness(brightness)
 
 
 def color_wipe(strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):

@@ -23,6 +23,14 @@ def off() -> Response:
     return Response(status=200)
 
 
+@app.route("/brightness")
+def off() -> Response:
+    body = request.get_json()
+    led_request = LedRequest(**body)
+    publish("leds", json.dumps(led_request.__dict__))
+    return Response(status=200)
+
+
 @app.route("/rgb", methods=["POST"])
 def rgb() -> Response:
     body = request.get_json()

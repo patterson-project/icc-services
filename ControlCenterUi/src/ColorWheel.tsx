@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
 import config from "./config";
+import { Box } from "@mui/material";
 
-interface LedRequest {
+interface RgbRequest {
   operation: string;
   r?: number;
   g?: number;
   b?: number;
 }
 
+const colorWheelStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "#3B3B3B",
+  padding: "20px",
+  borderRadius: "6px",
+};
+
 function ColorWheel() {
   const onChange = (hue: number) => {
     const rgb = hslToRgb(hue);
-    const ledRequest: LedRequest = {
+    const ledRequest: RgbRequest = {
       operation: "rgb",
       r: rgb.r,
       g: rgb.g,
@@ -92,7 +102,11 @@ function ColorWheel() {
     return { r: r, g: g, b: b };
   };
 
-  return <ColorPicker onChange={onChange} onSelect={onSelect} />;
+  return (
+    <Box style={colorWheelStyle}>
+      <ColorPicker onChange={onChange} onSelect={onSelect} />
+    </Box>
+  );
 }
 
 export default ColorWheel;

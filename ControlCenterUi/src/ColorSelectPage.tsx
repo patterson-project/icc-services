@@ -1,5 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
+import BrightnessSlider from "./BrightnessSlider";
 import ColorWheel from "./ColorWheel";
 
 const colorSelectPageStyle = {
@@ -9,8 +10,8 @@ const colorSelectPageStyle = {
   backgroundColor: "#222222",
 };
 
-const colorWheelStyle = {
-  marginTop: "40px",
+const gridStyle = {
+  marginTop: "20px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -18,14 +19,22 @@ const colorWheelStyle = {
 
 const titleStyle = {
   color: "white",
+  fontSize: "40px",
+  fontFamily: "Ubuntu",
 };
 
 function ColorSelectPage() {
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2}>
-        <Grid item xs={12} style={colorWheelStyle}>
+        <Grid item xs={12} style={gridStyle}>
+          <Typography style={titleStyle}>Led Control</Typography>
+        </Grid>
+        <Grid item xs={12} style={gridStyle}>
           <ColorWheel />
+        </Grid>
+        <Grid item xs={12} style={gridStyle}>
+          <BrightnessSlider />
         </Grid>
       </Grid>
     </div>
