@@ -24,7 +24,7 @@ def off() -> Response:
 
 
 @app.route("/brightness")
-def off() -> Response:
+def brightness() -> Response:
     body = request.get_json()
     led_request = LedRequest(**body)
     publish("leds", json.dumps(led_request.__dict__))
