@@ -23,7 +23,7 @@ def off() -> Response:
     return Response(status=200)
 
 
-@app.route("/brightness")
+@app.route("/brightness", methods=["POST"])
 def brightness() -> Response:
     body = request.get_json()
     led_request = LedRequest(**body)

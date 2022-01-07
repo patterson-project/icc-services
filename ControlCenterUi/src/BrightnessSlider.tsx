@@ -64,7 +64,7 @@ function BrightnessSlider() {
             marks
             min={0}
             max={100}
-            onChange={(_e, v) => onChangeBrightness(v as number)}
+            onChangeCommitted={(_e, v) => onChangeBrightness(v as number)}
           />
         </Grid>
         <Grid item xs={1}>
