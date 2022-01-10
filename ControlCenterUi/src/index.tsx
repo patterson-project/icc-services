@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ColorSelectPage from "./ColorSelectPage";
+import ColorSelectPage from "./Pages/ColorSelectPage";
 import "./index.css";
 
 ReactDOM.render(

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
-import config from "./config";
+import config from "../config";
 import { Box } from "@mui/material";
 
 interface RgbRequest {
@@ -15,14 +15,13 @@ const colorWheelStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "300px",
-  height: "300px",
+  width: "340px",
+  height: "340px",
   backgroundColor: "#3B3B3B",
-  padding: "20px",
   borderRadius: "10px",
 };
 
-function ColorWheel() {
+const ColorWheel: FC = () => {
   const onChange = (hue: number) => {
     const rgb = hslToRgb(hue);
     const ledRequest: RgbRequest = {
@@ -109,6 +108,6 @@ function ColorWheel() {
       <ColorPicker onChange={onChange} onSelect={onSelect} />
     </Box>
   );
-}
+};
 
 export default ColorWheel;

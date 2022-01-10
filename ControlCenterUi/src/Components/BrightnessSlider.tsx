@@ -1,25 +1,24 @@
 import { Box, Grid, Slider } from "@mui/material";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
-import React from "react";
-import config from "./config";
+import React, { FC } from "react";
+import config from "../config";
 
 interface BrightnessRequest {
   operation: string;
   brightness: number;
 }
 
-const brightnessSliderStyle = {
+const brightnessBoxSliderStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   height: "50px",
   backgroundColor: "#3B3B3B",
   width: "320px",
-  paddingLeft: "12px",
-  paddingRight: "12px",
+  paddingLeft: "10px",
+  paddingRight: "10px",
   borderRadius: "10px",
-  marginBottom: "20px",
 };
 
 const iconStyle = {
@@ -33,7 +32,7 @@ const gridItemStyle = {
   justifyContent: "center",
 };
 
-function BrightnessSlider() {
+const BrightnessSlider: FC = () => {
   const onChangeBrightness = (value: number) => {
     const brightnessRequest: BrightnessRequest = {
       operation: "brightness",
@@ -52,7 +51,7 @@ function BrightnessSlider() {
   };
 
   return (
-    <Box style={brightnessSliderStyle}>
+    <Box style={brightnessBoxSliderStyle}>
       <Grid container spacing={2}>
         <Grid item xs={1} style={gridItemStyle}>
           <BrightnessLowIcon style={iconStyle} />
@@ -73,6 +72,6 @@ function BrightnessSlider() {
       </Grid>
     </Box>
   );
-}
+};
 
 export default BrightnessSlider;
