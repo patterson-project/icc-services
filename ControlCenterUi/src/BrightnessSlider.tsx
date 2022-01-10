@@ -61,7 +61,6 @@ function BrightnessSlider() {
           <Slider
             aria-label="Brightness"
             defaultValue={100}
-            step={10}
             valueLabelDisplay="auto"
             marks
             min={0}
