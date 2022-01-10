@@ -62,7 +62,6 @@ function BrightnessSlider() {
             aria-label="Brightness"
             defaultValue={100}
             valueLabelDisplay="auto"
-            marks
             min={0}
             max={100}
             onChangeCommitted={(_e, v) => onChangeBrightness(v as number)}
