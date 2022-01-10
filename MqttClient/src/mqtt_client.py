@@ -9,7 +9,7 @@ from utils import LedRequest, TerminalColors, LedConfig, log
 class MqttClient:
 
     def __init__(self):
-        self.strip = Value('strip', self.led_strip_init())
+        self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
         self.led_process = None
 
@@ -43,15 +43,14 @@ class MqttClient:
         try:
             # TODO make a switch-esque statement
             if led_request.operation == "rgb":
-                self.led_process = Process(target=getattr(
-                    led_operation, led_request.operation), args=(self.strip, led_request.r, led_request.g, led_request.b,))
+                led_operation.rgb(self.strip, led_request.r,
+                                  led_request.g, led_request.b)
             elif led_request.operation == "brightness":
-                self.led_process = Process(target=getattr(
-                    led_operation, led_request.operation), args=(self.strip, led_request.brightness,))
+                led_operation.brightness(self.strip, led_request.brightness)
             else:
                 self.led_process = Process(target=getattr(
                     led_operation, led_request.operation), args=(self.strip,))
-            self.led_process.start()
+                self.led_process.start()
 
         except AttributeError as e:
             print(
