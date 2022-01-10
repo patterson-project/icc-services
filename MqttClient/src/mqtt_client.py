@@ -1,4 +1,5 @@
 import json
+from multiprocessing.process import current_process
 import paho.mqtt.client as mqtt
 import led_operation
 from rpi_ws281x import Adafruit_NeoPixel
@@ -32,24 +33,38 @@ class MqttClient:
         client.subscribe("leds")
         return client
 
-    def on_message(self, client, userdata, message) -> None:
-        led_request = LedRequest(**json.loads(message.payload))
-
-        log(message.topic, str(led_request.__dict__))
-
+    def terminate_process(self) -> None:
         if self.led_process is not None:
             self.led_process.terminate()
+            self.led_process = None
+
+    def on_message(self, client, userdata, message) -> None:
+        led_request = LedRequest(**json.loads(message.payload))
+        log(message.topic, str(led_request.__dict__))
 
         try:
             # TODO make a switch-esque statement
             if led_request.operation == "rgb":
+                self.terminate_process()
                 led_operation.rgb(self.strip, led_request.r,
                                   led_request.g, led_request.b)
             elif led_request.operation == "brightness":
-                led_operation.brightness(self.strip, led_request.brightness)
+                if self.led_process is not None:
+                    current_operation = self.led_process.name
+                    self.terminate_process()
+                    led_operation.brightness(
+                        self.strip, led_request.brightness)
+                    self.led_process = Process(target=getattr(
+                        led_operation, current_operation), args=(self.strip,))
+                    self.led_process.name = current_operation
+                    self.led_process.start()
+                else:
+                    led_operation.brightness(
+                        self.strip, led_request.brightness)
             else:
                 self.led_process = Process(target=getattr(
                     led_operation, led_request.operation), args=(self.strip,))
+                self.led_process.name = led_request.operation
                 self.led_process.start()
 
         except AttributeError as e:
