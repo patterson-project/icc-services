@@ -19,7 +19,10 @@ def brightness(strip, brightness) -> None:
     print("Argument passed to function: ", brightness)
     brightness = int(255*(brightness/100))
     print("Setting brightness to: ", brightness)
-    strip.setBrightness(brightness)
+    strip.setBrightness(150)
+    strip.show()
+    time.sleep(2)
+    strip.setBrightness(255)
     strip.show()
 
 
