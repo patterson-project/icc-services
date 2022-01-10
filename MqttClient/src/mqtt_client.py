@@ -1,7 +1,7 @@
 import json
 import paho.mqtt.client as mqtt
 import led_operation
-from rpi_ws281x import *
+from rpi_ws281x import Adafruit_NeoPixel
 from multiprocessing import Process
 from utils import LedRequest, TerminalColors, LedConfig, log
 
