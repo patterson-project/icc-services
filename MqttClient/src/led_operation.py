@@ -18,7 +18,7 @@ def rgb(strip, r, g, b, wait_ms=5) -> None:
 def brightness(strip, brightness) -> None:
     print("Argument passed to function: ", brightness)
     brightness = int(255*(brightness/100))
-    print("Setting brightness to: ", int(255*(brightness/100)))
+    print("Setting brightness to: ", brightness)
     strip.setBrightness(brightness)
     strip.show()
 
