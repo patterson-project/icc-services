@@ -19,10 +19,10 @@ def brightness(strip, brightness) -> None:
     print("Argument passed to function: ", brightness)
     brightness = int(255*(brightness/100))
     print("Setting brightness to: ", brightness)
-    print("Strip brightness before setting: " + strip.getBrightness())
+    print("Strip brightness before setting: " + int(strip.getBrightness()))
     strip.setBrightness(brightness)
     strip.show()
-    print("Strip brightness after setting: " + strip.getBrightness())
+    print("Strip brightness after setting: " + int(strip.getBrightness()))
 
 
 def color_wipe(strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
