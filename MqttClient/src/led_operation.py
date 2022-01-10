@@ -4,14 +4,14 @@ import time
 
 def off(strip) -> None:
     for i in range(strip.numPixels()):
-        strip.setPixelColorRGB(i, 0, 0, 0)
-        strip.show()
+        strip.value.setPixelColorRGB(i, 0, 0, 0)
+        strip.value.show()
 
 
 def rgb(strip, r, g, b, wait_ms=5) -> None:
     for i in range(strip.numPixels()):
-        strip.setPixelColorRGB(i, r, b, g)
-        strip.show()
+        strip.value.setPixelColorRGB(i, r, b, g)
+        strip.value.show()
         time.sleep(wait_ms/1000.0)
 
 
@@ -19,10 +19,12 @@ def brightness(strip, brightness) -> None:
     print("Argument passed to function: ", brightness)
     brightness = int(255*(brightness/100))
     print("Setting brightness to: ", brightness)
-    print("Strip brightness before setting: " + str(strip.getBrightness()))
-    strip.setBrightness(brightness)
-    strip.show()
-    print("Strip brightness after setting: " + str(strip.getBrightness()))
+    print("Strip brightness before setting: " +
+          str(strip.value.getBrightness()))
+    strip.value.setBrightness(brightness)
+    strip.value.show()
+    print("Strip brightness after setting: " +
+          str(strip.value.getBrightness()))
 
 
 def color_wipe(strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
@@ -34,8 +36,8 @@ def color_wipe(strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 25
 def wipe(strip, color, wait_ms=50) -> None:
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
-        strip.setPixelColor(i, color)
-        strip.show()
+        strip.value.setPixelColor(i, color)
+        strip.value.show()
         time.sleep(wait_ms/1000.0)
 
 
@@ -44,11 +46,11 @@ def theater_chase(strip, color=Color(127, 127, 127), wait_ms=50) -> None:
     while True:
         for q in range(3):
             for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, color)
-            strip.show()
+                strip.value.setPixelColor(i+q, color)
+            strip.value.show()
             time.sleep(wait_ms/1000.0)
             for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, 0)
+                strip.value.setPixelColor(i+q, 0)
 
 
 def wheel(pos) -> None:
@@ -68,8 +70,8 @@ def rainbow(strip, wait_ms=20) -> None:
     while True:
         for j in range(255):
             for i in range(strip.numPixels()):
-                strip.setPixelColor(i, wheel((i+j) & 255))
-            strip.show()
+                strip.value.setPixelColor(i, wheel((i+j) & 255))
+            strip.value.show()
             time.sleep(wait_ms/1000.0)
 
 
@@ -78,9 +80,9 @@ def rainbow_cycle(strip, wait_ms=20) -> None:
     while True:
         for j in range(255):
             for i in range(strip.numPixels()):
-                strip.setPixelColor(
+                strip.value.setPixelColor(
                     i, wheel((int(i * 256 / strip.numPixels()) + j) & 255))
-            strip.show()
+            strip.value.show()
             time.sleep(wait_ms/1000.0)
 
 
@@ -90,8 +92,8 @@ def theater_chase_rainbow(strip, wait_ms=50) -> None:
         for j in range(255):
             for q in range(3):
                 for i in range(0, strip.numPixels(), 3):
-                    strip.setPixelColor(i+q, wheel((i+j) % 255))
-                strip.show()
+                    strip.value.setPixelColor(i+q, wheel((i+j) % 255))
+                strip.value.show()
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, strip.numPixels(), 3):
-                    strip.setPixelColor(i+q, 0)
+                    strip.value.setPixelColor(i+q, 0)

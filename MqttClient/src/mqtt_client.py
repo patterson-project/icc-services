@@ -2,14 +2,14 @@ import json
 import paho.mqtt.client as mqtt
 import led_operation
 from rpi_ws281x import Adafruit_NeoPixel
-from multiprocessing import Process
+from multiprocessing import Process, Value
 from utils import LedRequest, TerminalColors, LedConfig, log
 
 
 class MqttClient:
 
     def __init__(self):
-        self.strip = self.led_strip_init()
+        self.strip = Value('strip', self.led_strip_init())
         self.client = self.mqtt_init()
         self.led_process = None
 
