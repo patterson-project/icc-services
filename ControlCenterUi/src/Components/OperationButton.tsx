@@ -9,10 +9,12 @@ interface OperationButtonProps {
 
 const buttonStyle = {
   fontFamily: "Ubuntu, -apple-system",
+  fontSize: "16px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   width: "340px",
+  height: "50px",
   borderRadius: "10px",
   backgroundColor: "#3B3B3B",
 };
