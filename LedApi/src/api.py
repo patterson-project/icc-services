@@ -78,14 +78,8 @@ def start():
     app.run(host='0.0.0.0', threaded=True, port=8000, debug=True)
 
 
-def on_publish(client, userdata, result) -> None:
-    log("\tData Published. Mid: " + str(result))
-    pass
-
-
 def get_mqtt_client() -> Client:
     client = Client("ApiPi")
-    client.on_publish = on_publish
     client.connect(BROKER_ADDRESS, BROKER_PORT)
     return client
 
