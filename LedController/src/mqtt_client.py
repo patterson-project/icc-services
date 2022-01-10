@@ -62,6 +62,7 @@ class MqttClient:
                     led_operation.brightness(
                         self.strip, led_request.brightness)
             else:
+                self.terminate_process()
                 self.led_process = Process(target=getattr(
                     led_operation, led_request.operation), args=(self.strip,))
                 self.led_process.name = led_request.operation
