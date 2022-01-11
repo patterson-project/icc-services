@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
 
-  mqtt-client:
-    container_name: mqtt-client
+  led-controller:
+    container_name: led-controller
     privileged: true
     build:
       context: .

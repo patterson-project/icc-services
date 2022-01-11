@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
 
-  ui:
-    container_name: ui
+  control-center-ui:
+    container_name: control-center-ui
     build:
       context: .
       dockerfile: Dockerfile
