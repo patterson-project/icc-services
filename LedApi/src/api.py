@@ -75,6 +75,7 @@ def theater_chase_rainbow() -> Response:
 
 
 def start():
+    print("THIS DO BE A TEST DOE")
     app.run(host='0.0.0.0', threaded=True, port=8000, debug=True)
 
 
