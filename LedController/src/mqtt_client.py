@@ -3,7 +3,6 @@ from multiprocessing.process import current_process
 import paho.mqtt.client as mqtt
 import led_operation
 from rpi_ws281x import Adafruit_NeoPixel
-import psutil
 from multiprocessing import Process
 from utils import LedRequest, TerminalColors, LedConfig, log
 
@@ -52,11 +51,14 @@ class MqttClient:
                                   led_request.g, led_request.b)
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
-                    ps = psutil.Process(self.led_process.pid)
-                    ps.suspend()
+                    current_operation = self.led_process.name
+                    self.terminate_process()
                     led_operation.brightness(
                         self.strip, led_request.brightness)
-                    ps.resume()
+                    self.led_process = Process(target=getattr(
+                        led_operation, current_operation), args=(self.strip,))
+                    self.led_process.name = current_operation
+                    self.led_process.start()
                 else:
                     led_operation.brightness(
                         self.strip, led_request.brightness)
