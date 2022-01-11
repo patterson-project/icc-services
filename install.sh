@@ -1,7 +1,8 @@
 #!/bin/bash
 # Uncomment if first time installing
 # curl -fsSL https://get.docker.com -o get-docker.sh
-#sh get-docker.sh
+# sh get-docker.sh
+# apt install docker-compose -y
 
 cd ControlCenterUi/ShellScripts
 sudo chmod 744 start.sh
