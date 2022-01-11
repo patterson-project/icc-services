@@ -1,0 +1,17 @@
+# /etc/systemd/system/ControlCenterUi.service
+
+[Unit]
+Description=Control Center UI Service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/home/led-control-center/ControlCenterUi
+ExecStart=/led-control-center/ControlCenterUi/ShellScripts/start.sh
+ExecStop=/led-control-center/ControlCenterUi/ShellScripts/stop.sh
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
