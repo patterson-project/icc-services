@@ -8,9 +8,9 @@ After=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/home/led-control-center/LedApi
-ExecStart=/home/led-control-center/LedApi/ShellScripts/start.sh
-ExecStop=/home/led-control-center/LedApi/ShellScripts/stop.sh
+WorkingDirectory=/home/ubuntu/led-control-center/LedApi
+ExecStart=/home/ubuntu/led-control-center/LedApi/ShellScripts/start.sh
+ExecStop=/home/ubuntu/led-control-center/LedApi/ShellScripts/stop.sh
 TimeoutStartSec=0
 
 [Install]
