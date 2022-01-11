@@ -3,7 +3,7 @@
 [Unit]
 Description=Control Center UI Service
 Requires=docker.service
-After=docker.service UpdateControlCenter.service
+After=docker.service
 
 [Service]
 Type=oneshot
