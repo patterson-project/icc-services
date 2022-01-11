@@ -53,7 +53,7 @@ const ColorSelectPage: FC = () => {
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
-          <Typography style={titleStyle}>Title Change Test!</Typography>
+          <Typography style={titleStyle}>Led Control</Typography>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <ColorWheel />

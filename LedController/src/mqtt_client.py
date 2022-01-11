@@ -75,7 +75,7 @@ class MqttClient:
 
 if __name__ == '__main__':
     mqtt_client = MqttClient()
-    print("Initialization complete. Test!")
+    print("Initialization completed successfully.")
 
     try:
         mqtt_client.client.loop_forever()
