@@ -4,6 +4,8 @@
 # sh get-docker.sh
 # apt install docker-compose -y
 
+sudo chmod 744 update.sh
+
 cd ControlCenterUi/ShellScripts
 sudo chmod 744 start.sh
 sudo chmod 744 stop.sh

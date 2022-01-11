@@ -3,7 +3,7 @@
 [Unit]
 Description=Control Center LED API Service
 Requires=docker.service
-After=docker.service
+After=docker.service UpdateControlCenter.service
 
 [Service]
 Type=oneshot
