@@ -15,6 +15,20 @@ def rgb(strip, r, g, b, wait_ms=5) -> None:
         time.sleep(wait_ms/1000.0)
 
 
+def sunrise(strip) -> None:
+    strip.setBrightness(0)
+    strip.show()
+
+    for i in range(strip.numPixels()):
+        strip.setPixelColorRGB(i, 253, 251, 211)
+    strip.show()
+
+    for i in range(256):
+        strip.setBrightness(i)
+        strip.show()
+        time.sleep(1)
+
+
 def brightness(strip, brightness) -> None:
     strip.setBrightness(int(255*(brightness/100)))
     strip.show()
