@@ -3,7 +3,7 @@ from multiprocessing.process import current_process
 import paho.mqtt.client as mqtt
 import led_operation
 from rpi_ws281x import Adafruit_NeoPixel
-from multiprocessing import Process, Value
+from multiprocessing import Process
 from utils import LedRequest, TerminalColors, LedConfig, log
 
 
@@ -36,6 +36,7 @@ class MqttClient:
     def terminate_process(self) -> None:
         if self.led_process is not None:
             self.led_process.terminate()
+            self.led_process.join()
             self.led_process = None
 
     def on_message(self, client, userdata, message) -> None:
@@ -43,7 +44,7 @@ class MqttClient:
         log(message.topic, str(led_request.__dict__))
 
         try:
-            # TODO make a switch-esque statement
+            # TODO manage this better
             if led_request.operation == "rgb":
                 self.terminate_process()
                 led_operation.rgb(self.strip, led_request.r,
