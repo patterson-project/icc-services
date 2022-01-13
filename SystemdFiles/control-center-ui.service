@@ -3,7 +3,8 @@
 [Unit]
 Description=Control Center UI Service
 Requires=docker.service
-After=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
 
 [Service]
 Type=oneshot

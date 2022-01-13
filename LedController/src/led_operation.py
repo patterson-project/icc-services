@@ -20,7 +20,7 @@ def sunrise(strip) -> None:
     strip.show()
 
     for i in range(strip.numPixels()):
-        strip.setPixelColorRGB(i, 253, 251, 211)
+        strip.setPixelColorRGB(i, 253, 211, 251)
     strip.show()
 
     for i in range(256):
