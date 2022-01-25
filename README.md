@@ -10,7 +10,7 @@ A set of docker-based services which use Raspberry Pis and MQTT to control WS281
 * `/LedController`
   * Holds python service to listen for MQTT events and change LED strip behavior accordingly
 * `/SystemdFiles`
-  * Systemd service configuration files to allow each microservice to be automatically startup on raspberry pi boot
+  * Systemd service configuration files to allow each microservice to be automatically deployed and updated startup on raspberry pi boot
 * `install.sh`
   * Copies Systemd configuration files into `/etc/systemd/systm/` of raspberry pis
   * Makes `start.sh` and `stop.sh` scripts executable
