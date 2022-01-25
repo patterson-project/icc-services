@@ -2,7 +2,7 @@
 
 A set of docker-based services which use Raspberry Pis and MQTT to control WS2811 LED strips.
 
-# Repository Structure
+## Repository Structure
 * `/ControlCenterUi`
   * Holds React-Typescript app for user interface
 * `/LedApi`
