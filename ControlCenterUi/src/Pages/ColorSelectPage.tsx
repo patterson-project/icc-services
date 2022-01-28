@@ -8,6 +8,11 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import config from "../config";
 
+interface RainbowRequest {
+  operation: string;
+  wait_ms?: number;
+}
+
 const colorSelectPageStyle = {
   height: "100%",
   margin: "0px",
@@ -49,6 +54,23 @@ const ColorSelectPage: FC = () => {
     });
   };
 
+  const rainbowRequest: RainbowRequest = {
+    operation: "rainbow",
+  }
+
+  const rainbowButtonOnClick =  () => {
+    fetch(config.LED_API_URL + "rainbow", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(rainbowRequest),
+    }).catch((error) => {
+      console.log("ERROR", error);
+    })
+  }
+  
+
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
@@ -65,7 +87,7 @@ const ColorSelectPage: FC = () => {
           <OperationButton
             operationName="Rainbow"
             icon={<LooksIcon />}
-            onClick={() => operationButtonOnClick("rainbow")}
+            onClick={() => rainbowButtonOnClick()}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
