@@ -1,4 +1,3 @@
-from os import stat
 from flask import Flask, Response, request
 from flask_cors import CORS
 from paho.mqtt.client import Client
@@ -56,14 +55,8 @@ def theater_chase() -> Response:
 
 @app.route("/rainbow")
 def rainbow() -> Response:
-    led_request = LedRequest("rainbow", wait_ms = 20)
-    publish("leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/sleep")
-def rainbow() -> Response:
-    led_request = LedRequest("rainbow", wait_ms = 350)
+    body = request.get_json
+    led_request = LedRequest(**body)
     publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 

@@ -81,6 +81,7 @@ def rainbow(strip, wait_ms) -> None:
             strip.show()
             time.sleep(wait_ms/1000.0)
 
+
 def rainbow_cycle(strip, wait_ms=20) -> None:
     """Draw rainbow that uniformly distributes itself across all pixels."""
     while True:
