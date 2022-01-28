@@ -53,7 +53,7 @@ def theater_chase() -> Response:
     return Response(status=200)
 
 
-@app.route("/rainbow")
+@app.route("/rainbow", methods=["POST"])
 def rainbow() -> Response:
     led_request = LedRequest("rainbow")
     publish("leds", json.dumps(led_request.__dict__))
