@@ -55,7 +55,7 @@ def theater_chase() -> Response:
 
 @app.route("/rainbow")
 def rainbow() -> Response:
-    body = request.get_json
+    body = request.get_json()
     led_request = LedRequest(**body)
     publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
