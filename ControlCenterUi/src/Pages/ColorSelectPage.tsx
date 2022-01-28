@@ -8,7 +8,7 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import config from "../config";
 
-interface RainbowFormat {
+interface RainbowRequest {
   operation: string;
   wait_ms?: number;
 }
@@ -54,9 +54,8 @@ const ColorSelectPage: FC = () => {
     });
   };
 
-  const RainbowRequest: RainbowFormat = {
+  const rainbowRequest: RainbowRequest = {
     operation: "rainbow",
-    wait_ms: 20
   }
 
   const rainbowButtonOnClick =  () => {
@@ -65,7 +64,7 @@ const ColorSelectPage: FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(RainbowRequest),
+      body: JSON.stringify(rainbowRequest),
     }).catch((error) => {
       console.log("ERROR", error);
     })
