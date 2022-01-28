@@ -80,6 +80,11 @@ def sunrise() -> Response:
     publish("leds", json.dumps(led_request.__dict__))
     return Response(status=200)
 
+@app.route("/sleep")
+def sleep() -> Response:
+    led_request = LedRequest("sleep")
+    publish("leds", json.dumps(led_request.__dict__))
+    return Response(status=200)
 
 def start():
     app.run(host='0.0.0.0', threaded=True, port=8000, debug=True)
