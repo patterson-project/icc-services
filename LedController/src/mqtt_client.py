@@ -62,6 +62,12 @@ class MqttClient:
                 else:
                     led_operation.brightness(
                         self.strip, led_request.brightness)
+            elif led_request.operation == "rainbow":
+                self.terminate_process()
+                self.led_process = Process(target=getattr(
+                    led_operation, led_request.operation), args=(self.strip,led_request.wait_ms,))
+                self.led_process.name = led_request.operation
+                self.led_process.start()          
             else:
                 self.terminate_process()
                 self.led_process = Process(target=getattr(

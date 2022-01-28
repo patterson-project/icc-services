@@ -72,7 +72,7 @@ def wheel(pos) -> None:
         return Color(0, pos * 3, 255 - pos * 3)
 
 
-def rainbow(strip, wait_ms) -> None:
+def rainbow(strip, wait_ms=20) -> None:
     """Draw rainbow that fades across all pixels at once."""
     while True:
         for j in range(255):
