@@ -96,5 +96,5 @@ def publish(topic, message) -> None:
     client = get_mqtt_client()
     client.publish(topic, message)
 
-
-start()
+if __name__ == '__main__':
+    start()
