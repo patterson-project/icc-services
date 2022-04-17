@@ -15,6 +15,7 @@ class MqttClient:
         self.client = self.mqtt_init()
         self.bulb_1 = SmartBulb('10.0.0.37')
         self.bulb_2 = SmartBulb('10.0.0.87')
+	self.bulb_init()
         self.led_process = None
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
@@ -31,7 +32,7 @@ class MqttClient:
         return strip
 
     def mqtt_init(self) -> mqtt.Client:
-        client = mqtt.Client(clean_session=False)
+        client = mqtt.Client("LedPi", clean_session=False)
         client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
         client.subscribe("leds")

@@ -87,7 +87,7 @@ def start():
 
 
 def get_mqtt_client() -> Client:
-    client = Client(clean_session=False)
+    client = Client("ApiPi", clean_session=False)
     client.connect(BROKER_ADDRESS, BROKER_PORT)
     return client
 
