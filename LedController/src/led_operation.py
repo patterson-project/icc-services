@@ -11,7 +11,7 @@ def off(strip) -> None:
         strip.show()
 
 
-async def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
+def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
     set_bulb_color(bulb_1, r, g, b)
     set_bulb_color(bulb_2, r, g, b)
 
