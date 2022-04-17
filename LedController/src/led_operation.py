@@ -10,6 +10,7 @@ def off(strip) -> None:
         strip.setPixelColorRGB(i, 0, 0, 0)
         strip.show()
 
+
 def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
     asyncio.run(set_bulb_color(bulb_1, r, g, b))
     asyncio.run(set_bulb_color(bulb_2, r, g, b))
@@ -18,11 +19,16 @@ def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
         strip.show()
         time.sleep(wait_ms/1000.0)
 
+
 async def set_bulb_color(bulb, r, g, b) -> None:
-    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+    h = int(360 * h)
+    s = int(100 * s)
+    v = int(100 * v)
+
     await bulb.set_hsv(h, s, v)
     await bulb.update()
-    
+
 
 def sunrise(strip) -> None:
     strip.setBrightness(0)
