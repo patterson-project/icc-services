@@ -12,8 +12,8 @@ def off(strip) -> None:
 
 
 async def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
-    asyncio.wait(set_bulb_color(bulb_1, r, g, b))
-    asyncio.wait(set_bulb_color(bulb_2, r, g, b))
+    await asyncio.wait(set_bulb_color(bulb_1, r, g, b))
+    await asyncio.wait(set_bulb_color(bulb_2, r, g, b))
 
     for i in range(strip.numPixels()):
         strip.setPixelColorRGB(i, r, b, g)
