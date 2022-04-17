@@ -98,7 +98,7 @@ class MqttClient:
                 f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
 
 
-def main():
+if __name__ == "__main__":
     mqtt_client = MqttClient()
     asyncio.run(mqtt_client.bulb_init())
     print("Initialization completed successfully.")
@@ -107,7 +107,3 @@ def main():
         mqtt_client.client.loop_forever()
     except SystemError as e:
         mqtt_client.client.loop_stop()
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

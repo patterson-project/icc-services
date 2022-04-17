@@ -27,8 +27,8 @@ async def set_bulb_color(bulb, r, g, b) -> None:
     s = int(100 * s)
     v = int(100 * v)
 
-    await asyncio.run(bulb.set_hsv(h, s, v))
-    await asyncio.run(bulb.update())
+    asyncio.run(bulb.set_hsv(h, s, v))
+    asyncio.run(bulb.update())
 
 
 def sunrise(strip) -> None:
