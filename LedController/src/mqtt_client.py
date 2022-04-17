@@ -1,7 +1,9 @@
 import json
 from multiprocessing.process import current_process
+from kasa import SmartBulb
 import paho.mqtt.client as mqtt
 import led_operation
+import asyncio
 from rpi_ws281x import Adafruit_NeoPixel
 from multiprocessing import Process
 from utils import LedRequest, TerminalColors, LedConfig, log
@@ -11,6 +13,8 @@ class MqttClient:
     def __init__(self):
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
+        self.bulb_1 = SmartBulb('10.0.0.37')
+        self.bulb_2 = SmartBulb('10.0.0.87')
         self.led_process = None
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
@@ -32,6 +36,12 @@ class MqttClient:
         client.on_message = self.on_message
         client.subscribe("leds")
         return client
+    
+    def bulb_init(self) -> None:
+        bulb_1 = SmartBulb('10.0.0.37')
+        bulb_2 = SmartBulb('10.0.0.87')
+        asyncio.run(bulb_1.update())
+        asyncio.run(bulb_2.update())
 
     def terminate_process(self) -> None:
         if self.led_process is not None:
@@ -48,7 +58,11 @@ class MqttClient:
             if led_request.operation == "rgb":
                 self.terminate_process()
                 led_operation.rgb(
-                    self.strip, led_request.r, led_request.g, led_request.b
+                    self.strip , led_request.r, led_request.g, led_request.b
+                )
+                #here I could add two attributes, bulb1 and bulb2 to reference them
+                led_operation.set_color_bulbs(
+                    led_request.r, led_request.g, led_request.b
                 )
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
