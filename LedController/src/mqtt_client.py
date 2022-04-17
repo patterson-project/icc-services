@@ -38,9 +38,9 @@ class MqttClient:
         client.subscribe("leds")
         return client
 
-    def bulb_init(self) -> None:
-        asyncio.run(self.bulb_1.update())
-        asyncio.run(self.bulb_2.update())
+    async def bulb_init(self) -> None:
+        await self.bulb_1.update()
+        await self.bulb_2.update()
 
     def terminate_process(self) -> None:
         if self.led_process is not None:
