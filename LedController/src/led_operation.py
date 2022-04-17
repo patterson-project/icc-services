@@ -4,30 +4,24 @@ from kasa import SmartBulb
 import asyncio
 import colorsys
 
-bulb_1 = SmartBulb('10.0.0.37')
-bulb_2 = SmartBulb('10.0.0.87')
-
 
 def off(strip) -> None:
     for i in range(strip.numPixels()):
         strip.setPixelColorRGB(i, 0, 0, 0)
         strip.show()
 
-
-def rgb(strip, r, g, b, wait_ms=5) -> None:
+def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
+    asyncio.run(set_bulb_color(bulb_1, r, g, b))
+    asyncio.run(set_bulb_color(bulb_2, r, g, b))
     for i in range(strip.numPixels()):
         strip.setPixelColorRGB(i, r, b, g)
         strip.show()
         time.sleep(wait_ms/1000.0)
 
-async def set_color_bulbs(r, g, b) -> None:
+async def set_bulb_color(bulb, r, g, b) -> None:
     h, s, v = colorsys.rgb_to_hsv(r, g, b)
-    while True:
-        await bulb_1.set_hsv(h, s, v)
-        await bulb_2.set_hsv(h, s, v)
-        await bulb_1.update()
-        await bulb_2.update()
-        #I need to run asyncio.run(this function) somewhere
+    await bulb.set_hsv(h, s, v)
+    await bulb.update()
     
 
 def sunrise(strip) -> None:

@@ -38,10 +38,8 @@ class MqttClient:
         return client
     
     def bulb_init(self) -> None:
-        bulb_1 = SmartBulb('10.0.0.37')
-        bulb_2 = SmartBulb('10.0.0.87')
-        asyncio.run(bulb_1.update())
-        asyncio.run(bulb_2.update())
+        asyncio.run(self.bulb_1.update())
+        asyncio.run(self.bulb_2.update())
 
     def terminate_process(self) -> None:
         if self.led_process is not None:
@@ -58,11 +56,7 @@ class MqttClient:
             if led_request.operation == "rgb":
                 self.terminate_process()
                 led_operation.rgb(
-                    self.strip , led_request.r, led_request.g, led_request.b
-                )
-                #here I could add two attributes, bulb1 and bulb2 to reference them
-                led_operation.set_color_bulbs(
-                    led_request.r, led_request.g, led_request.b
+                    self.strip , self.bulb_1, self.bulb_2, led_request.r, led_request.g, led_request.b
                 )
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
