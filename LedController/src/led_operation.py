@@ -13,8 +13,10 @@ def off(strip) -> None:
 
 async def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
     event_loop = asyncio.get_event_loop()
-    await event_loop.run_until_complete(set_bulb_color(bulb_1, r, g, b))
-    await event_loop.run_until_complete(set_bulb_color(bulb_2, r, g, b))
+    bulb_1_task = event_loop.create_task(set_bulb_color(bulb_1, r, g, b))
+    bulb_2_task = event_loop.create_task(set_bulb_color(bulb_2, r, g, b))
+    await bulb_1_task
+    await bulb_2_task
 
     for i in range(strip.numPixels()):
         strip.setPixelColorRGB(i, r, b, g)
