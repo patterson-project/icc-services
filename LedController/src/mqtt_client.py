@@ -10,12 +10,12 @@ from utils import LedRequest, TerminalColors, LedConfig, log
 
 
 class MqttClient:
-    def __init__(self):
+    async def __init__(self):
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
         self.bulb_1 = SmartBulb('10.0.0.37')
         self.bulb_2 = SmartBulb('10.0.0.87')
-        self.bulb_init()
+        await self.bulb_init()
         self.led_process = None
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
