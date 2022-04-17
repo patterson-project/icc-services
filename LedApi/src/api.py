@@ -83,18 +83,19 @@ def sunrise() -> Response:
 
 
 def start():
-    app.run(host='0.0.0.0', threaded=True, port=8000, debug=True)
+    app.run(host="0.0.0.0", threaded=True, port=8000, debug=True)
 
 
 def get_mqtt_client() -> Client:
-    client = Client("ApiPi")
+    client = Client(clean_session=False)
     client.connect(BROKER_ADDRESS, BROKER_PORT)
     return client
 
 
 def publish(topic, message) -> None:
     client = get_mqtt_client()
-    client.publish(topic, message)
+    client.publish(topic, message, 1)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     start()
