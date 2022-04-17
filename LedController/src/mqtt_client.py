@@ -10,12 +10,11 @@ from utils import LedRequest, TerminalColors, LedConfig, log
 
 
 class MqttClient:
-    async def __init__(self):
+    def __init__(self):
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
         self.bulb_1 = SmartBulb('10.0.0.37')
         self.bulb_2 = SmartBulb('10.0.0.87')
-        await self.bulb_init()
         self.led_process = None
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
@@ -101,6 +100,7 @@ class MqttClient:
 
 if __name__ == "__main__":
     mqtt_client = MqttClient()
+    asyncio.run(mqtt_client.bulb_init())
     print("Initialization completed successfully.")
 
     try:
