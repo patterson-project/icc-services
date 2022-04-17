@@ -15,7 +15,7 @@ class MqttClient:
         self.client = self.mqtt_init()
         self.bulb_1 = SmartBulb('10.0.0.37')
         self.bulb_2 = SmartBulb('10.0.0.87')
-	self.bulb_init()
+        self.bulb_init()
         self.led_process = None
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
@@ -37,7 +37,7 @@ class MqttClient:
         client.on_message = self.on_message
         client.subscribe("leds")
         return client
-    
+
     def bulb_init(self) -> None:
         asyncio.run(self.bulb_1.update())
         asyncio.run(self.bulb_2.update())
@@ -57,13 +57,14 @@ class MqttClient:
             if led_request.operation == "rgb":
                 self.terminate_process()
                 led_operation.rgb(
-                    self.strip , self.bulb_1, self.bulb_2, led_request.r, led_request.g, led_request.b
+                    self.strip, self.bulb_1, self.bulb_2, led_request.r, led_request.g, led_request.b
                 )
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
                     current_operation = self.led_process.name
                     self.terminate_process()
-                    led_operation.brightness(self.strip, led_request.brightness)
+                    led_operation.brightness(
+                        self.strip, led_request.brightness)
                     self.led_process = Process(
                         target=getattr(led_operation, current_operation),
                         args=(self.strip,),
@@ -71,7 +72,8 @@ class MqttClient:
                     self.led_process.name = current_operation
                     self.led_process.start()
                 else:
-                    led_operation.brightness(self.strip, led_request.brightness)
+                    led_operation.brightness(
+                        self.strip, led_request.brightness)
             elif led_request.operation == "rainbow":
                 self.terminate_process()
                 self.led_process = Process(
@@ -93,7 +95,8 @@ class MqttClient:
                 self.led_process.start()
 
         except AttributeError as e:
-            print(f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
+            print(
+                f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
 
 
 if __name__ == "__main__":
