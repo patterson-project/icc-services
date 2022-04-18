@@ -47,7 +47,7 @@ class MqttClient:
             self.led_process.join()
             self.led_process = None
 
-    def on_message(self, client, userdata, message) -> None:
+    async def on_message(self, client, userdata, message) -> None:
         led_request = LedRequest(**json.loads(message.payload))
         log(message.topic, str(led_request.__dict__))
 
@@ -55,9 +55,9 @@ class MqttClient:
             # TODO manage this better
             if led_request.operation == "rgb":
                 self.terminate_process()
-                asyncio.wait(led_operation.rgb(
+                await led_operation.rgb(
                     self.strip, self.bulb_1, self.bulb_2, led_request.r, led_request.g, led_request.b
-                ))
+                )
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
                     current_operation = self.led_process.name
