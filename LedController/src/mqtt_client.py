@@ -55,9 +55,9 @@ class MqttClient:
             # TODO manage this better
             if led_request.operation == "rgb":
                 self.terminate_process()
-                led_operation.rgb(
+                asyncio.wait(led_operation.rgb(
                     self.strip, self.bulb_1, self.bulb_2, led_request.r, led_request.g, led_request.b
-                )
+                ))
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
                     current_operation = self.led_process.name
