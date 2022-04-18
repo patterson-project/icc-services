@@ -7,9 +7,9 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /app
 
-RUN pip3 install rpi_ws281x paho-mqtt
+RUN pip3 install paho-mqtt python-kasa
 
 COPY src/*.py ./
 
 EXPOSE 1883
-CMD [ "python", "-u", "mqtt_client.py"]
+CMD [ "python", "-u", "mqtt_client.py"] 
