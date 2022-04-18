@@ -3,19 +3,26 @@ from multiprocessing.process import current_process
 from kasa import SmartBulb
 import paho.mqtt.client as mqtt
 import led_operation
-import asyncio
 from rpi_ws281x import Adafruit_NeoPixel
 from multiprocessing import Process
 from utils import LedRequest, TerminalColors, LedConfig, log
 
 
-class MqttClient:
+class LedController:
     def __init__(self):
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
-        self.bulb_1 = SmartBulb('10.0.0.37')
-        self.bulb_2 = SmartBulb('10.0.0.87')
         self.led_process = None
+        self.operation_callback = {
+            "rgb": self.rgb,
+            "brightness": self.brightness,
+            "rainbow": self.rainbow,
+            "color_wipe": self.color_wipe,
+            "sunrise": self.sunrise,
+            "theater_chase": self.theater_chase,
+            "rainbow_cycle": self.rainbow_cycle,
+            "theater_chase_rainbow": self.theater_chase_rainbow,
+        }
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
         strip = Adafruit_NeoPixel(
@@ -31,15 +38,11 @@ class MqttClient:
         return strip
 
     def mqtt_init(self) -> mqtt.Client:
-        client = mqtt.Client("LedPi", clean_session=False)
+        client = mqtt.Client("led-controller", clean_session=False)
         client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
-        client.subscribe("leds")
+        client.subscribe("home/leds")
         return client
-
-    async def bulb_init(self) -> None:
-        await self.bulb_1.update()
-        await self.bulb_2.update()
 
     def terminate_process(self) -> None:
         if self.led_process is not None:
@@ -47,7 +50,7 @@ class MqttClient:
             self.led_process.join()
             self.led_process = None
 
-    async def on_message(self, client, userdata, message) -> None:
+    def on_message(self, client, userdata, message) -> None:
         led_request = LedRequest(**json.loads(message.payload))
         log(message.topic, str(led_request.__dict__))
 
@@ -55,15 +58,17 @@ class MqttClient:
             # TODO manage this better
             if led_request.operation == "rgb":
                 self.terminate_process()
-                await led_operation.rgb(
-                    self.strip, self.bulb_1, self.bulb_2, led_request.r, led_request.g, led_request.b
+                led_operation.rgb(
+                    self.strip,
+                    led_request.r,
+                    led_request.g,
+                    led_request.b,
                 )
             elif led_request.operation == "brightness":
                 if self.led_process is not None:
                     current_operation = self.led_process.name
                     self.terminate_process()
-                    led_operation.brightness(
-                        self.strip, led_request.brightness)
+                    led_operation.brightness(self.strip, led_request.brightness)
                     self.led_process = Process(
                         target=getattr(led_operation, current_operation),
                         args=(self.strip,),
@@ -71,8 +76,7 @@ class MqttClient:
                     self.led_process.name = current_operation
                     self.led_process.start()
                 else:
-                    led_operation.brightness(
-                        self.strip, led_request.brightness)
+                    led_operation.brightness(self.strip, led_request.brightness)
             elif led_request.operation == "rainbow":
                 self.terminate_process()
                 self.led_process = Process(
@@ -94,13 +98,35 @@ class MqttClient:
                 self.led_process.start()
 
         except AttributeError as e:
-            print(
-                f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
+            print(f"{TerminalColors.WARNING}ERROR:\n {e.message}{TerminalColors.ENDC}")
+
+    def rgb(self):
+        pass
+
+    def brightness(self):
+        pass
+
+    def rainbow(self):
+        pass
+
+    def color_wipe(self):
+        pass
+
+    def sunrise(self):
+        pass
+
+    def theater_chase(self):
+        pass
+
+    def rainbow_cycle(self):
+        pass
+
+    def theater_chase_rainbow(self):
+        pass
 
 
 if __name__ == "__main__":
-    mqtt_client = MqttClient()
-    asyncio.run(mqtt_client.bulb_init())
+    mqtt_client = LedController()
     print("Initialization completed successfully.")
 
     try:
