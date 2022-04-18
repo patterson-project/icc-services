@@ -60,8 +60,6 @@ class LedController:
                 self.terminate_process()
                 led_operation.rgb(
                     self.strip,
-                    self.bulb_1,
-                    self.bulb_2,
                     led_request.r,
                     led_request.g,
                     led_request.b,
