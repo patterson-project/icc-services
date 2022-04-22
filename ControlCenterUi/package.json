@@ -15,11 +15,15 @@
     "@types/node": "^16.11.19",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
+    "awesome-debounce-promise": "^2.1.0",
     "axios": "^0.24.0",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "react": "^17.0.2",
     "react-colorful": "^5.5.1",
     "react-dom": "^17.0.2",
     "react-scripts": "^3.4.1",
+    "react-swipeable-views": "^0.14.0",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.2"
   },
@@ -46,5 +50,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.7",
+    "@types/react-swipeable-views": "^0.13.1"
   }
 }

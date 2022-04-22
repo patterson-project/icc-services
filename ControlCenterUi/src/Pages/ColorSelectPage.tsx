@@ -1,17 +1,13 @@
 import { Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
 import BrightnessSlider from "../Components/BrightnessSlider";
-import ColorWheel from "../Components/ColorWheel";
 import OperationButton from "../Components/OperationButton";
 import LooksIcon from "@mui/icons-material/Looks";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import config from "../config";
-
-interface RainbowRequest {
-  operation: string;
-  wait_ms?: number;
-}
+import ColorSelectionTab from "../Components/ColorSelectionTab";
+import { RainbowRequest } from "../types";
 
 const colorSelectPageStyle = {
   height: "100%",
@@ -56,6 +52,7 @@ const ColorSelectPage: FC = () => {
 
   const rainbowRequest: RainbowRequest = {
     operation: "rainbow",
+    wait_ms: 50
   }
 
   const rainbowButtonOnClick =  () => {
@@ -70,7 +67,6 @@ const ColorSelectPage: FC = () => {
     })
   }
   
-
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
@@ -78,7 +74,7 @@ const ColorSelectPage: FC = () => {
           <Typography style={titleStyle}>Led Control</Typography>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <ColorWheel />
+          <ColorSelectionTab />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <BrightnessSlider />
