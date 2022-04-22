@@ -37,14 +37,14 @@ const ColorPicker: FC = () => {
 
     useEffect(() => {
       const hslaRequest: HslaRequest = {
-        operation: "hsl",
+        operation: "hsla",
         h: hslaColor.h,
         s: hslaColor.s,
         l: hslaColor.l,
         a: hslaColor.a
       };
 
-      fetch(config.LED_API_URL + "hsl", {
+      fetch(config.LED_API_URL + "lighting", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

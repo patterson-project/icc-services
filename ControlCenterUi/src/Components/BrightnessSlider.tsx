@@ -3,11 +3,7 @@ import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import React, { FC } from "react";
 import config from "../config";
-
-interface BrightnessRequest {
-  operation: string;
-  brightness: number;
-}
+import { BrightnessRequest } from "../types";
 
 const brightnessBoxSliderStyle = {
   display: "flex",

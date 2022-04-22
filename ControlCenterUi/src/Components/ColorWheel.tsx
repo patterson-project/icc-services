@@ -17,11 +17,11 @@ const colorWheelStyle = {
 const ColorWheel: FC = () => {
   const onChange = (hue: number) => {
     const hslRequest: HslaRequest = {
-      operation: "hsl",
+      operation: "hsla",
       h: hue
     };
 
-    fetch(config.LED_API_URL + "hsl", {
+    fetch(config.LED_API_URL + "lighting", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
