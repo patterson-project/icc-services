@@ -1,8 +1,5 @@
 from rpi_ws281x import Color
 import time
-from kasa import SmartBulb
-import asyncio
-import colorsys
 
 
 def off(strip) -> None:
@@ -11,24 +8,11 @@ def off(strip) -> None:
         strip.show()
 
 
-async def rgb(strip, bulb_1, bulb_2, r, g, b, wait_ms=5) -> None:
-    await asyncio.wait(set_bulb_color(bulb_1, r, g, b))
-    await asyncio.wait(set_bulb_color(bulb_2, r, g, b))
-
+def rgb(strip, r, g, b, wait_ms=5) -> None:
     for i in range(strip.numPixels()):
         strip.setPixelColorRGB(i, r, b, g)
         strip.show()
-        time.sleep(wait_ms/1000.0)
-
-
-async def set_bulb_color(bulb, r, g, b) -> None:
-    h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
-    h = int(360 * h)
-    s = int(100 * s)
-    v = int(100 * v)
-
-    asyncio.run(bulb.set_hsv(h, s, v))
-    asyncio.run(bulb.update())
+        time.sleep(wait_ms / 1000.0)
 
 
 def sunrise(strip) -> None:
@@ -46,11 +30,13 @@ def sunrise(strip) -> None:
 
 
 def brightness(strip, brightness) -> None:
-    strip.setBrightness(int(255*(brightness/100)))
+    strip.setBrightness(int(255 * (brightness / 100)))
     strip.show()
 
 
-def color_wipe(strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50):
+def color_wipe(
+    strip, colors=[Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255)], wait_ms=50
+):
     while True:
         for color in colors:
             wipe(strip, color, wait_ms)
@@ -61,7 +47,7 @@ def wipe(strip, color, wait_ms=50) -> None:
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
         strip.show()
-        time.sleep(wait_ms/1000.0)
+        time.sleep(wait_ms / 1000.0)
 
 
 def theater_chase(strip, color=Color(127, 127, 127), wait_ms=50) -> None:
@@ -69,11 +55,11 @@ def theater_chase(strip, color=Color(127, 127, 127), wait_ms=50) -> None:
     while True:
         for q in range(3):
             for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, color)
+                strip.setPixelColor(i + q, color)
             strip.show()
-            time.sleep(wait_ms/1000.0)
+            time.sleep(wait_ms / 1000.0)
             for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, 0)
+                strip.setPixelColor(i + q, 0)
 
 
 def wheel(pos) -> None:
@@ -93,9 +79,9 @@ def rainbow(strip, wait_ms=20) -> None:
     while True:
         for j in range(255):
             for i in range(strip.numPixels()):
-                strip.setPixelColor(i, wheel((i+j) & 255))
+                strip.setPixelColor(i, wheel((i + j) & 255))
             strip.show()
-            time.sleep(wait_ms/1000.0)
+            time.sleep(wait_ms / 1000.0)
 
 
 def rainbow_cycle(strip, wait_ms=20) -> None:
@@ -104,9 +90,10 @@ def rainbow_cycle(strip, wait_ms=20) -> None:
         for j in range(255):
             for i in range(strip.numPixels()):
                 strip.setPixelColor(
-                    i, wheel((int(i * 256 / strip.numPixels()) + j) & 255))
+                    i, wheel((int(i * 256 / strip.numPixels()) + j) & 255)
+                )
             strip.show()
-            time.sleep(wait_ms/1000.0)
+            time.sleep(wait_ms / 1000.0)
 
 
 def theater_chase_rainbow(strip, wait_ms=50) -> None:
@@ -115,8 +102,8 @@ def theater_chase_rainbow(strip, wait_ms=50) -> None:
         for j in range(255):
             for q in range(3):
                 for i in range(0, strip.numPixels(), 3):
-                    strip.setPixelColor(i+q, wheel((i+j) % 255))
+                    strip.setPixelColor(i + q, wheel((i + j) % 255))
                 strip.show()
-                time.sleep(wait_ms/1000.0)
+                time.sleep(wait_ms / 1000.0)
                 for i in range(0, strip.numPixels(), 3):
-                    strip.setPixelColor(i+q, 0)
+                    strip.setPixelColor(i + q, 0)
