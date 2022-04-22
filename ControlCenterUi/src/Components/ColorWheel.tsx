@@ -16,7 +16,7 @@ const colorWheelStyle = {
 
 const ColorWheel: FC = () => {
   const onChange = (hue: number) => {
-    const hslRequest: HslaRequest = {
+    const hslaRequest: HslaRequest = {
       operation: "hsla",
       h: hue
     };
@@ -26,7 +26,7 @@ const ColorWheel: FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(hslRequest),
+      body: JSON.stringify(hslaRequest),
     }).catch((error) => {
       console.log("ERROR", error);
     });
