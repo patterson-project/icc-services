@@ -1,6 +1,5 @@
 FROM debian:latest
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install python3-pygame -y
 
 FROM python:latest
 
