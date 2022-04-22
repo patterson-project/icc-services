@@ -64,7 +64,6 @@ import time
 
 class LedStripSequence:
     def wheel(self, pos) -> None:
-        """Generate rainbow colors across 0-255 positions."""
         if pos < 85:
             return Color(pos * 3, 255 - pos * 3, 0)
         elif pos < 170:
@@ -75,7 +74,6 @@ class LedStripSequence:
             return Color(0, pos * 3, 255 - pos * 3)
 
     def rainbow(self, strip, wait_ms=20) -> None:
-        """Draw rainbow that fades across all pixels at once."""
         while True:
             for j in range(255):
                 for i in range(strip.numPixels()):
