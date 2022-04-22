@@ -1,10 +1,14 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import { HsvColorPicker, HsvColor } from 'react-colorful';
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";
 import { HsvRequest } from "../types";
 import useDidMountEffect from "../utils";
 import config from "../config";
+
+interface ColorPickerProps {
+  setModifyingColor: Dispatch<SetStateAction<boolean>>;
+};
 
 const colorPickerBoxStyle = {
   display: "flex",
@@ -26,11 +30,19 @@ const defaultColor: HsvColor = {
     v: 0.2,
 };
 
-const ColorPicker: FC = () => {
+const ColorPicker: FC<ColorPickerProps> = (props) => {
     const [hsvColor, setHsvColor] = useState<HsvColor>(defaultColor);
     
     const changeColor = (newHsvColor: HsvColor) => {
       setHsvColor(newHsvColor);
+    };
+
+    const onTouchStart = () => {
+      props.setModifyingColor(true);
+    };
+
+    const onTouchEnd = () => {
+      props.setModifyingColor(false);
     };
 
     const debouncedHslaColorChangeHandler = useCallback(debounce(changeColor, 300), []);
@@ -56,7 +68,7 @@ const ColorPicker: FC = () => {
   
     return (
       <Box style={colorPickerBoxStyle}>
-        <HsvColorPicker style={colorPickerStyle} color={hsvColor} onChange={debouncedHslaColorChangeHandler}/> 
+        <HsvColorPicker style={colorPickerStyle} color={hsvColor} onChange={debouncedHslaColorChangeHandler} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}/> 
       </Box>
     );
   };

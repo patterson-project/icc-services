@@ -5,7 +5,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import ColorWheel from "./ColorWheel";
 import ColorPicker from "./ColorPicker";
-import SwipeableViews from 'react-swipeable-views';
+import SwipeableViews from "react-swipeable-views";
+import {useSwipeable} from "react-swipeable";
 
 const colorPickerBoxStyle = {
   display: "flex",
@@ -23,6 +24,14 @@ const colorSelectionTabsStyle = {
 
 const colorSelectionTabsGridStyle = {
   borderRadius: "10px"
+};
+
+const swipeConfig = {
+  preventDefaultTouchmoveEvent: false
+};
+
+const swipeStyle = {
+  touchAction: 'pan-y'
 };
 
 interface TabPanelProps {
@@ -61,7 +70,8 @@ function a11yProps(index: number) {
 
 const ColorSelectionTab: FC = () => {
     const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const [modifyingColor, setModifyingColor] = useState(false);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
@@ -70,6 +80,11 @@ const ColorSelectionTab: FC = () => {
     const handleChangeIndex = (index: number) => {
       setValue(index);
     };
+
+    const swipeHandler = useSwipeable({
+      onSwiped: (eventData) => console.log("User Swiped!", eventData),
+      ...swipeConfig,
+    });
 
     return (
         <Box style={colorPickerBoxStyle}>
@@ -81,18 +96,21 @@ const ColorSelectionTab: FC = () => {
                 </Tabs>
               </Grid>
               <Grid item xs={12}>
-                <SwipeableViews
-                  axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                  index={value}
-                  onChangeIndex={handleChangeIndex}
-                >
-                  <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ColorWheel />
-                  </TabPanel>
-                  <TabPanel value={value} index={1} dir={theme.direction}>
-                    <ColorPicker />
-                  </TabPanel>
-                </SwipeableViews>
+                <div {...swipeHandler} style={swipeStyle}>
+                  <SwipeableViews
+                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                    index={value}
+                    onChangeIndex={handleChangeIndex}
+                    disabled={modifyingColor}
+                  >
+                    <TabPanel value={value} index={0} dir={theme.direction}>
+                      <ColorWheel setModifyingColor={setModifyingColor}/>
+                    </TabPanel>
+                    <TabPanel value={value} index={1} dir={theme.direction}>
+                      <ColorPicker setModifyingColor={setModifyingColor}/>
+                    </TabPanel>
+                  </SwipeableViews>
+                </div>
               </Grid>
             </Grid>
         </Box>

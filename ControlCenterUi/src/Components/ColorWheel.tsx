@@ -1,9 +1,13 @@
-import React, { FC } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
 import config from "../config";
 import { Box } from "@mui/material";
 import { HsvRequest, LightingRequest } from "../types";
+
+interface ColorWheelProps {
+  setModifyingColor: Dispatch<SetStateAction<boolean>>;
+}
 
 const colorWheelStyle = {
   display: "flex",
@@ -14,7 +18,7 @@ const colorWheelStyle = {
   borderRadius: "10px",
 };
 
-const ColorWheel: FC = () => {
+const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
   const onChange = (hue: number) => {
     const hslaRequest: HsvRequest = {
       operation: "hsv",
@@ -30,6 +34,12 @@ const ColorWheel: FC = () => {
     }).catch((error) => {
       console.log("ERROR", error);
     });
+    
+    props.setModifyingColor(false);
+  };
+
+  const onInput = () => {
+    props.setModifyingColor(true);
   };
 
   const onSelect = () => {
@@ -50,7 +60,7 @@ const ColorWheel: FC = () => {
 
   return (
     <Box style={colorWheelStyle}>
-      <ColorPicker onChange={onChange} onSelect={onSelect} />
+      <ColorPicker onChange={onChange} onSelect={onSelect} onInput={onInput} />
     </Box>
   );
 };
