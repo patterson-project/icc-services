@@ -72,8 +72,8 @@ class LedController:
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, r, b, g)
-            self.strip.show()
-            time.sleep(50 / 1000.0)
+	    
+	self.strip.show()
 
     def rainbow(self):
         pass
