@@ -62,7 +62,8 @@ class LedController:
         self.operation_callback[led_request.operation]()
 
     def brightness(self):
-        pass
+        self.strip.setBrightness(int(255) * (self.request.brightness / 100))
+        self.strip.show()
 
     def off(self):
         for i in range(self.strip.numPixels()):
@@ -92,6 +93,14 @@ class LedController:
         self.led_process.name = self.request.operation
         self.led_process.start()
 
+    def rainbow_cycle(self):
+        self.terminate_process()
+        self.led_process = Process(
+            target=self.sequence.rainbow_cycle, args=(self.strip)
+        )
+        self.led_process.name = self.request.operation
+        self.led_process.start()
+
     def color_wipe(self):
         pass
 
@@ -99,9 +108,6 @@ class LedController:
         pass
 
     def theater_chase(self):
-        pass
-
-    def rainbow_cycle(self):
         pass
 
     def theater_chase_rainbow(self):

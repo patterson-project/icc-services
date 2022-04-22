@@ -67,17 +67,15 @@ class LedStripSequence:
                 strip.show()
                 time.sleep(wait_ms / 1000.0)
 
-
-# def rainbow_cycle(strip, wait_ms=20) -> None:
-#     """Draw rainbow that uniformly distributes itself across all pixels."""
-#     while True:
-#         for j in range(255):
-#             for i in range(strip.numPixels()):
-#                 strip.setPixelColor(
-#                     i, wheel((int(i * 256 / strip.numPixels()) + j) & 255)
-#                 )
-#             strip.show()
-#             time.sleep(wait_ms / 1000.0)
+    def rainbow_cycle(self, strip, wait_ms=20) -> None:
+        while True:
+            for j in range(255):
+                for i in range(strip.numPixels()):
+                    strip.setPixelColor(
+                        i, self.wheel((int(i * 256 / strip.numPixels()) + j) & 255)
+                    )
+                strip.show()
+                time.sleep(wait_ms / 1000.0)
 
 
 # def theater_chase_rainbow(strip, wait_ms=50) -> None:
