@@ -83,7 +83,7 @@ def sunrise() -> Response:
 
 
 def start():
-    app.run(host="0.0.0.0", threaded=True, port=8000, debug=True)
+    app.run(host="0.0.0.0", threaded=True, port=8000)
 
 
 def get_mqtt_client() -> Client:

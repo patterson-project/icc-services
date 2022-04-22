@@ -4,11 +4,12 @@ import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css"
 import config from "../config";
 import { Box } from "@mui/material";
 
-interface RgbRequest {
+interface HslaRequest {
   operation: string;
-  r?: number;
-  g?: number;
-  b?: number;
+  h?: number;
+  s?: number;
+  l?: number;
+  a?: number;
 }
 
 const colorWheelStyle = {
@@ -24,11 +25,11 @@ const colorWheelStyle = {
 const ColorWheel: FC = () => {
   const onChange = (hue: number) => {
     const rgb = hslToRgb(hue);
-    const ledRequest: RgbRequest = {
+    const ledRequest: HslaRequest = {
       operation: "rgb",
-      r: rgb.r,
-      g: rgb.g,
-      b: rgb.b,
+      h: rgb.r,
+      s: rgb.g,
+      l: rgb.b,
     };
 
     fetch(config.LED_API_URL + "rgb", {
