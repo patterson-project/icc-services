@@ -19,6 +19,7 @@ class LedController:
         self.sequence = LedStripSequence()
         self.request = None
         self.operation_callback = {
+            "off": self.off,
             "hsla": self.hsla,
             "brightness": self.brightness,
             "rainbow": self.rainbow,
@@ -66,6 +67,11 @@ class LedController:
     def brightness(self):
         pass
 
+    def off(self):
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColorRGB(i, 0, 0, 0)
+        self.strip.show()
+
     def hsla(self):
         r, g, b = tuple(
             round(i * 255)
@@ -76,8 +82,8 @@ class LedController:
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, r, b, g)
-	    
-	self.strip.show()
+
+        self.strip.show()
 
     def rainbow(self, wait_ms=20) -> None:
         self.terminate_process()

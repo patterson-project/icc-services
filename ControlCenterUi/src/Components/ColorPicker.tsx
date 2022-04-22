@@ -1,8 +1,9 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { HslaColorPicker, HslaColor } from 'react-colorful';
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";
 import { HslaRequest } from "../types";
+import useDidMountEffect from "../utils";
 import config from "../config";
 
 const colorPickerBoxStyle = {
@@ -35,7 +36,7 @@ const ColorPicker: FC = () => {
 
     const debouncedHslaColorChangeHandler = useCallback(debounce(changeColor, 300), []);
 
-    useEffect(() => {
+    useDidMountEffect(() => {
       const hslaRequest: HslaRequest = {
         operation: "hsla",
         h: hslaColor.h,
@@ -44,7 +45,7 @@ const ColorPicker: FC = () => {
         a: hslaColor.a
       };
 
-      fetch(config.LED_API_URL + "lighting", {
+      fetch(config.LIGHTING_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const ColorPicker: FC = () => {
       }).catch((error) => {
         console.log("ERROR", error);
       });
-    });
+    }, [hslaColor]);
   
     return (
       <Box style={colorPickerBoxStyle}>

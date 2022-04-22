@@ -7,7 +7,7 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import config from "../config";
 import ColorSelectionTab from "../Components/ColorSelectionTab";
-import { RainbowRequest } from "../types";
+import { LightingRequest, RainbowRequest } from "../types";
 
 const colorSelectPageStyle = {
   height: "100%",
@@ -40,23 +40,29 @@ const titleStyle = {
 
 const ColorSelectPage: FC = () => {
   const operationButtonOnClick = (operation: string) => {
-    fetch(config.LED_API_URL + operation, {
-      method: "GET",
+    const operationRequest: LightingRequest = {
+      operation: operation
+    };
+
+    fetch(config.LIGHTING_API_URL, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(operationRequest)
     }).catch((error) => {
       console.log("ERROR", error);
     });
   };
 
-  const rainbowRequest: RainbowRequest = {
-    operation: "rainbow",
-    wait_ms: 50
-  }
-
+  
   const rainbowButtonOnClick =  () => {
-    fetch(config.LED_API_URL + "rainbow", {
+    const rainbowRequest: RainbowRequest = {
+      operation: "rainbow",
+      wait_ms: 50
+    }
+
+    fetch(config.LIGHTING_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

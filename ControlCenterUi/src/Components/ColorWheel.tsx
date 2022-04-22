@@ -3,7 +3,7 @@ import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
 import config from "../config";
 import { Box } from "@mui/material";
-import { HslaRequest } from "../types";
+import { HslaRequest, LightingRequest } from "../types";
 
 const colorWheelStyle = {
   display: "flex",
@@ -21,7 +21,7 @@ const ColorWheel: FC = () => {
       h: hue
     };
 
-    fetch(config.LED_API_URL + "lighting", {
+    fetch(config.LIGHTING_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,8 +33,16 @@ const ColorWheel: FC = () => {
   };
 
   const onSelect = () => {
-    fetch(config.LED_API_URL + "off", {
-      method: "GET",
+    const offRequest: LightingRequest = {
+      operation: "off"
+    }
+
+    fetch(config.LIGHTING_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(offRequest)
     }).catch((error) => {
       console.log("ERROR", error);
     });

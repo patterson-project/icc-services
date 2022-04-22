@@ -35,7 +35,7 @@ const BrightnessSlider: FC = () => {
       brightness: value,
     };
 
-    fetch(config.LED_API_URL + "brightness", {
+    fetch(config.LIGHTING_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
