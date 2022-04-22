@@ -61,7 +61,7 @@ class LedController:
         self.operation_callback[led_request.operation]()
 
     def brightness(self):
-        self.strip.setBrightness(int(255) * (self.request.brightness / 100))
+        self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
         self.strip.show()
 
     def off(self):
