@@ -65,7 +65,9 @@ class LedController:
     def hsla(self):
         r, g, b = tuple(
             round(i * 255)
-            for i in colorsys.hls_to_rgb(self.request.h, self.request.l, self.request.s)
+            for i in colorsys.hls_to_rgb(
+                self.request.h / 360, self.request.l / 100, self.request.s / 100
+            )
         )
 
         for i in range(self.strip.numPixels()):
