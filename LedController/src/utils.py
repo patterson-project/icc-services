@@ -11,13 +11,6 @@ class LedConfig:
     CHANNEL = 0
     BROKER_ADDRESS = "10.0.0.35"
 
-
-def log(message):
-    now = datetime.now()
-    print(str(now.strftime("%Y-%m-%d %H:%M:%S")), end="")
-    print(message)
-
-
 class LedRequest:
     def __init__(
         self,
@@ -36,3 +29,9 @@ class LedRequest:
         self.l = l
         self.a = a
         self.wait_ms = wait_ms
+
+def log(topic, message):
+    now = datetime.now()
+    print(str(now.strftime('%Y-%m-%d %H:%M:%S')))
+    print("\tTOPIC:\t\t" + topic)
+    print("\tMESSAGE:\t" + message)
