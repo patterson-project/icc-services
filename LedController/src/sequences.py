@@ -1,20 +1,6 @@
 from rpi_ws281x import Color
 import time
 
-
-# def off(strip) -> None:
-#     for i in range(strip.numPixels()):
-#         strip.setPixelColorRGB(i, 0, 0, 0)
-#         strip.show()
-
-
-# def rgb(strip, r, g, b, wait_ms=5) -> None:
-#     for i in range(strip.numPixels()):
-#         strip.setPixelColorRGB(i, r, b, g)
-#         strip.show()
-#         time.sleep(wait_ms / 1000.0)
-
-
 # def sunrise(strip) -> None:
 #     strip.setBrightness(0)
 #     strip.show()
