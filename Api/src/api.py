@@ -16,10 +16,15 @@ def index() -> Response:
     return Response(status=200)
 
 
-@app.route("/lighting")
+@app.route("/lighting", methods=["POST"])
 def lighting() -> Response:
-    body: str = request.get_json()
-    publish("home/lighting", body)
+    body = request.get_json()
+    try:
+        led_request = LedRequest(**body)
+        publish("home/lighting", json.dumps(led_request.__dict__))
+    except:
+        return Response("Invalid JSON body in request.", 400)
+
     return Response(status=200)
 
 
