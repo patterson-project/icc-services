@@ -11,9 +11,8 @@ export interface BrightnessRequest extends LightingRequest {
     brightness: number;
 };
 
-export interface HslaRequest extends LightingRequest {
+export interface HsvRequest extends LightingRequest {
     h: number;
     s?: number;
-    l?: number;
-    a?: number;
+    v?: number;
 };

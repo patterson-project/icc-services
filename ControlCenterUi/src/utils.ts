@@ -6,6 +6,7 @@ const useDidMountEffect = (func: () => void, deps: React.DependencyList | undefi
     useEffect(() => {
         if (didMount.current) func();
         else didMount.current = true;
+    // eslint-disable-next-line
     }, deps);
 }
 

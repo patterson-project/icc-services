@@ -13,8 +13,7 @@ class LedRequest:
         operation: str,
         h: int = 0,
         s: int = 100,
-        l: int = 50,
-        a: int = 1,
+        v: int = 50,
         brightness: int = None,
         wait_ms: int = None,
     ):
@@ -22,6 +21,5 @@ class LedRequest:
         self.brightness = brightness
         self.h = h
         self.s = s
-        self.l = l
-        self.a = a
+        self.v = v
         self.wait_ms = wait_ms

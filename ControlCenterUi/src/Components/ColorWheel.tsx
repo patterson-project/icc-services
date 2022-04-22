@@ -3,7 +3,7 @@ import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
 import config from "../config";
 import { Box } from "@mui/material";
-import { HslaRequest, LightingRequest } from "../types";
+import { HsvRequest, LightingRequest } from "../types";
 
 const colorWheelStyle = {
   display: "flex",
@@ -16,8 +16,8 @@ const colorWheelStyle = {
 
 const ColorWheel: FC = () => {
   const onChange = (hue: number) => {
-    const hslaRequest: HslaRequest = {
-      operation: "hsla",
+    const hslaRequest: HsvRequest = {
+      operation: "hsv",
       h: hue
     };
 

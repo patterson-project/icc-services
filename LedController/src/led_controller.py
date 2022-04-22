@@ -1,24 +1,23 @@
 import json
-from multiprocessing.process import current_process
 from kasa import SmartBulb
-import paho.mqtt.client as mqtt
+from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
 from multiprocessing import Process
 from utils import LedRequest, LedConfig, log
 from sequences import LedStripSequence
-import pygame
+import colorsys
 
 
 class LedController:
     def __init__(self):
-        self.strip = self.led_strip_init()
-        self.client = self.mqtt_init()
-        self.led_process = None
-        self.sequence = LedStripSequence()
-        self.request = None
+        self.strip: Adafruit_NeoPixel = self.led_strip_init()
+        self.client: Client = self.mqtt_init()
+        self.led_process: Process = None
+        self.sequence: LedStripSequence = LedStripSequence()
+        self.request: LedRequest = None
         self.operation_callback = {
             "off": self.off,
-            "hsla": self.hsla,
+            "hsv": self.hsv,
             "brightness": self.brightness,
             "rainbow": self.rainbow,
             "color_wipe": self.color_wipe,
@@ -40,8 +39,8 @@ class LedController:
         strip.begin()
         return strip
 
-    def mqtt_init(self) -> mqtt.Client:
-        client = mqtt.Client("led-controller", clean_session=False)
+    def mqtt_init(self) -> Client:
+        client = Client("led-controller", clean_session=False)
         client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
         client.subscribe("home/lighting")
@@ -70,15 +69,13 @@ class LedController:
             self.strip.setPixelColorRGB(i, 0, 0, 0)
         self.strip.show()
 
-    def hsla(self):
-        hsla_color = pygame.Color(0)
-        hsla_color.hsla = (
-            self.request.h,
-            self.request.s,
-            self.request.l,
-            self.request.a,
+    def hsv(self):
+        r, g, b = tuple(
+            round(i * 255)
+            for i in colorsys.hsv_to_rgb(
+                self.request.h / 360, self.request.s / 100, self.request.v / 100
+            )
         )
-        r, g, b = hsla_color.r, hsla_color.g, hsla_color.b
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, r, b, g)

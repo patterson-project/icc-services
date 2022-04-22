@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useState } from "react";
-import { HslaColorPicker, HslaColor } from 'react-colorful';
+import { HsvColorPicker, HsvColor } from 'react-colorful';
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";
-import { HslaRequest } from "../types";
+import { HsvRequest } from "../types";
 import useDidMountEffect from "../utils";
 import config from "../config";
 
@@ -20,29 +20,27 @@ const colorPickerStyle = {
   height: "280px",
 }
 
-const defaultColor: HslaColor = {
+const defaultColor: HsvColor = {
     h: 0,
     s: 0.5,
-    l: 0.2,
-    a: 1
+    v: 0.2,
 };
 
 const ColorPicker: FC = () => {
-    const [hslaColor, setHslaColor] = useState<HslaColor>(defaultColor);
+    const [hsvColor, setHsvColor] = useState<HsvColor>(defaultColor);
     
-    const changeColor = (newHslaColor: HslaColor) => {
-      setHslaColor(newHslaColor);
+    const changeColor = (newHsvColor: HsvColor) => {
+      setHsvColor(newHsvColor);
     };
 
     const debouncedHslaColorChangeHandler = useCallback(debounce(changeColor, 300), []);
 
     useDidMountEffect(() => {
-      const hslaRequest: HslaRequest = {
-        operation: "hsla",
-        h: hslaColor.h,
-        s: hslaColor.s,
-        l: hslaColor.l,
-        a: hslaColor.a
+      const hslaRequest: HsvRequest = {
+        operation: "hsv",
+        h: hsvColor.h,
+        s: hsvColor.s,
+        v: hsvColor.v
       };
 
       fetch(config.LIGHTING_API_URL, {
@@ -54,11 +52,11 @@ const ColorPicker: FC = () => {
       }).catch((error) => {
         console.log("ERROR", error);
       });
-    }, [hslaColor]);
+    }, [hsvColor]); 
   
     return (
       <Box style={colorPickerBoxStyle}>
-        <HslaColorPicker style={colorPickerStyle} color={hslaColor} onChange={debouncedHslaColorChangeHandler}/> 
+        <HsvColorPicker style={colorPickerStyle} color={hsvColor} onChange={debouncedHslaColorChangeHandler}/> 
       </Box>
     );
   };
