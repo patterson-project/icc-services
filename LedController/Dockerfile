@@ -7,7 +7,7 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /app
 
-RUN pip3 install rpi_ws281x paho-mqtt python-kasa
+RUN pip3 install rpi_ws281x paho-mqtt python-kasa pygame
 
 COPY src/*.py ./
 

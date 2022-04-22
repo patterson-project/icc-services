@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { HslaColorPicker, HslaColor } from 'react-colorful';
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";

@@ -1,14 +1,12 @@
 import json
 from multiprocessing.process import current_process
-import time
 from kasa import SmartBulb
 import paho.mqtt.client as mqtt
-import colorsys
 from rpi_ws281x import Adafruit_NeoPixel
 from multiprocessing import Process
 from utils import LedRequest, LedConfig, log
-from rpi_ws281x import Color
 from sequences import LedStripSequence
+import pygame
 
 
 class LedController:
@@ -24,7 +22,6 @@ class LedController:
             "brightness": self.brightness,
             "rainbow": self.rainbow,
             "color_wipe": self.color_wipe,
-            "sunrise": self.sunrise,
             "theater_chase": self.theater_chase,
             "rainbow_cycle": self.rainbow_cycle,
             "theater_chase_rainbow": self.theater_chase_rainbow,
@@ -65,7 +62,8 @@ class LedController:
         self.operation_callback[led_request.operation]()
 
     def brightness(self):
-        pass
+        self.strip.setBrightness(int(255) * (self.request.brightness / 100))
+        self.strip.show()
 
     def off(self):
         for i in range(self.strip.numPixels()):
@@ -73,12 +71,14 @@ class LedController:
         self.strip.show()
 
     def hsla(self):
-        r, g, b = tuple(
-            round(i * 255)
-            for i in colorsys.hls_to_rgb(
-                self.request.h / 360, self.request.l / 100, self.request.s / 100
-            )
+        hsla_color = pygame.Color(0)
+        hsla_color.hsla = (
+            self.request.h,
+            self.request.s,
+            self.request.l,
+            self.request.a,
         )
+        r, g, b = hsla_color.r, hsla_color.g, hsla_color.b
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, r, b, g)
@@ -93,6 +93,14 @@ class LedController:
         self.led_process.name = self.request.operation
         self.led_process.start()
 
+    def rainbow_cycle(self):
+        self.terminate_process()
+        self.led_process = Process(
+            target=self.sequence.rainbow_cycle, args=(self.strip)
+        )
+        self.led_process.name = self.request.operation
+        self.led_process.start()
+
     def color_wipe(self):
         pass
 
@@ -100,9 +108,6 @@ class LedController:
         pass
 
     def theater_chase(self):
-        pass
-
-    def rainbow_cycle(self):
         pass
 
     def theater_chase_rainbow(self):
