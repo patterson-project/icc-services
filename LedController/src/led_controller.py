@@ -7,6 +7,8 @@ import colorsys
 from rpi_ws281x import Adafruit_NeoPixel
 from multiprocessing import Process
 from utils import LedRequest, LedConfig, log
+from rpi_ws281x import Color
+from sequences import LedStripSequence
 
 
 class LedController:
@@ -14,6 +16,7 @@ class LedController:
         self.strip = self.led_strip_init()
         self.client = self.mqtt_init()
         self.led_process = None
+        self.sequence = LedStripSequence()
         self.request = None
         self.operation_callback = {
             "hsla": self.hsla,
@@ -56,6 +59,7 @@ class LedController:
         led_request = LedRequest(**json.loads(message.payload))
         log(message.topic, str(led_request.__dict__))
 
+        self.terminate_process()
         self.request = led_request
         self.operation_callback[led_request.operation]()
 
@@ -75,8 +79,13 @@ class LedController:
             self.strip.show()
             time.sleep(50 / 1000.0)
 
-    def rainbow(self):
-        pass
+    def rainbow(self, wait_ms=20) -> None:
+        self.terminate_process()
+        self.led_process = Process(
+            target=self.sequence.rainbow, args=(self.strip, self.request.wait_ms)
+        )
+        self.led_process.name = self.request.operation
+        self.led_process.start()
 
     def color_wipe(self):
         pass
