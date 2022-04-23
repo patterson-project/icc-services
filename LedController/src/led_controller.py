@@ -57,15 +57,17 @@ class LedController:
         self.operation_callback_by_name[led_request.operation]()
 
     def brightness(self):
-        if self.sequence_process is not None:
+        if self.sequence_process is None:
+            self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
+            self.strip.show()
+            print("SEQUENCE PROCESS IS NONE")
+        else:
             last_sequence = self.sequence_process.name
             self.terminate_process()
             self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
             self.operation_callback_by_name[last_sequence]()
-        else:
-            self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
-            self.strip.show()
+            print("SEQUENCE PROCESS IS not NONE")
 
     def off(self):
         for i in range(self.strip.numPixels()):
