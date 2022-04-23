@@ -7,8 +7,8 @@ import config from "../config";
 import ColorSelectionTab from "../Components/ColorSelectionTab";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import { BrightnessRequest, RainbowRequest } from "../types";
 
 const colorSelectPageStyle = {
@@ -47,12 +47,12 @@ const iconStyle = {
 
 const ColorSelectPage: FC = () => {
   const [sequenceDelay, setSequenceDelay] = useState<number>(50);
-  
-  const rainbowButtonOnClick =  () => {
+
+  const rainbowButtonOnClick = () => {
     const rainbowRequest: RainbowRequest = {
       operation: "rainbow",
-      delay: sequenceDelay
-    }
+      delay: sequenceDelay,
+    };
 
     fetch(config.LIGHTING_API_URL, {
       method: "POST",
@@ -62,14 +62,14 @@ const ColorSelectPage: FC = () => {
       body: JSON.stringify(rainbowRequest),
     }).catch((error) => {
       console.log("ERROR", error);
-    })
-  }
+    });
+  };
 
   const rainbowCycleButtonOnClick = () => {
     const rainbowRequest: RainbowRequest = {
       operation: "rainbow_cycle",
-      delay: sequenceDelay
-    }
+      delay: sequenceDelay,
+    };
 
     fetch(config.LIGHTING_API_URL, {
       method: "POST",
@@ -79,14 +79,14 @@ const ColorSelectPage: FC = () => {
       body: JSON.stringify(rainbowRequest),
     }).catch((error) => {
       console.log("ERROR", error);
-    })
-  }
+    });
+  };
 
   const onChangeBrightness = (value: number) => {
     const brightnessRequest: BrightnessRequest = {
       operation: "brightness",
       brightness: value,
-      delay: sequenceDelay
+      delay: sequenceDelay,
     };
 
     fetch(config.LIGHTING_API_URL, {
@@ -99,7 +99,7 @@ const ColorSelectPage: FC = () => {
       console.log("ERROR", error);
     });
   };
-  
+
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
@@ -110,10 +110,26 @@ const ColorSelectPage: FC = () => {
           <ColorSelectionTab />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <Slider min={0} max={100} step={10} defaultValue={100} onChange={onChangeBrightness} startIcon={<BrightnessLowIcon style={iconStyle}/>} endIcon={<BrightnessHighIcon style={iconStyle}/>}/>
+          <Slider
+            min={0}
+            max={100}
+            step={10}
+            defaultValue={100}
+            onChange={onChangeBrightness}
+            startIcon={<BrightnessLowIcon style={iconStyle} />}
+            endIcon={<BrightnessHighIcon style={iconStyle} />}
+          />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <Slider min={10} max={100} step={5} defaultValue={sequenceDelay} onChange={setSequenceDelay} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
+          <Slider
+            min={10}
+            max={100}
+            step={5}
+            defaultValue={sequenceDelay}
+            onChange={setSequenceDelay}
+            startIcon={<AccessTimeIcon style={iconStyle} />}
+            endIcon={<MoreTimeIcon style={iconStyle} />}
+          />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <OperationButton
