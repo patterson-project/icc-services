@@ -20,10 +20,7 @@ class LedController:
             "hsv": self.hsv,
             "brightness": self.brightness,
             "rainbow": self.rainbow,
-            "color_wipe": self.color_wipe,
-            "theater_chase": self.theater_chase,
             "rainbow_cycle": self.rainbow_cycle,
-            "theater_chase_rainbow": self.theater_chase_rainbow,
         }
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
