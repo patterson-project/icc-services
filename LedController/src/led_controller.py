@@ -13,7 +13,7 @@ class LedController:
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
         self.sequence: LedStripSequence = LedStripSequence()
-        self.last_sequence: str = None
+        self.led_process: Process = None
         self.request: LedRequest = None
         self.operation_callback_by_name = {
             "off": self.off,
