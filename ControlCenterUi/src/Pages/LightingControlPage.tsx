@@ -46,7 +46,7 @@ const iconStyle = {
 };
 
 const ColorSelectPage: FC = () => {
-  const [sequenceDelay, setSequenceDelay] = useState<number>(10);
+  const [sequenceDelay, setSequenceDelay] = useState<number>(50);
   
   const rainbowButtonOnClick =  () => {
     const rainbowRequest: RainbowRequest = {
@@ -113,7 +113,7 @@ const ColorSelectPage: FC = () => {
           <Slider min={0} max={100} step={10} defaultValue={100} onChange={onChangeBrightness} startIcon={<BrightnessLowIcon style={iconStyle}/>} endIcon={<BrightnessHighIcon style={iconStyle}/>}/>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <Slider min={10} max={100} step={5} defaultValue={50} onChange={setSequenceDelay} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
+          <Slider min={10} max={100} step={5} defaultValue={sequenceDelay} onChange={setSequenceDelay} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <OperationButton

@@ -68,6 +68,7 @@ class LedController:
             self.operation_callback_by_name[last_sequence]()
 
     def off(self):
+        self.terminate_process()
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, 0, 0, 0)
         self.strip.show()
