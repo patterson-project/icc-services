@@ -112,7 +112,7 @@ const ColorSelectPage: FC = () => {
           <Slider min={0} max={100} step={10} defaultValue={100} onChange={onChangeBrightness} startIcon={<BrightnessLowIcon style={iconStyle}/>} endIcon={<BrightnessHighIcon style={iconStyle}/>}/>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <Slider min={10} max={100} step={5} defaultValue={10} onChange={setWaitMs} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
+          <Slider min={10} max={100} step={5} defaultValue={50} onChange={setWaitMs} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <OperationButton

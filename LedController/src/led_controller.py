@@ -101,29 +101,17 @@ class LedController:
     def rainbow_cycle(self):
         self.terminate_process()
         self.led_process = Process(
-            target=self.sequence.rainbow_cycle, args=(self.strip)
+            target=self.sequence.rainbow_cycle, args=(self.strip, self.request.wait_ms)
         )
         self.led_process.name = self.request.operation
         self.led_process.start()
 
-    def color_wipe(self):
-        pass
-
-    def sunrise(self):
-        pass
-
-    def theater_chase(self):
-        pass
-
-    def theater_chase_rainbow(self):
-        pass
-
 
 if __name__ == "__main__":
-    mqtt_client = LedController()
+    led_controller = LedController()
     print("Initialization completed successfully.")
 
     try:
-        mqtt_client.client.loop_forever()
+        led_controller.client.loop_forever()
     except SystemError as e:
-        mqtt_client.client.loop_stop()
+        led_controller.client.loop_stop()
