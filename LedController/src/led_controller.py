@@ -63,7 +63,7 @@ class LedController:
             print("SEQUENCE PROCESS IS NONE")
         else:
             last_sequence = self.sequence_process.name
-            print("LAST OPERATION NAME: " + str(last_sequence)
+            print("LAST OPERATION NAME: " + str(last_sequence))
             self.terminate_process()
             self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
