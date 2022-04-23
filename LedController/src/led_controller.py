@@ -60,15 +60,12 @@ class LedController:
         if self.sequence_process is None:
             self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
-            print("SEQUENCE PROCESS IS NONE")
         else:
             last_sequence = self.sequence_process.name
-            print("LAST OPERATION NAME: " + str(last_sequence))
             self.terminate_process()
             self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
             self.operation_callback_by_name[last_sequence]()
-            print("SEQUENCE PROCESS IS not NONE")
 
     def off(self):
         for i in range(self.strip.numPixels()):
@@ -95,7 +92,7 @@ class LedController:
         self.sequence_process = Process(
             target=self.sequence.rainbow, args=(self.strip, self.request.delay)
         )
-        self.sequence_process.name = self.request.operation
+        self.sequence_process.name = "rainbow"
         self.sequence_process.start()
 
     def rainbow_cycle(self):
@@ -103,7 +100,7 @@ class LedController:
         self.sequence_process = Process(
             target=self.sequence.rainbow_cycle, args=(self.strip, self.request.delay)
         )
-        self.sequence_process.name = self.request.operation
+        self.sequence_process.name = "rainbow_cycle"
         self.sequence_process.start()
 
 
