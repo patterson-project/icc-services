@@ -13,7 +13,7 @@ class LedController:
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
         self.sequence: LedStripSequence = LedStripSequence()
-        self.led_process: Process = None
+        self.sequence_process: Process = None
         self.request: LedRequest = None
         self.operation_callback_by_name = {
             "off": self.off,
@@ -44,10 +44,10 @@ class LedController:
         return client
 
     def terminate_process(self) -> None:
-        if self.led_process is not None:
-            self.led_process.terminate()
-            self.led_process.join()
-            self.led_process = None
+        if self.sequence_process is not None:
+            self.sequence_process.terminate()
+            self.sequence_process.join()
+            self.sequence_process = None
 
     def on_message(self, client, userdata, message) -> None:
         led_request = LedRequest(**json.loads(message.payload))
@@ -57,8 +57,8 @@ class LedController:
         self.operation_callback_by_name[led_request.operation]()
 
     def brightness(self):
-        if self.led_process is not None:
-            last_sequence = self.led_process.name
+        if self.sequence_process is not None:
+            last_sequence = self.sequence_process.name
             self.terminate_process()
             self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
@@ -89,19 +89,19 @@ class LedController:
 
     def rainbow(self) -> None:
         self.terminate_process()
-        self.led_process = Process(
-            target=self.sequence.rainbow, args=(self.strip, self.request.wait_ms)
+        self.sequence_process = Process(
+            target=self.sequence.rainbow, args=(self.strip, self.request.delay)
         )
-        self.led_process.name = self.request.operation
-        self.led_process.start()
+        self.sequence_process.name = self.request.operation
+        self.sequence_process.start()
 
     def rainbow_cycle(self):
         self.terminate_process()
-        self.led_process = Process(
-            target=self.sequence.rainbow_cycle, args=(self.strip, self.request.wait_ms)
+        self.sequence_process = Process(
+            target=self.sequence.rainbow_cycle, args=(self.strip, self.request.delay)
         )
-        self.led_process.name = self.request.operation
-        self.led_process.start()
+        self.sequence_process.name = self.request.operation
+        self.sequence_process.start()
 
 
 if __name__ == "__main__":

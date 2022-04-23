@@ -4,11 +4,12 @@ export interface LightingRequest {
 }
 
 export interface RainbowRequest extends LightingRequest {
-    wait_ms?: number;
+    delay: number;
 }
 
 export interface BrightnessRequest extends LightingRequest {
     brightness: number;
+    delay: number;
 };
 
 export interface HsvRequest extends LightingRequest {

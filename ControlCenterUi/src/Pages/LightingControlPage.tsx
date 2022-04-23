@@ -46,12 +46,12 @@ const iconStyle = {
 };
 
 const ColorSelectPage: FC = () => {
-  const [waitMs, setWaitMs] = useState<number>(10);
+  const [sequenceDelay, setSequenceDelay] = useState<number>(10);
   
   const rainbowButtonOnClick =  () => {
     const rainbowRequest: RainbowRequest = {
       operation: "rainbow",
-      wait_ms: waitMs
+      delay: sequenceDelay
     }
 
     fetch(config.LIGHTING_API_URL, {
@@ -68,7 +68,7 @@ const ColorSelectPage: FC = () => {
   const rainbowCycleButtonOnClick = () => {
     const rainbowRequest: RainbowRequest = {
       operation: "rainbow_cycle",
-      wait_ms: waitMs
+      delay: sequenceDelay
     }
 
     fetch(config.LIGHTING_API_URL, {
@@ -86,6 +86,7 @@ const ColorSelectPage: FC = () => {
     const brightnessRequest: BrightnessRequest = {
       operation: "brightness",
       brightness: value,
+      delay: sequenceDelay
     };
 
     fetch(config.LIGHTING_API_URL, {
@@ -112,7 +113,7 @@ const ColorSelectPage: FC = () => {
           <Slider min={0} max={100} step={10} defaultValue={100} onChange={onChangeBrightness} startIcon={<BrightnessLowIcon style={iconStyle}/>} endIcon={<BrightnessHighIcon style={iconStyle}/>}/>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <Slider min={10} max={100} step={5} defaultValue={50} onChange={setWaitMs} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
+          <Slider min={10} max={100} step={5} defaultValue={50} onChange={setSequenceDelay} startIcon={<AccessTimeIcon style={iconStyle}/>} endIcon={<MoreTimeIcon style={iconStyle}/>}/>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <OperationButton

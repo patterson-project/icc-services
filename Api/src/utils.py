@@ -15,11 +15,11 @@ class LedRequest:
         s: int = 100,
         v: int = 50,
         brightness: int = None,
-        wait_ms: int = None,
+        delay: int = None,
     ):
         self.operation = operation
         self.brightness = brightness
         self.h = h
         self.s = s
         self.v = v
-        self.wait_ms = wait_ms
+        self.delay = delay
