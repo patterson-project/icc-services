@@ -28,7 +28,7 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
     setHue(hue);
   }
 
-  const debounceHueChangeHandler = useCallback(debounce(changeHue, 25), []);
+  const debounceHueChangeHandler = useCallback(debounce(changeHue, 30), []);
 
   useDidMountEffect(() => {
     const hslaRequest: HsvRequest = {

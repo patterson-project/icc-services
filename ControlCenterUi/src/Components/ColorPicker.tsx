@@ -38,7 +38,7 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
       setHsvColor(newHsvColor);
     };
     
-    const debouncedHsvColorChangeHandler = useCallback(debounce(changeColor, 25), []);
+    const debouncedHsvColorChangeHandler = useCallback(debounce(changeColor, 30), []);
 
     const onTouchStart = () => {
       props.setModifyingColor(true);
