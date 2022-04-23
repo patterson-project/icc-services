@@ -28,7 +28,7 @@ def lighting() -> Response:
     return Response(status=200)
 
 
-def start():
+def start() -> None:
     app.run(host="0.0.0.0", threaded=True, port=8000)
 
 

@@ -12,11 +12,12 @@ interface ColorPickerProps {
 
 const colorPickerBoxStyle = {
   display: "flex",
-  alignItems: "center",
+  alignItems: "top",
   justifyContent: "center",
   width: "340px",
   height: "340px",
   borderRadius: "10px",
+  paddingTop: "20px"
 };
 
 const colorPickerStyle = {
@@ -36,6 +37,8 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
     const changeColor = (newHsvColor: HsvColor) => {
       setHsvColor(newHsvColor);
     };
+    
+    const debouncedHsvColorChangeHandler = useCallback(debounce(changeColor, 10), []);
 
     const onTouchStart = () => {
       props.setModifyingColor(true);
@@ -45,7 +48,6 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
       props.setModifyingColor(false);
     };
 
-    const debouncedHslaColorChangeHandler = useCallback(debounce(changeColor, 300), []);
 
     useDidMountEffect(() => {
       const hslaRequest: HsvRequest = {
@@ -68,7 +70,7 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
   
     return (
       <Box style={colorPickerBoxStyle}>
-        <HsvColorPicker style={colorPickerStyle} color={hsvColor} onChange={debouncedHslaColorChangeHandler} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}/> 
+        <HsvColorPicker style={colorPickerStyle} color={hsvColor} onChange={debouncedHsvColorChangeHandler} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}/> 
       </Box>
     );
   };

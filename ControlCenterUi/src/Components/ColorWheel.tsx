@@ -1,9 +1,11 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
 import config from "../config";
 import { Box } from "@mui/material";
 import { HsvRequest, LightingRequest } from "../types";
+import useDidMountEffect from "../utils";
+import debounce from "lodash.debounce";
 
 interface ColorWheelProps {
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
@@ -11,15 +13,24 @@ interface ColorWheelProps {
 
 const colorWheelStyle = {
   display: "flex",
-  alignItems: "center",
+  alignItems: "top",
   justifyContent: "center",
   width: "340px",
   height: "340px",
   borderRadius: "10px",
+  paddingTop: "20px"
 };
 
 const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
-  const onChange = (hue: number) => {
+  const [hue, setHue] = useState<number>(0);
+
+  const changeHue = (hue: number) => {
+    setHue(hue);
+  }
+
+  const debounceHueChangeHandler = useCallback(debounce(changeHue, 10), []);
+
+  useDidMountEffect(() => {
     const hslaRequest: HsvRequest = {
       operation: "hsv",
       h: hue
@@ -34,14 +45,8 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
     }).catch((error) => {
       console.log("ERROR", error);
     });
-    
-    props.setModifyingColor(false);
-  };
-
-  const onInput = () => {
-    props.setModifyingColor(true);
-  };
-
+  }, [hue]);
+  
   const onSelect = () => {
     const offRequest: LightingRequest = {
       operation: "off"
@@ -58,9 +63,17 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
     });
   };
 
+  const onTouchStart = () => {
+    props.setModifyingColor(true);
+  };
+
+    const onTouchEnd = () => {
+    props.setModifyingColor(false);
+  };
+
   return (
     <Box style={colorWheelStyle}>
-      <ColorPicker onChange={onChange} onSelect={onSelect} onInput={onInput} />
+      <ColorPicker onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onSelect={onSelect} onInput={debounceHueChangeHandler} />
     </Box>
   );
 };

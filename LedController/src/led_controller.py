@@ -12,10 +12,10 @@ class LedController:
     def __init__(self):
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
-        self.led_process: Process = None
         self.sequence: LedStripSequence = LedStripSequence()
+        self.last_sequence: str = None
         self.request: LedRequest = None
-        self.operation_callback = {
+        self.operation_callback_by_name = {
             "off": self.off,
             "hsv": self.hsv,
             "brightness": self.brightness,
@@ -56,13 +56,19 @@ class LedController:
         led_request = LedRequest(**json.loads(message.payload))
         log(message.topic, str(led_request.__dict__))
 
-        self.terminate_process()
         self.request = led_request
-        self.operation_callback[led_request.operation]()
+        self.operation_callback_by_name[led_request.operation]()
 
     def brightness(self):
-        self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
-        self.strip.show()
+        if self.led_process is not None:
+            last_sequence = self.led_process.name
+            self.terminate_process()
+            self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
+            self.strip.show()
+            self.operation_callback_by_name[last_sequence]()
+        else:
+            self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
+            self.strip.show()
 
     def off(self):
         for i in range(self.strip.numPixels()):
@@ -70,6 +76,8 @@ class LedController:
         self.strip.show()
 
     def hsv(self):
+        self.terminate_process()
+
         r, g, b = tuple(
             round(i * 255)
             for i in colorsys.hsv_to_rgb(
@@ -82,7 +90,7 @@ class LedController:
 
         self.strip.show()
 
-    def rainbow(self, wait_ms=20) -> None:
+    def rainbow(self) -> None:
         self.terminate_process()
         self.led_process = Process(
             target=self.sequence.rainbow, args=(self.strip, self.request.wait_ms)
