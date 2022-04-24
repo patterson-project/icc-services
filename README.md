@@ -5,10 +5,12 @@ A set of docker-based services which use Raspberry Pis and MQTT to control WS281
 ## Repository Structure
 * `/ControlCenterUi`
   * Holds React-Typescript app for user interface
-* `/LedApi`
-  * Holds flask API to handle UI calls and publish MQTT messages to change LED strip behavior
+* `/Api`
+  * Holds flask API to handle UI calls and publish MQTT messages to IoT devices accordingly
 * `/LedController`
   * Holds python service to listen for MQTT events and change LED strip behavior accordingly
+* `/BulbController`
+  * Holds python service to listen for MQTT events and change TPLink kasa-smart bulb behavior accordingly
 * `/SystemdFiles`
   * Systemd service configuration files to allow each microservice to be automatically deployed and updated startup on raspberry pi boot
 * `install.sh`
@@ -21,15 +23,18 @@ A set of docker-based services which use Raspberry Pis and MQTT to control WS281
 * Look of web-page:
 
 <p align="center">
-<image src="https://user-images.githubusercontent.com/47571939/151074021-60b328f1-1f80-423a-a874-78fedb2ffbc1.png">
+<image src="https://user-images.githubusercontent.com/47571939/165000409-ac0a3dea-c6bd-47ba-8e7b-fbc39a63c5c4.png">
+</p>
+ <p align="center">
+<image src="https://user-images.githubusercontent.com/47571939/165000413-6a617da4-144f-4c0c-9eb6-fb35e98e3c34.png">
 </p>
   
 * Allows to change LED strip color, brightness, and activate different sequences
 
-## LedApi
-* Flask API to provide endpoints to activate different LED commands
+## Api
+* Flask API to provide endpoints to activate different commands
 * After each route is called, MQTT is used to publish this command to the other raspberry pi
-  * Each route publishes an object of type `LedRequest` as a dictionary with options for LED command (i.e. brightness, RGB values, operation)
+  * e.g the LED route publishs an object of type `LedRequest` as a dictionary with options for LED command (i.e. brightness, HSV values, operation)
 * Docker compose file used to build dockerfile to host and expose the flask API
 
 ## LedController
