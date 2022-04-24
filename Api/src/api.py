@@ -16,73 +16,19 @@ def index() -> Response:
     return Response(status=200)
 
 
-@app.route("/off")
-def off() -> Response:
-    led_request = LedRequest("off")
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/brightness", methods=["POST"])
-def brightness() -> Response:
+@app.route("/lighting", methods=["POST"])
+def lighting() -> Response:
     body = request.get_json()
-    led_request = LedRequest(**body)
-    publish("home/leds", json.dumps(led_request.__dict__))
+    try:
+        led_request = LedRequest(**body)
+        publish("home/lighting", json.dumps(led_request.__dict__))
+    except:
+        return Response("Invalid JSON body in request.", 400)
+
     return Response(status=200)
 
 
-@app.route("/rgb", methods=["POST"])
-def rgb() -> Response:
-    body = request.get_json()
-    led_request = LedRequest(**body)
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/colorwipe")
-def color_wipe() -> Response:
-    led_request = LedRequest("color_wipe")
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/theaterchase")
-def theater_chase() -> Response:
-    led_request = LedRequest("theater_chase")
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/rainbow", methods=["POST"])
-def rainbow() -> Response:
-    body = request.get_json()
-    led_request = LedRequest(**body)
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/rainbowcycle")
-def rainbow_cycle() -> Response:
-    led_request = LedRequest("rainbow_cycle")
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/theaterchaserainbow")
-def theater_chase_rainbow() -> Response:
-    led_request = LedRequest("theater_chase_rainbow")
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-@app.route("/sunrise")
-def sunrise() -> Response:
-    led_request = LedRequest("sunrise")
-    publish("home/leds", json.dumps(led_request.__dict__))
-    return Response(status=200)
-
-
-def start():
+def start() -> None:
     app.run(host="0.0.0.0", threaded=True, port=8000)
 
 
