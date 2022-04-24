@@ -10,7 +10,7 @@ sudo chmod 744 start.sh
 sudo chmod 744 stop.sh
 cd ../../
 
-cd LedApi/ShellScripts
+cd Api/ShellScripts
 sudo chmod 744 start.sh
 sudo chmod 744 stop.sh
 cd ../../
