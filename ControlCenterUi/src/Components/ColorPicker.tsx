@@ -65,7 +65,7 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
       v: hsvColor.v,
     };
 
-    fetch(config.LIGHTING_API_URL, {
+    fetch(config.LED_STRIP_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

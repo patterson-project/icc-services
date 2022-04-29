@@ -12,7 +12,7 @@ class LedConfig:
     BROKER_ADDRESS = "10.0.0.35"
 
 
-class LedRequest:
+class LightingRequest:
     def __init__(
         self,
         operation: str,

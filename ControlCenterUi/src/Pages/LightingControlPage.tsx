@@ -54,7 +54,7 @@ const ColorSelectPage: FC = () => {
       delay: sequenceDelay,
     };
 
-    fetch(config.LIGHTING_API_URL, {
+    fetch(config.LED_STRIP_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const ColorSelectPage: FC = () => {
       delay: sequenceDelay,
     };
 
-    fetch(config.LIGHTING_API_URL, {
+    fetch(config.LED_STRIP_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const ColorSelectPage: FC = () => {
       delay: sequenceDelay,
     };
 
-    fetch(config.LIGHTING_API_URL, {
+    fetch(config.LED_STRIP_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

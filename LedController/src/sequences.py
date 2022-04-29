@@ -13,15 +13,15 @@ class LedStripSequence:
             pos -= 170
             return Color(0, pos * 3, 255 - pos * 3)
 
-    def rainbow(self, strip, wait_ms=20) -> None:
+    def rainbow(self, strip, delay=20) -> None:
         while True:
             for j in range(255):
                 for i in range(strip.numPixels()):
                     strip.setPixelColor(i, self.wheel((i + j) & 255))
                 strip.show()
-                time.sleep(wait_ms / 1000.0)
+                time.sleep(delay / 1000.0)
 
-    def rainbow_cycle(self, strip, wait_ms=20) -> None:
+    def rainbow_cycle(self, strip, delay=20) -> None:
         while True:
             for j in range(255):
                 for i in range(strip.numPixels()):
@@ -29,4 +29,4 @@ class LedStripSequence:
                         i, self.wheel((int(i * 256 / strip.numPixels()) + j) & 255)
                     )
                 strip.show()
-                time.sleep(wait_ms / 1000.0)
+                time.sleep(delay / 1000.0)
