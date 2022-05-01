@@ -58,7 +58,7 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
   };
 
   useDidMountEffect(() => {
-    const hslaRequest: HsvRequest = {
+    const hsvRequest: HsvRequest = {
       operation: "hsv",
       h: hsvColor.h,
       s: hsvColor.s,
@@ -70,7 +70,7 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(hslaRequest),
+      body: JSON.stringify(hsvRequest),
     }).catch((error) => {
       console.log("ERROR", error);
     });
