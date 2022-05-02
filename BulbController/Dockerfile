@@ -1,5 +1,5 @@
 FROM debian:latest
-RUN apt update -y && apt upgrade
+RUN apt-get update && apt-get upgrade -y
 
 FROM python:latest
 
@@ -7,9 +7,9 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /app
 
-RUN pip3 install paho-mqtt python-kasa
+RUN pip3 install asyncio-mqtt python-kasa
 
 COPY src/*.py ./
 
 EXPOSE 1883
-CMD [ "python", "-u", "mqtt_client.py"] 
+CMD [ "python", "-u", "bulb_controller.py"] 

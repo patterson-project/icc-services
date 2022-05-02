@@ -1,5 +1,5 @@
-FROM ubuntu:latest
-RUN apt update -y && apt upgrade -y
+FROM debian:latest
+RUN apt-get update && apt-get upgrade -y
 
 FROM python:latest
 

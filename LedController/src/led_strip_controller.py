@@ -1,11 +1,10 @@
 from colorsys import hsv_to_rgb
 from json import loads
-from kasa import SmartBulb
 from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
-from led_strip_sequence import LedStripSequence
-from utils import LightingRequest, LedStripConfig, log
+from time import time
+from utils import LightingRequest, LedStripConfig, log, wheel
 
 
 class LedStripController:
@@ -14,7 +13,6 @@ class LedStripController:
     def __init__(self) -> None:
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
-        self.sequence: LedStripSequence = LedStripSequence()
         self.sequence_process: Process = None
         self.request: LightingRequest = None
         self.operation_callback_by_name = {
@@ -92,19 +90,33 @@ class LedStripController:
 
     def rainbow(self) -> None:
         self.terminate_process()
-        self.sequence_process = Process(
-            target=self.sequence.rainbow, args=(self.strip, self.request.delay)
-        )
+        self.sequence_process = Process(target=self.rainbow_loop)
         self.sequence_process.name = "rainbow"
         self.sequence_process.start()
 
+    def rainbow_loop(self) -> None:
+        while True:
+            for j in range(255):
+                for i in range(self.strip.numPixels()):
+                    self.strip.setPixelColor(i, wheel((i + j) & 255))
+                self.strip.show()
+                time.sleep(self.request.delay / 1000.0)
+
     def rainbow_cycle(self):
         self.terminate_process()
-        self.sequence_process = Process(
-            target=self.sequence.rainbow_cycle, args=(self.strip, self.request.delay)
-        )
+        self.sequence_process = Process(target=self.rainbow_cycle_loop)
         self.sequence_process.name = "rainbow_cycle"
         self.sequence_process.start()
+
+    def rainbow_cycle_loop(self) -> None:
+        while True:
+            for j in range(255):
+                for i in range(self.strip.numPixels()):
+                    self.strip.setPixelColor(
+                        i, wheel((int(i * 256 / self.strip.numPixels()) + j) & 255)
+                    )
+                self.strip.show()
+                time.sleep(self.delay / 1000.0)
 
 
 if __name__ == "__main__":

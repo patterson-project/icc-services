@@ -1,11 +1,9 @@
-from contextlib import AsyncExitStack
-from threading import Thread
-from kasa import SmartBulb
-from asyncio_mqtt import Client
-from multiprocessing import Process
 import asyncio
-from utils import log, LightingRequest
+from asyncio_mqtt import Client
+from contextlib import AsyncExitStack
 from json import loads
+from kasa import SmartBulb
+from utils import log, LightingRequest
 
 
 class BulbController:
@@ -15,7 +13,7 @@ class BulbController:
         self.ip_address: str = ip_address
         self.topic: str = topic
         self.bulb: SmartBulb = await self.bulb_init()
-        self.sequence_process: Process = None
+        self.sequence_task: asyncio.Task = None
         self.request: LightingRequest = None
         self.operation_callback_by_name = {
             "hsv": self.hsv,
@@ -28,20 +26,14 @@ class BulbController:
         await bulb.update()
         return bulb
 
-    async def cancel_tasks(tasks) -> None:
-        for task in tasks:
-            if task.done():
-                continue
-            try:
-                task.cancel()
-                await task
-            except asyncio.CancelledError:
-                pass
+    def terminate_task(self) -> None:
+        if self.sequence_task is not None:
+            self.sequence_task.cancel()
+            self.sequence_task = None
 
     async def async_mqtt(self) -> Client:
         async with AsyncExitStack() as stack:
             tasks = set()
-            stack.push_async_callback(self.cancel_tasks, tasks)
 
             client = Client(self.BROKER_ADDRESS)
             await stack.enter_async_context(client)
@@ -63,18 +55,23 @@ class BulbController:
             await self.operation_callback_by_name[lighting_request.operation]()
 
     async def hsv(self):
+        self.terminate_task()
         await self.bulb.set_hsv(self.request.h, self.request.s, self.request.v)
         await self.bulb.update()
 
-    def brightness(self):
-        pass
+    async def brightness(self):
+        await self.bulb.set_brightness(self.request.brightness)
+        await self.bulb.update()
 
-    def rainbow(self):
-        pass
+    async def rainbow(self):
+        self.terminate_task()
+        self.sequence_task = asyncio.create_task(self.rainbow_loop())
 
-
-async def turn_off(bulb):
-    await bulb.turn_off()
+    async def rainbow_loop(self):
+        while True:
+            for i in range(359):
+                await self.bulb.set_hsv(i, 100, 100)
+                await self.bulb.update()
 
 
 async def main():

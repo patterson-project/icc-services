@@ -3,7 +3,6 @@ version: '3.7'
 services:
 
   bulb-controller:
-    privileged: true
     build:
       context: .
       dockerfile: Dockerfile
