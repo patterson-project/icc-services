@@ -12,8 +12,8 @@ interface ILightingDeviceSwitches {
 const LightingDeviceSwitchesStyle = {
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-evenly",
-  height: "120px",
+  justifyContent: "center",
+  height: "80px",
   backgroundColor: "#3B3B3B",
   width: "320px",
   paddingLeft: "10px",
@@ -27,18 +27,14 @@ const gridItemStyle = {
   justifyContent: "center",
 };
 
-const singleSwitchItemStyle = {
+const switchLabelStyle = {
+  fontSize: "15px",
   display: "flex",
   alignItems: "center",
-  justifyContent: "start",
-  paddingLeft: "25px",
+  justifyContent: "center",
 };
 
-const switchLabelStyle = {
-  fontSize: "20px",
-};
-
-const switchStyle = {
+const formControlLabelStyle = {
   color: "white",
   display: "flex",
   alignItems: "center",
@@ -53,10 +49,10 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
   };
   return (
     <Box style={LightingDeviceSwitchesStyle}>
-      <Grid container columnSpacing={2} rowSpacing={2}>
-        <Grid item xs={6} style={gridItemStyle}>
+      <Grid container rowSpacing={1.5}>
+        <Grid item xs={4} style={gridItemStyle}>
           <FormControlLabel
-            style={switchStyle}
+            style={formControlLabelStyle}
             control={
               <Switch
                 onChange={(event) =>
@@ -65,11 +61,12 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
               />
             }
             label={getLabelSpan("Bulb One")}
+            labelPlacement="bottom"
           />
         </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
+        <Grid item xs={4} style={gridItemStyle}>
           <FormControlLabel
-            style={switchStyle}
+            style={formControlLabelStyle}
             control={
               <Switch
                 onChange={(event) =>
@@ -78,11 +75,12 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
               />
             }
             label={getLabelSpan("Bulb Two")}
+            labelPlacement="bottom"
           />
         </Grid>
-        <Grid item xs={6} style={singleSwitchItemStyle}>
+        <Grid item xs={4} style={gridItemStyle}>
           <FormControlLabel
-            style={switchStyle}
+            style={formControlLabelStyle}
             control={
               <Switch
                 onChange={(event) =>
@@ -91,6 +89,7 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
               />
             }
             label={getLabelSpan("Strip")}
+            labelPlacement="bottom"
           />
         </Grid>
       </Grid>
