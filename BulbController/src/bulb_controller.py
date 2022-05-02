@@ -77,6 +77,7 @@ class BulbController:
 async def main():
     bulb_1 = BulbController()
     await bulb_1.create_bulb("10.0.0.86", "bulb-1")
+    print("Initialization completed successfully.")
 
     while True:
         await bulb_1.async_mqtt()
