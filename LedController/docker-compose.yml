@@ -3,7 +3,6 @@ version: '3.7'
 services:
 
   led-controller:
-    container_name: led-controller
     privileged: true
     build:
       context: .

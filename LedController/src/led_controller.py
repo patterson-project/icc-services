@@ -1,11 +1,11 @@
-import json
+from colorsys import hsv_to_rgb
+from json import loads
 from kasa import SmartBulb
+from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
-from multiprocessing import Process
-from utils import LedRequest, LedConfig, log
 from sequences import LedStripSequence
-import colorsys
+from utils import LedRequest, LedConfig, log
 
 
 class LedController:
@@ -50,7 +50,7 @@ class LedController:
             self.sequence_process = None
 
     def on_message(self, client, userdata, message) -> None:
-        led_request = LedRequest(**json.loads(message.payload))
+        led_request = LedRequest(**loads(message.payload))
         log(message.topic, str(led_request.__dict__))
 
         self.request = led_request
@@ -78,7 +78,7 @@ class LedController:
 
         r, g, b = tuple(
             round(i * 255)
-            for i in colorsys.hsv_to_rgb(
+            for i in hsv_to_rgb(
                 self.request.h / 360, self.request.s / 100, self.request.v / 100
             )
         )
