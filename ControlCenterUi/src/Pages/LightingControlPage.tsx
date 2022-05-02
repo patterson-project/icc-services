@@ -10,6 +10,7 @@ import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import { BrightnessRequest, RainbowRequest } from "../types";
+import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
 
 const colorSelectPageStyle = {
   height: "100%",
@@ -47,6 +48,9 @@ const iconStyle = {
 
 const ColorSelectPage: FC = () => {
   const [sequenceDelay, setSequenceDelay] = useState<number>(50);
+  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(true);
+  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(true);
+  const [ledStripTarget, setLedStripTarget] = useState<boolean>(true);
 
   const rainbowButtonOnClick = () => {
     const rainbowRequest: RainbowRequest = {
@@ -108,6 +112,13 @@ const ColorSelectPage: FC = () => {
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <ColorSelectionTab />
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <LightingDeviceSwitches
+            setBulbOneTarget={setBulbOneTarget}
+            setBulbTwoTarget={setBulbTwoTarget}
+            setLedStripTarget={setLedStripTarget}
+          />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <Slider
