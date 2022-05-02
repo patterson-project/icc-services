@@ -4,12 +4,14 @@ from kasa import SmartBulb
 from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
-from sequences import LedStripSequence
-from utils import LightingRequest, LedConfig, log
+from led_strip_sequence import LedStripSequence
+from utils import LightingRequest, LedStripConfig, log
 
 
-class LedController:
-    def __init__(self):
+class LedStripController:
+    BROKER_ADDRESS = "10.0.0.35"
+
+    def __init__(self) -> None:
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
         self.sequence: LedStripSequence = LedStripSequence()
@@ -25,20 +27,20 @@ class LedController:
 
     def led_strip_init(self) -> Adafruit_NeoPixel:
         strip = Adafruit_NeoPixel(
-            LedConfig.COUNT,
-            LedConfig.PIN,
-            LedConfig.FREQ_HZ,
-            LedConfig.DMA,
-            LedConfig.INVERT,
-            LedConfig.BRIGHTNESS,
-            LedConfig.CHANNEL,
+            LedStripConfig.COUNT,
+            LedStripConfig.PIN,
+            LedStripConfig.FREQ_HZ,
+            LedStripConfig.DMA,
+            LedStripConfig.INVERT,
+            LedStripConfig.BRIGHTNESS,
+            LedStripConfig.CHANNEL,
         )
         strip.begin()
         return strip
 
     def mqtt_init(self) -> Client:
         client = Client("led-controller", clean_session=False)
-        client.connect(LedConfig.BROKER_ADDRESS)
+        client.connect(self.BROKER_ADDRESS)
         client.on_message = self.on_message
         client.subscribe("home/lighting/led-strip")
         return client
@@ -50,11 +52,11 @@ class LedController:
             self.sequence_process = None
 
     def on_message(self, client, userdata, message) -> None:
-        led_request = LightingRequest(**json.loads(message.payload))
-        log(message.topic, str(led_request.__dict__))
+        lighting_request = LightingRequest(**loads(message.payload))
+        log(message.topic, str(lighting_request.__dict__))
 
-        self.request = led_request
-        self.operation_callback_by_name[led_request.operation]()
+        self.request = lighting_request
+        self.operation_callback_by_name[lighting_request.operation]()
 
     def brightness(self):
         if self.sequence_process is None:
@@ -106,7 +108,7 @@ class LedController:
 
 
 if __name__ == "__main__":
-    led_controller = LedController()
+    led_controller = LedStripController()
     print("Initialization completed successfully.")
 
     try:

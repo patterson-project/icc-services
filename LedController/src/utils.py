@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class LedConfig:
+class LedStripConfig:
     COUNT = 100
     PIN = 18
     FREQ_HZ = 800000
@@ -9,7 +9,6 @@ class LedConfig:
     BRIGHTNESS = 255
     INVERT = False
     CHANNEL = 0
-    BROKER_ADDRESS = "10.0.0.35"
 
 
 class LightingRequest:
