@@ -7,7 +7,7 @@ def log(message):
     print(message)
 
 
-class LedRequest:
+class LightingRequest:
     def __init__(
         self,
         operation: str,

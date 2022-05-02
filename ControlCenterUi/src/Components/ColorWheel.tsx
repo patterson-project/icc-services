@@ -42,7 +42,7 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
       h: hue,
     };
 
-    fetch(config.LIGHTING_API_URL, {
+    fetch(config.LED_STRIP_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
       operation: "off",
     };
 
-    fetch(config.LIGHTING_API_URL, {
+    fetch(config.LED_STRIP_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

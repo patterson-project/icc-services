@@ -5,7 +5,7 @@ from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
 from sequences import LedStripSequence
-from utils import LedRequest, LedConfig, log
+from utils import LightingRequest, LedConfig, log
 
 
 class LedController:
@@ -14,7 +14,7 @@ class LedController:
         self.client: Client = self.mqtt_init()
         self.sequence: LedStripSequence = LedStripSequence()
         self.sequence_process: Process = None
-        self.request: LedRequest = None
+        self.request: LightingRequest = None
         self.operation_callback_by_name = {
             "off": self.off,
             "hsv": self.hsv,
@@ -40,7 +40,7 @@ class LedController:
         client = Client("led-controller", clean_session=False)
         client.connect(LedConfig.BROKER_ADDRESS)
         client.on_message = self.on_message
-        client.subscribe("home/lighting")
+        client.subscribe("home/lighting/led-strip")
         return client
 
     def terminate_process(self) -> None:
@@ -50,7 +50,7 @@ class LedController:
             self.sequence_process = None
 
     def on_message(self, client, userdata, message) -> None:
-        led_request = LedRequest(**loads(message.payload))
+        led_request = LightingRequest(**json.loads(message.payload))
         log(message.topic, str(led_request.__dict__))
 
         self.request = led_request

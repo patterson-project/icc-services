@@ -12,7 +12,7 @@ const colorPickerBoxStyle = {
   alignItems: "top",
   justifyContent: "center",
   width: "340px",
-  height: "410px",
+  height: "390px",
   backgroundColor: "#3B3B3B",
   borderRadius: "10px",
 };
