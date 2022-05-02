@@ -6,7 +6,7 @@ class LightingRequest:
         self,
         operation: str,
         h: int = 0,
-        s: int = 101,
+        s: int = 100,
         v: int = 50,
         brightness: int = None,
         delay: int = None,
