@@ -11,5 +11,5 @@ RUN pip3 install asyncio-mqtt python-kasa
 
 COPY src/*.py ./
 
-EXPOSE 1883 9999
+EXPOSE 1883
 CMD [ "python", "-u", "bulb_controller.py"] 
