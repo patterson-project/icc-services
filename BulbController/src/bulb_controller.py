@@ -56,7 +56,9 @@ class BulbController:
 
     async def hsv(self):
         self.terminate_task()
-        await self.bulb.set_hsv(self.request.h, self.request.s, self.request.v)
+        await self.bulb.set_hsv(
+            int(self.request.h), int(self.request.s), int(self.request.v)
+        )
         await self.bulb.update()
 
     async def brightness(self):
