@@ -3,7 +3,7 @@ from asyncio_mqtt import Client
 from contextlib import AsyncExitStack
 from json import loads
 from kasa import SmartBulb
-from utils import log, LightingRequest
+from utils import log, BulbRequest
 
 
 class BulbController:
@@ -14,7 +14,7 @@ class BulbController:
         self.topic: str = topic
         self.bulb: SmartBulb = await self.bulb_init()
         self.sequence_task: asyncio.Task = None
-        self.request: LightingRequest = None
+        self.request: BulbRequest = None
         self.operation_callback_by_name = {
             "hsv": self.hsv,
             "brightness": self.brightness,
@@ -48,7 +48,7 @@ class BulbController:
 
     async def message_callbacks(self, messages):
         async for message in messages:
-            lighting_request = LightingRequest(**loads(message.payload))
+            lighting_request = BulbRequest(**loads(message.payload))
             log(message.topic, str(lighting_request.__dict__))
 
             self.request = lighting_request
@@ -62,6 +62,7 @@ class BulbController:
         await self.bulb.update()
 
     async def brightness(self):
+        self.terminate_task()
         await self.bulb.set_brightness(self.request.brightness)
         await self.bulb.update()
 

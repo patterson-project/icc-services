@@ -4,7 +4,7 @@ from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
 from time import time
-from utils import LightingRequest, LedStripConfig, log, wheel
+from utils import LedStripRequest, LedStripConfig, log, wheel
 
 
 class LedStripController:
@@ -14,7 +14,7 @@ class LedStripController:
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
         self.sequence_process: Process = None
-        self.request: LightingRequest = None
+        self.request: LedStripRequest = None
         self.operation_callback_by_name = {
             "off": self.off,
             "hsv": self.hsv,
@@ -50,7 +50,7 @@ class LedStripController:
             self.sequence_process = None
 
     def on_message(self, client, userdata, message) -> None:
-        lighting_request = LightingRequest(**loads(message.payload))
+        lighting_request = LedStripRequest(**loads(message.payload))
         log(message.topic, str(lighting_request.__dict__))
 
         self.request = lighting_request
@@ -100,7 +100,7 @@ class LedStripController:
                 for i in range(self.strip.numPixels()):
                     self.strip.setPixelColor(i, wheel((i + j) & 255))
                 self.strip.show()
-                time.sleep(self.request.delay / 1000.0)
+                time.sleep(0.05)
 
     def rainbow_cycle(self):
         self.terminate_process()
@@ -116,7 +116,7 @@ class LedStripController:
                         i, wheel((int(i * 256 / self.strip.numPixels()) + j) & 255)
                     )
                 self.strip.show()
-                time.sleep(self.delay / 1000.0)
+                time.sleep(0.05)
 
 
 if __name__ == "__main__":

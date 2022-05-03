@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class LightingRequest:
+class BulbRequest:
     def __init__(
         self,
         operation: str,
@@ -9,14 +9,14 @@ class LightingRequest:
         s: int = 100,
         v: int = 50,
         brightness: int = None,
-        delay: int = None,
+        temperature: int = None,
     ):
         self.operation = operation
         self.brightness = brightness
         self.h = h
         self.s = s
         self.v = v
-        self.delay = delay
+        self.temperature = temperature
 
 
 def log(topic, message):

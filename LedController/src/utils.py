@@ -2,7 +2,7 @@ from datetime import datetime
 from rpi_ws281x import Color
 
 
-def wheel(self, pos) -> None:
+def wheel(pos) -> None:
     if pos < 85:
         return Color(pos * 3, 255 - pos * 3, 0)
     elif pos < 170:
@@ -23,7 +23,7 @@ class LedStripConfig:
     CHANNEL = 0
 
 
-class LightingRequest:
+class LedStripRequest:
     def __init__(
         self,
         operation: str,
@@ -31,14 +31,12 @@ class LightingRequest:
         s: int = 100,
         v: int = 50,
         brightness: int = None,
-        delay: int = None,
     ):
         self.operation = operation
         self.brightness = brightness
         self.h = h
         self.s = s
         self.v = v
-        self.delay = delay
 
 
 def log(topic, message):
