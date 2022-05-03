@@ -9,7 +9,7 @@ import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
-import { BrightnessRequest, RainbowRequest } from "../types";
+import { BrightnessRequest, LightingRequest } from "../types";
 import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
 
 const colorSelectPageStyle = {
@@ -53,9 +53,8 @@ const ColorSelectPage: FC = () => {
   const [ledStripTarget, setLedStripTarget] = useState<boolean>(true);
 
   const rainbowButtonOnClick = () => {
-    const rainbowRequest: RainbowRequest = {
+    const rainbowRequest: LightingRequest = {
       operation: "rainbow",
-      delay: sequenceDelay,
     };
 
     fetch(config.LED_STRIP_ENDPOINT, {
@@ -70,9 +69,8 @@ const ColorSelectPage: FC = () => {
   };
 
   const rainbowCycleButtonOnClick = () => {
-    const rainbowRequest: RainbowRequest = {
+    const rainbowCycleRequest: LightingRequest = {
       operation: "rainbow_cycle",
-      delay: sequenceDelay,
     };
 
     fetch(config.LED_STRIP_ENDPOINT, {
@@ -80,7 +78,7 @@ const ColorSelectPage: FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(rainbowRequest),
+      body: JSON.stringify(rainbowCycleRequest),
     }).catch((error) => {
       console.log("ERROR", error);
     });
@@ -90,7 +88,6 @@ const ColorSelectPage: FC = () => {
     const brightnessRequest: BrightnessRequest = {
       operation: "brightness",
       brightness: value,
-      delay: sequenceDelay,
     };
 
     fetch(config.LED_STRIP_ENDPOINT, {
