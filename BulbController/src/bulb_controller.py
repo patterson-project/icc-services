@@ -49,6 +49,7 @@ class BulbController:
 
     async def message_callbacks(self, messages):
         async for message in messages:
+            await self.bulb.update()
             lighting_request = BulbRequest(**loads(message.payload))
             log(message.topic, str(lighting_request.__dict__))
 
