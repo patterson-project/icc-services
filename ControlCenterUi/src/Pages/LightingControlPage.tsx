@@ -41,9 +41,15 @@ const titleStyle = {
   fontWeight: "bold",
 };
 
-const iconStyle = {
+const leftIconStyle = {
   color: "white",
   fontSize: "medium",
+  marginLeft: "15px",
+};
+const rightIconStyle = {
+  color: "white",
+  fontSize: "medium",
+  marginRight: "15px",
 };
 
 const ColorSelectPage: FC = () => {
@@ -124,8 +130,8 @@ const ColorSelectPage: FC = () => {
             step={10}
             defaultValue={100}
             onChange={onChangeBrightness}
-            startIcon={<BrightnessLowIcon style={iconStyle} />}
-            endIcon={<BrightnessHighIcon style={iconStyle} />}
+            startIcon={<BrightnessLowIcon style={leftIconStyle} />}
+            endIcon={<BrightnessHighIcon style={rightIconStyle} />}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
@@ -135,8 +141,8 @@ const ColorSelectPage: FC = () => {
             step={5}
             defaultValue={sequenceDelay}
             onChange={setSequenceDelay}
-            startIcon={<AccessTimeIcon style={iconStyle} />}
-            endIcon={<MoreTimeIcon style={iconStyle} />}
+            startIcon={<AccessTimeIcon style={leftIconStyle} />}
+            endIcon={<MoreTimeIcon style={rightIconStyle} />}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>

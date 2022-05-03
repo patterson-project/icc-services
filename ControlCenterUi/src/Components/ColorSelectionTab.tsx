@@ -11,18 +11,21 @@ const colorPickerBoxStyle = {
   display: "flex",
   alignItems: "top",
   justifyContent: "center",
-  width: "340px",
+  width: "90%",
   height: "390px",
   backgroundColor: "#3B3B3B",
   borderRadius: "10px",
 };
 
 const colorSelectionTabsStyle = {
-  width: "340px",
+  width: "100%",
+  borderRadius: "10px",
 };
 
-const colorSelectionTabsGridStyle = {
-  borderRadius: "10px",
+const gridItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 interface TabPanelProps {
@@ -64,7 +67,7 @@ const ColorSelectionTab: FC = () => {
   const [value, setValue] = useState(0);
   const [modifyingColor, setModifyingColor] = useState(false);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -75,7 +78,7 @@ const ColorSelectionTab: FC = () => {
   return (
     <Box style={colorPickerBoxStyle}>
       <Grid container>
-        <Grid style={colorSelectionTabsGridStyle} item xs={12}>
+        <Grid item xs={12}>
           <Tabs
             style={colorSelectionTabsStyle}
             value={value}
@@ -86,7 +89,7 @@ const ColorSelectionTab: FC = () => {
             <Tab label="Wheel" {...a11yProps(1)} />
           </Tabs>
         </Grid>
-        <Grid item xs={12}>
+        <Grid style={gridItemStyle} item xs={12}>
           <SwipeableViews
             axis={theme.direction === "rtl" ? "x-reverse" : "x"}
             index={value}

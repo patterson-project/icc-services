@@ -15,9 +15,7 @@ const LightingDeviceSwitchesStyle = {
   justifyContent: "center",
   height: "80px",
   backgroundColor: "#3B3B3B",
-  width: "320px",
-  paddingLeft: "10px",
-  paddingRight: "10px",
+  width: "90%",
   borderRadius: "10px",
 };
 

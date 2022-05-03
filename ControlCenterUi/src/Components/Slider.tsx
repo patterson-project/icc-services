@@ -17,9 +17,7 @@ const brightnessBoxSliderStyle = {
   justifyContent: "center",
   height: "50px",
   backgroundColor: "#3B3B3B",
-  width: "320px",
-  paddingLeft: "10px",
-  paddingRight: "10px",
+  width: "90%",
   borderRadius: "10px",
 };
 
