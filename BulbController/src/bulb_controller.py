@@ -2,7 +2,7 @@ import asyncio
 from asyncio_mqtt import Client
 from contextlib import AsyncExitStack
 from json import loads
-from kasa import SmartBulb
+from kasa import SmartBulb, SmartDeviceException
 from utils import log, BulbRequest
 
 
@@ -97,7 +97,11 @@ async def main():
     print("Initialization completed successfully.")
 
     while True:
-        await bulb_1.async_mqtt()
+        try:
+            await bulb_1.async_mqtt()
+        except SmartDeviceException:
+            bulb_1 = BulbController()
+            await bulb_1.create_bulb("10.0.0.86", "bulb-1")
 
 
 if __name__ == "__main__":
