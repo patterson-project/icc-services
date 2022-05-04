@@ -9,9 +9,9 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/home/pi/led-control-center/LedController
-ExecStart=/home/pi/led-control-center/LedController/ShellScripts/start.sh
-ExecStop=/home/pi/led-control-center/LedController/ShellScripts/stop.sh
+WorkingDirectory=/home/pi/iot-control-center/LedController
+ExecStart=/home/pi/iot-control-center/LedController/ShellScripts/start.sh
+ExecStop=/home/pi/iot-control-center/LedController/ShellScripts/stop.sh
 TimeoutStartSec=0
 
 [Install]

@@ -9,7 +9,8 @@ import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
-import { BrightnessRequest, RainbowRequest } from "../types";
+import { BrightnessRequest, LightingRequest } from "../types";
+import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
 
 const colorSelectPageStyle = {
   height: "100%",
@@ -40,64 +41,148 @@ const titleStyle = {
   fontWeight: "bold",
 };
 
-const iconStyle = {
+const leftIconStyle = {
   color: "white",
   fontSize: "medium",
+  marginLeft: "15px",
+};
+const rightIconStyle = {
+  color: "white",
+  fontSize: "medium",
+  marginRight: "15px",
 };
 
 const ColorSelectPage: FC = () => {
   const [sequenceDelay, setSequenceDelay] = useState<number>(50);
+  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
+  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
+  const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
 
   const rainbowButtonOnClick = () => {
-    const rainbowRequest: RainbowRequest = {
+    const rainbowRequest: LightingRequest = {
       operation: "rainbow",
-      delay: sequenceDelay,
     };
 
-    fetch(config.LIGHTING_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(rainbowRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   };
 
   const rainbowCycleButtonOnClick = () => {
-    const rainbowRequest: RainbowRequest = {
+    const rainbowCycleRequest: LightingRequest = {
       operation: "rainbow_cycle",
-      delay: sequenceDelay,
     };
 
-    fetch(config.LIGHTING_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(rainbowRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowCycleRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowCycleRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowCycleRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   };
 
   const onChangeBrightness = (value: number) => {
     const brightnessRequest: BrightnessRequest = {
       operation: "brightness",
       brightness: value,
-      delay: sequenceDelay,
     };
 
-    fetch(config.LIGHTING_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(brightnessRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(brightnessRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(brightnessRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(brightnessRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   };
 
   return (
@@ -107,7 +192,18 @@ const ColorSelectPage: FC = () => {
           <Typography style={titleStyle}>Led Control</Typography>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <ColorSelectionTab />
+          <ColorSelectionTab
+            ledStripTarget={ledStripTarget}
+            bulbOneTarget={bulbOneTarget}
+            bulbTwoTarget={bulbTwoTarget}
+          />
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <LightingDeviceSwitches
+            setBulbOneTarget={setBulbOneTarget}
+            setBulbTwoTarget={setBulbTwoTarget}
+            setLedStripTarget={setLedStripTarget}
+          />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <Slider
@@ -116,8 +212,8 @@ const ColorSelectPage: FC = () => {
             step={10}
             defaultValue={100}
             onChange={onChangeBrightness}
-            startIcon={<BrightnessLowIcon style={iconStyle} />}
-            endIcon={<BrightnessHighIcon style={iconStyle} />}
+            startIcon={<BrightnessLowIcon style={leftIconStyle} />}
+            endIcon={<BrightnessHighIcon style={rightIconStyle} />}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
@@ -127,8 +223,8 @@ const ColorSelectPage: FC = () => {
             step={5}
             defaultValue={sequenceDelay}
             onChange={setSequenceDelay}
-            startIcon={<AccessTimeIcon style={iconStyle} />}
-            endIcon={<MoreTimeIcon style={iconStyle} />}
+            startIcon={<AccessTimeIcon style={leftIconStyle} />}
+            endIcon={<MoreTimeIcon style={rightIconStyle} />}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>

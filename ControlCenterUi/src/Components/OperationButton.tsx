@@ -13,7 +13,7 @@ const buttonStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "340px",
+  width: "90%",
   height: "50px",
   borderRadius: "10px",
   backgroundColor: "#3B3B3B",

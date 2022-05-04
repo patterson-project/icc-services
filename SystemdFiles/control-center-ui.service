@@ -9,9 +9,9 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/home/ubuntu/led-control-center/ControlCenterUi
-ExecStart=/home/ubuntu/led-control-center/ControlCenterUi/ShellScripts/start.sh
-ExecStop=/home/ubuntu/led-control-center/ControlCenterUi/ShellScripts/stop.sh
+WorkingDirectory=/home/ubuntu/iot-control-center/ControlCenterUi
+ExecStart=/home/ubuntu/iot-control-center/ControlCenterUi/ShellScripts/start.sh
+ExecStop=/home/ubuntu/iot-control-center/ControlCenterUi/ShellScripts/stop.sh
 TimeoutStartSec=0
 
 [Install]

@@ -7,9 +7,10 @@ LABEL Maintainer="canadrian72"
 
 WORKDIR /app
 
-RUN pip3 install flask requests paho-mqtt flask-cors
+RUN pip3 install asyncio-mqtt python-kasa
 
 COPY src/*.py ./
 
-EXPOSE 8000
-CMD [ "python", "-u", "api.py"]
+EXPOSE 1883 9999
+
+CMD [ "python", "-u", "bulb_controller.py"] 

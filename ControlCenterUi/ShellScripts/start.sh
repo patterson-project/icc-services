@@ -1,6 +1,6 @@
 #!/bin/bash
-cd /home/ubuntu/led-control-center
+cd /home/ubuntu/iot-control-center
 git pull origin master
 
-cd /home/ubuntu/led-control-center/ControlCenterUi
+cd /home/ubuntu/iot-control-center/ControlCenterUi
 docker-compose up --build -d

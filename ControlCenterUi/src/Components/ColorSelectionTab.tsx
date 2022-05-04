@@ -7,32 +7,41 @@ import ColorWheel from "./ColorWheel";
 import ColorPicker from "./ColorPicker";
 import SwipeableViews from "react-swipeable-views";
 
+interface IColorSelectionTab {
+  ledStripTarget: boolean;
+  bulbOneTarget: boolean;
+  bulbTwoTarget: boolean;
+}
+
 const colorPickerBoxStyle = {
   display: "flex",
   alignItems: "top",
   justifyContent: "center",
-  width: "340px",
-  height: "410px",
+  width: "90%",
+  height: "390px",
   backgroundColor: "#3B3B3B",
   borderRadius: "10px",
 };
 
 const colorSelectionTabsStyle = {
-  width: "340px",
-};
-
-const colorSelectionTabsGridStyle = {
+  width: "100%",
   borderRadius: "10px",
 };
 
-interface TabPanelProps {
+const gridItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+interface ITabPanel {
   children?: React.ReactNode;
   dir?: string;
   index: number;
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanel) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -59,12 +68,12 @@ function a11yProps(index: number) {
   };
 }
 
-const ColorSelectionTab: FC = () => {
+const ColorSelectionTab: FC<IColorSelectionTab> = (props): JSX.Element => {
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const [modifyingColor, setModifyingColor] = useState(false);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -75,7 +84,7 @@ const ColorSelectionTab: FC = () => {
   return (
     <Box style={colorPickerBoxStyle}>
       <Grid container>
-        <Grid style={colorSelectionTabsGridStyle} item xs={12}>
+        <Grid item xs={12}>
           <Tabs
             style={colorSelectionTabsStyle}
             value={value}
@@ -86,7 +95,7 @@ const ColorSelectionTab: FC = () => {
             <Tab label="Wheel" {...a11yProps(1)} />
           </Tabs>
         </Grid>
-        <Grid item xs={12}>
+        <Grid style={gridItemStyle} item xs={12}>
           <SwipeableViews
             axis={theme.direction === "rtl" ? "x-reverse" : "x"}
             index={value}
@@ -94,10 +103,20 @@ const ColorSelectionTab: FC = () => {
             disabled={modifyingColor}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              <ColorPicker setModifyingColor={setModifyingColor} />
+              <ColorPicker
+                ledStripTarget={props.ledStripTarget}
+                bulbOneTarget={props.bulbOneTarget}
+                bulbTwoTarget={props.bulbTwoTarget}
+                setModifyingColor={setModifyingColor}
+              />
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              <ColorWheel setModifyingColor={setModifyingColor} />
+              <ColorWheel
+                ledStripTarget={props.ledStripTarget}
+                bulbOneTarget={props.bulbOneTarget}
+                bulbTwoTarget={props.bulbTwoTarget}
+                setModifyingColor={setModifyingColor}
+              />
             </TabPanel>
           </SwipeableViews>
         </Grid>

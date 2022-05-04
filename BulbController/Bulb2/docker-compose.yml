@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+
+  bulb-controller:
+    build:
+      context: ../
+      dockerfile: $PWD/Dockerfile
+    ports:
+      - 1883
+      - 9999
+    environment:
+      - BULB_IP=10.0.0.37
+      - BULB_TOPIC=bulb-2
