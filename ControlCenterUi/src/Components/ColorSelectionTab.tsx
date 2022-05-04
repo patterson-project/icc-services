@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import ColorWheel from "./ColorWheel";
-import ColorPicker from "./ColorPicker";
+import ColorChart from "./ColorChart";
 import SwipeableViews from "react-swipeable-views";
 
 interface IColorSelectionTab {
@@ -26,12 +26,17 @@ const colorPickerBoxStyle = {
 const colorSelectionTabsStyle = {
   width: "100%",
   borderRadius: "10px",
+  color: "#424242",
 };
 
 const gridItemStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+};
+
+const tabLabelStyle = {
+  fontSize: "16px",
 };
 
 interface ITabPanel {
@@ -90,9 +95,20 @@ const ColorSelectionTab: FC<IColorSelectionTab> = (props): JSX.Element => {
             value={value}
             onChange={handleChange}
             variant="fullWidth"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "#FFFFFF",
+              },
+            }}
           >
-            <Tab label="Chart" {...a11yProps(0)} />
-            <Tab label="Wheel" {...a11yProps(1)} />
+            <Tab
+              label={<span style={tabLabelStyle}>Chart</span>}
+              {...a11yProps(0)}
+            />
+            <Tab
+              label={<span style={tabLabelStyle}>Wheel</span>}
+              {...a11yProps(1)}
+            />
           </Tabs>
         </Grid>
         <Grid style={gridItemStyle} item xs={12}>
@@ -103,7 +119,7 @@ const ColorSelectionTab: FC<IColorSelectionTab> = (props): JSX.Element => {
             disabled={modifyingColor}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              <ColorPicker
+              <ColorChart
                 ledStripTarget={props.ledStripTarget}
                 bulbOneTarget={props.bulbOneTarget}
                 bulbTwoTarget={props.bulbTwoTarget}

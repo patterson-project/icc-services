@@ -13,4 +13,19 @@ const useDidMountEffect = (
   }, deps);
 };
 
-export default useDidMountEffect;
+const post = (url: string, body: any) => {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
+};
+export { useDidMountEffect, post };

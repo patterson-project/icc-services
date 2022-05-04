@@ -11,6 +11,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import { BrightnessRequest, LightingRequest } from "../types";
 import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
+import { post } from "../utils";
 
 const colorSelectPageStyle = {
   height: "100%",
@@ -64,39 +65,15 @@ const ColorSelectPage: FC = () => {
     };
 
     if (ledStripTarget) {
-      fetch(config.LED_STRIP_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rainbowRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.LED_STRIP_ENDPOINT, rainbowRequest);
     }
 
     if (bulbOneTarget) {
-      fetch(config.BULB_1_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rainbowRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_1_ENDPOINT, rainbowRequest);
     }
 
     if (bulbTwoTarget) {
-      fetch(config.BULB_2_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rainbowRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_2_ENDPOINT, rainbowRequest);
     }
   };
 
@@ -106,39 +83,15 @@ const ColorSelectPage: FC = () => {
     };
 
     if (ledStripTarget) {
-      fetch(config.LED_STRIP_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rainbowCycleRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.LED_STRIP_ENDPOINT, rainbowCycleRequest);
     }
 
     if (bulbOneTarget) {
-      fetch(config.BULB_1_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rainbowCycleRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_1_ENDPOINT, rainbowCycleRequest);
     }
 
     if (bulbTwoTarget) {
-      fetch(config.BULB_2_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rainbowCycleRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_2_ENDPOINT, rainbowCycleRequest);
     }
   };
 
@@ -149,39 +102,15 @@ const ColorSelectPage: FC = () => {
     };
 
     if (ledStripTarget) {
-      fetch(config.LED_STRIP_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(brightnessRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.LED_STRIP_ENDPOINT, brightnessRequest);
     }
 
     if (bulbOneTarget) {
-      fetch(config.BULB_1_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(brightnessRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_1_ENDPOINT, brightnessRequest);
     }
 
     if (bulbTwoTarget) {
-      fetch(config.BULB_2_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(brightnessRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_2_ENDPOINT, brightnessRequest);
     }
   };
 

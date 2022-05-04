@@ -4,11 +4,11 @@ from paho.mqtt.client import Client
 from utils import BulbRequest, LedStripRequest
 import json
 
-app = Flask("__main__")
+app: Flask = Flask("__main__")
 CORS(app)
 
-BROKER_ADDRESS = "10.0.0.35"
-BROKER_PORT = 1883
+BROKER_ADDRESS: str = "10.0.0.35"
+BROKER_PORT: str = 1883
 
 
 @app.route("/")

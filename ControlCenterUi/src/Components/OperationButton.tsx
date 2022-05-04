@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Button from "@mui/material/Button";
 
-interface OperationButtonProps {
+interface IOperationButton {
   operationName: string;
   onClick(): void;
   icon: JSX.Element;
@@ -19,7 +19,7 @@ const buttonStyle = {
   backgroundColor: "#3B3B3B",
 };
 
-const OperationButton: FC<OperationButtonProps> = (props): JSX.Element => {
+const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
   return (
     <Button
       style={buttonStyle}

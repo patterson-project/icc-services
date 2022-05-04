@@ -1,7 +1,7 @@
 import { Box, Grid, Slider as MuiSlider } from "@mui/material";
 import React, { FC } from "react";
 
-interface SliderProps {
+interface ISlider {
   onChange(value: number): void;
   startIcon: JSX.Element;
   endIcon: JSX.Element;
@@ -27,7 +27,7 @@ const gridItemStyle = {
   justifyContent: "center",
 };
 
-const Slider: FC<SliderProps> = (props): JSX.Element => {
+const Slider: FC<ISlider> = (props): JSX.Element => {
   return (
     <Box style={brightnessBoxSliderStyle}>
       <Grid container spacing={2}>

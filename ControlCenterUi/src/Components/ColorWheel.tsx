@@ -10,10 +10,10 @@ import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css"
 import config from "../config";
 import { Box } from "@mui/material";
 import { HsvRequest, LightingRequest } from "../types";
-import useDidMountEffect from "../utils";
+import { post, useDidMountEffect } from "../utils";
 import debounce from "lodash.debounce";
 
-interface ColorWheelProps {
+interface IColorWheel {
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
   ledStripTarget: boolean;
   bulbOneTarget: boolean;
@@ -30,7 +30,7 @@ const colorWheelStyle = {
   paddingTop: "20px",
 };
 
-const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
+const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
   const [hue, setHue] = useState<number>(0);
 
   const changeHue = (hue: number) => {
@@ -46,39 +46,15 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
     };
 
     if (props.ledStripTarget) {
-      fetch(config.LED_STRIP_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(hsvRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.LED_STRIP_ENDPOINT, hsvRequest);
     }
 
     if (props.bulbOneTarget) {
-      fetch(config.BULB_1_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(hsvRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_1_ENDPOINT, hsvRequest);
     }
 
     if (props.bulbTwoTarget) {
-      fetch(config.BULB_2_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(hsvRequest),
-      }).catch((error) => {
-        console.log("ERROR", error);
-      });
+      post(config.BULB_2_ENDPOINT, hsvRequest);
     }
   }, [hue]);
 
@@ -87,15 +63,9 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
       operation: "off",
     };
 
-    fetch(config.LED_STRIP_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(offRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    post(config.LED_STRIP_ENDPOINT, offRequest);
+    post(config.BULB_1_ENDPOINT, offRequest);
+    post(config.BULB_2_ENDPOINT, offRequest);
   };
 
   const onTouchStart = () => {
