@@ -77,7 +77,7 @@ class BulbController:
             self.terminate_task()
             await self.bulb.set_brightness(self.request.brightness)
             await self.bulb.update()
-            self.operation_callback_by_name[last_sequence]()
+            await self.operation_callback_by_name[last_sequence]()
 
     async def rainbow(self):
         self.terminate_task()
