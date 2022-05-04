@@ -69,13 +69,20 @@ class BulbController:
         await self.bulb.update()
 
     async def brightness(self):
-        self.terminate_task()
-        await self.bulb.set_brightness(self.request.brightness)
-        await self.bulb.update()
+        if self.sequence_task is None:
+            await self.bulb.set_brightness(self.request.brightness)
+            await self.bulb.update()
+        else:
+            last_sequence = self.sequence_task.get_name()
+            self.terminate_task()
+            await self.bulb.set_brightness(self.request.brightness)
+            await self.bulb.update()
+            self.operation_callback_by_name[last_sequence]()
 
     async def rainbow(self):
         self.terminate_task()
         self.sequence_task = asyncio.create_task(self.rainbow_loop())
+        self.sequence_task.set_name("rainbow")
 
     async def rainbow_loop(self):
         while True:
