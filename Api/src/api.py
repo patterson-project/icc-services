@@ -1,7 +1,7 @@
 from flask import Flask, Response, request
 from flask_cors import CORS
 from paho.mqtt.client import Client
-from utils import BulbRequest, LedStripRequest, LightingRequest
+from utils import BulbRequest, LedStripRequest
 import json
 
 app = Flask("__main__")
