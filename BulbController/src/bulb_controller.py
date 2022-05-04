@@ -13,7 +13,7 @@ class BulbController:
     async def create_bulb(self, ip_address: str, topic: str) -> None:
         self.ip_address: str = ip_address
         self.topic: str = topic
-        self.bulb: SmartBulb = await self.bulb_init()
+        self.bulb: SmartBulb = None
         self.sequence_task: asyncio.Task = None
         self.request: BulbRequest = None
         self.operation_callback_by_name = {
@@ -25,9 +25,8 @@ class BulbController:
         }
 
     async def bulb_init(self) -> SmartBulb:
-        bulb = SmartBulb(self.ip_address)
-        await bulb.update()
-        return bulb
+        self.bulb = SmartBulb(self.ip_address)
+        await self.bulb.update()
 
     def terminate_task(self) -> None:
         if self.sequence_task is not None:
@@ -51,11 +50,11 @@ class BulbController:
 
     async def message_callbacks(self, messages):
         async for message in messages:
-            await self.bulb.update()
             lighting_request = BulbRequest(**loads(message.payload))
             log(message.topic, str(lighting_request.__dict__))
 
             self.request = lighting_request
+            await self.bulb_init()
             await self.operation_callback_by_name[lighting_request.operation]()
 
     async def off(self):
@@ -67,17 +66,14 @@ class BulbController:
         await self.bulb.set_hsv(
             int(self.request.h), int(self.request.s), int(self.request.v)
         )
-        await self.bulb.update()
 
     async def brightness(self):
         if self.sequence_task is None:
             await self.bulb.set_brightness(self.request.brightness)
-            await self.bulb.update()
         else:
             last_sequence = self.sequence_task.get_name()
             self.terminate_task()
             await self.bulb.set_brightness(self.request.brightness)
-            await self.bulb.update()
             await self.operation_callback_by_name[last_sequence]()
 
     async def rainbow(self):
@@ -89,7 +85,6 @@ class BulbController:
         while True:
             for i in range(359):
                 await self.bulb.set_hsv(i, 100, 100)
-                await self.bulb.update()
 
 
 async def main():
@@ -103,7 +98,7 @@ async def main():
         try:
             await bulb_controller.async_mqtt()
         except SmartDeviceException:
-            bulb_controller.bulb = bulb_controller.bulb_init()
+            await bulb_controller.bulb_init()
 
 
 if __name__ == "__main__":
