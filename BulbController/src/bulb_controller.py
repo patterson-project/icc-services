@@ -94,6 +94,10 @@ class BulbController:
 async def main():
     bulb_1 = BulbController()
     await bulb_1.create_bulb("10.0.0.86", "bulb-1")
+
+    bulb_2 = BulbController()
+    await bulb_2.create_bulb("10.0.0.37", "bulb-2")
+
     print("Initialization completed successfully.")
 
     while True:
@@ -102,6 +106,12 @@ async def main():
         except SmartDeviceException:
             bulb_1 = BulbController()
             await bulb_1.create_bulb("10.0.0.86", "bulb-1")
+
+        try:
+            await bulb_2.async_mqtt()
+        except SmartDeviceException:
+            bulb_2 = BulbController()
+            await bulb_2.create_bulb("10.0.0.37", "bulb-2")
 
 
 if __name__ == "__main__":
