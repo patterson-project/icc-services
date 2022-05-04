@@ -14,6 +14,7 @@ class BulbController:
         self.ip_address: str = ip_address
         self.topic: str = topic
         self.bulb: SmartBulb = None
+        self.bulb_init()
         self.sequence_task: asyncio.Task = None
         self.request: BulbRequest = None
         self.operation_callback_by_name = {
