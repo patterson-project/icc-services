@@ -1,4 +1,5 @@
 import asyncio
+import os
 from asyncio_mqtt import Client
 from contextlib import AsyncExitStack
 from json import loads
@@ -92,26 +93,17 @@ class BulbController:
 
 
 async def main():
-    # bulb_1 = BulbController()
-    # await bulb_1.create_bulb("10.0.0.86", "bulb-1")
-
-    bulb_2 = BulbController()
-    await bulb_2.create_bulb("10.0.0.37", "bulb-2")
+    bulb_controller = BulbController()
+    bulb_ip, bulb_topic = os.environ["BULB_IP"], os.environ["BULB_TOPIC"]
+    await bulb_controller.create_bulb(bulb_ip, bulb_topic)
 
     print("Initialization completed successfully.")
 
     while True:
-        # try:
-        #     await bulb_1.async_mqtt()
-        # except SmartDeviceException:
-        #     bulb_1 = BulbController()
-        #     await bulb_1.create_bulb("10.0.0.86", "bulb-1")
-
         try:
-            await bulb_2.async_mqtt()
+            await bulb_controller.async_mqtt()
         except SmartDeviceException:
-            bulb_2 = BulbController()
-            await bulb_2.create_bulb("10.0.0.37", "bulb-2")
+            bulb_controller.bulb = bulb_controller.bulb_init()
 
 
 if __name__ == "__main__":
