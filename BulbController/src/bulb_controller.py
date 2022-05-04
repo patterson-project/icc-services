@@ -57,7 +57,7 @@ class BulbController:
             log(message.topic, str(lighting_request.__dict__))
 
             self.request = lighting_request
-            await self.bulb_init()
+            await self.bulb.update()
             await self.operation_callback_by_name[lighting_request.operation]()
 
     async def off(self):
