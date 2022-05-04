@@ -54,24 +54,50 @@ const rightIconStyle = {
 
 const ColorSelectPage: FC = () => {
   const [sequenceDelay, setSequenceDelay] = useState<number>(50);
-  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(true);
-  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(true);
-  const [ledStripTarget, setLedStripTarget] = useState<boolean>(true);
+  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
+  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
+  const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
 
   const rainbowButtonOnClick = () => {
     const rainbowRequest: LightingRequest = {
       operation: "rainbow",
     };
 
-    fetch(config.LED_STRIP_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(rainbowRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   };
 
   const rainbowCycleButtonOnClick = () => {
@@ -79,15 +105,41 @@ const ColorSelectPage: FC = () => {
       operation: "rainbow_cycle",
     };
 
-    fetch(config.LED_STRIP_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(rainbowCycleRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowCycleRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowCycleRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rainbowCycleRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   };
 
   const onChangeBrightness = (value: number) => {
@@ -96,15 +148,41 @@ const ColorSelectPage: FC = () => {
       brightness: value,
     };
 
-    fetch(config.LED_STRIP_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(brightnessRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(brightnessRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(brightnessRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(brightnessRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   };
 
   return (
@@ -114,7 +192,11 @@ const ColorSelectPage: FC = () => {
           <Typography style={titleStyle}>Led Control</Typography>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
-          <ColorSelectionTab />
+          <ColorSelectionTab
+            ledStripTarget={ledStripTarget}
+            bulbOneTarget={bulbOneTarget}
+            bulbTwoTarget={bulbTwoTarget}
+          />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <LightingDeviceSwitches

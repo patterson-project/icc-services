@@ -7,6 +7,12 @@ import ColorWheel from "./ColorWheel";
 import ColorPicker from "./ColorPicker";
 import SwipeableViews from "react-swipeable-views";
 
+interface IColorSelectionTab {
+  ledStripTarget: boolean;
+  bulbOneTarget: boolean;
+  bulbTwoTarget: boolean;
+}
+
 const colorPickerBoxStyle = {
   display: "flex",
   alignItems: "top",
@@ -28,14 +34,14 @@ const gridItemStyle = {
   justifyContent: "center",
 };
 
-interface TabPanelProps {
+interface ITabPanel {
   children?: React.ReactNode;
   dir?: string;
   index: number;
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanel) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -62,7 +68,7 @@ function a11yProps(index: number) {
   };
 }
 
-const ColorSelectionTab: FC = () => {
+const ColorSelectionTab: FC<IColorSelectionTab> = (props): JSX.Element => {
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const [modifyingColor, setModifyingColor] = useState(false);
@@ -97,10 +103,20 @@ const ColorSelectionTab: FC = () => {
             disabled={modifyingColor}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              <ColorPicker setModifyingColor={setModifyingColor} />
+              <ColorPicker
+                ledStripTarget={props.ledStripTarget}
+                bulbOneTarget={props.bulbOneTarget}
+                bulbTwoTarget={props.bulbTwoTarget}
+                setModifyingColor={setModifyingColor}
+              />
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              <ColorWheel setModifyingColor={setModifyingColor} />
+              <ColorWheel
+                ledStripTarget={props.ledStripTarget}
+                bulbOneTarget={props.bulbOneTarget}
+                bulbTwoTarget={props.bulbTwoTarget}
+                setModifyingColor={setModifyingColor}
+              />
             </TabPanel>
           </SwipeableViews>
         </Grid>

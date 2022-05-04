@@ -15,6 +15,9 @@ import debounce from "lodash.debounce";
 
 interface ColorWheelProps {
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
+  ledStripTarget: boolean;
+  bulbOneTarget: boolean;
+  bulbTwoTarget: boolean;
 }
 
 const colorWheelStyle = {
@@ -37,20 +40,46 @@ const ColorWheel: FC<ColorWheelProps> = (props): JSX.Element => {
   const debounceHueChangeHandler = useCallback(debounce(changeHue, 30), []);
 
   useDidMountEffect(() => {
-    const hslaRequest: HsvRequest = {
+    const hsvRequest: HsvRequest = {
       operation: "hsv",
       h: hue,
     };
 
-    fetch(config.LED_STRIP_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(hslaRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (props.ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(hsvRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (props.bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(hsvRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (props.bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(hsvRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   }, [hue]);
 
   const onSelect = () => {

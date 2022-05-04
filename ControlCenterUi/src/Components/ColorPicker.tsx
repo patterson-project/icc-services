@@ -12,8 +12,11 @@ import { HsvRequest } from "../types";
 import useDidMountEffect from "../utils";
 import config from "../config";
 
-interface ColorPickerProps {
+interface IColorPicker {
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
+  ledStripTarget: boolean;
+  bulbOneTarget: boolean;
+  bulbTwoTarget: boolean;
 }
 
 const colorPickerBoxStyle = {
@@ -37,7 +40,7 @@ const defaultColor: HsvColor = {
   v: 0.2,
 };
 
-const ColorPicker: FC<ColorPickerProps> = (props) => {
+const ColorPicker: FC<IColorPicker> = (props) => {
   const [hsvColor, setHsvColor] = useState<HsvColor>(defaultColor);
 
   const changeColor = (newHsvColor: HsvColor) => {
@@ -65,15 +68,41 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
       v: hsvColor.v,
     };
 
-    fetch(config.LED_STRIP_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(hsvRequest),
-    }).catch((error) => {
-      console.log("ERROR", error);
-    });
+    if (props.ledStripTarget) {
+      fetch(config.LED_STRIP_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(hsvRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (props.bulbOneTarget) {
+      fetch(config.BULB_1_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(hsvRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
+
+    if (props.bulbTwoTarget) {
+      fetch(config.BULB_2_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(hsvRequest),
+      }).catch((error) => {
+        console.log("ERROR", error);
+      });
+    }
   }, [hsvColor]);
 
   return (
