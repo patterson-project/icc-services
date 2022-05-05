@@ -3,7 +3,7 @@ from json import loads
 from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
-from time import time
+from time import sleep
 from utils import LedStripRequest, LedStripConfig, log, wheel
 
 
@@ -100,7 +100,7 @@ class LedStripController:
                 for i in range(self.strip.numPixels()):
                     self.strip.setPixelColor(i, wheel((i + j) & 255))
                 self.strip.show()
-                time.sleep(0.05)
+                sleep(0.05)
 
     def rainbow_cycle(self):
         self.terminate_process()
@@ -116,7 +116,7 @@ class LedStripController:
                         i, wheel((int(i * 256 / self.strip.numPixels()) + j) & 255)
                     )
                 self.strip.show()
-                time.sleep(0.05)
+                sleep(0.05)
 
 
 if __name__ == "__main__":
