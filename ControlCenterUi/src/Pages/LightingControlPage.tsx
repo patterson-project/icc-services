@@ -8,6 +8,8 @@ import ColorSelectionTab from "../Components/ColorSelectionTab";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import { BrightnessRequest, LightingRequest } from "../types";
 import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
@@ -152,8 +154,8 @@ const ColorSelectPage: FC = () => {
             step={5}
             defaultValue={sequenceDelay}
             onChange={setSequenceDelay}
-            startIcon={<AccessTimeIcon style={leftIconStyle} />}
-            endIcon={<MoreTimeIcon style={rightIconStyle} />}
+            startIcon={<WbTwilightIcon style={leftIconStyle} />}
+            endIcon={<WbSunnyIcon style={rightIconStyle} />}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
