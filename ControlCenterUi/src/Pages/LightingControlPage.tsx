@@ -54,7 +54,6 @@ const rightIconStyle = {
 };
 
 const ColorSelectPage: FC = () => {
-  const [sequenceDelay, setSequenceDelay] = useState<number>(50);
   const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
   const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
   const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
@@ -165,8 +164,8 @@ const ColorSelectPage: FC = () => {
             min={2500}
             max={6500}
             step={50}
-            defaultValue={sequenceDelay}
-            onChange={setSequenceDelay}
+            defaultValue={2500}
+            onChange={onChangeColorTemp}
             startIcon={<WbTwilightIcon style={leftIconStyle} />}
             endIcon={<WbSunnyIcon style={rightIconStyle} />}
           />
