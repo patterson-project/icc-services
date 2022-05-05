@@ -45,7 +45,6 @@ class ApiMqttClient:
     def __init__(self) -> None:
         self.client = Client("api", clean_session=False)
         self.client.connect(self.BROKER_ADDRESS, self.BROKER_PORT)
-        self.client.loop_start()
 
     def publish_lighting_request(
         self, lighting_request: LedStripRequest | BulbRequest, device: str
