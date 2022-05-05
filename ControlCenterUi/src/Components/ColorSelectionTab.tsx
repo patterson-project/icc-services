@@ -37,6 +37,7 @@ const gridItemStyle = {
 
 const tabLabelStyle = {
   fontSize: "16px",
+  fontFamily: "Ubuntu, -apple-system",
 };
 
 interface ITabPanel {

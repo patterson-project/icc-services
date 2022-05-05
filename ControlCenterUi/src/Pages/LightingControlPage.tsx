@@ -47,6 +47,7 @@ const leftIconStyle = {
   fontSize: "medium",
   marginLeft: "15px",
 };
+
 const rightIconStyle = {
   color: "white",
   fontSize: "medium",
@@ -118,7 +119,7 @@ const ColorSelectPage: FC = () => {
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
-          <Typography style={titleStyle}>Led Control</Typography>
+          <Typography style={titleStyle}>Colors</Typography>
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <ColorSelectionTab
