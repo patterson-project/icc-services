@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class BulbRequest:
@@ -19,8 +19,7 @@ class BulbRequest:
         self.temperature = temperature
 
 
-def log(topic, message):
-    now = datetime.now()
-    print(str(now.strftime("%Y-%m-%d %H:%M:%S")))
-    print("\tTOPIC:\t\t" + topic)
-    print("\tMESSAGE:\t" + message)
+def log(message):
+    now = datetime.now(timezone.utc).astimezone().isoformat()
+    print("[" + now + "]\t", end="")
+    print(message)

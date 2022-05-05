@@ -30,7 +30,7 @@ class BulbController:
             self.bulb = SmartBulb(self.ip_address)
             await self.bulb.update()
         except SmartDeviceException:
-            log("ERROR", "Unable to establish connection with device.")
+            log("SmartDeviceException: Unable to establish connection with device.")
 
     def terminate_task(self) -> None:
         if self.sequence_task is not None:
@@ -55,7 +55,7 @@ class BulbController:
     async def message_callbacks(self, messages):
         async for message in messages:
             lighting_request = BulbRequest(**loads(message.payload))
-            log(message.topic, str(lighting_request.__dict__))
+            log(str(lighting_request.__dict__))
 
             self.request = lighting_request
             await self.bulb.update()

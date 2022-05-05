@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 from paho.mqtt.client import Client
 
@@ -57,6 +57,6 @@ class ApiMqttClient:
 
 
 def log(message):
-    now = datetime.now()
-    print(str(now.strftime("%Y-%m-%d %H:%M:%S")), end="")
+    now = datetime.now(timezone.utc).astimezone().isoformat()
+    print("[" + now + "]\t", end="")
     print(message)

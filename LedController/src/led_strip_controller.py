@@ -51,7 +51,7 @@ class LedStripController:
 
     def on_message(self, client, userdata, message) -> None:
         lighting_request = LedStripRequest(**loads(message.payload))
-        log(message.topic, str(lighting_request.__dict__))
+        log(str(lighting_request.__dict__))
 
         self.request = lighting_request
         self.operation_callback_by_name[lighting_request.operation]()
