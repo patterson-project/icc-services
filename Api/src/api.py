@@ -1,14 +1,12 @@
 from flask import Flask, Response, request
 from flask_cors import CORS
-from paho.mqtt.client import Client
-from utils import BulbRequest, LedStripRequest
+from utils import ApiMqttClient, BulbRequest, LedStripRequest
 import json
 
 app: Flask = Flask("__main__")
 CORS(app)
 
-BROKER_ADDRESS: str = "10.0.0.35"
-BROKER_PORT: str = 1883
+api_client = ApiMqttClient()
 
 
 @app.route("/")
@@ -21,7 +19,7 @@ def led_strip() -> Response:
     body = request.get_json()
     try:
         led_request = LedStripRequest(**body)
-        publish_lighting_request(led_request, "led-strip")
+        api_client.publish_lighting_request(led_request, "led-strip")
     except:
         return Response("Invalid JSON body in request.", 400)
 
@@ -33,7 +31,7 @@ def bulb_1() -> Response:
     body = request.get_json()
     try:
         bulb_request = BulbRequest(**body)
-        publish_lighting_request(bulb_request, "bulb-1")
+        api_client.publish_lighting_request(bulb_request, "bulb-1")
     except:
         return Response("Invalid JSON body in request.", 400)
 
@@ -45,33 +43,12 @@ def bulb_2() -> Response:
     body = request.get_json()
     try:
         bulb_request = BulbRequest(**body)
-        publish_lighting_request(bulb_request, "bulb-2")
+        api_client.publish_lighting_request(bulb_request, "bulb-2")
     except:
         return Response("Invalid JSON body in request.", 400)
 
     return Response(status=200)
 
 
-def start() -> None:
-    app.run(host="0.0.0.0", threaded=True, port=8000)
-
-
-def get_mqtt_client() -> Client:
-    client = Client("api", clean_session=False)
-    client.connect(BROKER_ADDRESS, BROKER_PORT)
-    return client
-
-
-def publish_lighting_request(
-    lighting_request: LedStripRequest | BulbRequest, device: str
-):
-    publish("home/lighting/" + device, json.dumps(lighting_request.__dict__))
-
-
-def publish(topic, message) -> None:
-    client = get_mqtt_client()
-    client.publish(topic, message, 1)
-
-
 if __name__ == "__main__":
-    start()
+    app.run(host="0.0.0.0", threaded=True, port=8000)
