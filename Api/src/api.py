@@ -51,4 +51,5 @@ def bulb_2() -> Response:
 
 
 if __name__ == "__main__":
+    api_client.client.loop_start()
     app.run(host="0.0.0.0", threaded=True, port=8000)
