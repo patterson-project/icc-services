@@ -11,3 +11,7 @@ export interface HsvRequest extends LightingRequest {
   s?: number;
   v?: number;
 }
+
+export interface ColorTempRequest extends LightingRequest {
+  temperature: number;
+}

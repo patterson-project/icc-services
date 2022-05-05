@@ -7,11 +7,9 @@ import config from "../config";
 import ColorSelectionTab from "../Components/ColorSelectionTab";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import MoreTimeIcon from "@mui/icons-material/MoreTime";
-import { BrightnessRequest, LightingRequest } from "../types";
+import { BrightnessRequest, LightingRequest, ColorTempRequest } from "../types";
 import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
 import { post } from "../utils";
 
@@ -116,6 +114,21 @@ const ColorSelectPage: FC = () => {
     }
   };
 
+  const onChangeColorTemp = (value: number) => {
+    const colortempRequest: ColorTempRequest = {
+      operation: "temperature",
+      temperature: value,
+    };
+
+    if (bulbOneTarget) {
+      post(config.BULB_1_ENDPOINT, colortempRequest);
+    }
+
+    if (bulbTwoTarget) {
+      post(config.BULB_2_ENDPOINT, colortempRequest);
+    }
+  };
+
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
@@ -149,9 +162,9 @@ const ColorSelectPage: FC = () => {
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <Slider
-            min={10}
-            max={100}
-            step={5}
+            min={2500}
+            max={6500}
+            step={50}
             defaultValue={sequenceDelay}
             onChange={setSequenceDelay}
             startIcon={<WbTwilightIcon style={leftIconStyle} />}
