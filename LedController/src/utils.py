@@ -41,5 +41,5 @@ class LedStripRequest:
 
 def log(message):
     now = datetime.now(timezone.utc).astimezone()
-    print("[" + str(now.strftime("%Y-%m-%d %H:%M:%S")) + "]\t", end="")
+    print("[" + str(now.strftime("%Y-%m-%d %H:%M:%S")) + "]\t\t", end="")
     print(message)
