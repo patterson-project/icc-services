@@ -12,4 +12,4 @@ RUN pip3 install rpi_ws281x paho-mqtt python-kasa
 COPY src/*.py ./
 
 EXPOSE 1883
-CMD [ "python", "-u", "led_controller.py"]
+CMD [ "python", "-u", "led_strip_controller.py"]
