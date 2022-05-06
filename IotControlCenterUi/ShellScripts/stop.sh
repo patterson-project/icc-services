@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/pi/iot-control-center/LedController
+cd /home/ubuntu/iot-control-center/IotControlCenterUi
 docker-compose down

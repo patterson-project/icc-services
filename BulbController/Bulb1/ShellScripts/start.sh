@@ -1,6 +1,6 @@
 #!/bin/bash
-cd /home/pi/iot-control-center
+cd /home/ubuntu/iot-control-center
 git pull origin master
 
-cd /home/pi/iot-control-center/BulbController/Bulb1
+cd /home/ubuntu/iot-control-center/BulbController/Bulb1
 docker-compose up --build -d
