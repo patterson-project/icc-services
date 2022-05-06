@@ -23,6 +23,7 @@ class BulbController:
             "brightness": self.brightness,
             "rainbow": self.rainbow,
             "rainbow_cycle": self.rainbow,
+            "temperature": self.temperature,
         }
 
     async def bulb_init(self) -> SmartBulb:
@@ -79,6 +80,10 @@ class BulbController:
             self.terminate_task()
             await self.bulb.set_brightness(self.request.brightness)
             await self.operation_callback_by_name[last_sequence]()
+
+    async def temperature(self):
+        self.terminate_task()
+        await self.bulb.set_color_temp(int(self.request.temperature))
 
     async def rainbow(self):
         self.terminate_task()

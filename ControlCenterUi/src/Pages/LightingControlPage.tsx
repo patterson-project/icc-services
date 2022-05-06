@@ -7,9 +7,13 @@ import config from "../config";
 import ColorSelectionTab from "../Components/ColorSelectionTab";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MoreTimeIcon from "@mui/icons-material/MoreTime";
-import { BrightnessRequest, LightingRequest } from "../types";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import WbTwilightIcon from "@mui/icons-material/WbTwilight";
+import {
+  BrightnessRequest,
+  LightingRequest,
+  BulbTemperatureRequest,
+} from "../types";
 import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
 import { post } from "../utils";
 
@@ -55,7 +59,6 @@ const rightIconStyle = {
 };
 
 const ColorSelectPage: FC = () => {
-  const [sequenceDelay, setSequenceDelay] = useState<number>(50);
   const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
   const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
   const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
@@ -115,6 +118,21 @@ const ColorSelectPage: FC = () => {
     }
   };
 
+  const onChangeBulbTemperature = (value: number) => {
+    const bulbTemperatureRequest: BulbTemperatureRequest = {
+      operation: "temperature",
+      temperature: value,
+    };
+
+    if (bulbOneTarget) {
+      post(config.BULB_1_ENDPOINT, bulbTemperatureRequest);
+    }
+
+    if (bulbTwoTarget) {
+      post(config.BULB_2_ENDPOINT, bulbTemperatureRequest);
+    }
+  };
+
   return (
     <div style={colorSelectPageStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
@@ -148,13 +166,13 @@ const ColorSelectPage: FC = () => {
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <Slider
-            min={10}
-            max={100}
-            step={5}
-            defaultValue={sequenceDelay}
-            onChange={setSequenceDelay}
-            startIcon={<AccessTimeIcon style={leftIconStyle} />}
-            endIcon={<MoreTimeIcon style={rightIconStyle} />}
+            min={2500}
+            max={6500}
+            step={50}
+            defaultValue={2500}
+            onChange={onChangeBulbTemperature}
+            startIcon={<WbTwilightIcon style={leftIconStyle} />}
+            endIcon={<WbSunnyIcon style={rightIconStyle} />}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
