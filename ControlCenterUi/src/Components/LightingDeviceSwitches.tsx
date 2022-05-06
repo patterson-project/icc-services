@@ -1,21 +1,22 @@
-import { Box, Grid, styled } from "@mui/material";
-import Switch, { SwitchProps } from "@mui/material/Switch";
+import { Box, Grid, Typography } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import React, { FC } from "react";
+import { IosSwitch } from "./IosSwitch";
 interface ILightingDeviceSwitches {
   setBulbOneTarget(value: boolean): void;
   setBulbTwoTarget(value: boolean): void;
   setLedStripTarget(value: boolean): void;
 }
 
-const LightingDeviceSwitchesStyle = {
+const lightingDeviceSwitchesStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  height: "80px",
+  height: "auto",
   backgroundColor: "#3B3B3B",
   width: "90%",
   borderRadius: "10px",
+  paddingBottom: "20px",
 };
 
 const gridItemStyle = {
@@ -28,6 +29,7 @@ const switchLabelStyle = {
   fontSize: "15px",
   display: "flex",
   alignItems: "center",
+  fontFamily: "Ubuntu, -apple-system",
   justifyContent: "center",
 };
 
@@ -38,54 +40,14 @@ const formControlLabelStyle = {
   justifyContent: "center",
 };
 
-const IOSSwitch = styled((props: SwitchProps) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 42,
-  height: 26,
-  padding: 0,
-  marginBottom: 5,
-  "& .MuiSwitch-switchBase": {
-    padding: 0,
-    margin: 2,
-    transitionDuration: "300ms",
-    "&.Mui-checked": {
-      transform: "translateX(16px)",
-      color: "#fff",
-      "& + .MuiSwitch-track": {
-        backgroundColor: "#2ECA45",
-        opacity: 1,
-        border: 0,
-      },
-      "&.Mui-disabled + .MuiSwitch-track": {
-        opacity: 0.5,
-      },
-    },
-    "&.Mui-focusVisible .MuiSwitch-thumb": {
-      color: "#33cf4d",
-      border: "6px solid #fff",
-    },
-    "&.Mui-disabled .MuiSwitch-thumb": {
-      color: theme.palette.grey[600],
-    },
-    "&.Mui-disabled + .MuiSwitch-track": {
-      opacity: 0.3,
-    },
-  },
-  "& .MuiSwitch-thumb": {
-    boxSizing: "border-box",
-    width: 22,
-    height: 22,
-  },
-  "& .MuiSwitch-track": {
-    borderRadius: 26 / 2,
-    backgroundColor: "#212121",
-    opacity: 1,
-    transition: theme.transitions.create(["background-color"], {
-      duration: 500,
-    }),
-  },
-}));
+const switchTitleStyle = {
+  color: "white",
+  fontSize: "20px",
+  marginTop: "10px",
+  marginBottom: "5px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "bold",
+};
 
 const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
   props
@@ -94,13 +56,16 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
     return <span style={switchLabelStyle}>{label}</span>;
   };
   return (
-    <Box style={LightingDeviceSwitchesStyle}>
+    <Box style={lightingDeviceSwitchesStyle}>
       <Grid container rowSpacing={1.5}>
+        <Grid item xs={12} style={gridItemStyle}>
+          <Typography style={switchTitleStyle}>Target</Typography>
+        </Grid>
         <Grid item xs={4} style={gridItemStyle}>
           <FormControlLabel
             style={formControlLabelStyle}
             control={
-              <IOSSwitch
+              <IosSwitch
                 onChange={(event) =>
                   props.setBulbOneTarget(event.target.checked)
                 }
@@ -114,7 +79,7 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
           <FormControlLabel
             style={formControlLabelStyle}
             control={
-              <IOSSwitch
+              <IosSwitch
                 onChange={(event) =>
                   props.setBulbTwoTarget(event.target.checked)
                 }
@@ -128,7 +93,7 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
           <FormControlLabel
             style={formControlLabelStyle}
             control={
-              <IOSSwitch
+              <IosSwitch
                 onChange={(event) =>
                   props.setLedStripTarget(event.target.checked)
                 }
