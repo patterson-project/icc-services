@@ -83,7 +83,7 @@ class BulbController:
 
     async def temperature(self):
         self.terminate_task()
-        await self.bulb.set_color_temp(int(self.temperature))
+        await self.bulb.set_color_temp(int(self.request.temperature))
 
     async def rainbow(self):
         self.terminate_task()
