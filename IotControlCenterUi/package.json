@@ -1,5 +1,5 @@
 {
-  "name": "ControlCenterUi",
+  "name": "IotControlCenterUi",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

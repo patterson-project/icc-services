@@ -1,7 +1,7 @@
 # /etc/systemd/system/LedApi.service
 
 [Unit]
-Description=Control Center LED API Service
+Description=IoT Control Center LED API Service
 Requires=docker.service
 After=docker.service network-online.target
 Wants=network-online.target

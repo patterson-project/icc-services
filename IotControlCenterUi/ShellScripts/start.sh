@@ -5,7 +5,7 @@
 # sh get-docker.sh
 # apt install docker-compose -y
 
-cd ControlCenterUi/ShellScripts
+cd IotControlCenterUi/ShellScripts
 sudo chmod 744 start.sh
 sudo chmod 744 stop.sh
 cd ../../
@@ -32,3 +32,7 @@ cd ../../
 
 cp SystemdFiles/* /etc/systemd/system/
 
+sudo systemctl enable api.service
+sudo systemctl enable bulb-1-controller.service
+sudo systemctl enable bulb-2-controller.service
+sudo systemctl enable ui.service
