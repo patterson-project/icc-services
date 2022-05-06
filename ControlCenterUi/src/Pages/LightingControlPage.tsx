@@ -9,7 +9,11 @@ import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import { BrightnessRequest, LightingRequest, ColorTempRequest } from "../types";
+import {
+  BrightnessRequest,
+  LightingRequest,
+  BulbTemperatureRequest,
+} from "../types";
 import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
 import { post } from "../utils";
 
@@ -113,18 +117,18 @@ const ColorSelectPage: FC = () => {
     }
   };
 
-  const onChangeColorTemp = (value: number) => {
-    const colortempRequest: ColorTempRequest = {
+  const onChangeBulbTemperature = (value: number) => {
+    const bulbTemperatureRequest: BulbTemperatureRequest = {
       operation: "temperature",
       temperature: value,
     };
 
     if (bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, colortempRequest);
+      post(config.BULB_1_ENDPOINT, bulbTemperatureRequest);
     }
 
     if (bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, colortempRequest);
+      post(config.BULB_2_ENDPOINT, bulbTemperatureRequest);
     }
   };
 
@@ -165,7 +169,7 @@ const ColorSelectPage: FC = () => {
             max={6500}
             step={50}
             defaultValue={2500}
-            onChange={onChangeColorTemp}
+            onChange={onChangeBulbTemperature}
             startIcon={<WbTwilightIcon style={leftIconStyle} />}
             endIcon={<WbSunnyIcon style={rightIconStyle} />}
           />

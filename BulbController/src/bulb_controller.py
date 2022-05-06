@@ -23,7 +23,7 @@ class BulbController:
             "brightness": self.brightness,
             "rainbow": self.rainbow,
             "rainbow_cycle": self.rainbow,
-            'temperature': self.temperature,
+            "temperature": self.temperature,
         }
 
     async def bulb_init(self) -> SmartBulb:
