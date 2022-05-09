@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
 
-  control-center-ui:
+  ui:
+    image: canadrian72/iot-control-center:ui
     build:
       context: .
       dockerfile: Dockerfile
