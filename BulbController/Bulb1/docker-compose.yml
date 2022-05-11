@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
 
-  bulb-controller:
+  bulb-1-controller:
+    image: canadrian72/iot-control-center:bulb-1-controller
     build:
       context: ../
       dockerfile: $PWD/Dockerfile
