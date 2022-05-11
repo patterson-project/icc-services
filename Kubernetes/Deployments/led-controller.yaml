@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: led-controller
+spec:
+  selector:
+    matchLabels:
+      app: iot-control-center
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: iot-control-center
+    spec:
+      containers:
+        - name: led-controller-container
+          image: canadrian72/iot-control-center:led-controller
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 1883

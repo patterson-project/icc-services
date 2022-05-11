@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+spec:
+  selector:
+    matchLabels:
+      app: iot-control-center
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: iot-control-center
+    spec:
+      containers:
+        - name: ui-container
+          image: canadrian72/iot-control-center:ui
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

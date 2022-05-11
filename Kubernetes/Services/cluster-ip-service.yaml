@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-ip-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: iot-control-center
+  ports:
+    - name: api
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+    - name: mqtt
+      protocol: TCP
+      port: 1883
+      targetPort: 1883
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: kasa
+      protocol: TCP
+      port: 9999
+      targetPort: 9999
