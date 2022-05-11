@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
 
-  led-api:
+  api:
+    image: canadrian72/iot-control-center:api
     build:
       context: .
       dockerfile: Dockerfile
