@@ -1,3 +1,3 @@
 #!/bin/bash
 docker-compose build
-docker push canadrian72/iot-control-center:led-controller
+docker push canadrian72/iot-control-center:ui
