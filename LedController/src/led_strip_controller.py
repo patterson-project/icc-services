@@ -4,12 +4,11 @@ from multiprocessing import Process
 from paho.mqtt.client import Client
 from rpi_ws281x import Adafruit_NeoPixel
 from time import sleep
+from os import environ
 from utils import LedStripRequest, LedStripConfig, log, wheel
 
 
 class LedStripController:
-    BROKER_ADDRESS = "10.0.0.35"
-
     def __init__(self) -> None:
         self.strip: Adafruit_NeoPixel = self.led_strip_init()
         self.client: Client = self.mqtt_init()
@@ -38,7 +37,7 @@ class LedStripController:
 
     def mqtt_init(self) -> Client:
         client = Client("led-controller", clean_session=False)
-        client.connect(self.BROKER_ADDRESS)
+        client.connect(environ["BROKER_IP"])
         client.on_message = self.on_message
         client.subscribe("home/lighting/led-strip")
         return client

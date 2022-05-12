@@ -1,5 +1,5 @@
 import asyncio
-import os
+from os import environ
 from asyncio_mqtt import Client
 from contextlib import AsyncExitStack
 from json import loads
@@ -8,8 +8,6 @@ from utils import log, BulbRequest
 
 
 class BulbController:
-    BROKER_ADDRESS = "10.0.0.35"
-
     async def create_bulb(self, ip_address: str, topic: str) -> None:
         self.ip_address: str = ip_address
         self.topic: str = topic
@@ -42,7 +40,7 @@ class BulbController:
         async with AsyncExitStack() as stack:
             tasks = set()
 
-            client = Client(self.BROKER_ADDRESS)
+            client = Client(environ["BROKER_IP"])
             await stack.enter_async_context(client)
 
             manager = client.filtered_messages(f"home/lighting/{self.topic}")
@@ -98,7 +96,7 @@ class BulbController:
 
 async def main():
     bulb_controller = BulbController()
-    bulb_ip, bulb_topic = os.environ["BULB_IP"], os.environ["BULB_TOPIC"]
+    bulb_ip, bulb_topic = environ["BULB_IP"], environ["BULB_TOPIC"]
     await bulb_controller.create_bulb(bulb_ip, bulb_topic)
 
     print("Initialization completed successfully.")

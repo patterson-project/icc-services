@@ -1,0 +1,4 @@
+flask
+requests
+paho-mqtt
+flask-cors

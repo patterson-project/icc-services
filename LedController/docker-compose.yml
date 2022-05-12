@@ -10,4 +10,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 1883
+    environment:
+      - BROKER_IP=10.0.0.35
 

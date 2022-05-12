@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
-import json
+from json import dumps
 from paho.mqtt.client import Client
+from os import environ
 
 
 class LedStripRequest:
@@ -38,18 +39,14 @@ class BulbRequest:
 
 
 class ApiMqttClient:
-
-    BROKER_ADDRESS: str = "10.0.0.35"
-    BROKER_PORT: str = 1883
-
     def __init__(self) -> None:
         self.client = Client("api", clean_session=False)
-        self.client.connect(self.BROKER_ADDRESS, self.BROKER_PORT)
+        self.client.connect(environ["BROKER_IP"])
 
     def publish_lighting_request(
         self, lighting_request: LedStripRequest | BulbRequest, device: str
     ):
-        self.publish("home/lighting/" + device, json.dumps(lighting_request.__dict__))
+        self.publish("home/lighting/" + device, dumps(lighting_request.__dict__))
 
     def publish(self, topic, message) -> None:
         self.client.publish(topic, message, 1)

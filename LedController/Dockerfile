@@ -1,15 +1,14 @@
-FROM debian:latest
-RUN apt-get update && apt-get upgrade -y
-
 FROM python:latest
 
 LABEL Maintainer="canadrian72"
 
 WORKDIR /app
 
-RUN pip3 install rpi_ws281x paho-mqtt python-kasa
+COPY ./requirements.txt /app/
+RUN pip install -r requirements.txt
 
-COPY src/*.py ./
+COPY /src/*.py ./
 
 EXPOSE 1883
-CMD [ "python", "-u", "led_strip_controller.py"]
+
+CMD [ "python", "led_strip_controller.py"]
