@@ -1,6 +1,9 @@
 # Home LED Control Center
 
 A set of docker-based services which use Raspberry Pis and MQTT to control WS2811 LED strips.
+* Quick Kube notes:
+  * Must enable metallb load balancing with `microk8s enable metallb:<local_pi_ip:local_pi_ip>`
+
 
 ## Repository Structure
 
