@@ -3,6 +3,8 @@
 A set of docker-based services which use Raspberry Pis and MQTT to control WS2811 LED strips.
 * Quick Kube notes:
   * Must enable metallb load balancing with `microk8s enable metallb:<local_pi_ip:local_pi_ip>`
+  * To add a node:
+      * `microk8s join 10.0.0.34:25000/378ff66642ed6791ec4bf7fcfa446826/6fdae4403366 --worker`
 
 
 ## Repository Structure
