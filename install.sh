@@ -4,4 +4,4 @@ cd BulbController/Bulb1 && chmod a+x dockerpush.sh && cd ../../
 cd BulbController/Bulb2 && chmod a+x dockerpush.sh && cd ../../
 cd LedController && chmod a+x dockerpush.sh && cd ../
 cd IotControlCenterUi && chmod a+x dockerpush.sh && cd ../
-chmod a+x docker_push_all.sh
+chmod a+x update_cluster.sh
