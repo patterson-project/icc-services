@@ -9,5 +9,9 @@ RUN pip install -r requirements.txt
 COPY src/*.py ./
 
 EXPOSE 1883 9999
+ENV BROKER_IP=10.0.0.68
+ENV BULB_IP=10.0.0.86
+ENV BULB_TOPIC=bulb-1
+
 
 ENTRYPOINT [ "python", "bulb_controller.py" ] 

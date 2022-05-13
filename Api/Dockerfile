@@ -10,5 +10,6 @@ RUN pip install -r requirements.txt
 COPY ./src/*.py ./
 
 EXPOSE 8000
+ENV BROKER_IP=10.0.0.68
 
 ENTRYPOINT [ "python", "./api.py" ]
