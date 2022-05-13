@@ -3,18 +3,15 @@ kind: Ingress
 metadata:
   name: ingress-router
   annotations:
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+           more_set_headers "Access-Control-Allow-Origin: $http_origin";
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST,
+           OPTIONS, DELETE, PATCH
+    nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
-    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
 spec:
-  defaultBackend:
-    service:
-      name: ui
-      port:
-        number: 80
   rules:
   - http:
       paths:
@@ -22,7 +19,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: ui
+            name: ui-node-port
             port: 
               number: 80
   - http:
@@ -31,6 +28,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: api
-            port: 
+            name: api-node-port
+            port:
               number: 8000
