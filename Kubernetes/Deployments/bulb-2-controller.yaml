@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: iot-control-center
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
