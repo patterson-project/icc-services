@@ -11,6 +11,6 @@ printf "\nBuilding and pushing LED service to dockerhub..."
 cd LedController && sh dockerpush.sh && cd ../
 
 printf "\n\nDeleting and restarting all pods..."
-microk8s kubernetes delete --all pods --namespace=default
+microk8s kubectl delete --all pods --namespace=default
 
 printf "\nDone.\n"
