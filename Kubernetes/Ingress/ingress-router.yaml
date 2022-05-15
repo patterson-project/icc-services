@@ -19,7 +19,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: ui-node-port
+            name: ui-cluster-ip
             port: 
               number: 80
   - http:
@@ -28,6 +28,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: api-node-port
+            name: api-cluster-ip
             port:
               number: 8000

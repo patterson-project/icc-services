@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ui-node-port
+  name: api-cluster-ip
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: iot-control-center 
-    svc: ui
+    svc: api
   ports:
-    - port: 80
+    - port: 8000
