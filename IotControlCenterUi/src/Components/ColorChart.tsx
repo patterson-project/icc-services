@@ -36,8 +36,8 @@ const colorChartStyle = {
 
 const defaultColor: HsvColor = {
   h: 0,
-  s: 0.5,
-  v: 0.2,
+  s: 50,
+  v: 50,
 };
 
 const ColorChart: FC<IColorChart> = (props) => {
