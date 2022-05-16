@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: iot-control-center
       svc: lighting-api
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
