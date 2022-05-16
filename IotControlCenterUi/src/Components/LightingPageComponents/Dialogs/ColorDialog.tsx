@@ -35,7 +35,6 @@ const gridItemStyle = {
 const titleStyle = {
   color: "white",
   fontSize: "40px",
-  marginTop: "20px",
   fontFamily: "Ubuntu, -apple-system",
   fontWeight: "bold",
 };

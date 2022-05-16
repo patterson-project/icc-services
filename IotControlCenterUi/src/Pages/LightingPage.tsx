@@ -6,6 +6,7 @@ import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import ColorDialog from "../Components/LightingPageComponents/Dialogs/ColorDialog";
 import SceneDialog from "../Components/LightingPageComponents/Dialogs/SceneDialog";
 import PowerDialog from "../Components/LightingPageComponents/Dialogs/PowerDialog";
+import IccAppBar from "../Components/IccAppBar";
 
 const lightingPageBoxStyle = {
   marginBottom: "50px",
@@ -47,6 +48,7 @@ const LightingPage: FC = () => {
 
   return (
     <Box style={lightingPageBoxStyle}>
+      <IccAppBar />
       {lightingComponents[value]}
       <BottomNavigation
         style={bottomNavigationStyle}
