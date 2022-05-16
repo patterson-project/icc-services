@@ -7,7 +7,7 @@ import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import { BrightnessRequest, BulbTemperatureRequest } from "../../../types";
+import { BrightnessRequest, TemperatureRequest } from "../../../types";
 import LightingDeviceSwitches from "../LightingComponents/LightingDeviceSwitches";
 import { post } from "../../../utils";
 
@@ -77,17 +77,21 @@ const ColorDialog: FC = () => {
   };
 
   const onChangeBulbTemperature = (value: number) => {
-    const bulbTemperatureRequest: BulbTemperatureRequest = {
+    const temperatureRequest: TemperatureRequest = {
       operation: "temperature",
       temperature: value,
     };
 
     if (bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, bulbTemperatureRequest);
+      post(config.BULB_1_ENDPOINT, temperatureRequest);
     }
 
     if (bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, bulbTemperatureRequest);
+      post(config.BULB_2_ENDPOINT, temperatureRequest);
+    }
+
+    if (ledStripTarget) {
+      post(config.LED_STRIP_ENDPOINT, temperatureRequest);
     }
   };
 
