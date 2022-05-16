@@ -13,6 +13,7 @@ const lightingPageBoxStyle = {
 
 const bottomNavigationStyle = {
   backgroundColor: "#222222",
+  paddingBottom: "20px",
 };
 
 const bottomNavigationLabelStyle = {
