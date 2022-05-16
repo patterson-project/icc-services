@@ -1,9 +1,10 @@
 import asyncio
-from os import environ
-from asyncio_mqtt import Client
-from contextlib import AsyncExitStack
-from json import loads
-from kasa import SmartBulb, SmartDeviceException
+import os
+import time
+import asyncio_mqtt
+import contextlib
+import json
+import kasa
 from utils import log, BulbRequest
 
 
@@ -11,7 +12,7 @@ class BulbController:
     async def create_bulb(self, ip_address: str, topic: str) -> None:
         self.ip_address: str = ip_address
         self.topic: str = topic
-        self.bulb: SmartBulb = None
+        self.bulb: kasa.SmartBulb = None
         await self.bulb_init()
         self.sequence_task: asyncio.Task = None
         self.request: BulbRequest = None
@@ -24,11 +25,11 @@ class BulbController:
             "temperature": self.temperature,
         }
 
-    async def bulb_init(self) -> SmartBulb:
+    async def bulb_init(self) -> kasa.SmartBulb:
         try:
-            self.bulb = SmartBulb(self.ip_address)
+            self.bulb = kasa.SmartBulb(self.ip_address)
             await self.bulb.update()
-        except SmartDeviceException:
+        except kasa.SmartDeviceException:
             log("SmartDeviceException: Unable to establish connection with device.")
 
     def terminate_task(self) -> None:
@@ -36,11 +37,11 @@ class BulbController:
             self.sequence_task.cancel()
             self.sequence_task = None
 
-    async def async_mqtt(self) -> Client:
-        async with AsyncExitStack() as stack:
+    async def async_mqtt(self) -> asyncio_mqtt.Client:
+        async with contextlib.AsyncExitStack() as stack:
             tasks = set()
 
-            client = Client(environ["BROKER_IP"])
+            client = asyncio_mqtt.Client(os.environ["BROKER_IP"])
             await stack.enter_async_context(client)
 
             manager = client.filtered_messages(f"home/lighting/{self.topic}")
@@ -53,7 +54,7 @@ class BulbController:
 
     async def message_callbacks(self, messages):
         async for message in messages:
-            lighting_request = BulbRequest(**loads(message.payload))
+            lighting_request = BulbRequest(**json.loads(message.payload))
             log(str(lighting_request.__dict__))
 
             self.request = lighting_request
@@ -92,11 +93,12 @@ class BulbController:
         while True:
             for i in range(359):
                 await self.bulb.set_hsv(i, 100, 100)
+                time.sleep(0.05)
 
 
 async def main():
     bulb_controller = BulbController()
-    bulb_ip, bulb_topic = environ["BULB_IP"], environ["BULB_TOPIC"]
+    bulb_ip, bulb_topic = os.environ["BULB_IP"], os.environ["BULB_TOPIC"]
     await bulb_controller.create_bulb(bulb_ip, bulb_topic)
 
     print("Initialization completed successfully.")
@@ -104,7 +106,7 @@ async def main():
     while True:
         try:
             await bulb_controller.async_mqtt()
-        except SmartDeviceException:
+        except kasa.SmartDeviceException:
             await bulb_controller.bulb_init()
 
 
