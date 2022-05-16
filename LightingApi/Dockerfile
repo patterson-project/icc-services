@@ -1,5 +1,4 @@
 FROM python:latest
-
 LABEL Maintainer="canadrian72"
 
 WORKDIR /app

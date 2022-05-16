@@ -1,12 +1,12 @@
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import ApiMqttClient, BulbRequest, LedStripRequest
+from utils import LightingMqttClient, BulbRequest, LedStripRequest
 import json
 
 app: Flask = Flask("__main__")
 CORS(app)
 
-api_client = ApiMqttClient()
+mqtt_client = LightingMqttClient()
 
 
 @app.route("/")
@@ -19,7 +19,7 @@ def led_strip() -> Response:
     body = request.get_json()
     try:
         led_request = LedStripRequest(**body)
-        api_client.publish_lighting_request(led_request, "led-strip")
+        mqtt_client.publish_lighting_request(led_request, "led-strip")
     except:
         return Response("Invalid JSON body in request.", 400)
 
@@ -31,7 +31,7 @@ def bulb_1() -> Response:
     body = request.get_json()
     try:
         bulb_request = BulbRequest(**body)
-        api_client.publish_lighting_request(bulb_request, "bulb-1")
+        mqtt_client.publish_lighting_request(bulb_request, "bulb-1")
     except:
         return Response("Invalid JSON body in request.", 400)
 
@@ -43,7 +43,7 @@ def bulb_2() -> Response:
     body = request.get_json()
     try:
         bulb_request = BulbRequest(**body)
-        api_client.publish_lighting_request(bulb_request, "bulb-2")
+        mqtt_client.publish_lighting_request(bulb_request, "bulb-2")
     except:
         return Response("Invalid JSON body in request.", 400)
 
@@ -51,5 +51,5 @@ def bulb_2() -> Response:
 
 
 if __name__ == "__main__":
-    api_client.client.loop_start()
+    mqtt_client.client.loop_start()
     app.run(host="0.0.0.0", threaded=True, port=8000)

@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   api:
-    image: canadrian72/iot-control-center:api
+    image: canadrian72/iot-control-center:lighting-api
     build:
       context: .
       dockerfile: Dockerfile

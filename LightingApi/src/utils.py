@@ -38,15 +38,16 @@ class BulbRequest:
         self.temperature = temperature
 
 
-class ApiMqttClient:
+class LightingMqttClient:
     def __init__(self) -> None:
-        self.client = Client("api", clean_session=False)
+        self.client = Client("lighting-api", clean_session=False)
         self.client.connect(environ["BROKER_IP"])
 
     def publish_lighting_request(
         self, lighting_request: LedStripRequest | BulbRequest, device: str
     ):
-        self.publish("home/lighting/" + device, dumps(lighting_request.__dict__))
+        self.publish("home/lighting/" + device,
+                     dumps(lighting_request.__dict__))
 
     def publish(self, topic, message) -> None:
         self.client.publish(topic, message, 1)

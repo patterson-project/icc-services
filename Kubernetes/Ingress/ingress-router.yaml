@@ -1,33 +1,33 @@
-apiVersion: networking.k8s.io/v1 
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-router
   annotations:
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/configuration-snippet: |
-           more_set_headers "Access-Control-Allow-Origin: $http_origin";
+      more_set_headers "Access-Control-Allow-Origin: $http_origin";
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST,
-           OPTIONS, DELETE, PATCH
+      OPTIONS, DELETE, PATCH
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ui-cluster-ip
-            port: 
-              number: 80
-  - http:
-      paths:
-      - path: /lighting/.*
-        pathType: Prefix
-        backend:
-          service:
-            name: api-cluster-ip
-            port:
-              number: 8000
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ui-cluster-ip
+                port:
+                  number: 80
+    - http:
+        paths:
+          - path: /lighting/.*
+            pathType: Prefix
+            backend:
+              service:
+                name: lighting-api-cluster-ip
+                port:
+                  number: 8000
