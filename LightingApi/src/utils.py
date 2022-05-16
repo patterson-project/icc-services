@@ -4,23 +4,7 @@ from paho.mqtt.client import Client
 from os import environ
 
 
-class LedStripRequest:
-    def __init__(
-        self,
-        operation: str,
-        h: int = 0,
-        s: int = 100,
-        v: int = 50,
-        brightness: int = None,
-    ):
-        self.operation = operation
-        self.brightness = brightness
-        self.h = h
-        self.s = s
-        self.v = v
-
-
-class BulbRequest:
+class LightingRequest:
     def __init__(
         self,
         operation: str,
@@ -44,10 +28,9 @@ class LightingMqttClient:
         self.client.connect(environ["BROKER_IP"])
 
     def publish_lighting_request(
-        self, lighting_request: LedStripRequest | BulbRequest, device: str
+        self, lighting_request: LedStripRequest | LightingRequest, device: str
     ):
-        self.publish("home/lighting/" + device,
-                     dumps(lighting_request.__dict__))
+        self.publish("home/lighting/" + device, dumps(lighting_request.__dict__))
 
     def publish(self, topic, message) -> None:
         self.client.publish(topic, message, 1)
