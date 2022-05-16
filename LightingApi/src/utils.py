@@ -27,9 +27,7 @@ class LightingMqttClient:
         self.client = Client("lighting-api", clean_session=False)
         self.client.connect(environ["BROKER_IP"])
 
-    def publish_lighting_request(
-        self, lighting_request: LedStripRequest | LightingRequest, device: str
-    ):
+    def publish_lighting_request(self, lighting_request: LightingRequest, device: str):
         self.publish("home/lighting/" + device, dumps(lighting_request.__dict__))
 
     def publish(self, topic, message) -> None:

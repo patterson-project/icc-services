@@ -1,7 +1,6 @@
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import LightingMqttClient, LightingRequest 
-import json
+from utils import LightingMqttClient, LightingRequest
 
 app: Flask = Flask("__main__")
 CORS(app)
