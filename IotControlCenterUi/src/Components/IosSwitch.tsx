@@ -1,7 +1,6 @@
 import React from "react";
 import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material";
-import { PinDropSharp } from "@mui/icons-material";
 
 interface IIosSwitch {
   onChange(event: any): void;
