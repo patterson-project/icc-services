@@ -59,9 +59,9 @@ const rightIconStyle = {
 };
 
 const ColorSelectPage: FC = () => {
-  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
-  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
-  const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
+  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(true);
+  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(true);
+  const [ledStripTarget, setLedStripTarget] = useState<boolean>(true);
 
   const rainbowButtonOnClick = () => {
     const rainbowRequest: LightingRequest = {
@@ -157,7 +157,7 @@ const ColorSelectPage: FC = () => {
           <Slider
             min={0}
             max={100}
-            step={10}
+            step={1}
             defaultValue={100}
             onChange={onChangeBrightness}
             startIcon={<BrightnessLowIcon style={leftIconStyle} />}

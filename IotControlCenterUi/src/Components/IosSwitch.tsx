@@ -1,7 +1,6 @@
 import React from "react";
 import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material";
-import { PinDropSharp } from "@mui/icons-material";
 
 interface IIosSwitch {
   onChange(event: any): void;
@@ -9,10 +8,15 @@ interface IIosSwitch {
 }
 
 export const IosSwitch = styled((props: IIosSwitch) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+  <Switch
+    focusVisibleClassName=".Mui-focusVisible"
+    disableRipple
+    defaultChecked={true}
+    {...props}
+  />
 ))(({ theme }) => ({
-  width: 46,
-  height: 30,
+  width: 56,
+  height: 35,
   padding: 0,
   marginBottom: 5,
   "& .MuiSwitch-switchBase": {
@@ -20,7 +24,7 @@ export const IosSwitch = styled((props: IIosSwitch) => (
     margin: 2,
     transitionDuration: "300ms",
     "&.Mui-checked": {
-      transform: "translateX(16px)",
+      transform: "translateX(21px)",
       color: "#fff",
       "& + .MuiSwitch-track": {
         backgroundColor: "#2ECA45",
@@ -44,11 +48,11 @@ export const IosSwitch = styled((props: IIosSwitch) => (
   },
   "& .MuiSwitch-thumb": {
     boxSizing: "border-box",
-    width: 26,
-    height: 26,
+    width: 31,
+    height: 31,
   },
   "& .MuiSwitch-track": {
-    borderRadius: 30 / 2,
+    borderRadius: 35 / 2,
     backgroundColor: "#212121",
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {
