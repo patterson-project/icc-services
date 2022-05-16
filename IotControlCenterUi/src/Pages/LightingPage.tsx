@@ -8,7 +8,7 @@ import SceneDialog from "../Components/LightingPageComponents/Dialogs/SceneDialo
 import PowerDialog from "../Components/LightingPageComponents/Dialogs/PowerDialog";
 
 const lightingPageBoxStyle = {
-  marginBottom: "30px",
+  marginBottom: "50px",
 };
 
 const bottomNavigationStyle = {

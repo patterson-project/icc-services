@@ -40,7 +40,7 @@ const sliderTitleStyle = {
 const Slider: FC<ISlider> = (props): JSX.Element => {
   return (
     <Box style={brightnessBoxSliderStyle}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {props.title != null && (
           <Grid item xs={12} style={gridItemStyle}>
             <Typography style={sliderTitleStyle}>{props.title}</Typography>
