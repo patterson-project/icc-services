@@ -3,7 +3,7 @@ import rpi_ws281x
 import math
 
 
-def wheel(pos) -> None:
+def wheel(pos) -> rpi_ws281x.Color:
     if pos < 85:
         return rpi_ws281x.Color(pos * 3, 255 - pos * 3, 0)
     elif pos < 170:
@@ -14,7 +14,7 @@ def wheel(pos) -> None:
         return rpi_ws281x.Color(0, pos * 3, 255 - pos * 3)
 
 
-def convert_K_to_RGB(colour_temperature):
+def convert_K_to_RGB(colour_temperature) -> tuple[int, int, int]:
     # range check
     if colour_temperature < 1000:
         colour_temperature = 1000
@@ -67,7 +67,7 @@ def convert_K_to_RGB(colour_temperature):
         else:
             blue = tmp_blue
 
-    return red, green, blue
+    return int(red), int(green), int(blue)
 
 
 class LedStripConfig:
