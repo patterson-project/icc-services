@@ -13,4 +13,4 @@ ENV BROKER_IP=10.0.0.68
 ENV BULB_IP=10.0.0.37
 ENV BULB_TOPIC=bulb-2
 
-ENTRYPOINT [ "python", "bulb_controller.py" ] 
+ENTRYPOINT [ "python", "-u", "bulb_controller.py" ] 

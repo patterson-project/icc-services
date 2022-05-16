@@ -12,4 +12,4 @@ COPY /src/*.py ./
 EXPOSE 1883
 ENV BROKER_IP=10.0.0.68
 
-CMD [ "python", "led_strip_controller.py"]
+CMD [ "python", "-u", "led_strip_controller.py"]

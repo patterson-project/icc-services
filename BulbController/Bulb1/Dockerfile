@@ -14,4 +14,4 @@ ENV BULB_IP=10.0.0.90
 ENV BULB_TOPIC=bulb-1
 
 
-ENTRYPOINT [ "python", "bulb_controller.py" ] 
+ENTRYPOINT [ "python", "-u", "bulb_controller.py" ] 
