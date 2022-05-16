@@ -1,27 +1,21 @@
 import { Grid, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
-import Slider from "../Components/Slider";
-import OperationButton from "../Components/OperationButton";
-import LooksIcon from "@mui/icons-material/Looks";
-import config from "../config";
-import ColorSelectionTab from "../Components/ColorSelectionTab";
+import Slider from "../../Slider";
+import config from "../../../config";
+import ColorSelectionTab from "../LightingComponents/ColorSelectionTab";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import {
-  BrightnessRequest,
-  LightingRequest,
-  BulbTemperatureRequest,
-} from "../types";
-import LightingDeviceSwitches from "../Components/LightingDeviceSwitches";
-import { post } from "../utils";
+import { BrightnessRequest, BulbTemperatureRequest } from "../../../types";
+import LightingDeviceSwitches from "../LightingComponents/LightingDeviceSwitches";
+import { post } from "../../../utils";
 
-const colorSelectPageStyle = {
+const colorDialogDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  backgroundColor: "#222222",
+  backgroundColor: "#151515",
 };
 
 const gridContainerStyle = {
@@ -58,46 +52,10 @@ const rightIconStyle = {
   marginRight: "15px",
 };
 
-const ColorSelectPage: FC = () => {
+const ColorDialog: FC = () => {
   const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(true);
   const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(true);
   const [ledStripTarget, setLedStripTarget] = useState<boolean>(true);
-
-  const rainbowButtonOnClick = () => {
-    const rainbowRequest: LightingRequest = {
-      operation: "rainbow",
-    };
-
-    if (ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT, rainbowRequest);
-    }
-
-    if (bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, rainbowRequest);
-    }
-
-    if (bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, rainbowRequest);
-    }
-  };
-
-  const rainbowCycleButtonOnClick = () => {
-    const rainbowCycleRequest: LightingRequest = {
-      operation: "rainbow_cycle",
-    };
-
-    if (ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT, rainbowCycleRequest);
-    }
-
-    if (bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, rainbowCycleRequest);
-    }
-
-    if (bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, rainbowCycleRequest);
-    }
-  };
 
   const onChangeBrightness = (value: number) => {
     const brightnessRequest: BrightnessRequest = {
@@ -134,7 +92,7 @@ const ColorSelectPage: FC = () => {
   };
 
   return (
-    <div style={colorSelectPageStyle}>
+    <div style={colorDialogDivStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
           <Typography style={titleStyle}>Colors</Typography>
@@ -162,6 +120,7 @@ const ColorSelectPage: FC = () => {
             onChange={onChangeBrightness}
             startIcon={<BrightnessLowIcon style={leftIconStyle} />}
             endIcon={<BrightnessHighIcon style={rightIconStyle} />}
+            title="Brightness"
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
@@ -173,20 +132,7 @@ const ColorSelectPage: FC = () => {
             onChange={onChangeBulbTemperature}
             startIcon={<WbTwilightIcon style={leftIconStyle} />}
             endIcon={<WbSunnyIcon style={rightIconStyle} />}
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <OperationButton
-            operationName="Rainbow"
-            icon={<LooksIcon />}
-            onClick={rainbowButtonOnClick}
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <OperationButton
-            operationName="Rainbow Cycle"
-            icon={<LooksIcon />}
-            onClick={rainbowCycleButtonOnClick}
+            title="Temperature"
           />
         </Grid>
       </Grid>
@@ -194,4 +140,4 @@ const ColorSelectPage: FC = () => {
   );
 };
 
-export default ColorSelectPage;
+export default ColorDialog;

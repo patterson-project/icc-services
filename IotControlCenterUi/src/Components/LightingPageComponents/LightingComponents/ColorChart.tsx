@@ -8,9 +8,9 @@ import React, {
 import { HsvColorPicker, HsvColor } from "react-colorful";
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";
-import { HsvRequest } from "../types";
-import { post, useDidMountEffect } from "../utils";
-import config from "../config";
+import { HsvRequest } from "../../../types";
+import { post, useDidMountEffect } from "../../../utils";
+import config from "../../../config";
 
 interface IColorChart {
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
