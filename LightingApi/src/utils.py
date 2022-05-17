@@ -1,7 +1,7 @@
-from datetime import datetime, timezone
-from json import dumps
-from paho.mqtt.client import Client
-from os import environ
+import datetime
+import json
+import paho.mqtt.client as MqttClient
+import os
 
 
 class LightingRequest:
@@ -24,17 +24,19 @@ class LightingRequest:
 
 class LightingMqttClient:
     def __init__(self) -> None:
-        self.client = Client("lighting-api", clean_session=False)
-        self.client.connect(environ["BROKER_IP"])
+        self.client = MqttClient.Client("lighting-api", clean_session=False)
+        self.client.connect(
+            host=os.environ["BROKER_IP"], port=os.environ["BROKER_PORT"]
+        )
 
     def publish_lighting_request(self, lighting_request: LightingRequest, device: str):
-        self.publish("home/lighting/" + device, dumps(lighting_request.__dict__))
+        self.publish("home/lighting/" + device, json.dumps(lighting_request.__dict__))
 
     def publish(self, topic, message) -> None:
         self.client.publish(topic, message, 1)
 
 
 def log(message):
-    now = datetime.now(timezone.utc).astimezone()
+    now = datetime.datetime.now(datetime.timezone.utc).astimezone()
     print("[" + str(now.strftime("%Y-%m-%d %H:%M:%S")) + "]\t", end="")
     print(message)

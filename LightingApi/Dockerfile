@@ -6,11 +6,10 @@ WORKDIR /app
 COPY ./requirements.txt /app/
 RUN pip install -r requirements.txt
 
-COPY src/*.py ./
+COPY ./src/*.py ./
 
+EXPOSE 8000
 ENV BROKER_IP=10.0.0.34
 ENV BROKER_PORT=1884
-ENV BULB_IP=10.0.0.37
-ENV BULB_TOPIC=bulb-2
 
-ENTRYPOINT [ "python", "-u", "bulb_controller.py" ] 
+ENTRYPOINT [ "python", "-u", "./api.py" ]

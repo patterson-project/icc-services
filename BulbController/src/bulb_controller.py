@@ -42,7 +42,9 @@ class BulbController:
         async with contextlib.AsyncExitStack() as stack:
             tasks = set()
 
-            client = asyncio_mqtt.Client(os.environ["BROKER_IP"])
+            client = asyncio_mqtt.Client(
+                host=os.environ["BROKER_IP"], port=os.environ["BROKER_PORT"]
+            )
             await stack.enter_async_context(client)
 
             manager = client.filtered_messages(f"home/lighting/{self.topic}")
