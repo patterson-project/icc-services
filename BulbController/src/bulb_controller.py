@@ -43,7 +43,7 @@ class BulbController:
             tasks = set()
 
             client = asyncio_mqtt.Client(
-                host=os.environ["BROKER_IP"], port=int(os.environ["BROKER_PORT"])
+                hostname=os.environ["BROKER_IP"], port=int(os.environ["BROKER_PORT"])
             )
             await stack.enter_async_context(client)
 
