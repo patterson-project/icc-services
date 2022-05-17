@@ -15,6 +15,7 @@ class LedStripController:
         self.sequence_process: multiprocessing.Process = None
         self.request: LedStripRequest = None
         self.operation_callback_by_name = {
+            "on": self.on,
             "off": self.off,
             "hsv": self.hsv,
             "brightness": self.brightness,
@@ -77,10 +78,14 @@ class LedStripController:
 
         self.strip.show()
 
+    def on(self):
+        self.terminate_process()
+        self.strip.setBrightness(255)
+        self.strip.show()
+
     def off(self):
         self.terminate_process()
-        for i in range(self.strip.numPixels()):
-            self.strip.setPixelColorRGB(i, 0, 0, 0)
+        self.strip.setBrightness(0)
         self.strip.show()
 
     def hsv(self):

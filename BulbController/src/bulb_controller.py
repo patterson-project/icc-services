@@ -17,6 +17,7 @@ class BulbController:
         self.sequence_task: asyncio.Task = None
         self.request: BulbRequest = None
         self.operation_callback_by_name = {
+            "on": self.on,
             "off": self.off,
             "hsv": self.hsv,
             "brightness": self.brightness,
@@ -60,6 +61,10 @@ class BulbController:
             self.request = lighting_request
             await self.bulb.update()
             await self.operation_callback_by_name[lighting_request.operation]()
+
+    async def on(self):
+        self.terminate_task()
+        await self.bulb.turn_on()
 
     async def off(self):
         self.terminate_task()

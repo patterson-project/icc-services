@@ -1,14 +1,75 @@
-import React, { FC } from "react";
-
-const powerDialogDivStyle = {
-  height: "100%",
-  margin: "0px",
-  minHeight: "100vh",
-  backgroundColor: "#151515",
-};
+import { Grid, Typography } from "@mui/material";
+import React, { FC, useEffect, useState } from "react";
+import config from "../../../config";
+import {
+  gridContainerStyle,
+  gridItemStyle,
+  pageDivStyle,
+  titleStyle,
+} from "../../../Styles/DialogStyles";
+import { LightingRequest } from "../../../types";
+import { post } from "../../../utils";
+import PowerButton from "../LightingComponents/PowerButton";
 
 const PowerDialog: FC = () => {
-  return <div style={powerDialogDivStyle}></div>;
+  const [bulbOneState, setBulbOneState] = useState(true);
+  const [bulbTwoState, setBulbTwoState] = useState(true);
+  const [ledStripState, setLedStripState] = useState(true);
+
+  useEffect(() => {
+    const powerRequest: LightingRequest = {
+      operation: bulbOneState ? "on" : "off",
+    };
+
+    post(config.BULB_1_ENDPOINT, powerRequest);
+  }, [bulbOneState]);
+
+  useEffect(() => {
+    const powerRequest: LightingRequest = {
+      operation: bulbTwoState ? "on" : "off",
+    };
+
+    post(config.BULB_2_ENDPOINT, powerRequest);
+  }, [bulbTwoState]);
+
+  useEffect(() => {
+    const powerRequest: LightingRequest = {
+      operation: ledStripState ? "on" : "off",
+    };
+
+    post(config.LED_STRIP_ENDPOINT, powerRequest);
+  }, [ledStripState]);
+
+  return (
+    <div style={pageDivStyle}>
+      <Grid container spacing={1.5} style={gridContainerStyle}>
+        <Grid item xs={12} style={gridItemStyle}>
+          <Typography style={titleStyle}>Power</Typography>
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <PowerButton
+            deviceName="Led Strip"
+            onClick={() => setLedStripState(!ledStripState)}
+            deviceState={ledStripState}
+          />
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <PowerButton
+            deviceName="Bulb One"
+            onClick={() => setBulbOneState(!bulbOneState)}
+            deviceState={bulbOneState}
+          />
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <PowerButton
+            deviceName="Bulb Two"
+            onClick={() => setBulbTwoState(!bulbTwoState)}
+            deviceState={bulbTwoState}
+          />
+        </Grid>
+      </Grid>
+    </div>
+  );
 };
 
 export default PowerDialog;

@@ -10,13 +10,7 @@ import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import { BrightnessRequest, TemperatureRequest } from "../../../types";
 import LightingDeviceSwitches from "../LightingComponents/LightingDeviceSwitches";
 import { post } from "../../../utils";
-
-const colorDialogDivStyle = {
-  height: "100%",
-  margin: "0px",
-  minHeight: "100vh",
-  backgroundColor: "#151515",
-};
+import { pageDivStyle } from "../../../Styles/DialogStyles";
 
 const gridContainerStyle = {
   marginTop: "0px",
@@ -95,8 +89,8 @@ const ColorDialog: FC = () => {
   };
 
   return (
-    <div style={colorDialogDivStyle}>
-      <Grid container spacing={2} style={gridContainerStyle}>
+    <div style={pageDivStyle}>
+      <Grid container spacing={1.5} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
           <Typography style={titleStyle}>Colors</Typography>
         </Grid>

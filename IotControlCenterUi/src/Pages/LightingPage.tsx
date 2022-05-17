@@ -24,7 +24,7 @@ const bottomNavigationLabelStyle = {
 
 const iconStyle = {
   color: "white",
-  fontSize: "large",
+  size: "large",
 };
 
 const LightingPage: FC = () => {
