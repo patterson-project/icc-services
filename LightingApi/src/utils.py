@@ -26,7 +26,7 @@ class LightingMqttClient:
     def __init__(self) -> None:
         self.client = MqttClient.Client("lighting-api", clean_session=False)
         self.client.connect(
-            host=os.environ["BROKER_IP"], port=os.environ["BROKER_PORT"]
+            host=os.environ["BROKER_IP"], port=int(os.environ["BROKER_PORT"])
         )
 
     def publish_lighting_request(self, lighting_request: LightingRequest, device: str):

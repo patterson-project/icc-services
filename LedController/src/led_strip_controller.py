@@ -39,7 +39,9 @@ class LedStripController:
 
     def mqtt_init(self) -> PahoMqtt.Client:
         client = PahoMqtt.Client("led-controller", clean_session=False)
-        client.connect(host=os.environ["BROKER_IP"], port=os.environ["BROKER_PORT"])
+        client.connect(
+            host=os.environ["BROKER_IP"], port=int(os.environ["BROKER_PORT"])
+        )
         client.on_message = self.on_message
         client.subscribe("home/lighting/led-strip")
         return client
