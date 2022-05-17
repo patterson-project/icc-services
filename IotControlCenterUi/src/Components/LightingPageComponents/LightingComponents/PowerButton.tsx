@@ -20,7 +20,7 @@ const powerButtonOnIconStyle = {
 
 const powerButtonOffIconStyle = {
   color: "black",
-  fontSize: "40px",
+  fontSize: "30px",
 };
 
 const deviceNameStyle = {
