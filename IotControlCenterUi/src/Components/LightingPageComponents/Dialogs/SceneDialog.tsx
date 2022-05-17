@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
 import {
   gridContainerStyle,
@@ -16,10 +16,11 @@ const sceneDialogDivStyle = {
 const SceneDialog: FC = () => {
   return (
     <div style={sceneDialogDivStyle}>
-      <Grid container spacing={2} style={gridContainerStyle}>
-        <Grid item xs={12} style={gridItemStyle}>
-          <Typography style={titleStyle}>Scenes</Typography>
-        </Grid>
+      <Box style={gridItemStyle}>
+        <Typography style={titleStyle}>Scenes</Typography>
+      </Box>
+      <Grid container spacing={1.5} style={gridContainerStyle}>
+        <Grid item xs={12} style={gridItemStyle}></Grid>
       </Grid>
     </div>
   );

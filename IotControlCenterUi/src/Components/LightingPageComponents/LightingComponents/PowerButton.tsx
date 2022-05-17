@@ -1,12 +1,10 @@
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React, { FC } from "react";
-
 import {
   componentBoxStyle,
   gridContainerStyle,
   gridItemStyle,
-  subTitleStyle,
 } from "../../../Styles/DialogStyles";
 
 interface IPowerButton {
@@ -17,12 +15,18 @@ interface IPowerButton {
 
 const powerButtonOnIconStyle = {
   color: "white",
-  size: "large",
+  fontSize: "30px",
 };
 
 const powerButtonOffIconStyle = {
   color: "black",
-  size: "large",
+  fontSize: "40px",
+};
+
+const deviceNameStyle = {
+  color: "white",
+  fontSize: "20px",
+  fontFamily: "Ubuntu, -apple-system",
 };
 
 const PowerButton: FC<IPowerButton> = (props): JSX.Element => {
@@ -30,7 +34,7 @@ const PowerButton: FC<IPowerButton> = (props): JSX.Element => {
     <Box style={componentBoxStyle}>
       <Grid container style={gridContainerStyle}>
         <Grid item xs={6} style={gridItemStyle}>
-          <Typography style={subTitleStyle}>{props.deviceName}</Typography>
+          <Typography style={deviceNameStyle}>{props.deviceName}</Typography>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
           <IconButton color="primary" onClick={() => props.onClick()}>

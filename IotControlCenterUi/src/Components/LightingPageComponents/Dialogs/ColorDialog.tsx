@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import Slider from "../../Slider";
 import config from "../../../config";
@@ -90,10 +90,10 @@ const ColorDialog: FC = () => {
 
   return (
     <div style={pageDivStyle}>
+      <Box style={gridItemStyle}>
+        <Typography style={titleStyle}>Colors</Typography>
+      </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
-        <Grid item xs={12} style={gridItemStyle}>
-          <Typography style={titleStyle}>Colors</Typography>
-        </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <ColorSelectionTab
             ledStripTarget={ledStripTarget}
