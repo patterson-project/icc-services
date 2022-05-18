@@ -6,11 +6,9 @@ import json
 
 async def main():
     protocol = await aiocoap.Context.create_client_context()
-    lr = utils.LightingRequestResource("Jawn", 1, 2, 3)
+    lr = utils.LightingRequest("Jawn", 1, 2, 3)
     p = bytes(json.dumps(lr.__dict__).encode("utf-8"))
-    request = aiocoap.Message(
-        code=aiocoap.POST, payload=p, uri="coap://localhost/lightingrequest"
-    )
+    request = aiocoap.Message(code=aiocoap.GET, uri="coap://10.0.0.68/health")
 
     try:
         response = await protocol.request(request).response
