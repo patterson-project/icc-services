@@ -22,14 +22,14 @@ def led_strip() -> Response:
 @app.route("/lighting/bulb1", methods=["POST"])
 def bulb_1() -> Response:
     body = request.get_json()
-    requests.post("bulb-1-cluster-ip.default.svc.cluster.local/lightingrequest", body)
+    requests.post("http://bulb-1-cluster-ip.default.svc.cluster.local/lightingrequest", body)
     return Response(status=200)
 
 
 @app.route("/lighting/bulb2", methods=["POST"])
 def bulb_2() -> Response:
     body = request.get_json()
-    requests.post("bulb-2-cluster-ip.default.svc.cluster.local/lightingrequest", body)
+    requests.post("http://bulb-2-cluster-ip.default.svc.cluster.local/lightingrequest", body)
     return Response(status=200)
 
 

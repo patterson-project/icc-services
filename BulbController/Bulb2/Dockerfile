@@ -10,4 +10,4 @@ COPY src/*.py ./
 
 EXPOSE 8000
 
-ENTRYPOINT [ "python", "-u", "bulb_controller.py" ] 
+ENTRYPOINT [ "python", "-u", "bulbserver.py" ] 
