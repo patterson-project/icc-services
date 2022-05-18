@@ -2,6 +2,7 @@ from flask import Flask, Response, request
 from flask_cors import CORS
 from utils import LightingRequest, log
 from ledstrip import LedStripController
+from gevent.pywsgi import WSGIServer
 
 app: Flask = Flask("__main__")
 CORS(app)
@@ -26,4 +27,5 @@ def led_strip() -> Response:
 
 
 if __name__ == "__main__":
-    app.run(host="", port=8000, threaded=True)
+    http_server = WSGIServer(("", 8000), app)
+    http_server.serve_forever()
