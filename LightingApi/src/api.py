@@ -53,4 +53,4 @@ def bulb_2() -> Response:
 
 if __name__ == "__main__":
     asyncio.run(coap_request.init_coap_protocol())
-    app.run(threaded=True, port=8000)
+    app.run(host="0.0.0.0", threaded=True, port=8000)
