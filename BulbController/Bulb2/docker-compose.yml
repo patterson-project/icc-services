@@ -8,5 +8,5 @@ services:
       context: ../
       dockerfile: $PWD/Dockerfile
     ports:
-      - 1883
-      - 9999
+      - "8000:8000"
+

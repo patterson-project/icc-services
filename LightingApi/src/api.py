@@ -1,13 +1,10 @@
 import requests
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import LightingMqttClient, LightingRequest
 from gevent.pywsgi import WSGIServer
 
 app: Flask = Flask("__main__")
 CORS(app)
-
-mqtt_client = LightingMqttClient()
 
 
 @app.route("/health")
