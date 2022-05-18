@@ -9,6 +9,6 @@ RUN pip install -r requirements.txt
 
 COPY /src/*.py ./
 
-EXPOSE 5683
+EXPOSE 8000
 
-CMD [ "python", "-u", "coapserver.py"]
+CMD [ "python", "-u", "ledserver.py"]

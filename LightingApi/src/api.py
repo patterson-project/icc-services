@@ -1,18 +1,18 @@
 import asyncio
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import LightingMqttClient, LightingRequest, CoapRequest, CoapUri
+from utils import LightingMqttClient, LightingRequest
+from gevent.pywsgi import WSGIServer
 
 app: Flask = Flask("__main__")
 CORS(app)
 
 mqtt_client = LightingMqttClient()
-coap_request = CoapRequest()
 
 
-@app.route("/")
+@app.route("/health")
 def index() -> Response:
-    return Response(status=200)
+    return Response("Healthy", status=200)
 
 
 @app.route("/lighting/ledstrip", methods=["POST"])
@@ -20,7 +20,6 @@ def led_strip() -> Response:
     body = request.get_json()
     try:
         led_request = LightingRequest(**body)
-        asyncio.run(coap_request.post(led_request, CoapUri.LED_STRIP_URI))
     except:
         return Response("Invalid JSON body in request.", 400)
 
@@ -52,5 +51,5 @@ def bulb_2() -> Response:
 
 
 if __name__ == "__main__":
-    asyncio.run(coap_request.init_coap_protocol())
-    app.run(host="0.0.0.0", threaded=True, port=8000)
+    http_server = WSGIServer(("", 8000), app)
+    http_server.serve_forever()
