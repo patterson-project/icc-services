@@ -16,11 +16,11 @@ def index() -> Response:
 
 
 @app.route("/lighting/ledstrip", methods=["POST"])
-async def led_strip() -> Response:
+def led_strip() -> Response:
     body = request.get_json()
     try:
         led_request = LightingRequest(**body)
-        await coap_request.post(led_request, CoapUri.LED_STRIP_URI)
+        asyncio.run(coap_request.post(led_request, CoapUri.LED_STRIP_URI))
     except:
         return Response("Invalid JSON body in request.", 400)
 
