@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:slim
 
 LABEL Maintainer="canadrian72"
 

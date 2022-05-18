@@ -15,7 +15,7 @@ def index() -> Response:
 @app.route("/lighting/ledstrip", methods=["POST"])
 def led_strip() -> Response:
     body = request.get_json()
-    requests.post("http://10.0.0.68/lightingrequest", body)
+    requests.post("http://10.0.0.68:8000/lightingrequest", body)
     return Response(status=200)
 
 
