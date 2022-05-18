@@ -1,7 +1,7 @@
 flask
-gevent
-requests
-paho-mqtt
 flask-cors
+requests
+gevent
+paho-mqtt
 aiocoap
 asyncio
