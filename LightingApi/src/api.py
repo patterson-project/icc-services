@@ -7,7 +7,7 @@ app: Flask = Flask("__main__")
 CORS(app)
 
 
-@app.route("/health")
+@app.route("/lighting/health")
 def index() -> Response:
     return Response("Healthy", status=200)
 
@@ -23,7 +23,11 @@ def led_strip() -> Response:
 @app.route("/lighting/bulb1", methods=["POST"])
 def bulb_1() -> Response:
     requests.post(
+<<<<<<< HEAD
         "bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest", request.data
+=======
+            "http://bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest", body
+>>>>>>> 1a85ac8b2962e46f866811c9adb9566992fc8b3e
     )
     return Response(status=200)
 
@@ -32,7 +36,7 @@ def bulb_1() -> Response:
 def bulb_2() -> Response:
     body = request.get_json()
     requests.post(
-        "bulb-2-cluster-ip.default.svc.cluster.local:8000/lightingrequest", body
+            "http://bulb-2-cluster-ip.default.svc.cluster.local:8000/lightingrequest", body
     )
     return Response(status=200)
 
