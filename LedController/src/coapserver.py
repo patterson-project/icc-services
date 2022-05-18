@@ -23,9 +23,18 @@ class LightingRequestResource(resource.Resource):
         return aiocoap.Message(payload=b"Success")
 
 
+class HealthResource(resource.Resource):
+    def __init__(self):
+        super().__init__()
+
+    async def render_get(self, request):
+        return aiocoap.Message(payload=b"Healthy")
+
+
 async def main():
     root = resource.Site()
     root.add_resource(["lightingrequest"], LightingRequestResource())
+    root.add_resource(["health"], HealthResource())
 
     await aiocoap.Context.create_server_context(root)
     await asyncio.get_running_loop().create_future()
