@@ -1,4 +1,5 @@
 flask
+aioflask
 flask_cors
 requests
 gevent
