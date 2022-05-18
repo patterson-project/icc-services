@@ -1,5 +1,4 @@
 flask
 flask_cors
 requests
-gevent
 rpi_ws281x
