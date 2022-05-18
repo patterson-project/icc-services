@@ -15,15 +15,15 @@ def index() -> Response:
 @app.route("/lighting/ledstrip", methods=["POST"])
 def led_strip() -> Response:
     body = request.get_json()
+    print(str(body))
     requests.post("http://10.0.0.68:8000/lightingrequest", body)
     return Response(status=200)
 
 
 @app.route("/lighting/bulb1", methods=["POST"])
 def bulb_1() -> Response:
-    body = request.get_json()
     requests.post(
-        "bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest", body
+        "bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest", request.data
     )
     return Response(status=200)
 
