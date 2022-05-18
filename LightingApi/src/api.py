@@ -23,7 +23,8 @@ def led_strip() -> Response:
 @app.route("/lighting/bulb1", methods=["POST"])
 def bulb_1() -> Response:
     requests.post(
-        "http://bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest", body
+        "http://bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest",
+        request.data,
     )
     return Response(status=200)
 
