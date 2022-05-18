@@ -3,3 +3,5 @@ aioflask
 requests
 paho-mqtt
 flask-cors
+aiocoap
+asyncio
