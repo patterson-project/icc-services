@@ -10,13 +10,8 @@ async def main():
     p = bytes(json.dumps(lr.__dict__).encode("utf-8"))
     request = aiocoap.Message(code=aiocoap.GET, uri="coap://10.0.0.68/health")
 
-    try:
-        response = await protocol.request(request).response
-    except Exception as e:
-        print("Failed to fetch resource:")
-        print(e)
-    else:
-        print("Result: %s\n%r" % (response.code, response.payload))
+    response = await protocol.request(request).response
+    print("Result: %s\n%r" % (response.code, response.payload))
 
 
 if __name__ == "__main__":

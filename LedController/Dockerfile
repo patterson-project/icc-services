@@ -9,6 +9,6 @@ RUN pip install -r requirements.txt
 
 COPY /src/*.py ./
 
-EXPOSE 5684
+EXPOSE 5683
 
 CMD [ "python", "-u", "coapserver.py"]
