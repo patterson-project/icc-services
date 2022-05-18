@@ -80,7 +80,7 @@ class LedStripConfig:
     CHANNEL = 0
 
 
-class LedStripRequest:
+class LightingRequest:
     def __init__(
         self,
         operation: str,

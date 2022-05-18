@@ -1,5 +1,6 @@
 import datetime
 import json
+import aiocoap
 import paho.mqtt.client as MqttClient
 import os
 
@@ -34,6 +35,32 @@ class LightingMqttClient:
 
     def publish(self, topic, message) -> None:
         self.client.publish(topic, message, 1)
+
+
+class CoapUri:
+    LED_STRIP_URI = "coap://10.0.0.68/lightingrequest"
+
+
+class CoapRequest:
+    def __init__(self):
+        self.protocol: aiocoap.Context = None
+
+    async def init_coap_protocol(self):
+        self.protocol = await aiocoap.Context.create_client_context()
+
+    async def post(self, payload: any, dest_uri: str) -> tuple[str, str]:
+        payload_bytes = bytes(json.dumps(payload.__dict__).encode("utf-8"))
+        request = aiocoap.Message(
+            code=aiocoap.POST, payload=payload_bytes, uri=dest_uri
+        )
+
+        try:
+            response = await self.protocol.request(request).response
+        except Exception as e:
+            print("Failed to fetch resource:")
+            print(e)
+        else:
+            return (response.code, response.payload)
 
 
 def log(message):
