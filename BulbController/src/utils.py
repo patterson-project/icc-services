@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 
-class BulbRequest:
+class LightingRequest:
     def __init__(
         self,
         operation: str,

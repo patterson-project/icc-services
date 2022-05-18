@@ -1,2 +1,5 @@
-asyncio-mqtt
+flask
+flask_cors
+requests
+gevent
 python-kasa

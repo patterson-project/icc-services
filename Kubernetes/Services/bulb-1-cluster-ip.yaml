@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bulb-1-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    svc: bulb-1-controller
+  ports:
+    - port: 8000
