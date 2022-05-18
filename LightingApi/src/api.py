@@ -7,7 +7,7 @@ app: Flask = Flask("__main__")
 CORS(app)
 
 
-@app.route("/health")
+@app.route("/lighting/health")
 def index() -> Response:
     return Response("Healthy", status=200)
 
