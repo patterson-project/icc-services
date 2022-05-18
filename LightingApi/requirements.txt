@@ -1,4 +1,5 @@
 flask
+aioflask
 requests
 paho-mqtt
 flask-cors
