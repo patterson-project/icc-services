@@ -63,5 +63,5 @@ if __name__ == "__main__":
     asyncio.run_coroutine_threadsafe(bulb_1.create_bulb(os.environ["BULB_1_IP"]), loop)
     asyncio.run_coroutine_threadsafe(bulb_2.create_bulb(os.environ["BULB_2_IP"]), loop)
 
-    http_server = WSGIServer(("", 5000), app)
+    http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()
