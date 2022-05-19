@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bulb-controller
+spec:
+  selector:
+    matchLabels:
+      svc: bulb-controller
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        svc: bulb-controller
+    spec:
+      containers:
+        - name: bulb-1-container
+          image: canadrian72/iot-control-center:bulb-controller
+          imagePullPolicy: Always

@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt
 
 COPY src/*.py ./
 
-EXPOSE 8000
+EXPOSE 5000
 
 ENV BULB_1_IP=10.0.0.90
 ENV BULB_2_IP=10.0.0.37

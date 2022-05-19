@@ -21,12 +21,7 @@ class LightingRequest:
 
 class ServiceUris:
     LED_STRIP_SERVICE = "http://10.0.0.68:8000/lightingrequest"
-    BULB_1_SERVICE = (
-        "http://bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest"
-    )
-    BULB_2_SERVICE = (
-        "http://bulb-2-cluster-ip.default.svc.cluster.local:8000/lightingrequest"
-    )
+    BULB_SERVICE = "http://bulb-controller-cluster-ip.default.svc.cluster.local:8000"
 
 
 def log(message):

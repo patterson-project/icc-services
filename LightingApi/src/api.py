@@ -30,7 +30,7 @@ def led_strip() -> Response:
 def bulb_1() -> Response:
     body = request.get_json()
     try:
-        requests.post(ServiceUris.BULB_1_SERVICE, json=body)
+        requests.post(ServiceUris.BULB_SERVICE + "/lightingrequest/bulb1", json=body)
     except requests.HTTPError as e:
         return Response("Error: " + str(e), 400)
 
@@ -41,7 +41,7 @@ def bulb_1() -> Response:
 def bulb_2() -> Response:
     body = request.get_json()
     try:
-        requests.post(ServiceUris.BULB_2_SERVICE, json=body)
+        requests.post(ServiceUris.BULB_SERVICE + "/lightingrequest/bulb2", json=body)
     except requests.HTTPError as e:
         return Response("Error: " + str(e), 400)
 
