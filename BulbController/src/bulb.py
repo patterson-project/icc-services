@@ -23,11 +23,12 @@ class BulbController:
             "rainbow_cycle": self.rainbow,
             "temperature": self.temperature,
         }
+        print("Bulb controller initialization completed successfully.")
 
     async def bulb_init(self) -> kasa.SmartBulb:
         try:
             self.bulb = kasa.SmartBulb(self.ip_address)
-            await self.bulb.update()
+            await (self.bulb.update())
         except kasa.SmartDeviceException:
             log("SmartDeviceException: Unable to establish connection with device.")
 
