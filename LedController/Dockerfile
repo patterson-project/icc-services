@@ -1,4 +1,4 @@
-FROM python:slim
+FROM python:buster
 
 LABEL Maintainer="canadrian72"
 
