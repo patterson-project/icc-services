@@ -41,5 +41,5 @@ if __name__ == "__main__":
     bulb_thread = Thread(target=start_background_loop, args=(loop,), daemon=True)
     bulb_thread.start()
     asyncio.run_coroutine_threadsafe(bulb_controller.create_bulb("10.0.0.37"), loop)
-    http_server = WSGIServer(("", 5000), app)
+    http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()

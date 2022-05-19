@@ -49,5 +49,5 @@ async def bulb_2() -> Response:
 
 
 if __name__ == "__main__":
-    http_server = WSGIServer(("", 5001), app)
+    http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()
