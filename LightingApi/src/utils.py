@@ -1,5 +1,32 @@
 import datetime
-import paho.mqtt.client as MqttClient
+
+
+class LightingRequest:
+    def __init__(
+        self,
+        operation: str,
+        h: int = 0,
+        s: int = 100,
+        v: int = 50,
+        brightness: int = None,
+        temperature: int = None,
+    ):
+        self.operation = operation
+        self.brightness = brightness
+        self.h = h
+        self.s = s
+        self.v = v
+        self.temperature = temperature
+
+
+class ServiceUris:
+    LED_STRIP_SERVICE = "http://10.0.0.68:8000/lightingrequest"
+    BULB_1_SERVICE = (
+        "http://bulb-1-cluster-ip.default.svc.cluster.local:8000/lightingrequest"
+    )
+    BULB_2_SERVICE = (
+        "http://bulb-2-cluster-ip.default.svc.cluster.local:8000/lightingrequest"
+    )
 
 
 def log(message):
