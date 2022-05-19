@@ -10,7 +10,7 @@ class LedStripController:
         self.strip: rpi_ws281x.Adafruit_NeoPixel = self.led_strip_init()
         self.sequence_process: multiprocessing.Process = None
         self.request: LightingRequest = None
-        self.last_rgb: rpi_ws281x.Color = rpi_ws281x.Color(255, 255, 255)
+        self.last_rgb: tuple[int, int, int] = (255, 255, 255)
         self.operation_callback_by_name = {
             "on": self.on,
             "off": self.off,
@@ -56,6 +56,7 @@ class LedStripController:
         self.terminate_process()
 
         r, g, b = convert_K_to_RGB(self.request.temperature)
+        self.last_rgb = (r, g, b)
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, r, b, g)
@@ -67,7 +68,7 @@ class LedStripController:
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(
-                i, self.last_rgb.r, self.last_rgb.b, self.last_rgb.g
+                i, self.last_rgb[0], self.last_rgb[2], self.last_rgb[1]
             )
         self.strip.show()
 
@@ -87,7 +88,7 @@ class LedStripController:
                 self.request.h / 360, self.request.s / 100, self.request.v / 100
             )
         )
-        self.last_rgb = rpi_ws281x.Color(r, g, b)
+        self.last_rgb = (r, g, b)
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColorRGB(i, r, b, g)
