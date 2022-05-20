@@ -1,5 +1,5 @@
 import { Box, Divider, Grid, Typography } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import config from "../../../config";
 import {
   gridContainerStyle,
@@ -8,8 +8,16 @@ import {
   titleStyle,
 } from "../../../Styles/DialogStyles";
 import { LightingRequest } from "../../../types";
-import { post } from "../../../utils";
+import { post, useDidMountEffect } from "../../../utils";
 import PowerButton from "../LightingComponents/PowerButton";
+
+const categoryTitleBoxStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "left",
+  marginLeft: "8%",
+  paddingTop: "5px",
+};
 
 const categoryTitleStyle = {
   color: "white",
@@ -23,7 +31,7 @@ const PowerDialog: FC = () => {
   const [bulbTwoState, setBulbTwoState] = useState(true);
   const [ledStripState, setLedStripState] = useState(true);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     const powerRequest: LightingRequest = {
       operation: bulbOneState ? "on" : "off",
     };
@@ -31,7 +39,7 @@ const PowerDialog: FC = () => {
     post(config.BULB_1_ENDPOINT, powerRequest);
   }, [bulbOneState]);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     const powerRequest: LightingRequest = {
       operation: bulbTwoState ? "on" : "off",
     };
@@ -39,7 +47,7 @@ const PowerDialog: FC = () => {
     post(config.BULB_2_ENDPOINT, powerRequest);
   }, [bulbTwoState]);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     const powerRequest: LightingRequest = {
       operation: ledStripState ? "on" : "off",
     };
@@ -53,7 +61,7 @@ const PowerDialog: FC = () => {
         <Typography style={titleStyle}>Power</Typography>
       </Box>
       <Divider variant="middle" style={{ backgroundColor: "#555555" }} />
-      <Box style={gridItemStyle}>
+      <Box style={categoryTitleBoxStyle}>
         <Typography style={categoryTitleStyle}>Bedroom</Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>

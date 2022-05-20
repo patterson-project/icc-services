@@ -28,9 +28,8 @@ def index() -> Response:
 @app.route("/lightingrequest/bulb1", methods=["POST"])
 async def lighting_request_bulb_1() -> Response:
     bulb_request = LightingRequest(**json.loads(request.data))
-    log(bulb_request.__dict__)
-
     bulb_1.request = bulb_request
+
     asyncio.run_coroutine_threadsafe(bulb_1.bulb.update(), loop)
     asyncio.run_coroutine_threadsafe(
         bulb_1.operation_callback_by_name[bulb_request.operation](), loop

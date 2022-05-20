@@ -1,6 +1,7 @@
+import json
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import LightingRequest, log
+from utils import LightingRequest
 from ledstrip import LedStripController
 from gevent.pywsgi import WSGIServer
 
@@ -17,11 +18,9 @@ def index() -> Response:
 
 @app.route("/lightingrequest", methods=["POST"])
 def led_strip() -> Response:
-    body = request.get_json()
-    led_request = LightingRequest(**body)
-    log(led_request.__dict__)
-
+    led_request = LightingRequest(**json.loads(request.data))
     led_strip_controller.request = led_request
+
     led_strip_controller.operation_callback_by_name[led_request.operation]()
     return Response(status=200)
 

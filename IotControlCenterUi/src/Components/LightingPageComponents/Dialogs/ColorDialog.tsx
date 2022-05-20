@@ -46,9 +46,9 @@ const rightIconStyle = {
 };
 
 const ColorDialog: FC = () => {
-  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(true);
-  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(true);
-  const [ledStripTarget, setLedStripTarget] = useState<boolean>(true);
+  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
+  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
+  const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
 
   const onChangeBrightness = (value: number) => {
     const brightnessRequest: BrightnessRequest = {

@@ -96,9 +96,3 @@ class LightingRequest:
         self.h = h
         self.s = s
         self.v = v
-
-
-def log(message):
-    now = datetime.datetime.now(datetime.timezone.utc).astimezone()
-    print("[" + str(now.strftime("%Y-%m-%d %H:%M:%S")) + "]\t", end="")
-    print(message)

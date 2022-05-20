@@ -15,17 +15,17 @@ interface IPowerButton {
 
 const powerButtonOnIconStyle = {
   color: "white",
-  fontSize: "30px",
+  fontSize: "70px",
 };
 
 const powerButtonOffIconStyle = {
   color: "black",
-  fontSize: "30px",
+  fontSize: "70px",
 };
 
 const deviceNameStyle = {
   color: "white",
-  fontSize: "20px",
+  fontSize: "25px",
   fontFamily: "Ubuntu, -apple-system",
 };
 

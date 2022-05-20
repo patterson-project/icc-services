@@ -8,12 +8,7 @@ interface IIosSwitch {
 }
 
 export const IosSwitch = styled((props: IIosSwitch) => (
-  <Switch
-    focusVisibleClassName=".Mui-focusVisible"
-    disableRipple
-    defaultChecked={true}
-    {...props}
-  />
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
   width: 56,
   height: 35,
