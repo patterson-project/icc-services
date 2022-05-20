@@ -1,4 +1,4 @@
 flask
-requests
-paho-mqtt
 flask-cors
+requests
+gevent

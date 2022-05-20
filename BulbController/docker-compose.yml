@@ -2,9 +2,8 @@ version: '3.7'
 
 services:
 
-  led-controller:
-    image: canadrian72/iot-control-center:led-controller
-    privileged: true
+  bulb-controller:
+    image: canadrian72/iot-control-center:bulb-controller
     build:
       context: .
       dockerfile: Dockerfile

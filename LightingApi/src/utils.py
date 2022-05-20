@@ -1,7 +1,4 @@
 import datetime
-import json
-import paho.mqtt.client as MqttClient
-import os
 
 
 class LightingRequest:
@@ -22,18 +19,9 @@ class LightingRequest:
         self.temperature = temperature
 
 
-class LightingMqttClient:
-    def __init__(self) -> None:
-        self.client = MqttClient.Client("lighting-api", clean_session=False)
-        self.client.connect(
-            host=os.environ["BROKER_IP"], port=int(os.environ["BROKER_PORT"])
-        )
-
-    def publish_lighting_request(self, lighting_request: LightingRequest, device: str):
-        self.publish("home/lighting/" + device, json.dumps(lighting_request.__dict__))
-
-    def publish(self, topic, message) -> None:
-        self.client.publish(topic, message, 1)
+class ServiceUris:
+    LED_STRIP_SERVICE = "http://10.0.0.68:8000/lightingrequest"
+    BULB_SERVICE = "http://bulb-controller-cluster-ip.default.svc.cluster.local:8000"
 
 
 def log(message):

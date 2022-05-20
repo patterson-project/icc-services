@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:buster
 
 LABEL Maintainer="canadrian72"
 
@@ -9,7 +9,6 @@ RUN pip install -r requirements.txt
 
 COPY /src/*.py ./
 
-ENV BROKER_IP=10.0.0.34
-ENV BROKER_PORT=1884
+EXPOSE 8000
 
-CMD [ "python", "-u", "led_strip_controller.py"]
+CMD [ "python", "-u", "ledserver.py"]

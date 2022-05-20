@@ -1,3 +1,5 @@
-rpi_ws281x 
-paho-mqtt 
-python-kasa
+flask
+flask-cors
+requests
+gevent
+rpi_ws281x
