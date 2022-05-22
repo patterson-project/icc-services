@@ -6,8 +6,8 @@ WORKDIR /app
 COPY ./requirements.txt /app/
 RUN pip install -r requirements.txt
 
-COPY ./src/*.py ./
-
 EXPOSE 8000
+
+COPY ./src/*.py ./
 
 ENTRYPOINT [ "python", "-u", "./api.py" ]
