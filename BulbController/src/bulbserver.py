@@ -2,7 +2,7 @@ import asyncio
 import os
 import json
 from threading import Thread
-from flask import Flask, Response, request
+from flask import Flask, Response, make_response, jsonify, request
 from flask_cors import CORS
 from utils import BulbOn, LightingRequest
 from bulb import BulbController
@@ -22,14 +22,21 @@ loop = asyncio.new_event_loop()
 
 @app.route("/health")
 def index() -> Response:
-    return Response("Healthy", status=200)
+    return "Healthy", 200
 
 
 @app.route("/on/bulb1", methods=["GET"])
 def on() -> Response:
     asyncio.run_coroutine_threadsafe(bulb_1.bulb.update(), loop)
     bulb_1_status = BulbOn(bulb_1.bulb.is_on)
-    return Response(bulb_1_status, status=200)
+    return bulb_1_status.__dict__, 200
+
+
+@app.route("/on/bulb2", methods=["GET"])
+def on() -> Response:
+    asyncio.run_coroutine_threadsafe(bulb_2.bulb.update(), loop)
+    bulb_2_status = BulbOn(bulb_2.bulb.is_on)
+    return bulb_2_status.__dict__, 200
 
 
 @app.route("/lightingrequest/bulb1", methods=["POST"])
@@ -41,7 +48,7 @@ async def lighting_request_bulb_1() -> Response:
     asyncio.run_coroutine_threadsafe(
         bulb_1.operation_callback_by_name[bulb_request.operation](), loop
     )
-    return Response(status=200)
+    return "Success", 200
 
 
 @app.route("/lightingrequest/bulb2", methods=["POST"])
@@ -53,7 +60,7 @@ async def lighting_request_bulb_2() -> Response:
     asyncio.run_coroutine_threadsafe(
         bulb_2.operation_callback_by_name[bulb_request.operation](), loop
     )
-    return Response(status=200)
+    return "Success", 200
 
 
 def start_background_loop(loop):

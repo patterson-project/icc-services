@@ -96,3 +96,8 @@ class LightingRequest:
         self.h = h
         self.s = s
         self.v = v
+
+
+class LedStripStatus:
+    def __init__(self, on: bool):
+        self.on = on

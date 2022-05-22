@@ -15,14 +15,30 @@ def index() -> Response:
 
 
 @app.route("/status/on/bulb1", methods=["GET"])
-async def bulb_1_on() -> Response:
+def bulb_1_on() -> Response:
     try:
-        bulb_1_response: Response = await requests.get(
-            ServiceUris.BULB_SERVICE + "/on/bulb1"
-        )
-        return Response(response=bulb_1_response.get_json(), status=200)
+        bulb_1_response: Response = requests.get(ServiceUris.BULB_SERVICE + "/on/bulb1")
+        return bulb_1_response.json(), 200
     except requests.HTTPError as e:
-        return Response(response="Error: " + str(e), status=400)
+        return "Error: " + str(e), 400
+
+
+@app.route("/status/on/bulb2", methods=["GET"])
+def bulb_2_on() -> Response:
+    try:
+        bulb_2_response: Response = requests.get(ServiceUris.BULB_SERVICE + "/on/bulb2")
+        return bulb_2_response.json(), 200
+    except requests.HTTPError as e:
+        return "Error: " + str(e), 400
+
+
+@app.route("/status/on/ledstrip", methods=["GET"])
+def led_strip_on() -> Response:
+    try:
+        led_response: Response = requests.get(ServiceUris.LED_STRIP_SERVICE + "/on")
+        return led_response.json(), 200
+    except requests.HTTPError as e:
+        return "Error: " + str(e), 400
 
 
 @app.route("/lighting/ledstrip", methods=["POST"])
@@ -31,9 +47,9 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/lightingrequest", json=request.get_json()
         )
-        return Response(status=200)
+        return "Success", 200
     except requests.HTTPError as e:
-        return Response(response="Error: " + str(e), status=400)
+        return "Error: " + str(e), 400
 
 
 @app.route("/lighting/bulb1", methods=["POST"])
@@ -42,9 +58,9 @@ def bulb_1() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/lightingrequest/bulb1", json=request.get_json()
         )
-        return Response(status=200)
+        return "Success", 200
     except requests.HTTPError as e:
-        return Response(response="Error: " + str(e), status=400)
+        return "Error: " + str(e), 400
 
 
 @app.route("/lighting/bulb2", methods=["POST"])
@@ -53,9 +69,9 @@ def bulb_2() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/lightingrequest/bulb2", json=request.get_json()
         )
-        return Response(status=200)
+        return "Success", 200
     except requests.HTTPError as e:
-        return Response(response="Error: " + str(e), status=400)
+        return "Error: " + str(e), 400
 
 
 if __name__ == "__main__":
