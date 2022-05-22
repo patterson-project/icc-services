@@ -15,3 +15,7 @@ export interface HsvRequest extends LightingRequest {
 export interface TemperatureRequest extends LightingRequest {
   temperature: number;
 }
+
+export interface LightingPowerStatus {
+  on: boolean;
+}

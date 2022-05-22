@@ -14,7 +14,7 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/lighting/status/on/bulb1", methods=["GET"])
+@app.route("/lighting/bulb1/status/on", methods=["GET"])
 def bulb_1_on() -> Response:
     try:
         bulb_1_response: Response = requests.get(
@@ -25,7 +25,7 @@ def bulb_1_on() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/status/on/bulb2", methods=["GET"])
+@app.route("/lighting/bulb2/status/on", methods=["GET"])
 def bulb_2_on() -> Response:
     try:
         bulb_2_response: Response = requests.get(
@@ -36,7 +36,7 @@ def bulb_2_on() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/status/on/ledstrip", methods=["GET"])
+@app.route("/lighting/ledstrip/status/on", methods=["GET"])
 def led_strip_on() -> Response:
     try:
         led_response: Response = requests.get(
@@ -47,7 +47,7 @@ def led_strip_on() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/request/ledstrip", methods=["POST"])
+@app.route("/lighting/ledstrip/request", methods=["POST"])
 def led_strip() -> Response:
     try:
         requests.post(
@@ -58,7 +58,7 @@ def led_strip() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/request/bulb1", methods=["POST"])
+@app.route("/lighting/bulb1/request", methods=["POST"])
 def bulb_1() -> Response:
     try:
         requests.post(
@@ -69,7 +69,7 @@ def bulb_1() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/request/bulb2", methods=["POST"])
+@app.route("/lighting/bulb2/request", methods=["POST"])
 def bulb_2() -> Response:
     try:
         requests.post(

@@ -28,4 +28,5 @@ const post = (url: string, body: any) => {
       return false;
     });
 };
+
 export { useDidMountEffect, post };

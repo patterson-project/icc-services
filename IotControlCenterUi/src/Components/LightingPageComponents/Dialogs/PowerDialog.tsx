@@ -1,5 +1,5 @@
 import { Box, Divider, Grid, Typography } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import config from "../../../config";
 import {
   gridContainerStyle,
@@ -7,7 +7,7 @@ import {
   pageDivStyle,
   titleStyle,
 } from "../../../Styles/DialogStyles";
-import { LightingRequest } from "../../../types";
+import { LightingPowerStatus, LightingRequest } from "../../../types";
 import { post, useDidMountEffect } from "../../../utils";
 import PowerButton from "../LightingComponents/PowerButton";
 
@@ -27,9 +27,41 @@ const categoryTitleStyle = {
 };
 
 const PowerDialog: FC = () => {
-  const [bulbOneState, setBulbOneState] = useState(true);
-  const [bulbTwoState, setBulbTwoState] = useState(true);
-  const [ledStripState, setLedStripState] = useState(true);
+  const [bulbOneState, setBulbOneState] = useState<boolean>(false);
+  const [bulbTwoState, setBulbTwoState] = useState<boolean>(false);
+  const [ledStripState, setLedStripState] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchPowerStatus = async (
+      url: string
+    ): Promise<LightingPowerStatus> => {
+      return fetch(url, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          return response as LightingPowerStatus;
+        });
+    };
+
+    const setPowerStates = async () => {
+      const bulbOnePowerStatus: LightingPowerStatus = await fetchPowerStatus(
+        config.BULB_1_ENDPOINT + "/status/on"
+      );
+      const bulbTwoPowerStatus: LightingPowerStatus = await fetchPowerStatus(
+        config.BULB_2_ENDPOINT + "/status/on"
+      );
+      const ledStripPowerStatus: LightingPowerStatus = await fetchPowerStatus(
+        config.LED_STRIP_ENDPOINT + "/status/on"
+      );
+
+      setBulbOneState(bulbOnePowerStatus.on);
+      setBulbTwoState(bulbTwoPowerStatus.on);
+      setLedStripState(ledStripPowerStatus.on);
+    };
+
+    setPowerStates();
+  });
 
   useDidMountEffect(() => {
     const powerRequest: LightingRequest = {
