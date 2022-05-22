@@ -30,6 +30,7 @@ const PowerDialog: FC = () => {
   const [bulbOneState, setBulbOneState] = useState<boolean>(false);
   const [bulbTwoState, setBulbTwoState] = useState<boolean>(false);
   const [ledStripState, setLedStripState] = useState<boolean>(false);
+  const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPowerStatus = async (
@@ -61,31 +62,35 @@ const PowerDialog: FC = () => {
     };
 
     setPowerStates();
-  });
+    setButtonsDisabled(false);
+  }, []);
 
-  useDidMountEffect(() => {
+  const onClickBulbOnePower = () => {
+    setBulbOneState(!bulbOneState);
     const powerRequest: LightingRequest = {
-      operation: bulbOneState ? "on" : "off",
+      operation: bulbOneState ? "off" : "on",
     };
 
-    post(config.BULB_1_ENDPOINT, powerRequest);
-  }, [bulbOneState]);
+    post(config.BULB_1_ENDPOINT + "/request", powerRequest);
+  };
 
-  useDidMountEffect(() => {
+  const onClickBulbTwoPower = () => {
+    setBulbTwoState(!bulbTwoState);
     const powerRequest: LightingRequest = {
-      operation: bulbTwoState ? "on" : "off",
+      operation: bulbTwoState ? "off" : "on",
     };
 
-    post(config.BULB_2_ENDPOINT, powerRequest);
-  }, [bulbTwoState]);
+    post(config.BULB_2_ENDPOINT + "/request", powerRequest);
+  };
 
-  useDidMountEffect(() => {
+  const onClickLedStripPower = () => {
+    setLedStripState(!ledStripState);
     const powerRequest: LightingRequest = {
-      operation: ledStripState ? "on" : "off",
+      operation: ledStripState ? "off" : "on",
     };
 
-    post(config.LED_STRIP_ENDPOINT, powerRequest);
-  }, [ledStripState]);
+    post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
+  };
 
   return (
     <div style={pageDivStyle}>
@@ -100,22 +105,25 @@ const PowerDialog: FC = () => {
         <Grid item xs={12} style={gridItemStyle}>
           <PowerButton
             deviceName="Led Strip"
-            onClick={() => setLedStripState(!ledStripState)}
+            onClick={() => onClickLedStripPower()}
             deviceState={ledStripState}
+            disabled={buttonsDisabled}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <PowerButton
             deviceName="Bulb One"
-            onClick={() => setBulbOneState(!bulbOneState)}
+            onClick={() => onClickBulbOnePower()}
             deviceState={bulbOneState}
+            disabled={buttonsDisabled}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <PowerButton
             deviceName="Bulb Two"
-            onClick={() => setBulbTwoState(!bulbTwoState)}
+            onClick={() => onClickBulbTwoPower()}
             deviceState={bulbTwoState}
+            disabled={buttonsDisabled}
           />
         </Grid>
       </Grid>
