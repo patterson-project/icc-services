@@ -35,7 +35,9 @@ def bulb_2_on() -> Response:
 @app.route("/lighting/status/on/ledstrip", methods=["GET"])
 def led_strip_on() -> Response:
     try:
-        led_response: Response = requests.get(ServiceUris.LED_STRIP_SERVICE + "/on")
+        led_response: Response = requests.get(
+            ServiceUris.LED_STRIP_SERVICE + "/status/on"
+        )
         return led_response.json(), 200
     except requests.HTTPError as e:
         return "Error: " + str(e), 400
