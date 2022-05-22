@@ -22,7 +22,7 @@ def on() -> Response:
     return led_strip_status.__dict__, 200
 
 
-@app.route("/lightingrequest", methods=["POST"])
+@app.route("/request", methods=["POST"])
 def lighting_request() -> Response:
     led_request = LightingRequest(**json.loads(request.data))
     led_strip.request = led_request

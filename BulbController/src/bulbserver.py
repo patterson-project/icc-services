@@ -25,21 +25,21 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/on/bulb1", methods=["GET"])
+@app.route("/status/on/bulb1", methods=["GET"])
 def bulb_1_on() -> Response:
     asyncio.run_coroutine_threadsafe(bulb_1.bulb.update(), loop)
     bulb_1_status = BulbOn(bulb_1.bulb.is_on)
     return bulb_1_status.__dict__, 200
 
 
-@app.route("/on/bulb2", methods=["GET"])
+@app.route("/status/on/bulb2", methods=["GET"])
 def bulb_2_on() -> Response:
     asyncio.run_coroutine_threadsafe(bulb_2.bulb.update(), loop)
     bulb_2_status = BulbOn(bulb_2.bulb.is_on)
     return bulb_2_status.__dict__, 200
 
 
-@app.route("/lightingrequest/bulb1", methods=["POST"])
+@app.route("/request/bulb1", methods=["POST"])
 async def lighting_request_bulb_1() -> Response:
     bulb_request = LightingRequest(**json.loads(request.data))
     bulb_1.request = bulb_request
@@ -51,7 +51,7 @@ async def lighting_request_bulb_1() -> Response:
     return "Success", 200
 
 
-@app.route("/lightingrequest/bulb2", methods=["POST"])
+@app.route("/request/bulb2", methods=["POST"])
 async def lighting_request_bulb_2() -> Response:
     bulb_request = LightingRequest(**json.loads(request.data))
     bulb_2.request = bulb_request

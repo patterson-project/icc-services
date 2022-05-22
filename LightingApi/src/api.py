@@ -17,7 +17,9 @@ def index() -> Response:
 @app.route("/lighting/status/on/bulb1", methods=["GET"])
 def bulb_1_on() -> Response:
     try:
-        bulb_1_response: Response = requests.get(ServiceUris.BULB_SERVICE + "/on/bulb1")
+        bulb_1_response: Response = requests.get(
+            ServiceUris.BULB_SERVICE + "/status/on/bulb1"
+        )
         return bulb_1_response.json(), 200
     except requests.HTTPError as e:
         return "Error: " + str(e), 400
@@ -26,7 +28,9 @@ def bulb_1_on() -> Response:
 @app.route("/lighting/status/on/bulb2", methods=["GET"])
 def bulb_2_on() -> Response:
     try:
-        bulb_2_response: Response = requests.get(ServiceUris.BULB_SERVICE + "/on/bulb2")
+        bulb_2_response: Response = requests.get(
+            ServiceUris.BULB_SERVICE + "/status/on/bulb2"
+        )
         return bulb_2_response.json(), 200
     except requests.HTTPError as e:
         return "Error: " + str(e), 400
@@ -47,7 +51,7 @@ def led_strip_on() -> Response:
 def led_strip() -> Response:
     try:
         requests.post(
-            ServiceUris.LED_STRIP_SERVICE + "/lightingrequest", json=request.get_json()
+            ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
         return "Success", 200
     except requests.HTTPError as e:
@@ -58,7 +62,7 @@ def led_strip() -> Response:
 def bulb_1() -> Response:
     try:
         requests.post(
-            ServiceUris.BULB_SERVICE + "/lightingrequest/bulb1", json=request.get_json()
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
         )
         return "Success", 200
     except requests.HTTPError as e:
@@ -69,7 +73,7 @@ def bulb_1() -> Response:
 def bulb_2() -> Response:
     try:
         requests.post(
-            ServiceUris.BULB_SERVICE + "/lightingrequest/bulb2", json=request.get_json()
+            ServiceUris.BULB_SERVICE + "/request/bulb2", json=request.get_json()
         )
         return "Success", 200
     except requests.HTTPError as e:
