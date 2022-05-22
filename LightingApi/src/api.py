@@ -9,12 +9,12 @@ app: Flask = Flask("__main__")
 CORS(app)
 
 
-@app.route("/lighting/health")
+@app.route("/lighting/health", methods=["GET"])
 def index() -> Response:
-    return Response("Healthy", status=200)
+    return "Healthy", 200
 
 
-@app.route("/status/on/bulb1", methods=["GET"])
+@app.route("/lighting/status/on/bulb1", methods=["GET"])
 def bulb_1_on() -> Response:
     try:
         bulb_1_response: Response = requests.get(ServiceUris.BULB_SERVICE + "/on/bulb1")
@@ -23,7 +23,7 @@ def bulb_1_on() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/status/on/bulb2", methods=["GET"])
+@app.route("/lighting/status/on/bulb2", methods=["GET"])
 def bulb_2_on() -> Response:
     try:
         bulb_2_response: Response = requests.get(ServiceUris.BULB_SERVICE + "/on/bulb2")
@@ -32,7 +32,7 @@ def bulb_2_on() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/status/on/ledstrip", methods=["GET"])
+@app.route("/lighting/status/on/ledstrip", methods=["GET"])
 def led_strip_on() -> Response:
     try:
         led_response: Response = requests.get(ServiceUris.LED_STRIP_SERVICE + "/on")
@@ -41,7 +41,7 @@ def led_strip_on() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/ledstrip", methods=["POST"])
+@app.route("/lighting/request/ledstrip", methods=["POST"])
 def led_strip() -> Response:
     try:
         requests.post(
@@ -52,7 +52,7 @@ def led_strip() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/bulb1", methods=["POST"])
+@app.route("/lighting/request/bulb1", methods=["POST"])
 def bulb_1() -> Response:
     try:
         requests.post(
@@ -63,7 +63,7 @@ def bulb_1() -> Response:
         return "Error: " + str(e), 400
 
 
-@app.route("/lighting/bulb2", methods=["POST"])
+@app.route("/lighting/request/bulb2", methods=["POST"])
 def bulb_2() -> Response:
     try:
         requests.post(
