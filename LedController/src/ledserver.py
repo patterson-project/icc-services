@@ -23,7 +23,7 @@ def on() -> Response:
 
 
 @app.route("/lightingrequest", methods=["POST"])
-def led_strip() -> Response:
+def lighting_request() -> Response:
     led_request = LightingRequest(**json.loads(request.data))
     led_strip.request = led_request
     led_strip.operation_callback_by_name[led_request.operation]()
