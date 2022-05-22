@@ -4,7 +4,7 @@ import time
 import contextlib
 import json
 import kasa
-from utils import log, LightingRequest
+from utils import LightingRequest
 
 
 class BulbController:
@@ -30,7 +30,7 @@ class BulbController:
             self.bulb = kasa.SmartBulb(self.ip_address)
             await (self.bulb.update())
         except kasa.SmartDeviceException:
-            log("SmartDeviceException: Unable to establish connection with device.")
+            print("SmartDeviceException: Unable to establish connection with device.")
 
     def terminate_task(self) -> None:
         if self.sequence_task is not None:

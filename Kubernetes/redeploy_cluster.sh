@@ -23,3 +23,7 @@ for filename in Deployments/*.yaml; do
     microk8s kubectl apply -f $filename
 done
 
+printf "\n\nDeleting all PODS...\n"
+microk8s kubectl delete --all pods --namespace=default
+
+printf "\n\nDone.\n"
