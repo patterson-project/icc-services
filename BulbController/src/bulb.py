@@ -37,6 +37,10 @@ class BulbController:
             self.sequence_task.cancel()
             self.sequence_task = None
 
+    async def update_bulb(self):
+        await self.bulb.update()
+        return True
+
     async def on(self):
         self.terminate_task()
         await self.bulb.turn_on()

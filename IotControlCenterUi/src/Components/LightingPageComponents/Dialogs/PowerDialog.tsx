@@ -8,7 +8,7 @@ import {
   titleStyle,
 } from "../../../Styles/DialogStyles";
 import { LightingPowerStatus, LightingRequest } from "../../../types";
-import { post, useDidMountEffect } from "../../../utils";
+import { post } from "../../../utils";
 import PowerButton from "../LightingComponents/PowerButton";
 
 const categoryTitleBoxStyle = {
