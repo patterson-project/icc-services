@@ -4,7 +4,7 @@ import json
 from threading import Thread
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import LightingRequest, log
+from utils import BulbOn, LightingRequest
 from bulb import BulbController
 from gevent.pywsgi import WSGIServer
 
@@ -25,6 +25,13 @@ def index() -> Response:
     return Response("Healthy", status=200)
 
 
+@app.route("/on/bulb1", methods=["GET"])
+def on() -> Response:
+    asyncio.run_coroutine_threadsafe(bulb_1.bulb.update(), loop)
+    bulb_1_status = BulbOn(bulb_1.bulb.is_on)
+    return Response(bulb_1_status, status=200)
+
+
 @app.route("/lightingrequest/bulb1", methods=["POST"])
 async def lighting_request_bulb_1() -> Response:
     bulb_request = LightingRequest(**json.loads(request.data))
@@ -40,9 +47,8 @@ async def lighting_request_bulb_1() -> Response:
 @app.route("/lightingrequest/bulb2", methods=["POST"])
 async def lighting_request_bulb_2() -> Response:
     bulb_request = LightingRequest(**json.loads(request.data))
-    log(bulb_request.__dict__)
-
     bulb_2.request = bulb_request
+
     asyncio.run_coroutine_threadsafe(bulb_2.bulb.update(), loop)
     asyncio.run_coroutine_threadsafe(
         bulb_2.operation_callback_by_name[bulb_request.operation](), loop

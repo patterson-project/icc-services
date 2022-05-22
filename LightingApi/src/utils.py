@@ -20,7 +20,7 @@ class LightingRequest:
 
 
 class ServiceUris:
-    LED_STRIP_SERVICE = "http://10.0.0.68:8000/lightingrequest"
+    LED_STRIP_SERVICE = "http://10.0.0.68:8000"
     BULB_SERVICE = "http://bulb-controller-cluster-ip.default.svc.cluster.local:8000"
 
 

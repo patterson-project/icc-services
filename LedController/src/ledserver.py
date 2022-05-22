@@ -20,7 +20,6 @@ def index() -> Response:
 def led_strip() -> Response:
     led_request = LightingRequest(**json.loads(request.data))
     led_strip_controller.request = led_request
-
     led_strip_controller.operation_callback_by_name[led_request.operation]()
     return Response(status=200)
 

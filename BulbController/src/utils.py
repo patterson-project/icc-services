@@ -19,7 +19,6 @@ class LightingRequest:
         self.temperature = temperature
 
 
-def log(message):
-    now = datetime.now(timezone.utc).astimezone()
-    print("[" + str(now.strftime("%Y-%m-%d %H:%M:%S")) + "]\t", end="")
-    print(message)
+class BulbOn:
+    def __init__(self, on: bool):
+        self.on = on
