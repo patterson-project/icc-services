@@ -14,7 +14,7 @@ mongo_client = MongoClient(
     f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@{ServiceUris.DEVICE_DB}'
 )
 devicesdb = mongo_client["iot-devices"]
-lighting_requests = devicesdb["lighting-requests"]
+lighting_requests_collection = devicesdb["lighting-requests"]
 
 
 @app.route("/lighting/health", methods=["GET"])
@@ -47,7 +47,6 @@ def bulb_2_on() -> Response:
 @app.route("/lighting/ledstrip/status/on", methods=["GET"])
 def led_strip_on() -> Response:
     try:
-        lighting_requests.insert_one(request.get_json())
         led_response: Response = requests.get(
             ServiceUris.LED_STRIP_SERVICE + "/status/on"
         )
@@ -62,7 +61,7 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
-
+        lighting_requests_collection.insert_one(request.get_json())
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -74,6 +73,7 @@ def bulb_1() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
         )
+        lighting_requests_collection.insert_one(request.get_json())
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -85,6 +85,7 @@ def bulb_2() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=request.get_json()
         )
+        lighting_requests_collection.insert_one(request.get_json())
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
