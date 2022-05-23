@@ -15,6 +15,6 @@ requests = devicesdb["requests"]
 
 led_strip = Device("WS-2811 LED Strip", "lighting")
 kasa_bulb_1 = Device("TP-Link Kasa Smart-Bulb (1)", "lighting")
-kasa_bulb_2 = Device("TP-Link Kasa Smart-Bulb (1)", "lighting")
+kasa_bulb_2 = Device("TP-Link Kasa Smart-Bulb (2)", "lighting")
 
 devices.insert_many([led_strip.__dict__, kasa_bulb_1.__dict__, kasa_bulb_2.__dict__])
