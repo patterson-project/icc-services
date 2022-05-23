@@ -35,6 +35,9 @@ class LedStripController:
         strip.begin()
         return strip
 
+    def set_request(self, request: LightingRequest):
+        self.request = request
+
     def terminate_process(self) -> None:
         if self.sequence_process is not None:
             self.sequence_process.terminate()
