@@ -11,7 +11,7 @@ app: Flask = Flask("__main__")
 CORS(app)
 
 mongo_client = MongoClient(
-    f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@{ServiceUris.DEVICE_DB}:27017'
+    f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@{ServiceUris.DEVICE_DB}'
 )
 devicesdb = mongo_client["iot-devices"]
 lighting_requests = devicesdb["lighting-requests"]

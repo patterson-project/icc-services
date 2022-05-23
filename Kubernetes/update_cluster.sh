@@ -1,4 +1,7 @@
 #!/bin/bash
+printf "Building and pushing DATABASE service to dockerhub...\n"
+cd ../DeviceDatabase && bash dockerpush.sh && cd ../
+
 printf "Building and pushing LIGHTING API service to dockerhub...\n"
 cd ../LightingApi && bash dockerpush.sh && cd ../
 
