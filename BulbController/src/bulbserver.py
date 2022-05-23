@@ -4,6 +4,7 @@ import json
 from threading import Thread
 from flask import Flask, Response, request
 from flask_cors import CORS
+from kasa import SmartDeviceException
 from utils import BulbOn, LightingRequest
 from bulb import BulbController
 from gevent.pywsgi import WSGIServer
@@ -27,42 +28,52 @@ def index() -> Response:
 
 @app.route("/status/on/bulb1", methods=["GET"])
 async def bulb_1_on() -> Response:
-    future = asyncio.run_coroutine_threadsafe(bulb_1.update_bulb(), loop)
-    assert future.result()
-    bulb_1_status = BulbOn(bulb_1.bulb.is_on)
-    return bulb_1_status.__dict__, 200
+    try:
+        future = asyncio.run_coroutine_threadsafe(bulb_1.update_bulb(), loop)
+        assert future.result()
+        bulb_1_status = BulbOn(bulb_1.bulb.is_on)
+        return bulb_1_status.__dict__, 200
+    except SmartDeviceException as e:
+        return str(e), 500
 
 
 @app.route("/status/on/bulb2", methods=["GET"])
 async def bulb_2_on() -> Response:
-    future = asyncio.run_coroutine_threadsafe(bulb_2.update_bulb(), loop)
-    assert future.result()
-    bulb_2_status = BulbOn(bulb_2.bulb.is_on)
-    return bulb_2_status.__dict__, 200
+    try:
+        future = asyncio.run_coroutine_threadsafe(bulb_2.update_bulb(), loop)
+        assert future.result()
+        bulb_2_status = BulbOn(bulb_2.bulb.is_on)
+        return bulb_2_status.__dict__, 200
+    except TypeError as e:
+        return str(e), 500
 
 
 @app.route("/request/bulb1", methods=["POST"])
 async def lighting_request_bulb_1() -> Response:
-    bulb_request = LightingRequest(**json.loads(request.data))
-    bulb_1.request = bulb_request
-
-    asyncio.run_coroutine_threadsafe(bulb_1.update_bulb(), loop)
-    asyncio.run_coroutine_threadsafe(
-        bulb_1.operation_callback_by_name[bulb_request.operation](), loop
-    )
-    return "Success", 200
+    try:
+        bulb_request = LightingRequest(**json.loads(request.data))
+        bulb_1.set_request(bulb_request)
+        asyncio.run_coroutine_threadsafe(bulb_1.update_bulb(), loop)
+        asyncio.run_coroutine_threadsafe(
+            bulb_1.operation_callback_by_name[bulb_request.operation](), loop
+        )
+        return "Success", 200
+    except (SmartDeviceException, TypeError) as e:
+        return str(e), 500
 
 
 @app.route("/request/bulb2", methods=["POST"])
 async def lighting_request_bulb_2() -> Response:
-    bulb_request = LightingRequest(**json.loads(request.data))
-    bulb_2.request = bulb_request
-
-    asyncio.run_coroutine_threadsafe(bulb_2.update_bulb(), loop)
-    asyncio.run_coroutine_threadsafe(
-        bulb_2.operation_callback_by_name[bulb_request.operation](), loop
-    )
-    return "Success", 200
+    try:
+        bulb_request = LightingRequest(**json.loads(request.data))
+        bulb_2.set_request(bulb_request)
+        asyncio.run_coroutine_threadsafe(bulb_2.update_bulb(), loop)
+        asyncio.run_coroutine_threadsafe(
+            bulb_2.operation_callback_by_name[bulb_request.operation](), loop
+        )
+        return "Success", 200
+    except (SmartDeviceException, TypeError) as e:
+        return str(e), 500
 
 
 def start_background_loop(loop):

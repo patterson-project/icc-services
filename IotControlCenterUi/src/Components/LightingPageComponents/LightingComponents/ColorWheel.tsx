@@ -46,15 +46,15 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
     };
 
     if (props.ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT, hsvRequest);
+      post(config.LED_STRIP_ENDPOINT + "/request", hsvRequest);
     }
 
     if (props.bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, hsvRequest);
+      post(config.BULB_1_ENDPOINT + "/request", hsvRequest);
     }
 
     if (props.bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, hsvRequest);
+      post(config.BULB_2_ENDPOINT + "/request", hsvRequest);
     }
   }, [hue]);
 
@@ -63,9 +63,9 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
       operation: "off",
     };
 
-    post(config.LED_STRIP_ENDPOINT, offRequest);
-    post(config.BULB_1_ENDPOINT, offRequest);
-    post(config.BULB_2_ENDPOINT, offRequest);
+    post(config.LED_STRIP_ENDPOINT + "/request", offRequest);
+    post(config.BULB_1_ENDPOINT + "/request", offRequest);
+    post(config.BULB_2_ENDPOINT + "/request", offRequest);
   };
 
   const onTouchStart = () => {

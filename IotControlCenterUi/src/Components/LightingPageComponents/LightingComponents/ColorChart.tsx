@@ -69,15 +69,15 @@ const ColorChart: FC<IColorChart> = (props) => {
     };
 
     if (props.ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT, hsvRequest);
+      post(config.LED_STRIP_ENDPOINT + "/request", hsvRequest);
     }
 
     if (props.bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, hsvRequest);
+      post(config.BULB_1_ENDPOINT + "/request", hsvRequest);
     }
 
     if (props.bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, hsvRequest);
+      post(config.BULB_2_ENDPOINT + "/request", hsvRequest);
     }
   }, [hsvColor]);
 

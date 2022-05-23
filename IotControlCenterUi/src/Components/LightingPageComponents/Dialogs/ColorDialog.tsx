@@ -57,15 +57,15 @@ const ColorDialog: FC = () => {
     };
 
     if (ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT, brightnessRequest);
+      post(config.LED_STRIP_ENDPOINT + "/request", brightnessRequest);
     }
 
     if (bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, brightnessRequest);
+      post(config.BULB_1_ENDPOINT + "/request", brightnessRequest);
     }
 
     if (bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, brightnessRequest);
+      post(config.BULB_2_ENDPOINT + "/request", brightnessRequest);
     }
   };
 
@@ -76,15 +76,15 @@ const ColorDialog: FC = () => {
     };
 
     if (bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT, temperatureRequest);
+      post(config.BULB_1_ENDPOINT + "/request", temperatureRequest);
     }
 
     if (bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT, temperatureRequest);
+      post(config.BULB_2_ENDPOINT + "/request", temperatureRequest);
     }
 
     if (ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT, temperatureRequest);
+      post(config.LED_STRIP_ENDPOINT + "/request", temperatureRequest);
     }
   };
 

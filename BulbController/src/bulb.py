@@ -1,8 +1,5 @@
 import asyncio
-import os
 import time
-import contextlib
-import json
 import kasa
 from utils import LightingRequest
 
@@ -31,6 +28,9 @@ class BulbController:
             await (self.bulb.update())
         except kasa.SmartDeviceException:
             print("SmartDeviceException: Unable to establish connection with device.")
+
+    def set_request(self, request: LightingRequest) -> None:
+        self.request = request
 
     def terminate_task(self) -> None:
         if self.sequence_task is not None:

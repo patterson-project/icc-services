@@ -24,10 +24,13 @@ def on() -> Response:
 
 @app.route("/request", methods=["POST"])
 def lighting_request() -> Response:
-    led_request = LightingRequest(**json.loads(request.data))
-    led_strip.request = led_request
-    led_strip.operation_callback_by_name[led_request.operation]()
-    return "Success", 200
+    try:
+        led_request = LightingRequest(**json.loads(request.data))
+        led_strip.request = led_request
+        led_strip.operation_callback_by_name[led_request.operation]()
+        return "Success", 200
+    except TypeError as e:
+        return str(e), 500
 
 
 if __name__ == "__main__":
