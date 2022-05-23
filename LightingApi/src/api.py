@@ -1,12 +1,20 @@
 import requests
+import os
 from flask import Flask, Response, request
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from utils import ServiceUris
+from pymongo import MongoClient
 
 
 app: Flask = Flask("__main__")
 CORS(app)
+
+mongo_client = MongoClient(
+    f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@{ServiceUris.DEVICE_DB}:27017'
+)
+devicesdb = mongo_client["iot-devices"]
+lighting_requests = devicesdb["lighting-requests"]
 
 
 @app.route("/lighting/health", methods=["GET"])
@@ -39,6 +47,7 @@ def bulb_2_on() -> Response:
 @app.route("/lighting/ledstrip/status/on", methods=["GET"])
 def led_strip_on() -> Response:
     try:
+        lighting_requests.insert_one(request.get_json())
         led_response: Response = requests.get(
             ServiceUris.LED_STRIP_SERVICE + "/status/on"
         )
@@ -53,6 +62,7 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
+
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500

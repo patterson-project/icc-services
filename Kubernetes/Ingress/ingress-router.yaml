@@ -31,3 +31,13 @@ spec:
                 name: lighting-api-cluster-ip
                 port:
                   number: 8000
+
+    - http:
+        paths:
+          - path: /mongoexpress
+            pathtype: Prefix
+            backend:
+              service:
+                name: device-database-node-port
+                port:
+                  number: 8081
