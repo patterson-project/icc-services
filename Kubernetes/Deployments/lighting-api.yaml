@@ -20,6 +20,6 @@ spec:
             - containerPort: 8000
           env:
             - name: MONGO_DB_USERNAME
-              value: ${MONGO_DB_USERNAME}
+              value: adrian
             - name: MONGO_DB_PASSWORD
-              value: ${MONGO_DB_PASSWORD}
+              value: urgarb 
