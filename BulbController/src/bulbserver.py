@@ -5,7 +5,7 @@ from threading import Thread
 from flask import Flask, Response, request
 from flask_cors import CORS
 from kasa import SmartDeviceException
-from utils import BulbOn, LightingRequest, ServiceUris
+from utils import LightingRequest, ServiceUris
 from bulb import BulbController
 from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient

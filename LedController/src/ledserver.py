@@ -2,7 +2,7 @@ import json
 import os
 from flask import Flask, Response, request
 from flask_cors import CORS
-from utils import LedStripStatus, LightingRequest, ServiceUris
+from utils import LightingRequest, ServiceUris
 from ledstrip import LedStripController
 from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient

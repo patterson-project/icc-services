@@ -100,8 +100,3 @@ class LightingRequest:
 
 class ServiceUris:
     MONGO_DB = "10.0.0.34:27017"
-
-
-class LedStripStatus:
-    def __init__(self, on: bool):
-        self.on = on
