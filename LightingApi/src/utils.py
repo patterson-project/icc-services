@@ -42,6 +42,11 @@ class LightingRequestRecord:
         self.date = datetime.datetime.utcnow().isoformat()
 
 
+class DeviceState:
+    def __init__(self, on: bool):
+        self.on = on
+
+
 class ServiceUris:
     MONGO_DB = "10.0.0.34:27017"
     LED_STRIP_SERVICE = "http://10.0.0.68:8000"

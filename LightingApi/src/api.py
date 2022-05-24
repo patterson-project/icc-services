@@ -3,7 +3,7 @@ import os
 from flask import Flask, Response, Request, request
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
-from utils import LightingRequestRecord, ServiceUris
+from utils import DeviceState, LightingRequestRecord, ServiceUris
 from pymongo import MongoClient
 
 
@@ -20,6 +20,7 @@ else:
     iotdb = mongo_client["iot-dev"]
 
 lighting_requests_collection = iotdb["lighting-requests"]
+device_states_collection = iotdb["device-states"]
 
 
 def insert_lighting_request(device_name: str, request: Request):
@@ -27,6 +28,10 @@ def insert_lighting_request(device_name: str, request: Request):
         device_name=device_name, **request.get_json()
     )
     lighting_requests_collection.insert_one(lighting_request.__dict__)
+
+
+def get_on_status(device_name: str) -> bool:
+    return device_states_collection.find_one({"device_name": device_name})["on"]
 
 
 @app.route("/lighting/health", methods=["GET"])
@@ -37,10 +42,8 @@ def index() -> Response:
 @app.route("/lighting/bulb1/status/on", methods=["GET"])
 def bulb_1_on() -> Response:
     try:
-        bulb_1_response: Response = requests.get(
-            ServiceUris.BULB_SERVICE + "/status/on/bulb1"
-        )
-        return bulb_1_response.json(), 200
+        on = get_on_status(device_name="bulb1")
+        return DeviceState(on).__dict__, 200
     except requests.HTTPError as e:
         return str(e), 500
 
@@ -48,10 +51,8 @@ def bulb_1_on() -> Response:
 @app.route("/lighting/bulb2/status/on", methods=["GET"])
 def bulb_2_on() -> Response:
     try:
-        bulb_2_response: Response = requests.get(
-            ServiceUris.BULB_SERVICE + "/status/on/bulb2"
-        )
-        return bulb_2_response.json(), 200
+        on = get_on_status(device_name="bulb1")
+        return DeviceState(on).__dict__, 200
     except requests.HTTPError as e:
         return str(e), 500
 
@@ -59,10 +60,8 @@ def bulb_2_on() -> Response:
 @app.route("/lighting/ledstrip/status/on", methods=["GET"])
 def led_strip_on() -> Response:
     try:
-        led_response: Response = requests.get(
-            ServiceUris.LED_STRIP_SERVICE + "/status/on"
-        )
-        return led_response.json(), 200
+        on = get_on_status(device_name="bulb1")
+        return DeviceState(on).__dict__, 200
     except requests.HTTPError as e:
         return str(e), 500
 
