@@ -46,28 +46,6 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/status/on/bulb1", methods=["GET"])
-async def bulb_1_on() -> Response:
-    try:
-        future = asyncio.run_coroutine_threadsafe(bulb_1.update_bulb(), loop)
-        assert future.result()
-        bulb_1_status = BulbOn(bulb_1.bulb.is_on)
-        return bulb_1_status.__dict__, 200
-    except SmartDeviceException as e:
-        return str(e), 500
-
-
-@app.route("/status/on/bulb2", methods=["GET"])
-async def bulb_2_on() -> Response:
-    try:
-        future = asyncio.run_coroutine_threadsafe(bulb_2.update_bulb(), loop)
-        assert future.result()
-        bulb_2_status = BulbOn(bulb_2.bulb.is_on)
-        return bulb_2_status.__dict__, 200
-    except TypeError as e:
-        return str(e), 500
-
-
 @app.route("/request/bulb1", methods=["POST"])
 async def lighting_request_bulb_1() -> Response:
     try:

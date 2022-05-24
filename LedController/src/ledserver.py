@@ -37,12 +37,6 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/status/on", methods=["GET"])
-def on() -> Response:
-    led_strip_status = LedStripStatus(led_strip.is_on())
-    return led_strip_status.__dict__, 200
-
-
 @app.route("/request", methods=["POST"])
 def lighting_request() -> Response:
     try:
