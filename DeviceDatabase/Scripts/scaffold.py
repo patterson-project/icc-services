@@ -14,12 +14,20 @@ states = iotdb["states"]
 devices = iotdb["devices"]
 
 device_names = [
-    "WS-2811 LED Strip",
-    "TP-Link Kasa Smart-Bulb (1)",
-    "TP-Link Kasa Smart-Bulb (2)",
+    "ledstrip",
+    "bulb1",
+    "bulb2",
 ]
 
-lighting_devices = [Device(x, "lighting").__dict__ for x in device_names]
+device_descriptions = [
+    "WS-2811 LED Strip",
+    "TP-Link Kasa Smart-Bulb KL125",
+    "TP-Link Kasa Smart-Bulb KL125",
+]
+
+lighting_devices = [
+    Device(x, y, "lighting").__dict__ for x, y in zip(device_names, device_descriptions)
+]
 lighting_states = [State(x, False).__dict__ for x in device_names]
 
 devices.insert_many(lighting_devices)

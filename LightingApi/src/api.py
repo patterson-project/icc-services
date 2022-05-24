@@ -22,8 +22,10 @@ else:
 lighting_requests_collection = devicesdb["lighting-requests"]
 
 
-def insert_lighting_request(request: Request):
-    lighting_request = LightingRequestRecord(**request.get_json())
+def insert_lighting_request(device_name: str, request: Request):
+    lighting_request = LightingRequestRecord(
+        device_name=device_name, **request.get_json()
+    )
     lighting_requests_collection.insert_one(lighting_request.__dict__)
 
 
@@ -71,7 +73,7 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
-        insert_lighting_request(request=request)
+        insert_lighting_request(device_name="ledstrip", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -83,8 +85,7 @@ def bulb_1() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
         )
-        insert_lighting_request(request=request)
-
+        insert_lighting_request(device_name="bulb1", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -96,7 +97,7 @@ def bulb_2() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=request.get_json()
         )
-        insert_lighting_request(request=request)
+        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
