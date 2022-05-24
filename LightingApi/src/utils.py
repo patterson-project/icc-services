@@ -28,7 +28,6 @@ class LightingRequestRecord:
         v: int = None,
         brightness: int = None,
         temperature: int = None,
-        date: datetime.datetime = None,
         remote_addr: str = None,
     ):
         self.operation = operation
@@ -37,7 +36,7 @@ class LightingRequestRecord:
         self.s = s
         self.v = v
         self.temperature = temperature
-        self.date = date.isoformat()
+        self.date = datetime.datetime.utcnow()
         self.remote_addr = remote_addr
 
 

@@ -67,7 +67,7 @@ def led_strip() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
         lighting_request = LightingRequestRecord(
-            date=request.date, remote_addr=request.remote_addr, **request.get_json()
+            remote_addr=request.remote_addr, **request.get_json()
         )
         lighting_requests_collection.insert_one(lighting_request.__dict__)
         return "Success", 200
