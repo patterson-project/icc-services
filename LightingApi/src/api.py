@@ -51,7 +51,7 @@ def bulb_1_on() -> Response:
 @app.route("/lighting/bulb2/status/on", methods=["GET"])
 def bulb_2_on() -> Response:
     try:
-        on = get_on_status(device_name="bulb1")
+        on = get_on_status(device_name="bulb2")
         return DeviceState(on).__dict__, 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -60,7 +60,7 @@ def bulb_2_on() -> Response:
 @app.route("/lighting/ledstrip/status/on", methods=["GET"])
 def led_strip_on() -> Response:
     try:
-        on = get_on_status(device_name="bulb1")
+        on = get_on_status(device_name="ledstrip")
         return DeviceState(on).__dict__, 200
     except requests.HTTPError as e:
         return str(e), 500
