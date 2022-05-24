@@ -1,4 +1,4 @@
 class State:
-    def __init__(self, device: str, state: bool):
+    def __init__(self, device: str, on: bool):
         self.device = device
-        self.state = state
+        self.on = on

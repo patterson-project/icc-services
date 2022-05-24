@@ -19,8 +19,6 @@ device_names = [
     "TP-Link Kasa Smart-Bulb (2)",
 ]
 
-led_strip_state = State()
-
 lighting_devices = [Device(x, "lighting").__dict__ for x in device_names]
 lighting_states = [State(x, False).__dict__ for x in device_names]
 

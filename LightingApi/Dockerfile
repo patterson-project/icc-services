@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-ENV APP_ENV "dev"
+ENV APP_ENV "production"
 
 COPY ./src/*.py ./
 
