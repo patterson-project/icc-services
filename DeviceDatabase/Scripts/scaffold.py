@@ -8,9 +8,9 @@ client = MongoClient(
     f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@localhost:27017'
 )
 
-iotdb = client["iot-devices"]
+iotdb = client["iot"]
 
-states = iotdb["states"]
+states = iotdb["device-states"]
 devices = iotdb["devices"]
 
 device_names = [

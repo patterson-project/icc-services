@@ -9,6 +9,9 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
+ENV MONGO_DB_USERNAME "adrian"
+ENV MONGO_DB_PASSWORD "urgarb"
+
 COPY /src/*.py ./
 
 CMD [ "python", "-u", "ledserver.py"]
