@@ -8,6 +8,8 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
+ENV APP_ENV "production"
+
 COPY ./src/*.py ./
 
 ENTRYPOINT [ "python", "-u", "./api.py" ]
