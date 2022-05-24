@@ -1,6 +1,6 @@
 import requests
 import os
-from flask import Flask, Response, request
+from flask import Flask, Response, Request, request
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from utils import LightingRequestRecord, ServiceUris
@@ -20,6 +20,11 @@ else:
     devicesdb = mongo_client["iot-devices-dev"]
 
 lighting_requests_collection = devicesdb["lighting-requests"]
+
+
+def insert_lighting_request(request: Request):
+    lighting_request = LightingRequestRecord(**request.get_json())
+    lighting_requests_collection.insert_one(lighting_request.__dict__)
 
 
 @app.route("/lighting/health", methods=["GET"])
@@ -66,10 +71,7 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
-        lighting_request = LightingRequestRecord(
-            remote_addr=request.remote_addr, **request.get_json()
-        )
-        lighting_requests_collection.insert_one(lighting_request.__dict__)
+        insert_lighting_request(request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -81,7 +83,8 @@ def bulb_1() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
         )
-        lighting_requests_collection.insert_one(request.get_json())
+        insert_lighting_request(request=request)
+
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -93,7 +96,7 @@ def bulb_2() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=request.get_json()
         )
-        lighting_requests_collection.insert_one(request.get_json())
+        insert_lighting_request(request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500

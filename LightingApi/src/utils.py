@@ -1,4 +1,6 @@
 import datetime
+from pymongo import MongoClient
+from flask import Request
 
 
 class LightingRequest:
@@ -28,7 +30,6 @@ class LightingRequestRecord:
         v: int = None,
         brightness: int = None,
         temperature: int = None,
-        remote_addr: str = None,
     ):
         self.operation = operation
         self.brightness = brightness
@@ -37,7 +38,6 @@ class LightingRequestRecord:
         self.v = v
         self.temperature = temperature
         self.date = datetime.datetime.utcnow().isoformat()
-        self.remote_addr = remote_addr
 
 
 class ServiceUris:
