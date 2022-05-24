@@ -3,7 +3,7 @@ import os
 from flask import Flask, Response, request
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
-from utils import ServiceUris
+from utils import LightingRequestRecord, ServiceUris
 from pymongo import MongoClient
 
 
@@ -13,7 +13,12 @@ CORS(app)
 mongo_client = MongoClient(
     f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@{ServiceUris.DEVICE_DB}'
 )
-devicesdb = mongo_client["iot-devices"]
+
+if os.environ["APP_ENV"] == "production":
+    devicesdb = mongo_client["iot-devices"]
+else:
+    devicesdb = mongo_client["iot-devices-dev"]
+
 lighting_requests_collection = devicesdb["lighting-requests"]
 
 
@@ -61,7 +66,10 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
-        lighting_requests_collection.insert_one(request.get_json())
+        lighting_request = LightingRequestRecord(
+            date=request.date, remote_addr=request.remote_addr, **request.get_json()
+        )
+        lighting_requests_collection.insert_one(lighting_request.__dict__)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
