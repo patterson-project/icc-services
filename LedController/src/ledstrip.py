@@ -66,16 +66,6 @@ class LedStripController:
 
         self.strip.show()
 
-    def is_on(self):
-        if self.sequence_process is not None:
-            return True
-
-        rgb = self.strip.getPixelColorRGB(0)
-        if rgb.r != 0 and rgb.g != 0 and rgb.b != 0:
-            return True
-
-        return False
-
     def on(self):
         self.terminate_process()
 

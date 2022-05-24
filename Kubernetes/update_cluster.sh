@@ -11,7 +11,5 @@ cd BulbController && bash dockerpush.sh && cd ../../
 # printf "\nBuilding and pushing LED service to dockerhub...\n"
 # cd LedController && bash dockerpush.sh && cd ../
 
-printf "\nDeleting and restarting all pods...\n"
-microk8s kubectl delete --all pods --namespace=default
 
 printf "\nDone.\n"

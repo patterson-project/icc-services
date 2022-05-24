@@ -1,7 +1,5 @@
 __pycache__/
 .vscode/
 node_modules/
-
-MosquittoBroker/conf/
-MosquittoBroker/data/
-MosquittoBroker/log/
+database/
+init-mongo.js/

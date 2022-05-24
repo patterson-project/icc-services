@@ -8,6 +8,10 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
+ENV APP_ENV "production"
+ENV MONGO_DB_USERNAME "adrian"
+ENV MONGO_DB_PASSWORD "urgarb"
+
 COPY ./src/*.py ./
 
 ENTRYPOINT [ "python", "-u", "./api.py" ]

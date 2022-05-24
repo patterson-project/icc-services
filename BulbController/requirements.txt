@@ -4,3 +4,4 @@ flask_cors
 requests
 gevent
 python-kasa
+pymongo

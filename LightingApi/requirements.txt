@@ -3,3 +3,4 @@ aioflask
 flask-cors
 requests
 gevent
+pymongo
