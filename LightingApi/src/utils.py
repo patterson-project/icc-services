@@ -24,6 +24,7 @@ class LightingRequest:
 class LightingRequestRecord:
     def __init__(
         self,
+        device_name: str,
         operation: str = None,
         h: int = None,
         s: int = None,
@@ -31,6 +32,7 @@ class LightingRequestRecord:
         brightness: int = None,
         temperature: int = None,
     ):
+        self.device_name = device_name
         self.operation = operation
         self.brightness = brightness
         self.h = h
