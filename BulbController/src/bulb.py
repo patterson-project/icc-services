@@ -18,6 +18,7 @@ class BulbController:
             "off": self.off,
             "hsv": self.hsv,
             "brightness": self.brightness,
+            "scene": self.scene,
             "rainbow": self.rainbow,
             "rainbow_cycle": self.rainbow,
             "temperature": self.temperature,
@@ -56,6 +57,14 @@ class BulbController:
         await self.bulb.set_hsv(
             int(self.request.h), int(self.request.s), int(self.request.v)
         )
+
+    async def scene(self):
+        self.terminate_task()
+        color = self.request.scene
+        if color == "ocean":
+            await self.bulb.set_hsv(245, 84, 100)
+        if color == "rose":
+            await self.bulb.set_hsv(304, 56, 100)
 
     async def brightness(self):
         if self.sequence_task is None:
