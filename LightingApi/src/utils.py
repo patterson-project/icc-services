@@ -1,4 +1,5 @@
 import datetime
+from turtle import color
 from pymongo import MongoClient
 from flask import Request
 
@@ -12,6 +13,7 @@ class LightingRequest:
         v: int = 50,
         brightness: int = None,
         temperature: int = None,
+        scene: str = None,
     ):
         self.operation = operation
         self.brightness = brightness
@@ -19,6 +21,7 @@ class LightingRequest:
         self.s = s
         self.v = v
         self.temperature = temperature
+        self.scene = scene
 
 
 class LightingRequestRecord:
@@ -31,6 +34,7 @@ class LightingRequestRecord:
         v: int = None,
         brightness: int = None,
         temperature: int = None,
+        scene: str = None,
     ):
         self.device_name = device_name
         self.operation = operation
@@ -39,6 +43,7 @@ class LightingRequestRecord:
         self.s = s
         self.v = v
         self.temperature = temperature
+        self.scene = scene
         self.date = datetime.datetime.utcnow().isoformat()
 
 

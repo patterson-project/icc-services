@@ -1,16 +1,41 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
+import AnimationIcon from "@mui/icons-material/Animation";
+import IOperationButton from "../../OperationButton";
 import {
   gridContainerStyle,
   gridItemStyle,
   titleStyle,
 } from "../../../Styles/DialogStyles";
+import { SceneRequest } from "../../../types";
+import { post } from "../../../utils";
+import config from "../../../config";
 
 const sceneDialogDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
   backgroundColor: "#151515",
+};
+
+const onClickOcean = () => {
+  const sceneRequest: SceneRequest = {
+    operation: "scene",
+    scene: "ocean",
+  };
+  post(config.BULB_1_ENDPOINT + "/request", sceneRequest);
+  post(config.BULB_2_ENDPOINT + "/request", sceneRequest);
+  post(config.LED_STRIP_ENDPOINT + "/request", sceneRequest);
+};
+
+const onClickRose = () => {
+  const sceneRequest: SceneRequest = {
+    operation: "scene",
+    scene: "rose",
+  };
+  post(config.BULB_1_ENDPOINT + "/request", sceneRequest);
+  post(config.BULB_2_ENDPOINT + "/request", sceneRequest);
+  post(config.LED_STRIP_ENDPOINT + "/request", sceneRequest);
 };
 
 const SceneDialog: FC = () => {
@@ -20,7 +45,27 @@ const SceneDialog: FC = () => {
         <Typography style={titleStyle}>Scenes</Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
-        <Grid item xs={12} style={gridItemStyle}></Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <IOperationButton
+            operationName={"Ocean"}
+            onClick={onClickOcean}
+            icon={<AnimationIcon></AnimationIcon>}
+          ></IOperationButton>
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <IOperationButton
+            operationName={"Rose"}
+            onClick={onClickRose}
+            icon={<AnimationIcon></AnimationIcon>}
+          ></IOperationButton>
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <IOperationButton
+            operationName={"Rainbow"}
+            onClick={onClickRose}
+            icon={<AnimationIcon></AnimationIcon>}
+          ></IOperationButton>
+        </Grid>
       </Grid>
     </div>
   );

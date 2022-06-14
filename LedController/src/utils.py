@@ -89,6 +89,7 @@ class LightingRequest:
         v: int = 50,
         brightness: int = None,
         temperature: int = None,
+        scene: str = None,
     ):
         self.operation = operation
         self.brightness = brightness
@@ -96,6 +97,7 @@ class LightingRequest:
         self.h = h
         self.s = s
         self.v = v
+        self.scene = scene
 
 
 class ServiceUris:

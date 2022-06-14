@@ -17,6 +17,7 @@ class LedStripController:
             "hsv": self.hsv,
             "brightness": self.brightness,
             "temperature": self.temperature,
+            "scene": self.scene,
             "rainbow": self.rainbow,
             "rainbow_cycle": self.rainbow_cycle,
         }
@@ -97,6 +98,22 @@ class LedStripController:
             self.strip.setPixelColorRGB(i, r, b, g)
 
         self.strip.show()
+
+    def scene(self) -> None:
+        self.terminate_process()
+        color = self.request.scene
+
+        if color == "ocean":
+            for i in range(self.strip.numPixels()):
+                self.strip.setPixelColorRGB(i, 38, 57, 115)
+            self.strip.show()
+        
+        if color == "rose":
+            for i in range(self.strip.numPixels()):
+                self.strip.setPixelColorRGB(i, 255, 255, 255)
+            self.strip.show()
+
+
 
     def rainbow(self) -> None:
         self.terminate_process()
