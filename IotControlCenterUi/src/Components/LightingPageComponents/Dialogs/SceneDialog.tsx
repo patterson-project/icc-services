@@ -7,7 +7,7 @@ import {
   gridItemStyle,
   titleStyle,
 } from "../../../Styles/DialogStyles";
-import { SceneRequest } from "../../../types";
+import { LightingRequest } from "../../../types";
 import { post } from "../../../utils";
 import config from "../../../config";
 
@@ -19,23 +19,24 @@ const sceneDialogDivStyle = {
 };
 
 const onClickOcean = () => {
-  const sceneRequest: SceneRequest = {
-    operation: "scene",
-    scene: "ocean",
+  const sceneRequest: LightingRequest = {
+    operation: "ocean",
   };
-  post(config.BULB_1_ENDPOINT + "/request", sceneRequest);
-  post(config.BULB_2_ENDPOINT + "/request", sceneRequest);
-  post(config.LED_STRIP_ENDPOINT + "/request", sceneRequest);
+  post(config.OCEAN_SCENE_ENDPOINT, sceneRequest);
 };
 
 const onClickRose = () => {
-  const sceneRequest: SceneRequest = {
-    operation: "scene",
-    scene: "rose",
+  const sceneRequest: LightingRequest = {
+    operation: "rose",
   };
-  post(config.BULB_1_ENDPOINT + "/request", sceneRequest);
-  post(config.BULB_2_ENDPOINT + "/request", sceneRequest);
-  post(config.LED_STRIP_ENDPOINT + "/request", sceneRequest);
+  post(config.ROSE_SCENE_ENDPOINT, sceneRequest);
+};
+
+const onClickRainbow = () => {
+  const sceneRequest: LightingRequest = {
+    operation: "rainbow",
+  };
+  post(config.RAINBOW_SCENE_ENDPOINT, sceneRequest);
 };
 
 const SceneDialog: FC = () => {
@@ -62,7 +63,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={12} style={gridItemStyle}>
           <IOperationButton
             operationName={"Rainbow"}
-            onClick={onClickRose}
+            onClick={onClickRainbow}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>

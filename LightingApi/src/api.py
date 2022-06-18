@@ -101,23 +101,29 @@ def bulb_2() -> Response:
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
+
+
 """
 1. Define scene route
 2. In route function, define HSV lighting requests
 3. Post each HSV request to each service
 """
 
+
 @app.route("/lighting/scene/ocean", methods=["POST"])
 def ocean() -> Response:
+    led_strip_ocean_request = dict(operation="hsv", h=149, s=57, v=100)
+    bulb_1_ocean_request = dict(operation="hsv", h=207, s=79, v=100)
+    bulb_2_ocean_request = dict(operation="hsv", h=240, s=79, v=100)
     try:
         requests.post(
-            ServiceUris.LED_STRIP_SERVICE + "/request"
+            ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_ocean_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_ocean_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2"
+            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_ocean_request
         )
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
@@ -126,17 +132,21 @@ def ocean() -> Response:
     except requests.HTTPError as e:
         return str(e), 500
 
+
 @app.route("/lighting/scene/rose", methods=["POST"])
-def ocean() -> Response:
+def rose() -> Response:
+    led_strip_rose_request = dict(operation="hsv", h=294, s=22, v=99)
+    bulb_1_rose_request = dict(operation="hsv", h=301, s=55, v=98)
+    bulb_2_rose_request = dict(operation="hsv", h=288, s=57, v=95)
     try:
         requests.post(
-            ServiceUris.LED_STRIP_SERVICE + "/request"
+            ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_rose_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_rose_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2"
+            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rose_request
         )
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
@@ -144,6 +154,30 @@ def ocean() -> Response:
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
+
+
+@app.route("/lighting/scene/rainbow", methods=["POST"])
+def rainbow() -> Response:
+    led_strip_rainbow_request = dict(operation="rainbow")
+    bulb_1_rainbow_request = dict(operation="rainbow")
+    bulb_2_rainbow_request = dict(operation="rainbow")
+    try:
+        requests.post(
+            ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_rainbow_request
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_rainbow_request
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rainbow_request
+        )
+        insert_lighting_request(device_name="ledstrip", request=request)
+        insert_lighting_request(device_name="bulb1", request=request)
+        insert_lighting_request(device_name="bulb2", request=request)
+        return "Success", 200
+    except requests.HTTPError as e:
+        return str(e), 500
+
 
 if __name__ == "__main__":
     http_server = WSGIServer(("", 8000), app)

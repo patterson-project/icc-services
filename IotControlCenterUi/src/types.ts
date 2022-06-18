@@ -6,10 +6,6 @@ export interface BrightnessRequest extends LightingRequest {
   brightness: number;
 }
 
-export interface SceneRequest extends LightingRequest {
-  scene: string;
-}
-
 export interface HsvRequest extends LightingRequest {
   h: number;
   s?: number;
