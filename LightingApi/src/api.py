@@ -1,3 +1,4 @@
+from readline import insert_text
 import requests
 import os
 from flask import Flask, Response, Request, request
@@ -100,7 +101,49 @@ def bulb_2() -> Response:
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
+"""
+1. Define scene route
+2. In route function, define HSV lighting requests
+3. Post each HSV request to each service
+"""
 
+@app.route("/lighting/scene/ocean", methods=["POST"])
+def ocean() -> Response:
+    try:
+        requests.post(
+            ServiceUris.LED_STRIP_SERVICE + "/request"
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb2"
+        )
+        insert_lighting_request(device_name="ledstrip", request=request)
+        insert_lighting_request(device_name="bulb1", request=request)
+        insert_lighting_request(device_name="bulb2", request=request)
+        return "Success", 200
+    except requests.HTTPError as e:
+        return str(e), 500
+
+@app.route("/lighting/scene/rose", methods=["POST"])
+def ocean() -> Response:
+    try:
+        requests.post(
+            ServiceUris.LED_STRIP_SERVICE + "/request"
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb2"
+        )
+        insert_lighting_request(device_name="ledstrip", request=request)
+        insert_lighting_request(device_name="bulb1", request=request)
+        insert_lighting_request(device_name="bulb2", request=request)
+        return "Success", 200
+    except requests.HTTPError as e:
+        return str(e), 500
 
 if __name__ == "__main__":
     http_server = WSGIServer(("", 8000), app)
