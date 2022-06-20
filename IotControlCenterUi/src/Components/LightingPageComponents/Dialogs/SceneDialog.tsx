@@ -59,36 +59,36 @@ const SceneDialog: FC = () => {
       <Box style={gridItemStyle}>
         <Typography style={titleStyle}>Scenes</Typography>
       </Box>
-      <Grid container spacing={1.5} style={gridContainerStyle}>
-        <Grid item xs={12} style={gridItemStyle}>
+      <Grid container spacing={2} style={gridContainerStyle}>
+        <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Ocean"}
             onClick={onClickOcean}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
+        <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Rose"}
             onClick={onClickRose}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
+        <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Rainbow"}
             onClick={onClickRainbow}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
+        <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Candy"}
             onClick={onClickCandy}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
+        <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Peachy"}
             onClick={onClickPeachy}
