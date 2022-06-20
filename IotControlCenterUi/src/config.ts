@@ -7,6 +7,7 @@ const config = {
   RAINBOW_SCENE_ENDPOINT: "http://10.0.0.34/lighting/scene/rainbow",
   CANDY_SCENE_ENDPOINT: "http://10.0.0.34/lighting/scene/candy",
   PEACHY_SCENE_ENDPOINT: "http://10.0.0.34/lighting/scene/peachy",
+  JUNGLE_SCENE_ENDPOINT: "http://10.0.0.34/lighting/scene/jungle",
 };
 
 export default config;

@@ -53,6 +53,13 @@ const onClickPeachy = () => {
   post(config.PEACHY_SCENE_ENDPOINT, sceneRequest);
 };
 
+const onClickJungle = () => {
+  const sceneRequest: LightingRequest = {
+    operation: "jungle",
+  };
+  post(config.JUNGLE_SCENE_ENDPOINT, sceneRequest);
+};
+
 const SceneDialog: FC = () => {
   return (
     <div style={sceneDialogDivStyle}>
@@ -92,6 +99,13 @@ const SceneDialog: FC = () => {
           <IOperationButton
             operationName={"Peachy"}
             onClick={onClickPeachy}
+            icon={<AnimationIcon></AnimationIcon>}
+          ></IOperationButton>
+        </Grid>
+        <Grid item xs={6} style={gridItemStyle}>
+          <IOperationButton
+            operationName={"Jungle"}
+            onClick={onClickJungle}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>

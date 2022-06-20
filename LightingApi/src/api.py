@@ -218,6 +218,29 @@ def peachy() -> Response:
         return str(e), 500
 
 
+@app.route("/lighting/scene/jungle", methods=["POST"])
+def jungle() -> Response:
+    led_strip_jungle_request = dict(operation="hsv", h=66, s=100, v=100)
+    bulb_1_jungle_request = dict(operation="hsv", h=95, s=100, v=100)
+    bulb_2_jungle_request = dict(operation="hsv", h=136, s=100, v=34)
+    try:
+        requests.post(
+            ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_jungle_request
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_jungle_request
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_jungle_request
+        )
+        insert_lighting_request(device_name="ledstrip", request=request)
+        insert_lighting_request(device_name="bulb1", request=request)
+        insert_lighting_request(device_name="bulb2", request=request)
+        return "Success", 200
+    except requests.HTTPError as e:
+        return str(e), 500
+
+
 if __name__ == "__main__":
     http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()
