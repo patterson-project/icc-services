@@ -39,6 +39,13 @@ const onClickRainbow = () => {
   post(config.RAINBOW_SCENE_ENDPOINT, sceneRequest);
 };
 
+const onClickCandy = () => {
+  const sceneRequest: LightingRequest = {
+    operation: "candy",
+  };
+  post(config.CANDY_SCENE_ENDPOINT, sceneRequest);
+};
+
 const SceneDialog: FC = () => {
   return (
     <div style={sceneDialogDivStyle}>
@@ -64,6 +71,13 @@ const SceneDialog: FC = () => {
           <IOperationButton
             operationName={"Rainbow"}
             onClick={onClickRainbow}
+            icon={<AnimationIcon></AnimationIcon>}
+          ></IOperationButton>
+        </Grid>
+        <Grid item xs={12} style={gridItemStyle}>
+          <IOperationButton
+            operationName={"Candy"}
+            onClick={onClickCandy}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
         </Grid>
