@@ -173,7 +173,7 @@ def rainbow() -> Response:
 
 
 @app.route("/lighting/scene/candy", methods=["POST"])
-def rainbow() -> Response:
+def candy() -> Response:
     led_strip_candy_request = dict(operation="hsv", h=260, s=63, v=96)
     bulb_1_candy_request = dict(operation="hsv", h=301, s=55, v=98)
     bulb_2_candy_request = dict(operation="hsv", h=270, s=69, v=87)
@@ -186,6 +186,29 @@ def rainbow() -> Response:
         )
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_candy_request
+        )
+        insert_lighting_request(device_name="ledstrip", request=request)
+        insert_lighting_request(device_name="bulb1", request=request)
+        insert_lighting_request(device_name="bulb2", request=request)
+        return "Success", 200
+    except requests.HTTPError as e:
+        return str(e), 500
+
+
+@app.route("/lighting/scene/peachy", methods=["POST"])
+def peachy() -> Response:
+    led_strip_peachy_request = dict(operation="hsv", h=17, s=90, v=100)
+    bulb_1_peachy_request = dict(operation="hsv", h=27, s=59, v=100)
+    bulb_2_peachy_request = dict(operation="hsv", h=54, s=70, v=94)
+    try:
+        requests.post(
+            ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_peachy_request
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_peachy_request
+        )
+        requests.post(
+            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_peachy_request
         )
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
