@@ -103,13 +103,6 @@ def bulb_2() -> Response:
         return str(e), 500
 
 
-"""
-1. Define scene route
-2. In route function, define HSV lighting requests
-3. Post each HSV request to each service
-"""
-
-
 @app.route("/lighting/scene/ocean", methods=["POST"])
 def ocean() -> Response:
     led_strip_ocean_request = dict(operation="hsv", h=149, s=57, v=100)
@@ -137,7 +130,7 @@ def ocean() -> Response:
 def rose() -> Response:
     led_strip_rose_request = dict(operation="hsv", h=294, s=22, v=99)
     bulb_1_rose_request = dict(operation="hsv", h=301, s=55, v=98)
-    bulb_2_rose_request = dict(operation="hsv", h=288, s=57, v=95)
+    bulb_2_rose_request = dict(operation="hsv", h=298, s=55, v=95)
     try:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_rose_request
