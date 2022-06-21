@@ -5,7 +5,7 @@ import IOperationButton, { sceneButtonStyle } from "../../OperationButton";
 import {
   gridContainerStyle,
   gridItemStyle,
-  titleStyle,
+  sceneTitleStyle,
 } from "../../../Styles/DialogStyles";
 import { LightingRequest } from "../../../types";
 import { post } from "../../../utils";
@@ -15,7 +15,8 @@ const sceneDialogDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  background: "linear-gradient(#e66465, #9198e5)",
+  background: "linear-gradient(#079BF6, #3A66B4)",
+  // background: "linear-gradient(#ffffff, #9198e5)",
   // backgroundColor: "#151515",
 };
 
@@ -65,7 +66,7 @@ const SceneDialog: FC = () => {
   return (
     <div style={sceneDialogDivStyle}>
       <Box style={gridItemStyle}>
-        <Typography style={titleStyle}>Scenes</Typography>
+        <Typography style={sceneTitleStyle}>Select a Scene</Typography>
       </Box>
       <Grid container spacing={2} style={gridContainerStyle}>
         <Grid item xs={6} style={gridItemStyle}>

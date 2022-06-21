@@ -26,17 +26,17 @@ const sceneButtonStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "90%",
+  width: "95%",
   height: "50px",
   borderRadius: "10px",
-  backgroundColor: "#dee1fd",
+  backgroundColor: "#1C2C54", //3B3B3B
 };
 
 const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
   return (
     <Button
       style={props.style}
-      variant="outlined"
+      variant="text"
       startIcon={props.icon}
       onClick={props.onClick}
     >
