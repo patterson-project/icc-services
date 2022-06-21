@@ -25,6 +25,7 @@ const titleStyle = {
   fontWeight: "bold",
 };
 
+
 const subTitleStyle = {
   color: "white",
   fontSize: "20px",

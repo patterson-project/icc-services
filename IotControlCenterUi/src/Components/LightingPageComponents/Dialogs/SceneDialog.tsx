@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
 import AnimationIcon from "@mui/icons-material/Animation";
-import IOperationButton from "../../OperationButton";
+import IOperationButton, { sceneButtonStyle } from "../../OperationButton";
 import {
   gridContainerStyle,
   gridItemStyle,
@@ -15,7 +15,8 @@ const sceneDialogDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  backgroundColor: "#151515",
+  background: "linear-gradient(#e66465, #9198e5)",
+  // backgroundColor: "#151515",
 };
 
 const onClickOcean = () => {
@@ -70,6 +71,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Ocean"}
+            style={sceneButtonStyle}
             onClick={onClickOcean}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
@@ -77,6 +79,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Rose"}
+            style={sceneButtonStyle}
             onClick={onClickRose}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
@@ -84,6 +87,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Rainbow"}
+            style={sceneButtonStyle}
             onClick={onClickRainbow}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
@@ -91,6 +95,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Candy"}
+            style={sceneButtonStyle}
             onClick={onClickCandy}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
@@ -98,6 +103,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Peachy"}
+            style={sceneButtonStyle}
             onClick={onClickPeachy}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
@@ -105,6 +111,7 @@ const SceneDialog: FC = () => {
         <Grid item xs={6} style={gridItemStyle}>
           <IOperationButton
             operationName={"Jungle"}
+            style={sceneButtonStyle}
             onClick={onClickJungle}
             icon={<AnimationIcon></AnimationIcon>}
           ></IOperationButton>
