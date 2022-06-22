@@ -29,6 +29,7 @@ const sceneButtonStyle = {
   width: "95%",
   height: "50px",
   borderRadius: "10px",
+  opacity: "0.7",
   backgroundColor: "#1C2C54", //3B3B3B
 };
 
