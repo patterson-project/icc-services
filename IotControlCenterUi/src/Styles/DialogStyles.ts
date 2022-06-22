@@ -2,8 +2,6 @@ const pageDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  // backgroundColor: "#151515",
-  // background: "linear-gradient(#ffffff, #9198e5)",
   background: "linear-gradient(#079BF6, #3A66B4)",
 };
 
