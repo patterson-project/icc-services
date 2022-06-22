@@ -16,6 +16,8 @@ const sceneDialogDivStyle = {
   margin: "0px",
   minHeight: "100vh",
   background: "linear-gradient(#079BF6, #3A66B4)",
+  paddingBottom: "40px",
+
   // background: "linear-gradient(#ffffff, #9198e5)",
   // backgroundColor: "#151515",
 };
