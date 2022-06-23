@@ -6,6 +6,7 @@ import {
   gridContainerStyle,
   gridItemStyle,
   sceneTitleStyle,
+  pageDivStyle,
 } from "../../../Styles/DialogStyles";
 import { LightingRequest } from "../../../types";
 import { post } from "../../../utils";
@@ -17,9 +18,6 @@ const sceneDialogDivStyle = {
   minHeight: "100vh",
   background: "linear-gradient(#079BF6, #3A66B4)",
   paddingBottom: "40px",
-
-  // background: "linear-gradient(#ffffff, #9198e5)",
-  // backgroundColor: "#151515",
 };
 
 const onClickOcean = () => {
@@ -66,7 +64,7 @@ const onClickJungle = () => {
 
 const SceneDialog: FC = () => {
   return (
-    <div style={sceneDialogDivStyle}>
+    <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
         <Typography style={sceneTitleStyle}>Select a Scene</Typography>
       </Box>

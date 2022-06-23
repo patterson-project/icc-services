@@ -2,7 +2,8 @@ const pageDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  background: "linear-gradient(#079BF6, #3A66B4)",
+  // background: "linear-gradient(#26D0CE, #1A2980)",
+  background: "#181866"
 };
 
 const gridContainerStyle = {
