@@ -19,7 +19,7 @@ const colorPickerBoxStyle = {
   justifyContent: "center",
   width: "90%",
   height: "390px",
-  backgroundColor: "#3B3B3B",
+  backgroundColor: "#1C2C54",
   borderRadius: "10px",
 };
 

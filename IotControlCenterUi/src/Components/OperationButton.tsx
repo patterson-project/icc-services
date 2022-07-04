@@ -5,6 +5,7 @@ interface IOperationButton {
   operationName: string;
   onClick(): void;
   icon: JSX.Element;
+  style: object;
 }
 
 const buttonStyle = {
@@ -19,11 +20,24 @@ const buttonStyle = {
   backgroundColor: "#3B3B3B",
 };
 
+const sceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontSize: "16px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "95%",
+  height: "50px",
+  borderRadius: "10px",
+  opacity: "0.7",
+  backgroundColor: "#1C2C54", //3B3B3B
+};
+
 const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
   return (
     <Button
-      style={buttonStyle}
-      variant="outlined"
+      style={props.style}
+      variant="text"
       startIcon={props.icon}
       onClick={props.onClick}
     >
@@ -33,3 +47,4 @@ const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
 };
 
 export default OperationButton;
+export { sceneButtonStyle, buttonStyle };

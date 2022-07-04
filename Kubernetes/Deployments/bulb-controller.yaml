@@ -13,6 +13,6 @@ spec:
         svc: bulb-controller
     spec:
       containers:
-        - name: bulb-1-container
+        - name: bulb-container
           image: canadrian72/iot-control-center:bulb-controller
           imagePullPolicy: Always

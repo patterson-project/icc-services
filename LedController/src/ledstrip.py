@@ -46,12 +46,14 @@ class LedStripController:
 
     def brightness(self):
         if self.sequence_process is None:
-            self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
+            self.strip.setBrightness(
+                int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
         else:
             last_sequence = self.sequence_process.name
             self.terminate_process()
-            self.strip.setBrightness(int(255 * (int(self.request.brightness) / 100)))
+            self.strip.setBrightness(
+                int(255 * (int(self.request.brightness) / 100)))
             self.strip.show()
             self.operation_callback_by_name[last_sequence]()
 
@@ -100,7 +102,8 @@ class LedStripController:
 
     def rainbow(self) -> None:
         self.terminate_process()
-        self.sequence_process = multiprocessing.Process(target=self.rainbow_loop)
+        self.sequence_process = multiprocessing.Process(
+            target=self.rainbow_loop)
         self.sequence_process.name = "rainbow"
         self.sequence_process.start()
 
@@ -114,7 +117,8 @@ class LedStripController:
 
     def rainbow_cycle(self):
         self.terminate_process()
-        self.sequence_process = multiprocessing.Process(target=self.rainbow_cycle_loop)
+        self.sequence_process = multiprocessing.Process(
+            target=self.rainbow_cycle_loop)
         self.sequence_process.name = "rainbow_cycle"
         self.sequence_process.start()
 
@@ -123,7 +127,8 @@ class LedStripController:
             for j in range(255):
                 for i in range(self.strip.numPixels()):
                     self.strip.setPixelColor(
-                        i, wheel((int(i * 256 / self.strip.numPixels()) + j) & 255)
+                        i, wheel(
+                            (int(i * 256 / self.strip.numPixels()) + j) & 255)
                     )
                 self.strip.show()
                 time.sleep(0.05)
