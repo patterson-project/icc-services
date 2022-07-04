@@ -1,5 +1,4 @@
 import datetime
-from turtle import color
 from pymongo import MongoClient
 from flask import Request
 

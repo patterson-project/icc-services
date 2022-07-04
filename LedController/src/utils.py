@@ -59,7 +59,8 @@ def convert_K_to_RGB(colour_temperature) -> tuple[int, int, int]:
     elif tmp_internal <= 19:
         blue = 0
     else:
-        tmp_blue = 138.5177312231 * math.log(tmp_internal - 10) - 305.0447927307
+        tmp_blue = 138.5177312231 * \
+            math.log(tmp_internal - 10) - 305.0447927307
         if tmp_blue < 0:
             blue = 0
         elif tmp_blue > 255:
@@ -89,7 +90,6 @@ class LightingRequest:
         v: int = 50,
         brightness: int = None,
         temperature: int = None,
-        scene: str = None,
     ):
         self.operation = operation
         self.brightness = brightness
@@ -97,7 +97,6 @@ class LightingRequest:
         self.h = h
         self.s = s
         self.v = v
-        self.scene = scene
 
 
 class ServiceUris:

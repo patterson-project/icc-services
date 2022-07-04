@@ -2,8 +2,6 @@ const pageDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  // backgroundColor: "#151515",
-  // background: "linear-gradient(#ffffff, #9198e5)",
   background: "linear-gradient(#079BF6, #3A66B4)",
 };
 
@@ -29,7 +27,7 @@ const titleStyle = {
 };
 
 const sceneTitleStyle = {
-  color: "white",  //0774d6
+  color: "white",
   fontSize: "40px",
   fontFamily: "Ubuntu, -apple-system",
   fontWeight: "bold",
