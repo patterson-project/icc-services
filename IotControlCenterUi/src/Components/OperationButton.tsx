@@ -22,15 +22,15 @@ const buttonStyle = {
 
 const sceneButtonStyle = {
   fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
   fontSize: "16px",
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "95%",
-  height: "50px",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
   borderRadius: "10px",
-  opacity: "0.7",
-  backgroundColor: "#1C2C54", //3B3B3B
+  backgroundColor: "#2C2C2E",
 };
 
 const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
@@ -38,7 +38,7 @@ const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
     <Button
       style={props.style}
       variant="text"
-      startIcon={props.icon}
+      // startIcon={props.icon}
       onClick={props.onClick}
     >
       {props.operationName}
