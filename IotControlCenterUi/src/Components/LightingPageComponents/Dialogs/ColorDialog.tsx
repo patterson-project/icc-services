@@ -91,7 +91,7 @@ const ColorDialog: FC = () => {
   return (
     <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
-        <Typography style={titleStyle}>Color</Typography>
+        <Typography style={titleStyle}>Colors</Typography>
       </Box>
       <Box style={gridItemStyle}>
         <Typography style={subHeadingStyle}>

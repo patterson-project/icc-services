@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
 import AnimationIcon from "@mui/icons-material/Animation";
-import IOperationButton, { sceneButtonStyle } from "../../OperationButton";
+import IOperationButton from "../../OperationButton";
 import {
   gridContainerStyle,
   gridItemStyle,
@@ -9,7 +9,6 @@ import {
   pageDivStyle,
   subHeadingStyle,
 } from "../../../Styles/DialogStyles";
-// import background from "../LightingComponents/image.png";
 import { LightingRequest } from "../../../types";
 import { post } from "../../../utils";
 import config from "../../../config";

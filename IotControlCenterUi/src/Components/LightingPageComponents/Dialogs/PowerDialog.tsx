@@ -5,6 +5,7 @@ import {
   gridContainerStyle,
   gridItemStyle,
   pageDivStyle,
+  subHeadingStyle,
   titleStyle,
 } from "../../../Styles/DialogStyles";
 import { LightingPowerStatus, LightingRequest } from "../../../types";
@@ -96,6 +97,11 @@ const PowerDialog: FC = () => {
     <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
         <Typography style={titleStyle}>Power</Typography>
+      </Box>
+      <Box style={gridItemStyle}>
+        <Typography style={subHeadingStyle}>
+          Control the state of your lighting devices
+        </Typography>
       </Box>
       <Divider variant="middle" style={{ backgroundColor: "#555555" }} />
       <Box style={categoryTitleBoxStyle}>

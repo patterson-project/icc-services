@@ -20,19 +20,6 @@ const buttonStyle = {
   backgroundColor: "#3B3B3B",
 };
 
-const sceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundColor: "#2C2C2E",
-};
-
 const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
   return (
     <Button
@@ -47,4 +34,4 @@ const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
 };
 
 export default OperationButton;
-export { sceneButtonStyle, buttonStyle };
+export { buttonStyle };
