@@ -5,19 +5,109 @@ import IOperationButton, { sceneButtonStyle } from "../../OperationButton";
 import {
   gridContainerStyle,
   gridItemStyle,
-  sceneTitleStyle,
+  titleStyle,
   pageDivStyle,
+  subHeadingStyle,
 } from "../../../Styles/DialogStyles";
+// import background from "../LightingComponents/image.png";
 import { LightingRequest } from "../../../types";
 import { post } from "../../../utils";
 import config from "../../../config";
 
-const sceneDialogDivStyle = {
+const buttonBoxStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   height: "100%",
-  margin: "0px",
-  minHeight: "100vh",
-  background: "linear-gradient(#079BF6, #3A66B4)",
-  paddingBottom: "40px",
+  backgroundColor: "#2C2C2E",
+  width: "90%",
+  borderRadius: "10px",
+  paddingBottom: "10px",
+  paddingTop: "10px",
+};
+
+const oceanSceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
+  fontSize: "16px",
+  color: "white",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
+  borderRadius: "10px",
+  backgroundColor: "#2a5cd1",
+};
+
+const roseSceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
+  fontSize: "16px",
+  color: "white",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
+  borderRadius: "10px",
+  backgroundColor: "#f368f7",
+};
+
+const candySceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
+  fontSize: "16px",
+  color: "white",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
+  borderRadius: "10px",
+  backgroundColor: "#ab5dc7",
+};
+
+const rainbowSceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
+  fontSize: "16px",
+  color: "white",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
+  borderRadius: "10px",
+  backgroundImage: "url(/image.png)",
+};
+
+const peachySceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
+  fontSize: "16px",
+  color: "white",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
+  borderRadius: "10px",
+  backgroundColor: "#f09f48",
+};
+
+const jungleSceneButtonStyle = {
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "medium",
+  fontSize: "16px",
+  color: "white",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "left",
+  width: "85%",
+  height: "80px",
+  borderRadius: "10px",
+  backgroundColor: "#227a1c",
 };
 
 const onClickOcean = () => {
@@ -66,56 +156,65 @@ const SceneDialog: FC = () => {
   return (
     <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
-        <Typography style={sceneTitleStyle}>Select a Scene</Typography>
+        <Typography style={titleStyle}>Environments</Typography>
+      </Box>
+      <Box style={gridItemStyle}>
+        <Typography style={subHeadingStyle}>Select a preset scene</Typography>
       </Box>
       <Grid container spacing={2} style={gridContainerStyle}>
-        <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
-            operationName={"Ocean"}
-            style={sceneButtonStyle}
-            onClick={onClickOcean}
-            icon={<AnimationIcon></AnimationIcon>}
-          ></IOperationButton>
-        </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
-            operationName={"Rose"}
-            style={sceneButtonStyle}
-            onClick={onClickRose}
-            icon={<AnimationIcon></AnimationIcon>}
-          ></IOperationButton>
-        </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
-            operationName={"Rainbow"}
-            style={sceneButtonStyle}
-            onClick={onClickRainbow}
-            icon={<AnimationIcon></AnimationIcon>}
-          ></IOperationButton>
-        </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
-            operationName={"Candy"}
-            style={sceneButtonStyle}
-            onClick={onClickCandy}
-            icon={<AnimationIcon></AnimationIcon>}
-          ></IOperationButton>
-        </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
-            operationName={"Peachy"}
-            style={sceneButtonStyle}
-            onClick={onClickPeachy}
-            icon={<AnimationIcon></AnimationIcon>}
-          ></IOperationButton>
-        </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
-            operationName={"Jungle"}
-            style={sceneButtonStyle}
-            onClick={onClickJungle}
-            icon={<AnimationIcon></AnimationIcon>}
-          ></IOperationButton>
+        <Grid item xs={12} style={gridItemStyle}>
+          <Box style={buttonBoxStyle}>
+            <Grid container spacing={2} style={gridContainerStyle}>
+              <Grid item xs={6} style={gridItemStyle}>
+                <IOperationButton
+                  operationName={"Ocean"}
+                  style={oceanSceneButtonStyle}
+                  onClick={onClickOcean}
+                  icon={<AnimationIcon></AnimationIcon>}
+                ></IOperationButton>
+              </Grid>
+              <Grid item xs={6} style={gridItemStyle}>
+                <IOperationButton
+                  operationName={"Rose"}
+                  style={roseSceneButtonStyle}
+                  onClick={onClickRose}
+                  icon={<AnimationIcon></AnimationIcon>}
+                ></IOperationButton>
+              </Grid>
+              <Grid item xs={6} style={gridItemStyle}>
+                <IOperationButton
+                  operationName={"Candy"}
+                  style={candySceneButtonStyle}
+                  onClick={onClickCandy}
+                  icon={<AnimationIcon></AnimationIcon>}
+                ></IOperationButton>
+              </Grid>
+              <Grid item xs={6} style={gridItemStyle}>
+                <IOperationButton
+                  operationName={"Rainbow"}
+                  style={rainbowSceneButtonStyle}
+                  onClick={onClickRainbow}
+                  icon={<AnimationIcon></AnimationIcon>}
+                ></IOperationButton>
+              </Grid>
+              <Grid item xs={6} style={gridItemStyle}>
+                <IOperationButton
+                  operationName={"Peachy"}
+                  style={peachySceneButtonStyle}
+                  onClick={onClickPeachy}
+                  icon={<AnimationIcon></AnimationIcon>}
+                ></IOperationButton>
+              </Grid>
+              <Grid item xs={6} style={gridItemStyle}>
+                <IOperationButton
+                  operationName={"Jungle"}
+                  style={jungleSceneButtonStyle}
+                  onClick={onClickJungle}
+                  icon={<AnimationIcon></AnimationIcon>}
+                ></IOperationButton>
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
       </Grid>
     </div>

@@ -2,8 +2,8 @@ const pageDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  // background: "linear-gradient(#26D0CE, #1A2980)",
-  background: "#181866"
+  background: "#1C1C1E",
+  paddingTop: "10px",
 };
 
 const gridContainerStyle = {
@@ -11,7 +11,6 @@ const gridContainerStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  
 };
 
 const gridItemStyle = {
@@ -27,13 +26,6 @@ const titleStyle = {
   fontWeight: "bold",
 };
 
-const sceneTitleStyle = {
-  color: "white",  //0774d6
-  fontSize: "40px",
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "bold",
-};
-
 const subTitleStyle = {
   color: "white",
   fontSize: "20px",
@@ -41,12 +33,19 @@ const subTitleStyle = {
   fontWeight: "bold",
 };
 
+const subHeadingStyle = {
+  color: "white",
+  fontSize: "15px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "light",
+}
+
 const componentBoxStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   height: "auto",
-  backgroundColor: "#1C2C54",
+  backgroundColor: "#2C2C2E",
   width: "90%",
   borderRadius: "10px",
 };
@@ -56,7 +55,7 @@ export {
   gridContainerStyle,
   gridItemStyle,
   titleStyle,
-  sceneTitleStyle,
   subTitleStyle,
+  subHeadingStyle,
   componentBoxStyle,
 };

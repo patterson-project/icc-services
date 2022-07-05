@@ -13,7 +13,7 @@ const lightingDeviceSwitchesStyle = {
   alignItems: "center",
   justifyContent: "center",
   height: "auto",
-  backgroundColor: "#1C2C54",
+  backgroundColor: "#2C2C2E",
   width: "90%",
   borderRadius: "10px",
   paddingBottom: "20px",
