@@ -54,5 +54,5 @@ class DeviceState:
 
 class ServiceUris:
     MONGO_DB = "10.0.0.34:27017"
-    LED_STRIP_SERVICE = "http://10.0.0.68:8000"
+    LED_STRIP_SERVICE = "http://10.0.0.63:8000"
     BULB_SERVICE = "http://bulb-controller-cluster-ip.default.svc.cluster.local:8000"
