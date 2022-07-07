@@ -67,7 +67,7 @@ const LightingPage: FC = () => {
           icon={<AllInclusiveIcon style={iconStyle} />}
         />
         <BottomNavigationAction
-          label={getBottomNavigationLabelSpan("Power")}
+          label={getBottomNavigationLabelSpan("Devices")}
           value={2}
           icon={<PowerSettingsNewIcon style={iconStyle} />}
         />
