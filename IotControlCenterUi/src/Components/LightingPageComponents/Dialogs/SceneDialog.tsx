@@ -22,91 +22,6 @@ const buttonBoxStyle = {
   width: "90%",
   borderRadius: "10px",
   paddingBottom: "10px",
-  paddingTop: "10px",
-};
-
-const oceanSceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  color: "white",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundColor: "#2a5cd1",
-};
-
-const roseSceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  color: "white",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundColor: "#f368f7",
-};
-
-const candySceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  color: "white",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundColor: "#ab5dc7",
-};
-
-const rainbowSceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  color: "white",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundImage: "url(/image.png)",
-};
-
-const peachySceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  color: "white",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundColor: "#f09f48",
-};
-
-const jungleSceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "medium",
-  fontSize: "16px",
-  color: "white",
-  display: "flex",
-  alignItems: "flex-start",
-  justifyContent: "left",
-  width: "85%",
-  height: "80px",
-  borderRadius: "10px",
-  backgroundColor: "#227a1c",
 };
 
 const onClickOcean = () => {
@@ -167,49 +82,43 @@ const SceneDialog: FC = () => {
               <Grid item xs={6} style={gridItemStyle}>
                 <IOperationButton
                   operationName={"Ocean"}
-                  style={oceanSceneButtonStyle}
+                  color={"#2a5cd1"}
                   onClick={onClickOcean}
-                  icon={<AnimationIcon></AnimationIcon>}
                 ></IOperationButton>
               </Grid>
               <Grid item xs={6} style={gridItemStyle}>
                 <IOperationButton
                   operationName={"Rose"}
-                  style={roseSceneButtonStyle}
+                  color={"#f368f7"}
                   onClick={onClickRose}
-                  icon={<AnimationIcon></AnimationIcon>}
                 ></IOperationButton>
               </Grid>
               <Grid item xs={6} style={gridItemStyle}>
                 <IOperationButton
                   operationName={"Candy"}
-                  style={candySceneButtonStyle}
+                  color={"#ab5dc7"}
                   onClick={onClickCandy}
-                  icon={<AnimationIcon></AnimationIcon>}
                 ></IOperationButton>
               </Grid>
               <Grid item xs={6} style={gridItemStyle}>
                 <IOperationButton
                   operationName={"Rainbow"}
-                  style={rainbowSceneButtonStyle}
+                  image={"url(/image.png)"}
                   onClick={onClickRainbow}
-                  icon={<AnimationIcon></AnimationIcon>}
                 ></IOperationButton>
               </Grid>
               <Grid item xs={6} style={gridItemStyle}>
                 <IOperationButton
                   operationName={"Peachy"}
-                  style={peachySceneButtonStyle}
+                  color={"#f09f48"}
                   onClick={onClickPeachy}
-                  icon={<AnimationIcon></AnimationIcon>}
                 ></IOperationButton>
               </Grid>
               <Grid item xs={6} style={gridItemStyle}>
                 <IOperationButton
                   operationName={"Jungle"}
-                  style={jungleSceneButtonStyle}
+                  color={"#227a1c"}
                   onClick={onClickJungle}
-                  icon={<AnimationIcon></AnimationIcon>}
                 ></IOperationButton>
               </Grid>
             </Grid>
