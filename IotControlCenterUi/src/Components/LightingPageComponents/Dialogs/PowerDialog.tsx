@@ -96,11 +96,11 @@ const PowerDialog: FC = () => {
   return (
     <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
-        <Typography style={titleStyle}>Power</Typography>
+        <Typography style={titleStyle}>Devices</Typography>
       </Box>
       <Box style={gridItemStyle}>
         <Typography style={subHeadingStyle}>
-          Control the state of your lighting devices
+          Control your devices and add new ones
         </Typography>
       </Box>
       <Divider variant="middle" style={{ backgroundColor: "#555555" }} />
@@ -111,6 +111,7 @@ const PowerDialog: FC = () => {
         <Grid item xs={12} style={gridItemStyle}>
           <PowerButton
             deviceName="Led Strip"
+            deviceIP="10.0.0.63"
             onClick={() => onClickLedStripPower()}
             deviceState={ledStripState}
             disabled={buttonsDisabled}
@@ -119,6 +120,7 @@ const PowerDialog: FC = () => {
         <Grid item xs={12} style={gridItemStyle}>
           <PowerButton
             deviceName="Bulb One"
+            deviceIP="10.0.0.87"
             onClick={() => onClickBulbOnePower()}
             deviceState={bulbOneState}
             disabled={buttonsDisabled}
@@ -127,6 +129,7 @@ const PowerDialog: FC = () => {
         <Grid item xs={12} style={gridItemStyle}>
           <PowerButton
             deviceName="Bulb Two"
+            deviceIP="10.0.0.37"
             onClick={() => onClickBulbTwoPower()}
             deviceState={bulbTwoState}
             disabled={buttonsDisabled}
