@@ -10,7 +10,6 @@ import {
 
 interface IPowerButton {
   deviceName: string;
-  deviceIP: string;
   onClick(): void;
   deviceState: boolean;
   disabled: boolean;
@@ -38,9 +37,6 @@ const PowerButton: FC<IPowerButton> = (props): JSX.Element => {
       <Grid container style={gridContainerStyle}>
         <Grid item xs={6} style={gridItemStyle}>
           <Typography style={deviceNameStyle}>{props.deviceName}</Typography>
-        </Grid>
-        <Grid item xs={6} style={gridItemStyle}>
-          <Typography style={subHeadingStyle}>{props.deviceIP}</Typography>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
           <IconButton
