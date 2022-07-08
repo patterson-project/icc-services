@@ -96,12 +96,10 @@ const PowerDialog: FC = () => {
   return (
     <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
-        <Typography style={titleStyle}>Devices</Typography>
+        <Typography style={titleStyle}>Power</Typography>
       </Box>
       <Box style={gridItemStyle}>
-        <Typography style={subHeadingStyle}>
-          Control your devices and add new ones
-        </Typography>
+        <Typography style={subHeadingStyle}>Control your devices</Typography>
       </Box>
       <Divider variant="middle" style={{ backgroundColor: "#555555" }} />
       <Box style={categoryTitleBoxStyle}>
