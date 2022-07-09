@@ -118,6 +118,7 @@ def ocean() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_ocean_request
         )
+
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
         insert_lighting_request(device_name="bulb2", request=request)
@@ -141,6 +142,7 @@ def rose() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rose_request
         )
+
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
         insert_lighting_request(device_name="bulb2", request=request)
@@ -164,6 +166,7 @@ def rainbow() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rainbow_request
         )
+
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
         insert_lighting_request(device_name="bulb2", request=request)
@@ -187,6 +190,7 @@ def candy() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_candy_request
         )
+
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
         insert_lighting_request(device_name="bulb2", request=request)
@@ -210,6 +214,7 @@ def peachy() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_peachy_request
         )
+
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
         insert_lighting_request(device_name="bulb2", request=request)
@@ -233,6 +238,7 @@ def jungle() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_jungle_request
         )
+
         insert_lighting_request(device_name="ledstrip", request=request)
         insert_lighting_request(device_name="bulb1", request=request)
         insert_lighting_request(device_name="bulb2", request=request)

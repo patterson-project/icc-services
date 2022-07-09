@@ -38,7 +38,7 @@ const subHeadingStyle = {
   fontSize: "15px",
   fontFamily: "Ubuntu, -apple-system",
   fontWeight: "light",
-}
+};
 
 const componentBoxStyle = {
   display: "flex",
