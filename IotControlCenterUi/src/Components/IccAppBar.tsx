@@ -15,6 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import React, { FC, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import DevicesIcon from "@mui/icons-material/Devices";
 import { useNavigate } from "react-router-dom";
 
 const appBarTitleStyle = {
@@ -78,6 +79,12 @@ const IccAppBar: FC = () => {
             <LightbulbIcon style={iconStyle} />
           </ListItemIcon>
           <ListItemText primary={getListItemTextSpan("Lighting")} />
+        </ListItem>
+        <ListItem button onClick={() => navigate("/device")}>
+          <ListItemIcon>
+            <DevicesIcon style={iconStyle} />
+          </ListItemIcon>
+          <ListItemText primary={getListItemTextSpan("Devices")} />
         </ListItem>
       </List>
       <Divider />
