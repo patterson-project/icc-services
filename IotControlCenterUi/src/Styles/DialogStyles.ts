@@ -40,6 +40,14 @@ const subTitleStyle = {
   fontWeight: "bold",
 };
 
+const textStyle = {
+  color: "white",
+  opacity: "0.7",
+  fontSize: "20px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight:"light",
+};
+
 const componentBoxStyle = {
   display: "flex",
   alignItems: "center",
@@ -58,4 +66,5 @@ export {
   sceneTitleStyle,
   subTitleStyle,
   componentBoxStyle,
+  textStyle,
 };
