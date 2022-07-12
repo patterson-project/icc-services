@@ -10,7 +10,6 @@ const gridContainerStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  
 };
 
 const gridItemStyle = {

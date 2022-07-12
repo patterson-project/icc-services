@@ -3,9 +3,7 @@ import React, { FC } from "react";
 import {
   gridContainerStyle,
   gridItemStyle,
-  subTitleStyle,
   textStyle,
-  titleStyle,
 } from "../../Styles/DialogStyles";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 
@@ -18,6 +16,8 @@ const cardBoxStyle = {
   width: "90%",
   borderRadius: "10px",
   paddingBottom: "10px",
+  overflow: "auto",
+  animation: "ripple 1s",
 };
 
 const iconStyle = {
@@ -37,21 +37,34 @@ const textGridItemStyle = {
   paddingLeft: "15px",
 };
 
+const cardTitleStyle = {
+  color: "white",
+  fontSize: "30px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "bold",
+};
+
 interface IDeviceCard {
   deviceName: string;
   deviceIP: string;
   deviceModel: string;
+  deviceType: string;
 }
 
 const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
+  const onClickCard = () => {
+    console.log("Clicked");
+  };
+
   return (
-    <Box style={cardBoxStyle}>
+    <Box style={cardBoxStyle} onClick={onClickCard}>
+      {/*grid, 10 2->icon-edit */}
       <Grid container style={gridContainerStyle}>
         <Grid item xs={2} style={gridItemStyle}>
           <LightbulbIcon style={iconStyle}></LightbulbIcon>
         </Grid>
         <Grid item xs={10} style={titleGridItemStyle}>
-          <Typography style={titleStyle}>{props.deviceName}</Typography>
+          <Typography style={cardTitleStyle}>{props.deviceName}</Typography>
         </Grid>
         <Grid item xs={12} style={textGridItemStyle}>
           <Typography style={textStyle}>{props.deviceModel}</Typography>
