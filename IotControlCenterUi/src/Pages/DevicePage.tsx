@@ -1,22 +1,16 @@
 import { Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+
 import DeviceCard from "../Components/DevicePageComponents/DeviceCard";
 import IccAppBar from "../Components/IccAppBar";
 import { gridItemStyle, titleStyle } from "../Styles/DialogStyles";
+import AddDeviceModal from "../Components/DevicePageComponents/AddDeviceModal";
 
 const devicePageDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
   backgroundColor: "#151515",
-};
-
-const addDeviceButton = {
-  position: "fixed",
-  bottom: 16,
-  right: 16,
 };
 
 const deviceGridContainerStyle = {
@@ -116,9 +110,7 @@ const DevicePage: FC = () => {
           />
         </Grid>
       </Grid>
-      <Fab color="primary" aria-label="add" sx={addDeviceButton}>
-        <AddIcon />
-      </Fab>
+      <AddDeviceModal />
     </div>
   );
 };

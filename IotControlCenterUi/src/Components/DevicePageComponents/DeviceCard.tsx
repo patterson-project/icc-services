@@ -60,18 +60,23 @@ const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
     <Box style={cardBoxStyle} onClick={onClickCard}>
       {/*grid, 10 2->icon-edit */}
       <Grid container style={gridContainerStyle}>
-        <Grid item xs={2} style={gridItemStyle}>
-          <LightbulbIcon style={iconStyle}></LightbulbIcon>
+        <Grid item xs={10}>
+          <Grid container style={gridContainerStyle}>
+            <Grid item xs={2} style={gridItemStyle}>
+              <LightbulbIcon style={iconStyle}></LightbulbIcon>
+            </Grid>
+            <Grid item xs={10} style={titleGridItemStyle}>
+              <Typography style={cardTitleStyle}>{props.deviceName}</Typography>
+            </Grid>
+            <Grid item xs={12} style={textGridItemStyle}>
+              <Typography style={textStyle}>{props.deviceModel}</Typography>
+            </Grid>
+            <Grid item xs={12} style={textGridItemStyle}>
+              <Typography style={textStyle}>{props.deviceIP}</Typography>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={10} style={titleGridItemStyle}>
-          <Typography style={cardTitleStyle}>{props.deviceName}</Typography>
-        </Grid>
-        <Grid item xs={12} style={textGridItemStyle}>
-          <Typography style={textStyle}>{props.deviceModel}</Typography>
-        </Grid>
-        <Grid item xs={12} style={textGridItemStyle}>
-          <Typography style={textStyle}>{props.deviceIP}</Typography>
-        </Grid>
+        <Grid item xs={2}></Grid>
       </Grid>
     </Box>
   );
