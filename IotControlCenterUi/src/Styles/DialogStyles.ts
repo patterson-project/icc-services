@@ -2,7 +2,8 @@ const pageDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
-  background: "linear-gradient(#079BF6, #3A66B4)",
+  background: "#1C1C1E",
+  paddingTop: "10px",
 };
 
 const gridContainerStyle = {
@@ -25,13 +26,6 @@ const titleStyle = {
   fontWeight: "bold",
 };
 
-const sceneTitleStyle = {
-  color: "white",
-  fontSize: "40px",
-  fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "bold",
-};
-
 const subTitleStyle = {
   color: "white",
   fontSize: "20px",
@@ -47,12 +41,19 @@ const textStyle = {
   fontWeight:"light",
 };
 
+const subHeadingStyle = {
+  color: "white",
+  fontSize: "15px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "light",
+};
+
 const componentBoxStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   height: "auto",
-  backgroundColor: "#1C2C54",
+  backgroundColor: "#2C2C2E",
   width: "90%",
   borderRadius: "10px",
 };
@@ -62,8 +63,8 @@ export {
   gridContainerStyle,
   gridItemStyle,
   titleStyle,
-  sceneTitleStyle,
   subTitleStyle,
+  subHeadingStyle,
   componentBoxStyle,
   textStyle,
 };

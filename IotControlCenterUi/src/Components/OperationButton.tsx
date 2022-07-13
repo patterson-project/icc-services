@@ -4,47 +4,31 @@ import Button from "@mui/material/Button";
 interface IOperationButton {
   operationName: string;
   onClick(): void;
-  icon: JSX.Element;
-  style: object;
+  color?: string;
+  image?: string;
 }
 
-const buttonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontSize: "16px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "90%",
-  height: "50px",
-  borderRadius: "10px",
-  backgroundColor: "#3B3B3B",
-};
-
-const sceneButtonStyle = {
-  fontFamily: "Ubuntu, -apple-system",
-  fontSize: "16px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "95%",
-  height: "50px",
-  borderRadius: "10px",
-  opacity: "0.7",
-  backgroundColor: "#1C2C54", //3B3B3B
-};
-
 const OperationButton: FC<IOperationButton> = (props): JSX.Element => {
+  const buttonStyle = {
+    fontFamily: "Ubuntu, -apple-system",
+    fontWeight: "medium",
+    fontSize: "16px",
+    color: "white",
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "left",
+    width: "85%",
+    height: "80px",
+    borderRadius: "10px",
+    backgroundColor: props.color,
+    backgroundImage: props.image,
+  };
+
   return (
-    <Button
-      style={props.style}
-      variant="text"
-      startIcon={props.icon}
-      onClick={props.onClick}
-    >
+    <Button style={buttonStyle} variant="text" onClick={props.onClick}>
       {props.operationName}
     </Button>
   );
 };
 
 export default OperationButton;
-export { sceneButtonStyle, buttonStyle };
