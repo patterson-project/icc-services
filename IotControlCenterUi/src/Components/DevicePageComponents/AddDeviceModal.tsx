@@ -1,9 +1,20 @@
-import React, { FC } from "react";
-import { Box, Grid, Modal, Typography } from "@mui/material";
+import React, { FC, forwardRef, useState } from "react";
+import {
+  Button,
+  createTheme,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+  ThemeProvider,
+} from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
-import { gridContainerStyle, gridItemStyle } from "../../Styles/DialogStyles";
+import { TransitionProps } from "@mui/material/transitions";
+import DeviceTextField from "./DeviceTextField";
 
 const modalDivStyle = {
   height: "100%",
@@ -12,16 +23,25 @@ const modalDivStyle = {
   backgroundColor: "#151515",
 };
 
-const modalBoxStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  boxShadow: 24,
-  width: "90%",
-  bgcolor: "#2C2C2E",
-  p: 16,
-};
+const backgroundTheme = createTheme({
+  palette: {
+    background: {
+      paper: "#2C2C2E",
+    },
+    text: {
+      primary: "#FFFFFF",
+    },
+  },
+});
+
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const addDeviceButton = {
   position: "fixed",
@@ -29,23 +49,13 @@ const addDeviceButton = {
   right: 16,
 };
 
-const floatingLabelFocusStyle = {
-  color: "white",
-};
-
-const addDevicePageStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100%",
-  width: "90%",
-  borderRadius: "10px",
-  paddingBottom: "10px",
-  overflow: "auto",
-};
-
 const AddDeviceModal: FC = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [ip, setIp] = useState<string>("");
+  const [model, setModel] = useState<string>("");
+  const [type, setType] = useState<string>("");
+  //type needs to be a drop
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -59,17 +69,36 @@ const AddDeviceModal: FC = () => {
       >
         <AddIcon />
       </Fab>
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={modalBoxStyle}>
-          <Grid container style={gridContainerStyle}>
-            <Grid item style={gridItemStyle} xs={12}>
-              <TextField fullWidth label="Device Name" variant="standard" />
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
+      <ThemeProvider theme={backgroundTheme}>
+        <Dialog
+          sx={{ bgcolor: "background.paper" }}
+          open={open}
+          onClose={handleClose}
+          TransitionComponent={Transition}
+        >
+          <DialogTitle>Add a Device</DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ color: "text.primary" }}>
+              Fill in the following information to add a device.
+            </DialogContentText>
+            <DeviceTextField id="name" label="Device Name" setText={setName} />
+            <DeviceTextField id="ip" label="Device IP" setText={setIp} />
+            <DeviceTextField
+              id="model"
+              label="Device Model"
+              setText={setModel}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Add</Button>
+          </DialogActions>
+        </Dialog>
+      </ThemeProvider>
     </div>
   );
 };
+
+//change button
 
 export default AddDeviceModal;
