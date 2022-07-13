@@ -1,4 +1,3 @@
-from readline import insert_text
 import requests
 import os
 from flask import Flask, Response, Request, request

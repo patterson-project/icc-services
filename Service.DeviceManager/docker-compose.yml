@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   api:
-    image: canadrian72/iot-control-center:lighting-api
+    image: canadrian72/iot-control-center:device-manager-service
     build:
       context: .
       dockerfile: Dockerfile
