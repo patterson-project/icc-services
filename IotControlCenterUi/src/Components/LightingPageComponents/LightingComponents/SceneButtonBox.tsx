@@ -24,42 +24,42 @@ const onClickOcean = () => {
   const sceneRequest: LightingRequest = {
     operation: "ocean",
   };
-  post(config.OCEAN_SCENE_ENDPOINT, sceneRequest);
+  post(config.SCENE_ENDPOINT + "/ocean", sceneRequest);
 };
 
 const onClickRose = () => {
   const sceneRequest: LightingRequest = {
     operation: "rose",
   };
-  post(config.ROSE_SCENE_ENDPOINT, sceneRequest);
+  post(config.SCENE_ENDPOINT + "/rose", sceneRequest);
 };
 
 const onClickRainbow = () => {
   const sceneRequest: LightingRequest = {
     operation: "rainbow",
   };
-  post(config.RAINBOW_SCENE_ENDPOINT, sceneRequest);
+  post(config.SCENE_ENDPOINT + "/rainbow", sceneRequest);
 };
 
 const onClickCandy = () => {
   const sceneRequest: LightingRequest = {
     operation: "candy",
   };
-  post(config.CANDY_SCENE_ENDPOINT, sceneRequest);
+  post(config.SCENE_ENDPOINT + "/candy", sceneRequest);
 };
 
 const onClickPeachy = () => {
   const sceneRequest: LightingRequest = {
     operation: "peachy",
   };
-  post(config.PEACHY_SCENE_ENDPOINT, sceneRequest);
+  post(config.SCENE_ENDPOINT + "/peachy", sceneRequest);
 };
 
 const onClickJungle = () => {
   const sceneRequest: LightingRequest = {
     operation: "jungle",
   };
-  post(config.JUNGLE_SCENE_ENDPOINT, sceneRequest);
+  post(config.SCENE_ENDPOINT + "/jungle", sceneRequest);
 };
 
 const SceneButtonBox: FC = () => {
