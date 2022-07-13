@@ -13,7 +13,7 @@ const lightingDeviceSwitchesStyle = {
   alignItems: "center",
   justifyContent: "center",
   height: "auto",
-  backgroundColor: "#1C2C54",
+  backgroundColor: "#2C2C2E",
   width: "90%",
   borderRadius: "10px",
   paddingBottom: "20px",
@@ -59,7 +59,7 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
     <Box style={lightingDeviceSwitchesStyle}>
       <Grid container rowSpacing={1.5}>
         <Grid item xs={12} style={gridItemStyle}>
-          <Typography style={switchTitleStyle}>Target</Typography>
+          <Typography style={switchTitleStyle}>Device</Typography>
         </Grid>
         <Grid item xs={4} style={gridItemStyle}>
           <FormControlLabel
@@ -71,7 +71,7 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
                 }
               />
             }
-            label={getLabelSpan("Bulb One")}
+            label={getLabelSpan("Desk Lamp")}
             labelPlacement="bottom"
           />
         </Grid>
@@ -85,7 +85,7 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
                 }
               />
             }
-            label={getLabelSpan("Bulb Two")}
+            label={getLabelSpan("Bed Lamp")}
             labelPlacement="bottom"
           />
         </Grid>

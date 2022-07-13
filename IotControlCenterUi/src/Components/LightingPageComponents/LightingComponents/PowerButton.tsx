@@ -5,6 +5,7 @@ import {
   componentBoxStyle,
   gridContainerStyle,
   gridItemStyle,
+  subHeadingStyle,
 } from "../../../Styles/DialogStyles";
 
 interface IPowerButton {
