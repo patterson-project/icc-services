@@ -12,15 +12,29 @@ import {
 } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import TextField from "@mui/material/TextField";
 import { TransitionProps } from "@mui/material/transitions";
 import DeviceTextField from "./DeviceTextField";
+import DeviceDropDownMenu from "./DeviceDropDownMenu";
 
 const modalDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
   backgroundColor: "#151515",
+};
+
+const dialogTitleStyle = {
+  color: "white",
+  fontSize: "20px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "bold",
+};
+
+const dialogContentStyle = {
+  color: "white",
+  fontSize: "15px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "light",
 };
 
 const backgroundTheme = createTheme({
@@ -76,9 +90,12 @@ const AddDeviceModal: FC = () => {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <DialogTitle>Add a Device</DialogTitle>
+          <DialogTitle style={dialogTitleStyle}>Add a Device</DialogTitle>
           <DialogContent>
-            <DialogContentText sx={{ color: "text.primary" }}>
+            <DialogContentText
+              style={dialogContentStyle}
+              sx={{ color: "text.primary" }}
+            >
               Fill in the following information to add a device.
             </DialogContentText>
             <DeviceTextField id="name" label="Device Name" setText={setName} />
@@ -88,10 +105,19 @@ const AddDeviceModal: FC = () => {
               label="Device Model"
               setText={setModel}
             />
+            <DeviceDropDownMenu
+              id="type"
+              label="Device Type"
+              setType={setType}
+            ></DeviceDropDownMenu>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Add</Button>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={handleClose}>
+              Add
+            </Button>
           </DialogActions>
         </Dialog>
       </ThemeProvider>
