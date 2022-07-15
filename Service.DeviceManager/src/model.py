@@ -1,3 +1,4 @@
+from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
 from typing import List, Optional, Union
@@ -6,7 +7,7 @@ from bson import ObjectId
 
 
 class Device(BaseModel):
-    id: ObjectId
+    id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
     type: str
     model: str

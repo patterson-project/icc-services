@@ -10,4 +10,4 @@ EXPOSE 8000
 
 COPY ./src/*.py ./
 
-ENTRYPOINT [ "python", "-u", "./api.py" ]
+ENTRYPOINT [ "python", "-u", "./__init__.py" ]
