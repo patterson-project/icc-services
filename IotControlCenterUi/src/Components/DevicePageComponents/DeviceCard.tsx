@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React, { FC } from "react";
 import {
   gridContainerStyle,
@@ -6,6 +6,8 @@ import {
   textStyle,
 } from "../../Styles/DialogStyles";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const cardBoxStyle = {
   display: "flex",
@@ -58,7 +60,6 @@ const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
 
   return (
     <Box style={cardBoxStyle} onClick={onClickCard}>
-      {/*grid, 10 2->icon-edit */}
       <Grid container style={gridContainerStyle}>
         <Grid item xs={10}>
           <Grid container style={gridContainerStyle}>
@@ -76,7 +77,14 @@ const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={2}>
+          <IconButton size="medium">
+            <DeleteIcon style={iconStyle} />
+          </IconButton>
+          <IconButton size="medium">
+            <EditIcon style={iconStyle} />
+          </IconButton>
+        </Grid>
       </Grid>
     </Box>
   );
