@@ -69,7 +69,6 @@ const AddDeviceModal: FC = () => {
   const [ip, setIp] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [type, setType] = useState<string>("");
-  //type needs to be a drop
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -98,6 +97,10 @@ const AddDeviceModal: FC = () => {
             >
               Fill in the following information to add a device.
             </DialogContentText>
+            <DeviceDropDownMenu
+              id="type"
+              label="Device Type"
+            ></DeviceDropDownMenu>
             <DeviceTextField id="name" label="Device Name" setText={setName} />
             <DeviceTextField id="ip" label="Device IP" setText={setIp} />
             <DeviceTextField
@@ -105,11 +108,6 @@ const AddDeviceModal: FC = () => {
               label="Device Model"
               setText={setModel}
             />
-            <DeviceDropDownMenu
-              id="type"
-              label="Device Type"
-              setType={setType}
-            ></DeviceDropDownMenu>
           </DialogContent>
           <DialogActions>
             <Button variant="contained" onClick={handleClose}>

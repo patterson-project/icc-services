@@ -1,12 +1,5 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useState,
-} from "react";
+import React, { FC, useState } from "react";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 
 const deviceTypes = [
   {
@@ -26,11 +19,13 @@ const deviceTypes = [
 interface IDeviceDropDownMenu {
   id: string;
   label: string;
-  setType: Dispatch<SetStateAction<string>>;
 }
 
 const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
-  const [deviceType, setDeviceType] = useState("");
+  const [deviceType, setType] = useState("");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setType(event.target.value);
+  };
 
   return (
     <div>
@@ -39,6 +34,7 @@ const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
         select
         label={props.label}
         value={deviceType}
+        variant={"filled"}
         fullWidth
         InputProps={{
           style: {
@@ -54,15 +50,15 @@ const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
             fontFamily: "Ubuntu, -apple-system",
           },
         }}
-        onChange={(event) => props.setType(event.target.value)}
+        onChange={handleChange}
         SelectProps={{
           native: true,
         }}
       >
         {deviceTypes.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
+          <option key={option.value} value={option.value}>
             {option.label}
-          </MenuItem>
+          </option>
         ))}
       </TextField>
     </div>
