@@ -28,7 +28,7 @@ const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <TextField
         id={props.id}
         select

@@ -4,23 +4,53 @@ import {
   createTheme,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogContentText,
-  DialogTitle,
+  Grid,
+  IconButton,
   Slide,
   ThemeProvider,
+  Typography,
 } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
 import { TransitionProps } from "@mui/material/transitions";
 import DeviceTextField from "./DeviceTextField";
 import DeviceDropDownMenu from "./DeviceDropDownMenu";
+import CloseIcon from "@mui/icons-material/Close";
+import { gridContainerStyle, titleStyle } from "../../Styles/DialogStyles";
 
 const modalDivStyle = {
   height: "100%",
   margin: "0px",
   minHeight: "100vh",
   backgroundColor: "#151515",
+};
+
+const dialogGridItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  paddingRight: "20px",
+  paddingLeft: "20px",
+};
+
+const dialogTitleGridItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "start",
+  paddingRight: "20px",
+  paddingLeft: "20px",
+};
+
+const iconGridItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "end",
+};
+
+const iconStyle = {
+  color: "white",
 };
 
 const dialogTitleStyle = {
@@ -89,33 +119,48 @@ const AddDeviceModal: FC = () => {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <DialogTitle style={dialogTitleStyle}>Add a Device</DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              style={dialogContentStyle}
-              sx={{ color: "text.primary" }}
-            >
-              Fill in the following information to add a device.
-            </DialogContentText>
-            <DeviceDropDownMenu
-              id="type"
-              label="Device Type"
-            ></DeviceDropDownMenu>
-            <DeviceTextField id="name" label="Device Name" setText={setName} />
-            <DeviceTextField id="ip" label="Device IP" setText={setIp} />
-            <DeviceTextField
-              id="model"
-              label="Device Model"
-              setText={setModel}
-            />
-          </DialogContent>
+          <Grid container spacing={1} style={gridContainerStyle}>
+            <Grid item xs={10} style={dialogTitleGridItemStyle}>
+              <Typography style={dialogTitleStyle}>Add a Device</Typography>
+            </Grid>
+            <Grid item xs={2} style={iconGridItemStyle}>
+              <IconButton size="large" onClick={handleClose}>
+                <CloseIcon style={iconStyle} />
+              </IconButton>
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <Typography style={dialogContentStyle}>
+                Fill in the following information to add a device
+              </Typography>
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <DeviceDropDownMenu
+                id="type"
+                label="Device Type"
+              ></DeviceDropDownMenu>
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <DeviceTextField
+                id="name"
+                label="Device Name"
+                setText={setName}
+              />
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <DeviceTextField id="ip" label="Device IP" setText={setIp} />
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <DeviceTextField
+                id="model"
+                label="Device Model"
+                setText={setModel}
+              />
+            </Grid>
+          </Grid>
           <DialogActions>
-            <Button variant="contained" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleClose}>
-              Add
-            </Button>
+            <IconButton size="large" onClick={handleClose}>
+              <CheckIcon style={iconStyle} />
+            </IconButton>
           </DialogActions>
         </Dialog>
       </ThemeProvider>
