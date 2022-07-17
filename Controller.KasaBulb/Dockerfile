@@ -15,4 +15,4 @@ ENV MONGO_DB_PASSWORD "urgarb"
 
 COPY src/*.py ./
 
-ENTRYPOINT [ "python", "-u", "bulbserver.py" ] 
+ENTRYPOINT [ "python", "-u", "__init__.py" ]

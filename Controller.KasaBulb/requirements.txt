@@ -1,6 +1,8 @@
 flask
 aioflask
 flask_cors
+flask-pymongo
+fastapi
 requests
 gevent
 python-kasa

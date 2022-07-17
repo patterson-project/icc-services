@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: device-manager-service
+spec:
+  selector:
+    matchLabels:
+      svc: device-manager-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        svc: device-manager-service
+    spec:
+      containers:
+        - name: device-manager-container
+          image: canadrian72/iot-control-center:device-manager-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000

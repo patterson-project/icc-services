@@ -9,4 +9,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      MONGO_DB_USERNAME: ${MONGO_DB_USERNAME}
+      MONGO_DB_PASSWORD: ${MONGO_DB_PASSWORD}
+      MONGO_DB_IP: ${MONGO_DB_IP}
 

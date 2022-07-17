@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lighting-service
+spec:
+  selector:
+    matchLabels:
+      svc: lighting-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        svc: lighting-service
+    spec:
+      containers:
+        - name: lighting-service-container
+          image: canadrian72/iot-control-center:lighting-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000

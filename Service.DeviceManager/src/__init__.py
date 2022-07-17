@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request, jsonify, abort
+from bson import ObjectId
+from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from flask_pymongo import PyMongo
 from gevent.pywsgi import WSGIServer
@@ -19,17 +20,22 @@ devices: Collection = pymongo.db.devices
 
 
 @app.errorhandler(404)
-def resource_not_found(e):
+def resource_not_found(e) -> Response:
     return jsonify(error=str(e)), 404
 
 
 @app.errorhandler(DuplicateKeyError)
-def resource_not_found(e):
+def resource_not_found(e) -> Response:
     return jsonify(error=f"Duplicate key error."), 400
 
 
+@app.route("/health")
+def index() -> Response:
+    return "Healthy", 200
+
+
 @app.route("/devices", methods=["POST"])
-def new_device():
+def new_device() -> Response:
     raw_device = request.get_json()
     device = Device(**raw_device)
     devices.insert_one(device.to_bson())
@@ -37,13 +43,13 @@ def new_device():
 
 
 @app.route("/devices", methods=["GET"])
-def get_all_devices():
+def get_all_devices() -> Response:
     all_devices = list(Device(**device).to_json() for device in devices.find())
     return jsonify(all_devices)
 
 
 @app.route("/devices", methods=["PUT"])
-def update_device():
+def update_device() -> Response:
     device = Device(**request.get_json())
     updated_device = devices.find_one_and_update(
         {"_id": device.id},
@@ -56,10 +62,9 @@ def update_device():
         abort(404, "Device not found")
 
 
-@app.route("/devices", methods=["DELETE"])
-def delete_device():
-    device = Device(**request.get_json())
-    deleted_device = devices.find_one_and_delete({"_id": device.id})
+@app.route("/devices/<string:id>", methods=["DELETE"])
+def delete_device(id: str) -> Response:
+    deleted_device = devices.find_one_and_delete({"_id": ObjectId(id)})
     if deleted_device:
         return Device(**deleted_device).to_json()
     else:

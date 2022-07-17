@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 class LightingRequest:
     def __init__(
         self,
+        id: str,
         operation: str,
         h: int = 0,
         s: int = 100,
@@ -11,6 +12,7 @@ class LightingRequest:
         brightness: int = None,
         temperature: int = None,
     ):
+        self.id = id
         self.operation = operation
         self.brightness = brightness
         self.h = h

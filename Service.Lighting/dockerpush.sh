@@ -27,4 +27,4 @@ printf "\n\nDeleting all PODS...\n"
 kubectl delete --all pods --namespace=default
 
 printf "\n\nDone.\n"
-vice-manager-service
+ghting-api
