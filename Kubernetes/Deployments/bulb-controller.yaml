@@ -16,3 +16,19 @@ spec:
         - name: bulb-container
           image: canadrian72/iot-control-center:bulb-controller
           imagePullPolicy: Always
+          env:
+            - name: MONGO_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secrets
+                  key: MONGO_DB_USERNAME
+            - name: MONGO_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secrets
+                  key: MONGO_DB_PASSWORD
+            - name: MONGO_DB_IP
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secrets
+                  key: MONGO_DB_IP

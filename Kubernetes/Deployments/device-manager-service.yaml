@@ -19,18 +19,18 @@ spec:
           ports:
             - containerPort: 8000
           env:
-          - name: MONGO_DB_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: iot-secrets
-                key: MONGO_DB_USERNAME
-          - name: MONGO_DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: iot-secrets
-                key: MONGO_DB_PASSWORD
-          - name: MONGO_DB_IP
-            valueFrom:
-              secretKeyRef:
-                name: iot-secrets
-                key: MONGO_DB_IP
+            - name: MONGO_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secrets
+                  key: MONGO_DB_USERNAME
+            - name: MONGO_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secrets
+                  key: MONGO_DB_PASSWORD
+            - name: MONGO_DB_IP
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secrets
+                  key: MONGO_DB_IP
