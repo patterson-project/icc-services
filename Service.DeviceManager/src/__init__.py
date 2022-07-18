@@ -29,7 +29,7 @@ def resource_not_found(e) -> Response:
     return jsonify(error=f"Duplicate key error."), 400
 
 
-@app.route("/health")
+@app.route("/devices/health")
 def index() -> Response:
     return "Healthy", 200
 

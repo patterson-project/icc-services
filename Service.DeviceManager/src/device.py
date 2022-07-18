@@ -1,9 +1,7 @@
 from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
-from typing import List, Optional, Union
-from datetime import datetime
-from bson import ObjectId
+from typing import Optional
 
 
 class Device(BaseModel):

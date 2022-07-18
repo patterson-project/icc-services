@@ -8,16 +8,15 @@ from flask_cors import CORS
 from flask_pymongo import PyMongo
 from pymongo.collection import Collection
 from kasa import SmartDeviceException
-from utils import LightingRequest, ServiceUris
+from lightingrequest import LightingRequest
 from bulb import BulbController
 from gevent.pywsgi import WSGIServer
 from device import Device
+from config import ServiceUris
 
 # Flask app object with CORS
 app = Flask("__main__")
-app.config[
-    "MONGO_URI"
-] = f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin"
+app.config["MONGO_URI"] = ServiceUris.MONGO_DB_URI
 
 CORS(app)
 pymongo = PyMongo(app)
@@ -69,10 +68,10 @@ def update_bulbs():
 
 
 @app.route("/request", methods=["POST"])
-async def lighting_request_bulb_1() -> Response:
+async def lighting_request() -> Response:
     try:
         bulb_request = LightingRequest(**json.loads(request.data))
-        bulb_controller = bulbs[ObjectId(bulb_request.id)]
+        bulb_controller = bulbs[bulb_request.id]
         bulb_controller.set_request(bulb_request)
         asyncio.run_coroutine_threadsafe(bulb_controller.update_bulb(), loop)
         asyncio.run_coroutine_threadsafe(

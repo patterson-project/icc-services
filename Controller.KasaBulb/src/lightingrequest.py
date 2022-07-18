@@ -1,14 +1,15 @@
-from datetime import datetime, timezone
+from pydantic import Field
+from objectid import PydanticObjectId
 
 
 class LightingRequest:
     def __init__(
         self,
-        id: str,
         operation: str,
         h: int = 0,
         s: int = 100,
         v: int = 50,
+        id: PydanticObjectId = Field(None, alias="_id"),
         brightness: int = None,
         temperature: int = None,
     ):
@@ -19,7 +20,3 @@ class LightingRequest:
         self.s = s
         self.v = v
         self.temperature = temperature
-
-
-class ServiceUris:
-    MONGO_DB = "10.0.0.34:27017"

@@ -12,6 +12,7 @@ spec:
       labels:
         svc: bulb-controller
     spec:
+      hostname: controller.bulb
       containers:
         - name: bulb-container
           image: canadrian72/iot-control-center:bulb-controller

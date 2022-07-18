@@ -1,10 +1,8 @@
 import requests
-import os
-from flask import Flask, Response, Request, request
+from flask import Flask, Response, request
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
-from utils import DeviceState, LightingRequestRecord, ServiceUris
-from pymongo import MongoClient
+from config import ServiceUris
 
 
 app: Flask = Flask("__main__")
@@ -27,23 +25,10 @@ def led_strip() -> Response:
         return str(e), 500
 
 
-@app.route("/lighting/bulb1/request", methods=["POST"])
+@app.route("/lighting/bulb/request", methods=["POST"])
 def bulb_1() -> Response:
     try:
-        requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
-        )
-        return "Success", 200
-    except requests.HTTPError as e:
-        return str(e), 500
-
-
-@app.route("/lighting/bulb2/request", methods=["POST"])
-def bulb_2() -> Response:
-    try:
-        requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=request.get_json()
-        )
+        requests.post(ServiceUris.BULB_CONTROLLER + "/request", json=request.get_json())
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -59,10 +44,10 @@ def ocean() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_ocean_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_ocean_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb1", json=bulb_1_ocean_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_ocean_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb2", json=bulb_2_ocean_request
         )
 
         return "Success", 200
@@ -80,10 +65,10 @@ def rose() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_rose_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_rose_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb1", json=bulb_1_rose_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rose_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb2", json=bulb_2_rose_request
         )
 
         return "Success", 200
@@ -101,10 +86,10 @@ def rainbow() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_rainbow_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_rainbow_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb1", json=bulb_1_rainbow_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rainbow_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb2", json=bulb_2_rainbow_request
         )
 
         return "Success", 200
@@ -122,10 +107,10 @@ def candy() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_candy_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_candy_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb1", json=bulb_1_candy_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_candy_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb2", json=bulb_2_candy_request
         )
 
         return "Success", 200
@@ -143,10 +128,10 @@ def peachy() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_peachy_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_peachy_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb1", json=bulb_1_peachy_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_peachy_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb2", json=bulb_2_peachy_request
         )
 
         return "Success", 200
@@ -164,10 +149,10 @@ def jungle() -> Response:
             ServiceUris.LED_STRIP_SERVICE + "/request", json=led_strip_jungle_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb1", json=bulb_1_jungle_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb1", json=bulb_1_jungle_request
         )
         requests.post(
-            ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_jungle_request
+            ServiceUris.BULB_CONTROLLER + "/request/bulb2", json=bulb_2_jungle_request
         )
 
         return "Success", 200

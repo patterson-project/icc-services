@@ -12,6 +12,7 @@ spec:
       labels:
         svc: lighting-service
     spec:
+      hostname: service.lighting
       containers:
         - name: lighting-service-container
           image: canadrian72/iot-control-center:lighting-service
