@@ -12,7 +12,8 @@ spec:
       labels:
         svc: device-manager-service
     spec:
-      hostname: service.device-manager
+      hostname: app
+      subdomain: device-manager-service
       containers:
         - name: device-manager-container
           image: canadrian72/iot-control-center:device-manager-service

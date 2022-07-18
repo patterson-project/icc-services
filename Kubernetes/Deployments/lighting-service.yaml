@@ -12,7 +12,8 @@ spec:
       labels:
         svc: lighting-service
     spec:
-      hostname: service.lighting
+      hostname: app
+      subdomain: lighting-service
       containers:
         - name: lighting-service-container
           image: canadrian72/iot-control-center:lighting-service
