@@ -68,9 +68,9 @@ def update_bulbs():
 
 
 @app.route("/request", methods=["POST"])
-async def lighting_request() -> Response:
+def lighting_request() -> Response:
     try:
-        bulb_request = LightingRequest(**json.loads(request.data))
+        bulb_request = LightingRequest(**request.get_json())
         bulb_controller = bulbs[bulb_request.id]
         bulb_controller.set_request(bulb_request)
         asyncio.run_coroutine_threadsafe(bulb_controller.update_bulb(), loop)

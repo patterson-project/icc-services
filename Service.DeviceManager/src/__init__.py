@@ -36,8 +36,7 @@ def index() -> Response:
 
 @app.route("/devices", methods=["POST"])
 def new_device() -> Response:
-    raw_device = request.get_json()
-    device = Device(**raw_device)
+    device = Device(**request.get_json())
     devices.insert_one(device.to_bson())
     return device.to_json()
 

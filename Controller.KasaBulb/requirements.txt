@@ -6,4 +6,3 @@ fastapi
 requests
 gevent
 python-kasa
-pymongo
