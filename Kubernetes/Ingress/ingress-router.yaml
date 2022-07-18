@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-router
   annotations:
-    kubernetes.io/ingress.class: public
+    kubernetes.io/ingress.class: traefik
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_headers "Access-Control-Allow-Origin: $http_origin";
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -33,7 +33,7 @@ spec:
                   number: 8000
     - http:
         paths:
-          - path: /devices/.*
+          - path: /devices
             pathType: Prefix
             backend:
               service:
