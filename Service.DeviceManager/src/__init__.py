@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 from gevent.pywsgi import WSGIServer
 from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
-from model import Device
+from device import Device
 
 app = Flask("__main__")
 app.config[
