@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  api:
+  device-manager-service:
     image: canadrian72/iot-control-center:device-manager-service
     build:
       context: .

@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   ui:
     image: canadrian72/iot-control-center:ui
     build:

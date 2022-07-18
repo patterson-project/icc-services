@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  api:
+  lighting-service:
     image: canadrian72/iot-control-center:lighting-service
     build:
       context: .

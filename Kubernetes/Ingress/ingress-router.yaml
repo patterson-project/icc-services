@@ -28,6 +28,15 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: lighting-api-cluster-ip
+                name: lighting-service-cluster-ip
+                port:
+                  number: 8000
+    - http:
+        paths:
+          - path: /devices/.*
+            pathType: Prefix
+            backend:
+              service:
+                name: device-manager-service-cluster-ip
                 port:
                   number: 8000
