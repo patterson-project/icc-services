@@ -1,5 +1,4 @@
-flask
-aioflask
+quart
 flask_cors
 flask-pymongo
 fastapi
