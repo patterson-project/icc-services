@@ -36,7 +36,7 @@ const subTitleStyle = {
 const textStyle = {
   color: "white",
   opacity: "0.7",
-  fontSize: "20px",
+  fontSize: "15px",
   fontFamily: "Ubuntu, -apple-system",
   fontWeight:"light",
 };

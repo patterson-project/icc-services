@@ -19,7 +19,6 @@ const cardBoxStyle = {
   borderRadius: "10px",
   paddingBottom: "10px",
   overflow: "auto",
-  animation: "ripple 1s",
 };
 
 const iconStyle = {
@@ -36,14 +35,14 @@ const textGridItemStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "left",
-  paddingLeft: "15px",
+  paddingLeft: "20px",
 };
 
 const cardTitleStyle = {
   color: "white",
-  fontSize: "30px",
+  fontSize: "24px",
   fontFamily: "Ubuntu, -apple-system",
-  fontWeight: "bold",
+  fontWeight: "medium",
 };
 
 interface IDeviceCard {
@@ -54,12 +53,8 @@ interface IDeviceCard {
 }
 
 const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
-  const onClickCard = () => {
-    console.log("Clicked");
-  };
-
   return (
-    <Box style={cardBoxStyle} onClick={onClickCard}>
+    <Box style={cardBoxStyle}>
       <Grid container style={gridContainerStyle}>
         <Grid item xs={10}>
           <Grid container style={gridContainerStyle}>
