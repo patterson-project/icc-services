@@ -4,39 +4,30 @@ metadata:
   name: ingress-router
   annotations:
     kubernetes.io/ingress.class: traefik
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_set_headers "Access-Control-Allow-Origin: $http_origin";
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST,
-      OPTIONS, DELETE, PATCH
-    nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:
   rules:
     - http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ui-cluster-ip
-                port:
-                  number: 80
-    - http:
-        paths:
-          - path: /lighting/.*
-            pathType: Prefix
-            backend:
-              service:
-                name: lighting-service-cluster-ip
-                port:
-                  number: 8000
-    - http:
-        paths:
-          - path: /devices
-            pathType: Prefix
-            backend:
-              service:
-                name: device-manager-service-cluster-ip
-                port:
-                  number: 8000
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: ui-cluster-ip
+              port:
+                number: 80
+        - path: /lighting/.*
+          pathType: Prefix
+          backend:
+            service:
+              name: lighting-service-cluster-ip
+              port:
+                number: 8000
+        - path: /devices
+          pathType: Prefix
+          backend:
+            service:
+              name: device-manager-service-cluster-ip
+              port:
+                number: 8000
