@@ -10,60 +10,10 @@ from pymongo import MongoClient
 app: Flask = Flask("__main__")
 CORS(app)
 
-mongo_client = MongoClient(
-    f'mongodb://{os.environ["MONGO_DB_USERNAME"]}:{os.environ["MONGO_DB_PASSWORD"]}@{ServiceUris.MONGO_DB}'
-)
-
-if os.environ["APP_ENV"] == "production":
-    iotdb = mongo_client["iot"]
-else:
-    iotdb = mongo_client["iot-dev"]
-
-lighting_requests_collection = iotdb["lighting-requests"]
-device_states_collection = iotdb["device-states"]
-
-
-def insert_lighting_request(device_name: str, request: Request):
-    lighting_request = LightingRequestRecord(
-        device_name=device_name, **request.get_json()
-    )
-    lighting_requests_collection.insert_one(lighting_request.__dict__)
-
-
-def get_on_status(device_name: str) -> bool:
-    return device_states_collection.find_one({"device_name": device_name})["on"]
-
 
 @app.route("/lighting/health", methods=["GET"])
 def index() -> Response:
     return "Healthy", 200
-
-
-@app.route("/lighting/bulb1/status/on", methods=["GET"])
-def bulb_1_on() -> Response:
-    try:
-        on = get_on_status(device_name="bulb1")
-        return DeviceState(on).__dict__, 200
-    except requests.HTTPError as e:
-        return str(e), 500
-
-
-@app.route("/lighting/bulb2/status/on", methods=["GET"])
-def bulb_2_on() -> Response:
-    try:
-        on = get_on_status(device_name="bulb2")
-        return DeviceState(on).__dict__, 200
-    except requests.HTTPError as e:
-        return str(e), 500
-
-
-@app.route("/lighting/ledstrip/status/on", methods=["GET"])
-def led_strip_on() -> Response:
-    try:
-        on = get_on_status(device_name="ledstrip")
-        return DeviceState(on).__dict__, 200
-    except requests.HTTPError as e:
-        return str(e), 500
 
 
 @app.route("/lighting/ledstrip/request", methods=["POST"])
@@ -72,7 +22,6 @@ def led_strip() -> Response:
         requests.post(
             ServiceUris.LED_STRIP_SERVICE + "/request", json=request.get_json()
         )
-        insert_lighting_request(device_name="ledstrip", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -84,7 +33,6 @@ def bulb_1() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb1", json=request.get_json()
         )
-        insert_lighting_request(device_name="bulb1", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -96,7 +44,6 @@ def bulb_2() -> Response:
         requests.post(
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=request.get_json()
         )
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -118,9 +65,6 @@ def ocean() -> Response:
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_ocean_request
         )
 
-        insert_lighting_request(device_name="ledstrip", request=request)
-        insert_lighting_request(device_name="bulb1", request=request)
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -142,9 +86,6 @@ def rose() -> Response:
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rose_request
         )
 
-        insert_lighting_request(device_name="ledstrip", request=request)
-        insert_lighting_request(device_name="bulb1", request=request)
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -166,9 +107,6 @@ def rainbow() -> Response:
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_rainbow_request
         )
 
-        insert_lighting_request(device_name="ledstrip", request=request)
-        insert_lighting_request(device_name="bulb1", request=request)
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -190,9 +128,6 @@ def candy() -> Response:
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_candy_request
         )
 
-        insert_lighting_request(device_name="ledstrip", request=request)
-        insert_lighting_request(device_name="bulb1", request=request)
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -214,9 +149,6 @@ def peachy() -> Response:
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_peachy_request
         )
 
-        insert_lighting_request(device_name="ledstrip", request=request)
-        insert_lighting_request(device_name="bulb1", request=request)
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -238,9 +170,6 @@ def jungle() -> Response:
             ServiceUris.BULB_SERVICE + "/request/bulb2", json=bulb_2_jungle_request
         )
 
-        insert_lighting_request(device_name="ledstrip", request=request)
-        insert_lighting_request(device_name="bulb1", request=request)
-        insert_lighting_request(device_name="bulb2", request=request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
