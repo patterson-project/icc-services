@@ -33,6 +33,14 @@ const subTitleStyle = {
   fontWeight: "bold",
 };
 
+const textStyle = {
+  color: "white",
+  opacity: "0.7",
+  fontSize: "15px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight:"light",
+};
+
 const subHeadingStyle = {
   color: "white",
   fontSize: "15px",
@@ -58,4 +66,5 @@ export {
   subTitleStyle,
   subHeadingStyle,
   componentBoxStyle,
+  textStyle,
 };
