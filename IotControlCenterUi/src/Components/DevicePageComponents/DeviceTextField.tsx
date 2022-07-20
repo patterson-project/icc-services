@@ -7,6 +7,12 @@ interface IDeviceTextField {
   setText: Dispatch<SetStateAction<string>>;
 }
 
+const inputLabelPropsStyle = {
+  color: "white",
+  fontSize: "15px",
+  fontFamily: "Ubuntu, -apple-system",
+};
+
 const DeviceTextField: FC<IDeviceTextField> = (props) => {
   return (
     <TextField
@@ -16,18 +22,10 @@ const DeviceTextField: FC<IDeviceTextField> = (props) => {
       id={props.id}
       label={props.label}
       InputProps={{
-        style: {
-          color: "white",
-          fontSize: "15px",
-          fontFamily: "Ubuntu, -apple-system",
-        },
+        style: inputLabelPropsStyle,
       }}
       InputLabelProps={{
-        style: {
-          color: "white",
-          fontSize: "15px",
-          fontFamily: "Ubuntu, -apple-system",
-        },
+        style: inputLabelPropsStyle,
       }}
       fullWidth
       variant="filled"
