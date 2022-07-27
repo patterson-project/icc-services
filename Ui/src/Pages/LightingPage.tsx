@@ -62,7 +62,7 @@ const LightingPage: FC = () => {
           icon={<ColorLensIcon style={iconStyle} />}
         />
         <BottomNavigationAction
-          label={getBottomNavigationLabelSpan("Scenes")}
+          label={getBottomNavigationLabelSpan("Environments")}
           value={1}
           icon={<AllInclusiveIcon style={iconStyle} />}
         />

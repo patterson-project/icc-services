@@ -10,7 +10,7 @@ import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import { BrightnessRequest, TemperatureRequest } from "../../../types";
 import LightingDeviceSwitches from "../LightingComponents/LightingDeviceSwitches";
 import { post } from "../../../utils";
-import { pageDivStyle } from "../../../Styles/DialogStyles";
+import { pageDivStyle, subHeadingStyle } from "../../../Styles/DialogStyles";
 
 const gridContainerStyle = {
   marginTop: "0px",
@@ -92,6 +92,11 @@ const ColorDialog: FC = () => {
     <div style={pageDivStyle}>
       <Box style={gridItemStyle}>
         <Typography style={titleStyle}>Colors</Typography>
+      </Box>
+      <Box style={gridItemStyle}>
+        <Typography style={subHeadingStyle}>
+          Control your lighting devices
+        </Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
