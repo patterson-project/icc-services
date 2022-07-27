@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+
+  lighting-service:
+    image: canadrian72/iot-control-center:lighting-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_DB_USERNAME: ${MONGO_DB_USERNAME}
+      MONGO_DB_PASSWORD: ${MONGO_DB_PASSWORD}
+      MONGO_DB_IP: ${MONGO_DB_IP}

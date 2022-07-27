@@ -1,23 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bulb-controller
+  name: device-manager-service
 spec:
   selector:
     matchLabels:
-      svc: bulb-controller
+      svc: device-manager-service
   replicas: 1
   template:
     metadata:
       labels:
-        svc: bulb-controller
+        svc: device-manager-service
     spec:
       hostname: app
-      subdomain: bulb-controller
+      subdomain: device-manager-service
       containers:
-        - name: bulb-container
-          image: canadrian72/iot-control-center:bulb-controller
+        - name: device-manager-container
+          image: canadrian72/iot-control-center:device-manager-service
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
           env:
             - name: MONGO_DB_USERNAME
               valueFrom:

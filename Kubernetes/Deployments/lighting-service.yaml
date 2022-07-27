@@ -1,23 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bulb-controller
+  name: lighting-service
 spec:
   selector:
     matchLabels:
-      svc: bulb-controller
+      svc: lighting-service
   replicas: 1
   template:
     metadata:
       labels:
-        svc: bulb-controller
+        svc: lighting-service
     spec:
       hostname: app
-      subdomain: bulb-controller
+      subdomain: lighting-service
       containers:
-        - name: bulb-container
-          image: canadrian72/iot-control-center:bulb-controller
+        - name: lighting-service-container
+          image: canadrian72/iot-control-center:lighting-service
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
           env:
             - name: MONGO_DB_USERNAME
               valueFrom:

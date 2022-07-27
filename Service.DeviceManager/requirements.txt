@@ -1,0 +1,8 @@
+flask
+flask-pymongo
+pydantic
+fastapi
+flask-cors
+requests
+gevent
+pymongo

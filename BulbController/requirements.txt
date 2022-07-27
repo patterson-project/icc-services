@@ -1,7 +1,0 @@
-flask
-aioflask
-flask_cors
-requests
-gevent
-python-kasa
-pymongo
