@@ -4,8 +4,7 @@ metadata:
   name: ingress-router
   annotations:
     kubernetes.io/ingress.class: traefik
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
 spec:
   rules:
     - http:
@@ -17,7 +16,7 @@ spec:
               name: ui-cluster-ip
               port:
                 number: 80
-        - path: /lighting/.*
+        - path: /lighting
           pathType: Prefix
           backend:
             service:
