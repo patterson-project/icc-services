@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import React, { FC } from "react";
-import { IosSwitch } from "../../IosSwitch";
+import { IosSwitch } from "../../../Common/IosSwitch";
 interface ILightingDeviceSwitches {
   setBulbOneTarget(value: boolean): void;
   setBulbTwoTarget(value: boolean): void;

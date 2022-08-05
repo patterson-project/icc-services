@@ -1,13 +1,14 @@
 import { Box, Grid } from "@mui/material";
 import React, { FC } from "react";
-import config from "../../../config";
+import config from "../../../../config";
 import {
   gridContainerStyle,
   gridItemStyle,
-} from "../../../Styles/DialogStyles";
-import { LightingRequest } from "../../../types";
-import { post } from "../../../utils";
-import IOperationButton from "../../OperationButton";
+} from "../../../../Styles/CommonStyles";
+import { LightingRequest } from "../../../../types";
+import { post } from "../../../../utils";
+import OperationButton from "../../../Common/OperationButton";
+
 
 const buttonBoxStyle = {
   display: "flex",
@@ -67,46 +68,46 @@ const SceneButtonBox: FC = () => {
     <Box style={buttonBoxStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Ocean"}
             color={"#2a5cd1"}
             onClick={onClickOcean}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Rose"}
             color={"#f368f7"}
             onClick={onClickRose}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Candy"}
             color={"#ab5dc7"}
             onClick={onClickCandy}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Rainbow"}
             image={"url(/image.png)"}
             onClick={onClickRainbow}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Peachy"}
             color={"#f09f48"}
             onClick={onClickPeachy}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Jungle"}
             color={"#227a1c"}
             onClick={onClickJungle}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
       </Grid>
     </Box>

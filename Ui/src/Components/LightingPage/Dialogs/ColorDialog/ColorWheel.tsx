@@ -7,10 +7,10 @@ import React, {
 } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
-import config from "../../../config";
+import config from "../../../../config";
 import { Box } from "@mui/material";
-import { HsvRequest, LightingRequest } from "../../../types";
-import { post, useDidMountEffect } from "../../../utils";
+import { HsvRequest, LightingRequest } from "../../../../types";
+import { post, useDidMountEffect } from "../../../../utils";
 import debounce from "lodash.debounce";
 
 interface IColorWheel {

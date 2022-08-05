@@ -1,16 +1,16 @@
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
-import config from "../../../config";
+import config from "../../../../config";
 import {
   gridContainerStyle,
   gridItemStyle,
   pageDivStyle,
   subHeadingStyle,
   titleStyle,
-} from "../../../Styles/DialogStyles";
-import { LightingPowerStatus, LightingRequest } from "../../../types";
-import { post } from "../../../utils";
-import PowerButton from "../LightingComponents/PowerButton";
+} from "../../../../Styles/CommonStyles";
+import { LightingPowerStatus, LightingRequest } from "../../../../types";
+import { post } from "../../../../utils";
+import PowerButton from "./PowerButton";
 
 const categoryTitleBoxStyle = {
   display: "flex",

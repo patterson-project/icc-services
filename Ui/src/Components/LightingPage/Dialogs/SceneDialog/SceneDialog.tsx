@@ -1,13 +1,13 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
-import SceneButtonBox from "../LightingComponents/SceneButtonBox";
 import {
   gridContainerStyle,
   gridItemStyle,
   titleStyle,
   pageDivStyle,
   subHeadingStyle,
-} from "../../../Styles/DialogStyles";
+} from "../../../../Styles/CommonStyles";
+import SceneButtonBox from "./SceneButtonBox";
 
 const SceneDialog: FC = () => {
   return (

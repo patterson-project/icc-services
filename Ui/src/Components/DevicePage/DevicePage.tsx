@@ -1,10 +1,10 @@
 import { Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
 
-import DeviceCard from "../Components/DevicePageComponents/DeviceCard";
-import IccAppBar from "../Components/IccAppBar";
-import { gridItemStyle, titleStyle } from "../Styles/DialogStyles";
-import AddDeviceModal from "../Components/DevicePageComponents/AddDeviceModal";
+import DeviceCard from "./DeviceCard";
+import IccAppBar from "../Common/IccAppBar";
+import { gridItemStyle, titleStyle } from "../../Styles/CommonStyles";
+import AddDeviceModal from "./AddDeviceModal";
 
 const devicePageDivStyle = {
   height: "100%",

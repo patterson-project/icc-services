@@ -3,10 +3,10 @@ import React, { FC, useState } from "react";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
-import ColorDialog from "../Components/LightingPageComponents/Dialogs/ColorDialog";
-import SceneDialog from "../Components/LightingPageComponents/Dialogs/SceneDialog";
-import PowerDialog from "../Components/LightingPageComponents/Dialogs/PowerDialog";
-import IccAppBar from "../Components/IccAppBar";
+import ColorDialog from "./Dialogs/ColorDialog/ColorDialog";
+import SceneDialog from "./Dialogs/SceneDialog/SceneDialog";
+import PowerDialog from "./Dialogs/PowerDialog/PowerDialog";
+import IccAppBar from "../Common/IccAppBar";
 
 const lightingPageBoxStyle = {
   marginBottom: "50px",

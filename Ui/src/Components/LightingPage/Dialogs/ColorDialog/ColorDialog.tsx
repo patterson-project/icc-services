@@ -1,16 +1,16 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
-import Slider from "../../Slider";
-import config from "../../../config";
-import ColorSelectionTab from "../LightingComponents/ColorSelectionTab";
 import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import { BrightnessRequest, TemperatureRequest } from "../../../types";
-import LightingDeviceSwitches from "../LightingComponents/LightingDeviceSwitches";
-import { post } from "../../../utils";
-import { pageDivStyle, subHeadingStyle } from "../../../Styles/DialogStyles";
+import { BrightnessRequest, TemperatureRequest } from "../../../../types";
+import config from "../../../../config";
+import { post } from "../../../../utils";
+import { pageDivStyle, subHeadingStyle } from "../../../../Styles/CommonStyles";
+import ColorSelectionTab from "./ColorSelectionTab";
+import LightingDeviceSwitches from "./LightingDeviceSwitches";
+import Slider from "../../../Common/Slider";
 
 const gridContainerStyle = {
   marginTop: "0px",

@@ -16,7 +16,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import DeviceTextField from "./DeviceTextField";
 import DeviceDropDownMenu from "./DeviceDropDownMenu";
 import CloseIcon from "@mui/icons-material/Close";
-import { gridContainerStyle } from "../../Styles/DialogStyles";
+import { gridContainerStyle } from "../../Styles/CommonStyles";
 
 const modalDivStyle = {
   height: "100%",
