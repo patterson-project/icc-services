@@ -13,7 +13,7 @@ from repository import insert_lighting_request
 app: Flask = Flask("__main__")
 app.config[
     "MONGO_URI"
-] = f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin"
+] = f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin"
 
 CORS(app)
 pymongo = PyMongo(app)
