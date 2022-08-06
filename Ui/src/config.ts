@@ -1,13 +1,10 @@
-import ip from 'ip';
-
-const ip_address = ip.address();
 
 const config = {
-  LED_STRIP_ENDPOINT: `http://${ip_address}/lighting/ledstrip`,
-  BULB_1_ENDPOINT: `http://${ip_address}/lighting/lighting/bulb1`,
-  BULB_2_ENDPOINT: `http://${ip_address}/lighting/bulb2`,
-  SCENE_ENDPOINT: `http://${ip_address}/lighting/scene`,
-  DEVICE_MANAGER_ENDPOINT: `http://${ip_address}/devices`
+  LED_STRIP_ENDPOINT: `http://10.0.0.86/lighting/ledstrip`,
+  BULB_0_ENDPOINT: `http://10.0.0.86/lighting/lighting/bulb0`,
+  BULB_2_ENDPOINT: `http://10.0.0.86/lighting/bulb2`,
+  SCENE_ENDPOINT: `http://10.0.0.86/lighting/scene`,
+  DEVICE_MANAGER_ENDPOINT: `http://10.0.0.86/devices`
 };
 
 export default config;
