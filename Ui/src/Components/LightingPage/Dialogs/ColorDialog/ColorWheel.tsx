@@ -1,17 +1,11 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useState,
-} from "react";
-import ColorPicker from "@radial-color-picker/react-color-picker";
-import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
-import config from "../../../../config";
-import { Box } from "@mui/material";
-import { HsvRequest, LightingRequest } from "../../../../types";
-import { post, useDidMountEffect } from "../../../../utils";
-import debounce from "lodash.debounce";
+import React, {Dispatch, FC, SetStateAction, useCallback, useState} from 'react';
+import ColorPicker from '@radial-color-picker/react-color-picker';
+import '@radial-color-picker/react-color-picker/dist/react-color-picker.min.css';
+import config from '../../../../config';
+import {Box} from '@mui/material';
+import {HsvRequest, LightingRequest} from '../../../../types';
+import {post, useDidMountEffect} from '../../../../utils';
+import debounce from 'lodash.debounce';
 
 interface IColorWheel {
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
@@ -21,13 +15,13 @@ interface IColorWheel {
 }
 
 const colorWheelStyle = {
-  display: "flex",
-  alignItems: "top",
-  justifyContent: "center",
-  width: "340px",
-  height: "340px",
-  borderRadius: "10px",
-  paddingTop: "20px",
+  display: 'flex',
+  alignItems: 'top',
+  justifyContent: 'center',
+  width: '340px',
+  height: '340px',
+  borderRadius: '10px',
+  paddingTop: '20px',
 };
 
 const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
@@ -41,31 +35,31 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
 
   useDidMountEffect(() => {
     const hsvRequest: HsvRequest = {
-      operation: "hsv",
+      operation: 'hsv',
       h: hue,
     };
 
     if (props.ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT + "/request", hsvRequest);
+      post(config.LED_STRIP_ENDPOINT + '/request', hsvRequest);
     }
 
     if (props.bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT + "/request", hsvRequest);
+      post(config.BULB_ENDPOINT + '/request', hsvRequest);
     }
 
     if (props.bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT + "/request", hsvRequest);
+      post(config.BULB_ENDPOINT + '/request', hsvRequest);
     }
   }, [hue]);
 
   const onSelect = () => {
     const offRequest: LightingRequest = {
-      operation: "off",
+      operation: 'off',
     };
 
-    post(config.LED_STRIP_ENDPOINT + "/request", offRequest);
-    post(config.BULB_1_ENDPOINT + "/request", offRequest);
-    post(config.BULB_2_ENDPOINT + "/request", offRequest);
+    post(config.LED_STRIP_ENDPOINT + '/request', offRequest);
+    post(config.BULB_ENDPOINT + '/request', offRequest);
+    post(config.BULB_ENDPOINT + '/request', offRequest);
   };
 
   const onTouchStart = () => {

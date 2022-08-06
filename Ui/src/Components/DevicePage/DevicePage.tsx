@@ -1,10 +1,12 @@
 import { Grid, Typography } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import DeviceCard from "./DeviceCard";
 import IccAppBar from "../Common/IccAppBar";
 import { gridItemStyle, titleStyle } from "../../Styles/CommonStyles";
 import AddDeviceModal from "./AddDeviceModal";
+import { Device } from "../../types";
+import config from "../../config";
 
 const devicePageDivStyle = {
   height: "100%",
@@ -22,6 +24,19 @@ const deviceGridContainerStyle = {
 };
 
 const DevicePage: FC = () => {
+  const [devices, setDevices] = useState<Device[]>();
+
+  useEffect(() => {
+    fetch(config.DEVICE_MANAGER_ENDPOINT, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setDevices(data as Device[]);
+        console.log(devices);
+      });
+  }, []);
+
   return (
     <div style={devicePageDivStyle}>
       <IccAppBar />
@@ -29,86 +44,16 @@ const DevicePage: FC = () => {
         <Grid item xs={12} style={gridItemStyle}>
           <Typography style={titleStyle}>Devices</Typography>
         </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <DeviceCard
-            deviceName="Bed Lamp"
-            deviceModel="TP-Link Kasa Smart Bulb"
-            deviceIP="10.0.0.37"
-            deviceType="Lighting"
-          />
-        </Grid>
+        {devices?.map((device) => (
+          <Grid item xs={12} style={gridItemStyle}>
+            <DeviceCard
+              deviceName={device.name}
+              deviceModel={device.model}
+              deviceIp={device.ip}
+              deviceType={device.type}
+            />
+          </Grid>
+        ))}
       </Grid>
       <AddDeviceModal />
     </div>

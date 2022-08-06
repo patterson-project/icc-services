@@ -48,10 +48,10 @@ const PowerDialog: FC = () => {
 
     const setPowerStates = async () => {
       const bulbOnePowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_1_ENDPOINT + "/status/on"
+        config.BULB_ENDPOINT + "/status/on"
       );
       const bulbTwoPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_2_ENDPOINT + "/status/on"
+        config.BULB_ENDPOINT + "/status/on"
       );
       const ledStripPowerStatus: LightingPowerStatus = await fetchPowerStatus(
         config.LED_STRIP_ENDPOINT + "/status/on"
@@ -72,7 +72,7 @@ const PowerDialog: FC = () => {
       operation: bulbOneState ? "off" : "on",
     };
 
-    post(config.BULB_1_ENDPOINT + "/request", powerRequest);
+    post(config.BULB_ENDPOINT + "/request", powerRequest);
   };
 
   const onClickBulbTwoPower = () => {
@@ -81,7 +81,7 @@ const PowerDialog: FC = () => {
       operation: bulbTwoState ? "off" : "on",
     };
 
-    post(config.BULB_2_ENDPOINT + "/request", powerRequest);
+    post(config.BULB_ENDPOINT + "/request", powerRequest);
   };
 
   const onClickLedStripPower = () => {

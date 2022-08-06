@@ -1,4 +1,4 @@
-import React, { FC, forwardRef, useState } from "react";
+import React, { FC, forwardRef, useEffect, useState } from "react";
 import {
   createTheme,
   Dialog,
@@ -14,9 +14,13 @@ import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import { TransitionProps } from "@mui/material/transitions";
 import DeviceTextField from "./DeviceTextField";
-import DeviceDropDownMenu from "./DeviceDropDownMenu";
+import DeviceTypeDropDownMenu from "./DeviceTypeDropDownMenu";
 import CloseIcon from "@mui/icons-material/Close";
 import { gridContainerStyle } from "../../Styles/CommonStyles";
+import DeviceModelDropDownMenu from "./DeviceModelDropDownMenu";
+import { post } from "../../utils";
+import config from "../../config";
+import { Device } from "../../types";
 
 const modalDivStyle = {
   height: "100%",
@@ -97,8 +101,18 @@ const AddDeviceModal: FC = () => {
   const [ip, setIp] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [type, setType] = useState<string>("");
+
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    const device: Device = {
+      name: name,
+      type: type,
+      model: model,
+      ip: ip,
+    };
+    post(config.DEVICE_MANAGER_ENDPOINT, device);
+    setOpen(false);
+  };
 
   return (
     <div style={modalDivStyle}>
@@ -132,10 +146,19 @@ const AddDeviceModal: FC = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
-              <DeviceDropDownMenu
+              <DeviceTypeDropDownMenu
                 id="type"
                 label="Device Type"
-              ></DeviceDropDownMenu>
+                setType={setType}
+              />
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <DeviceModelDropDownMenu
+                id="type"
+                label="Device Model"
+                deviceType={type}
+                setModel={setModel}
+              />
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
               <DeviceTextField
@@ -146,13 +169,6 @@ const AddDeviceModal: FC = () => {
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
               <DeviceTextField id="ip" label="Device IP" setText={setIp} />
-            </Grid>
-            <Grid item xs={12} style={dialogGridItemStyle}>
-              <DeviceTextField
-                id="model"
-                label="Device Model"
-                setText={setModel}
-              />
             </Grid>
           </Grid>
           <DialogActions>
