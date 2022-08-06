@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/ip": "^1.1.0",
     "@types/lodash.debounce": "^4.0.7",
     "@types/react-swipeable-views": "^0.13.1"
   }
