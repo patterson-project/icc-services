@@ -4,8 +4,8 @@ metadata:
   name: ingress-router
   annotations:
     kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
     traefik.ingress.kubernetes.io/custom-response-headers: "Access-Control-Allow-Origin:*||Access-Control-Allow-Methods:GET,POST,OPTIONS||Access-Control-Allow-Headers:DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range||Access-Control-Expose-Headers:Content-Length,Content-Range"
+    traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
 spec:
   rules:
     - http:
