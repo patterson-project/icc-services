@@ -9,7 +9,6 @@ import { LightingRequest } from "../../../../types";
 import { post } from "../../../../utils";
 import OperationButton from "../../../Common/OperationButton";
 
-
 const buttonBoxStyle = {
   display: "flex",
   alignItems: "center",
@@ -22,45 +21,45 @@ const buttonBoxStyle = {
 };
 
 const onClickOcean = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "ocean",
-  };
-  post(config.SCENE_ENDPOINT + "/ocean", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "ocean",
+  // };
+  // post(config.SCENE_ENDPOINT + "/ocean", sceneRequest);
 };
 
 const onClickRose = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "rose",
-  };
-  post(config.SCENE_ENDPOINT + "/rose", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "rose",
+  // };
+  // post(config.SCENE_ENDPOINT + "/rose", sceneRequest);
 };
 
 const onClickRainbow = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "rainbow",
-  };
-  post(config.SCENE_ENDPOINT + "/rainbow", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "rainbow",
+  // };
+  // post(config.SCENE_ENDPOINT + "/rainbow", sceneRequest);
 };
 
 const onClickCandy = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "candy",
-  };
-  post(config.SCENE_ENDPOINT + "/candy", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "candy",
+  // };
+  // post(config.SCENE_ENDPOINT + "/candy", sceneRequest);
 };
 
 const onClickPeachy = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "peachy",
-  };
-  post(config.SCENE_ENDPOINT + "/peachy", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "peachy",
+  // };
+  // post(config.SCENE_ENDPOINT + "/peachy", sceneRequest);
 };
 
 const onClickJungle = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "jungle",
-  };
-  post(config.SCENE_ENDPOINT + "/jungle", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "jungle",
+  // };
+  // post(config.SCENE_ENDPOINT + "/jungle", sceneRequest);
 };
 
 const SceneButtonBox: FC = () => {

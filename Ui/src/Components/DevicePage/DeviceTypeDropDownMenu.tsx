@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 
 const deviceTypes = [
@@ -6,25 +6,23 @@ const deviceTypes = [
     value: "lighting",
     label: "Lighting",
   },
-  {
-    value: "plug",
-    label: "Plug",
-  },
-  {
-    value: "switch",
-    label: "Switch",
-  },
 ];
 
-interface IDeviceDropDownMenu {
+interface IDeviceTypeDropDownMenu {
   id: string;
   label: string;
+  type: string;
+  setType: (type: string) => void;
 }
 
-const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
-  const [deviceType, setType] = useState("");
+const DeviceTypeDropDownMenu: FC<IDeviceTypeDropDownMenu> = (props) => {
+  useEffect(() => {
+    props.setType(deviceTypes[0].label);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setType(event.target.value);
+    props.setType(event.target.value);
   };
 
   return (
@@ -33,7 +31,7 @@ const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
         id={props.id}
         select
         label={props.label}
-        value={deviceType}
+        value={props.type}
         variant={"filled"}
         fullWidth
         InputProps={{
@@ -44,6 +42,7 @@ const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
           },
         }}
         InputLabelProps={{
+          shrink: true,
           style: {
             color: "white",
             fontSize: "15px",
@@ -55,14 +54,12 @@ const DeviceDropDownMenu: FC<IDeviceDropDownMenu> = (props) => {
           native: true,
         }}
       >
-        {deviceTypes.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
+        {deviceTypes?.map((type) => (
+          <option value={type.value}>{type.label}</option>
         ))}
       </TextField>
     </div>
   );
 };
 
-export default DeviceDropDownMenu;
+export default DeviceTypeDropDownMenu;

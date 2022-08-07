@@ -14,7 +14,6 @@ const useDidMountEffect = (
 };
 
 const post = (url: string, body: any) => {
-  console.log(`URL: ${url}`)
   fetch(url, {
     method: "POST",
     headers: {
