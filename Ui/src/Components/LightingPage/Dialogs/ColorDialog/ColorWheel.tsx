@@ -41,7 +41,7 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
   useDidMountEffect(() => {
     props.targetDevices?.forEach((device) => {
       const hsvRequest: HsvRequest = {
-        _id: device._id as ObjectId,
+        target: device._id as ObjectId,
         operation: "hsv",
         h: hue,
       };
@@ -55,7 +55,7 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
   const onSelect = () => {
     props.targetDevices?.forEach((device) => {
       const offRequest: LightingRequest = {
-        _id: device._id as ObjectId,
+        target: device._id as ObjectId,
         operation: "off",
       };
 

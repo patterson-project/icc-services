@@ -36,7 +36,8 @@ def get_bulb_devices():
 
     for bulb in kasa_bulbs:
         bulb_controller = BulbController()
-        asyncio.run_coroutine_threadsafe(bulb_controller.create_bulb(bulb.ip), loop)
+        asyncio.run_coroutine_threadsafe(
+            bulb_controller.create_bulb(bulb.ip), loop)
         bulbs[bulb.id] = bulb_controller
 
 
@@ -55,7 +56,8 @@ def add_bulb(id: str):
     new_bulb_id = ObjectId(id)
     new_bulb = Device(**devices.find_one_or_404({"_id": new_bulb_id}))
     bulb_controller = BulbController()
-    asyncio.run_coroutine_threadsafe(bulb_controller.create_bulb(new_bulb.ip), loop)
+    asyncio.run_coroutine_threadsafe(
+        bulb_controller.create_bulb(new_bulb.ip), loop)
     bulbs[new_bulb_id] = bulb_controller
 
 
@@ -69,11 +71,12 @@ def update_bulbs():
 def lighting_request() -> Response:
     try:
         bulb_request = LightingRequest(**request.get_json())
-        bulb_controller = bulbs[bulb_request.id]
+        bulb_controller = bulbs[bulb_request.target]
         bulb_controller.set_request(bulb_request)
         asyncio.run_coroutine_threadsafe(bulb_controller.update_bulb(), loop)
         asyncio.run_coroutine_threadsafe(
-            bulb_controller.operation_callback_by_name[bulb_request.operation](), loop
+            bulb_controller.operation_callback_by_name[bulb_request.operation](
+            ), loop
         )
         return "Success", 200
     except (SmartDeviceException, TypeError) as e:
@@ -87,7 +90,8 @@ def start_background_loop(loop):
 
 if __name__ == "__main__":
     get_bulb_devices()
-    bulb_thread = Thread(target=start_background_loop, args=(loop,), daemon=True)
+    bulb_thread = Thread(target=start_background_loop,
+                         args=(loop,), daemon=True)
     bulb_thread.start()
 
     http_server = WSGIServer(("", 8000), app)

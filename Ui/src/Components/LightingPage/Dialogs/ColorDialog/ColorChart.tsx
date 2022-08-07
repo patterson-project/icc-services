@@ -62,7 +62,7 @@ const ColorChart: FC<IColorChart> = (props) => {
   useDidMountEffect(() => {
     props.targetDevices?.forEach((target) => {
       const hsvRequest: HsvRequest = {
-        _id: target._id as ObjectId,
+        target: target._id as ObjectId,
         operation: "hsv",
         h: hsvColor.h,
         s: hsvColor.s,
