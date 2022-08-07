@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export interface LightingRequest {
-  _id: ObjectId;
+  target: ObjectId;
   operation: string;
 }
 

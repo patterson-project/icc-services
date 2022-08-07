@@ -6,6 +6,7 @@ from fastapi.encoders import jsonable_encoder
 
 class LightingRequest(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
+    target: PydanticObjectId
     operation: str
     h: int = 0
     s: int = 100
