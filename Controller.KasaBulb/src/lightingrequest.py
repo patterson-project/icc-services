@@ -4,7 +4,6 @@ from objectid import PydanticObjectId
 
 
 class LightingRequest(BaseModel):
-    id: Optional[PydanticObjectId] = Field(None, alias="_id")
     target: PydanticObjectId
     operation: str
     h: int = 0

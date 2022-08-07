@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field
 from objectid import PydanticObjectId
@@ -13,6 +14,7 @@ class LightingRequest(BaseModel):
     v: int = 50
     brightness: int = None
     temperature: int = None
+    date: datetime = datetime.utcnow()
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)
