@@ -42,7 +42,6 @@ def led_strip() -> Response:
         requests.post(
             Config.LED_STRIP_SERVICE_URL + "/request", json=request.get_json()
         )
-        request["_id"] = None
         insert_lighting_request(lighting_requests, request)
         return "Success", 200
     except requests.HTTPError as e:
@@ -54,7 +53,6 @@ def bulb_1() -> Response:
     try:
         requests.post(Config.BULB_CONTROLLER_URL +
                       "/request", json=request.get_json())
-        request["_id"] = None
         insert_lighting_request(lighting_requests, request)
         return "Success", 200
     except requests.HTTPError as e:
@@ -78,7 +76,6 @@ def ocean() -> Response:
             Config.BULB_CONTROLLER_URL + "/request/bulb2", json=bulb_2_ocean_request
         )
 
-        request["_id"] = None
         insert_lighting_request(lighting_requests, request)
         return "Success", 200
     except requests.HTTPError as e:
