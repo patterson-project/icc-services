@@ -1,4 +1,4 @@
-import React, { FC, forwardRef, useEffect, useState } from "react";
+import React, { FC, forwardRef, useState } from "react";
 import {
   createTheme,
   Dialog,
@@ -103,7 +103,7 @@ const AddDeviceModal: FC = () => {
   const [type, setType] = useState<string>("");
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => {
+  const handleSave = () => {
     const device: Device = {
       name: name,
       type: type,
@@ -128,7 +128,7 @@ const AddDeviceModal: FC = () => {
         <Dialog
           sx={{ bgcolor: "background.paper" }}
           open={open}
-          onClose={handleClose}
+          onClose={handleSave}
           TransitionComponent={Transition}
         >
           <Grid container spacing={1} style={gridContainerStyle}>
@@ -136,7 +136,7 @@ const AddDeviceModal: FC = () => {
               <Typography style={dialogTitleStyle}>Add a Device</Typography>
             </Grid>
             <Grid item xs={2} style={iconGridItemStyle}>
-              <IconButton size="large" onClick={handleClose}>
+              <IconButton size="large" onClick={handleSave}>
                 <CloseIcon style={iconStyle} />
               </IconButton>
             </Grid>
@@ -147,16 +147,18 @@ const AddDeviceModal: FC = () => {
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
               <DeviceTypeDropDownMenu
-                id="type"
+                id="type-drop-down"
                 label="Device Type"
+                type={type}
                 setType={setType}
               />
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
               <DeviceModelDropDownMenu
-                id="type"
+                id="model-drop-down"
                 label="Device Model"
-                deviceType={type}
+                type={type}
+                model={model}
                 setModel={setModel}
               />
             </Grid>
@@ -172,7 +174,7 @@ const AddDeviceModal: FC = () => {
             </Grid>
           </Grid>
           <DialogActions>
-            <IconButton size="large" onClick={handleClose}>
+            <IconButton size="large" onClick={handleSave}>
               <CheckIcon style={iconStyle} />
             </IconButton>
           </DialogActions>

@@ -1,8 +1,12 @@
 import { Box, Grid, Typography } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import React, { FC } from "react";
+import { Device } from "../../../../types";
 import { IosSwitch } from "../../../Common/IosSwitch";
-interface ILightingDeviceSwitches {
+interface ILightingDeviceSwitch {
+  devices: Device[];
+  targetDevices: Device[] | undefined;
+  setTargetDevices: (targets: Device[]) => void;
   setBulbOneTarget(value: boolean): void;
   setBulbTwoTarget(value: boolean): void;
   setLedStripTarget(value: boolean): void;
@@ -49,7 +53,7 @@ const switchTitleStyle = {
   fontWeight: "bold",
 };
 
-const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
+const LightingDeviceSwitch: FC<ILightingDeviceSwitch> = (
   props
 ): JSX.Element => {
   const getLabelSpan = (label: string) => {
@@ -61,51 +65,41 @@ const LightingDeviceSwitches: FC<ILightingDeviceSwitches> = (
         <Grid item xs={12} style={gridItemStyle}>
           <Typography style={switchTitleStyle}>Device</Typography>
         </Grid>
-        <Grid item xs={4} style={gridItemStyle}>
-          <FormControlLabel
-            style={formControlLabelStyle}
-            control={
-              <IosSwitch
-                onChange={(event) =>
-                  props.setBulbOneTarget(event.target.checked)
+        {props.devices?.map((device) => {
+          return (
+            <Grid item xs={4} style={gridItemStyle}>
+              <FormControlLabel
+                style={formControlLabelStyle}
+                control={
+                  <IosSwitch
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        const newTargets = props.targetDevices?.concat(
+                          device as Device
+                        ) as Device[];
+                        props.setTargetDevices(newTargets);
+                      } else {
+                        const newTargets = props.targetDevices?.filter(
+                          (target) => {
+                            return target._id !== device._id;
+                          }
+                        ) as Device[];
+                        props.setTargetDevices(newTargets);
+                      }
+
+                      console.log(`${props.targetDevices}`);
+                    }}
+                  />
                 }
+                label={getLabelSpan(device.name)}
+                labelPlacement="bottom"
               />
-            }
-            label={getLabelSpan("Desk Lamp")}
-            labelPlacement="bottom"
-          />
-        </Grid>
-        <Grid item xs={4} style={gridItemStyle}>
-          <FormControlLabel
-            style={formControlLabelStyle}
-            control={
-              <IosSwitch
-                onChange={(event) =>
-                  props.setBulbTwoTarget(event.target.checked)
-                }
-              />
-            }
-            label={getLabelSpan("Bed Lamp")}
-            labelPlacement="bottom"
-          />
-        </Grid>
-        <Grid item xs={4} style={gridItemStyle}>
-          <FormControlLabel
-            style={formControlLabelStyle}
-            control={
-              <IosSwitch
-                onChange={(event) =>
-                  props.setLedStripTarget(event.target.checked)
-                }
-              />
-            }
-            label={getLabelSpan("Strip")}
-            labelPlacement="bottom"
-          />
-        </Grid>
+            </Grid>
+          );
+        })}
       </Grid>
     </Box>
   );
 };
 
-export default LightingDeviceSwitches;
+export default LightingDeviceSwitch;

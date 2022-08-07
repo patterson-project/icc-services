@@ -20,6 +20,7 @@ pymongo = PyMongo(app)
 
 lighting_requests: Collection = pymongo.db.lighting_requests
 
+
 @app.errorhandler(404)
 def resource_not_found(e) -> Response:
     return jsonify(error=str(e)), 404
@@ -29,6 +30,7 @@ def resource_not_found(e) -> Response:
 def resource_not_found(e) -> Response:
     return jsonify(error=f"Duplicate key error."), 400
 
+
 @app.route("/lighting/health", methods=["GET"])
 def index() -> Response:
     return "Healthy", 200
@@ -37,10 +39,11 @@ def index() -> Response:
 @app.route("/lighting/ledstrip/request", methods=["POST"])
 def led_strip() -> Response:
     try:
-        insert_lighting_request(lighting_requests, request)
         requests.post(
             Config.LED_STRIP_SERVICE_URL + "/request", json=request.get_json()
         )
+        request["_id"] = None
+        insert_lighting_request(lighting_requests, request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -49,8 +52,10 @@ def led_strip() -> Response:
 @app.route("/lighting/bulb/request", methods=["POST"])
 def bulb_1() -> Response:
     try:
+        requests.post(Config.BULB_CONTROLLER_URL +
+                      "/request", json=request.get_json())
+        request["_id"] = None
         insert_lighting_request(lighting_requests, request)
-        requests.post(Config.BULB_CONTROLLER_URL + "/request", json=request.get_json())
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -58,8 +63,7 @@ def bulb_1() -> Response:
 
 @app.route("/lighting/scene/ocean", methods=["POST"])
 def ocean() -> Response:
-    insert_lighting_request(lighting_requests, request)
-    
+
     led_strip_ocean_request = dict(operation="hsv", h=149, s=57, v=100)
     bulb_1_ocean_request = dict(operation="hsv", h=207, s=79, v=100)
     bulb_2_ocean_request = dict(operation="hsv", h=240, s=79, v=100)
@@ -74,6 +78,8 @@ def ocean() -> Response:
             Config.BULB_CONTROLLER_URL + "/request/bulb2", json=bulb_2_ocean_request
         )
 
+        request["_id"] = None
+        insert_lighting_request(lighting_requests, request)
         return "Success", 200
     except requests.HTTPError as e:
         return str(e), 500
@@ -82,7 +88,7 @@ def ocean() -> Response:
 @app.route("/lighting/scene/rose", methods=["POST"])
 def rose() -> Response:
     insert_lighting_request(lighting_requests, request)
-    
+
     led_strip_rose_request = dict(operation="hsv", h=294, s=22, v=99)
     bulb_1_rose_request = dict(operation="hsv", h=301, s=55, v=98)
     bulb_2_rose_request = dict(operation="hsv", h=298, s=55, v=95)

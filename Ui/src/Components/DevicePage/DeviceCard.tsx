@@ -1,10 +1,6 @@
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React, { FC } from "react";
-import {
-  gridContainerStyle,
-  gridItemStyle,
-  textStyle,
-} from "../../Styles/CommonStyles";
+import { gridContainerStyle, textStyle } from "../../Styles/CommonStyles";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -34,13 +30,7 @@ const textGridItemStyle = {
   paddingLeft: "20px",
 };
 
-const deviceNameGridItemStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "start",
-};
-
-const deviceIconGridItemStyle = {
+const deviceTitleGridItemStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "start",
@@ -58,6 +48,7 @@ const cardTitleStyle = {
   fontSize: "24px",
   fontFamily: "Ubuntu, -apple-system",
   fontWeight: "medium",
+  paddingLeft: "8px",
 };
 
 interface IDeviceCard {
@@ -74,10 +65,8 @@ const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
         <Grid item xs={10}>
           <Grid container>
             <Grid container style={deviceInfoGridContainerStyle}>
-              <Grid item xs={1} style={deviceIconGridItemStyle}>
+              <Grid item xs={12} style={deviceTitleGridItemStyle}>
                 <LightbulbIcon style={iconStyle}></LightbulbIcon>
-              </Grid>
-              <Grid item xs={11} style={deviceNameGridItemStyle}>
                 <Typography style={cardTitleStyle}>
                   {props.deviceName}
                 </Typography>

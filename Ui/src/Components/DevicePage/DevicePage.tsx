@@ -33,7 +33,6 @@ const DevicePage: FC = () => {
       .then((response) => response.json())
       .then((data) => {
         setDevices(data as Device[]);
-        console.log(devices);
       });
   }, []);
 

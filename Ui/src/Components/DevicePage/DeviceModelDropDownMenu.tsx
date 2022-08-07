@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { MenuItem } from "@mui/material";
+import { useDidMountEffect } from "../../utils";
 
 interface DeviceModel {
   value: string;
@@ -17,24 +17,30 @@ const lightingDeviceModels: DeviceModel[] = [
 interface IDeviceModelDropDownMenu {
   id: string;
   label: string;
-  deviceType: string;
+  type: string;
+  model: string;
   setModel: (model: string) => void;
 }
 
 const DeviceModelDropDownMenu: FC<IDeviceModelDropDownMenu> = (props) => {
-  const [deviceModel, setModel] = useState<string>();
-  const [dropDownList, setDropDownList] = useState<DeviceModel[] | null>();
+  const [dropDownList, setDropDownList] = useState<DeviceModel[] | null>(
+    lightingDeviceModels
+  );
 
-  useEffect(() => {
-    if (props.deviceType === "lighting") {
+  useDidMountEffect(() => {
+    if (props.type === "lighting") {
       setDropDownList(lightingDeviceModels);
     } else {
       setDropDownList(null);
     }
-  }, [props.deviceType]);
+  }, [props.type]);
+
+  useEffect(() => {
+    props.setModel(lightingDeviceModels[0].label);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setModel(event.target.value);
     props.setModel(event.target.value);
   };
 
@@ -44,7 +50,7 @@ const DeviceModelDropDownMenu: FC<IDeviceModelDropDownMenu> = (props) => {
         id={props.id}
         select
         label={props.label}
-        value={deviceModel}
+        value={props.model}
         variant={"filled"}
         fullWidth
         InputProps={{

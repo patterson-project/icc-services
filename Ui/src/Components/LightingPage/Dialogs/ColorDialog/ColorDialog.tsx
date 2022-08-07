@@ -1,91 +1,90 @@
-import {Box, Grid, Typography} from '@mui/material';
-import React, {FC, useState} from 'react';
-import BrightnessLowIcon from '@mui/icons-material/BrightnessLow';
-import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import WbTwilightIcon from '@mui/icons-material/WbTwilight';
-import {BrightnessRequest, TemperatureRequest} from '../../../../types';
-import config from '../../../../config';
-import {post} from '../../../../utils';
-import {pageDivStyle, subHeadingStyle} from '../../../../Styles/CommonStyles';
-import ColorSelectionTab from './ColorSelectionTab';
-import LightingDeviceSwitches from './LightingDeviceSwitches';
-import Slider from '../../../Common/Slider';
+import { Box, Grid, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
+import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
+import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import WbTwilightIcon from "@mui/icons-material/WbTwilight";
+import { Device, TemperatureRequest } from "../../../../types";
+import config from "../../../../config";
+import { post } from "../../../../utils";
+import { pageDivStyle, subHeadingStyle } from "../../../../Styles/CommonStyles";
+import ColorSelectionTab from "./ColorSelectionTab";
+import LightingDeviceSwitches from "./LightingDeviceSwitches";
+import Slider from "../../../Common/Slider";
+
+interface IColorDialog {
+  devices: Device[];
+}
 
 const gridContainerStyle = {
-  marginTop: '0px',
-  paddingBottom: '40px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  marginTop: "0px",
+  paddingBottom: "40px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 const gridItemStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 const titleStyle = {
-  color: 'white',
-  fontSize: '40px',
-  fontFamily: 'Ubuntu, -apple-system',
-  fontWeight: 'bold',
+  color: "white",
+  fontSize: "40px",
+  fontFamily: "Ubuntu, -apple-system",
+  fontWeight: "bold",
 };
 
 const leftIconStyle = {
-  color: 'white',
-  fontSize: 'medium',
-  marginLeft: '15px',
+  color: "white",
+  fontSize: "medium",
+  marginLeft: "15px",
 };
 
 const rightIconStyle = {
-  color: 'white',
-  fontSize: 'medium',
-  marginRight: '15px',
+  color: "white",
+  fontSize: "medium",
+  marginRight: "15px",
 };
 
-const ColorDialog: FC = () => {
+const ColorDialog: FC<IColorDialog> = (props) => {
+  const [targetDevices, setTargetDevices] = useState<Device[]>([]);
   const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
   const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
   const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
 
   const onChangeBrightness = (value: number) => {
-    const brightnessRequest: BrightnessRequest = {
-      operation: 'brightness',
-      brightness: value,
-    };
-
-    if (ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT + '/request', brightnessRequest);
-    }
-
-    if (bulbOneTarget) {
-      post(config.BULB_ENDPOINT + '/request', brightnessRequest);
-    }
-
-    if (bulbTwoTarget) {
-      post(config.BULB_ENDPOINT + '/request', brightnessRequest);
-    }
+    // const brightnessRequest: BrightnessRequest = {
+    //   operation: "brightness",
+    //   brightness: value,
+    // };
+    // if (ledStripTarget) {
+    //   post(config.LED_STRIP_ENDPOINT + "/request", brightnessRequest);
+    // }
+    // if (bulbOneTarget) {
+    //   post(config.BULB_ENDPOINT + "/request", brightnessRequest);
+    // }
+    // if (bulbTwoTarget) {
+    //   post(config.BULB_ENDPOINT + "/request", brightnessRequest);
+    // }
   };
 
   const onChangeBulbTemperature = (value: number) => {
-    const temperatureRequest: TemperatureRequest = {
-      operation: 'temperature',
-      temperature: value,
-    };
-
-    if (bulbOneTarget) {
-      post(config.BULB_ENDPOINT + '/request', temperatureRequest);
-    }
-
-    if (bulbTwoTarget) {
-      post(config.BULB_ENDPOINT + '/request', temperatureRequest);
-    }
-
-    if (ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT + '/request', temperatureRequest);
-    }
+    // const temperatureRequest: TemperatureRequest = {
+    //   operation: "temperature",
+    //   temperature: value,
+    // };
+    // if (bulbOneTarget) {
+    //   post(config.BULB_ENDPOINT + "/request", temperatureRequest);
+    // }
+    // if (bulbTwoTarget) {
+    //   post(config.BULB_ENDPOINT + "/request", temperatureRequest);
+    // }
+    // if (ledStripTarget) {
+    //   post(config.LED_STRIP_ENDPOINT + "/request", temperatureRequest);
+    // }
   };
 
   return (
@@ -94,11 +93,14 @@ const ColorDialog: FC = () => {
         <Typography style={titleStyle}>Colors</Typography>
       </Box>
       <Box style={gridItemStyle}>
-        <Typography style={subHeadingStyle}>Control your lighting devices</Typography>
+        <Typography style={subHeadingStyle}>
+          Control your lighting devices
+        </Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
           <ColorSelectionTab
+            targetDevices={targetDevices}
             ledStripTarget={ledStripTarget}
             bulbOneTarget={bulbOneTarget}
             bulbTwoTarget={bulbTwoTarget}
@@ -106,6 +108,9 @@ const ColorDialog: FC = () => {
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <LightingDeviceSwitches
+            targetDevices={targetDevices}
+            setTargetDevices={setTargetDevices}
+            devices={props.devices}
             setBulbOneTarget={setBulbOneTarget}
             setBulbTwoTarget={setBulbTwoTarget}
             setLedStripTarget={setLedStripTarget}

@@ -1,38 +1,27 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { MenuItem } from "@mui/material";
-
-interface DeviceTypes {
-  value: string;
-  label: string;
-}
 
 const deviceTypes = [
   {
     value: "lighting",
     label: "Lighting",
   },
-  {
-    value: "plug",
-    label: "Plug",
-  },
-  {
-    value: "switch",
-    label: "Switch",
-  },
 ];
 
 interface IDeviceTypeDropDownMenu {
   id: string;
   label: string;
+  type: string;
   setType: (type: string) => void;
 }
 
 const DeviceTypeDropDownMenu: FC<IDeviceTypeDropDownMenu> = (props) => {
-  const [deviceType, setType] = useState<string>();
+  useEffect(() => {
+    props.setType(deviceTypes[0].label);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setType(event.target.value);
     props.setType(event.target.value);
   };
 
@@ -42,7 +31,7 @@ const DeviceTypeDropDownMenu: FC<IDeviceTypeDropDownMenu> = (props) => {
         id={props.id}
         select
         label={props.label}
-        value={deviceType}
+        value={props.type}
         variant={"filled"}
         fullWidth
         InputProps={{

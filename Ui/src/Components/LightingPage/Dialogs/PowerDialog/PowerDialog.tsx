@@ -67,30 +67,27 @@ const PowerDialog: FC = () => {
   }, []);
 
   const onClickBulbOnePower = () => {
-    setBulbOneState(!bulbOneState);
-    const powerRequest: LightingRequest = {
-      operation: bulbOneState ? "off" : "on",
-    };
-
-    post(config.BULB_ENDPOINT + "/request", powerRequest);
+    // setBulbOneState(!bulbOneState);
+    // const powerRequest: LightingRequest = {
+    //   operation: bulbOneState ? "off" : "on",
+    // };
+    // post(config.BULB_ENDPOINT + "/request", powerRequest);
   };
 
   const onClickBulbTwoPower = () => {
-    setBulbTwoState(!bulbTwoState);
-    const powerRequest: LightingRequest = {
-      operation: bulbTwoState ? "off" : "on",
-    };
-
-    post(config.BULB_ENDPOINT + "/request", powerRequest);
+    // setBulbTwoState(!bulbTwoState);
+    // const powerRequest: LightingRequest = {
+    //   operation: bulbTwoState ? "off" : "on",
+    // };
+    // post(config.BULB_ENDPOINT + "/request", powerRequest);
   };
 
   const onClickLedStripPower = () => {
-    setLedStripState(!ledStripState);
-    const powerRequest: LightingRequest = {
-      operation: ledStripState ? "off" : "on",
-    };
-
-    post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
+    // setLedStripState(!ledStripState);
+    // const powerRequest: LightingRequest = {
+    //   operation: ledStripState ? "off" : "on",
+    // };
+    // post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
   };
 
   return (

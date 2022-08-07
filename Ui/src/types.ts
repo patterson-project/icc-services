@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export interface LightingRequest {
+  _id: ObjectId;
   operation: string;
 }
 
@@ -15,7 +16,7 @@ export interface HsvRequest extends LightingRequest {
 }
 
 export interface Device {
-  id?: ObjectId;
+  _id?: ObjectId;
   name: string;
   type: string;
   model: string;

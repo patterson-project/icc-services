@@ -6,8 +6,10 @@ import Tab from "@mui/material/Tab";
 import ColorWheel from "./ColorWheel";
 import ColorChart from "./ColorChart";
 import SwipeableViews from "react-swipeable-views";
+import { Device } from "../../../../types";
 
 interface IColorSelectionTab {
+  targetDevices: Device[];
   ledStripTarget: boolean;
   bulbOneTarget: boolean;
   bulbTwoTarget: boolean;
@@ -121,18 +123,14 @@ const ColorSelectionTab: FC<IColorSelectionTab> = (props): JSX.Element => {
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
               <ColorChart
-                ledStripTarget={props.ledStripTarget}
-                bulbOneTarget={props.bulbOneTarget}
-                bulbTwoTarget={props.bulbTwoTarget}
                 setModifyingColor={setModifyingColor}
+                targetDevices={props.targetDevices}
               />
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
               <ColorWheel
-                ledStripTarget={props.ledStripTarget}
-                bulbOneTarget={props.bulbOneTarget}
-                bulbTwoTarget={props.bulbTwoTarget}
                 setModifyingColor={setModifyingColor}
+                targetDevices={props.targetDevices}
               />
             </TabPanel>
           </SwipeableViews>
