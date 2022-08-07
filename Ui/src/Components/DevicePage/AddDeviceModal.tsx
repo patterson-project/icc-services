@@ -22,6 +22,11 @@ import { post } from "../../utils";
 import config from "../../config";
 import { Device } from "../../types";
 
+interface IAddDeviceModal {
+  devices: Device[];
+  setDevices: (devices: Device[]) => void;
+}
+
 const modalDivStyle = {
   height: "100%",
   margin: "0px",
@@ -95,7 +100,7 @@ const addDeviceButton = {
   right: 16,
 };
 
-const AddDeviceModal: FC = () => {
+const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [ip, setIp] = useState<string>("");
@@ -111,6 +116,10 @@ const AddDeviceModal: FC = () => {
       ip: ip,
     };
     post(config.DEVICE_MANAGER_ENDPOINT, device);
+
+    const newDevices = props.devices.concat(device);
+    props.setDevices(newDevices);
+
     setOpen(false);
   };
 

@@ -24,7 +24,7 @@ const deviceGridContainerStyle = {
 };
 
 const DevicePage: FC = () => {
-  const [devices, setDevices] = useState<Device[]>();
+  const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {
     fetch(config.DEVICE_MANAGER_ENDPOINT, {
@@ -54,7 +54,7 @@ const DevicePage: FC = () => {
           </Grid>
         ))}
       </Grid>
-      <AddDeviceModal />
+      <AddDeviceModal devices={devices} setDevices={setDevices} />
     </div>
   );
 };

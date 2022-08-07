@@ -28,7 +28,7 @@ const DeviceModelDropDownMenu: FC<IDeviceModelDropDownMenu> = (props) => {
   );
 
   useDidMountEffect(() => {
-    if (props.type === "lighting") {
+    if (props.type === "Lighting") {
       setDropDownList(lightingDeviceModels);
     } else {
       setDropDownList(null);
