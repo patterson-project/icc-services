@@ -8,6 +8,7 @@ from gevent.pywsgi import WSGIServer
 from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from device import Device
+from state import State
 
 app = Flask("__main__")
 app.config[
@@ -18,6 +19,7 @@ CORS(app)
 pymongo = PyMongo(app)
 
 devices: Collection = pymongo.db.devices
+states: Collection = pymongo.db.states
 
 
 @app.errorhandler(404)
@@ -35,8 +37,21 @@ def index() -> Response:
     return "Healthy", 200
 
 
+@app.route("devices/state/<string:id>", methods=["GET"])
+def get_state(id: str) -> Response:
+    state = State(**states.find_one({"device": ObjectId(id)}))
+    return state.to_json()
+
+
+@app.route("/devices/states", methods=["POST"])
+def add_state():
+    state = State(**request.get_json())
+    states.update_one(state.to_bson(), upsert=True)
+    return state.to_json()
+
+
 @app.route("/devices", methods=["POST"])
-def new_device() -> Response:
+def add_device() -> Response:
     device = Device(**request.get_json())
     new_device_id = devices.insert_one(device.to_bson()).inserted_id
     device.id = PydanticObjectId(new_device_id)
