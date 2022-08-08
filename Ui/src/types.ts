@@ -16,7 +16,14 @@ export interface HsvRequest extends LightingRequest {
 }
 
 export interface Device {
-  _id?: ObjectId;
+  _id: ObjectId;
+  name: string;
+  type: string;
+  model: string;
+  ip: string;
+}
+
+export interface AddDeviceDto {
   name: string;
   type: string;
   model: string;

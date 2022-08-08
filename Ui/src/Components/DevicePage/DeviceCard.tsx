@@ -4,6 +4,10 @@ import { gridContainerStyle, textStyle } from "../../Styles/CommonStyles";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import config from "../../config";
+import { Http } from "@mui/icons-material";
+import { ObjectId } from "mongodb";
+import { Device } from "../../types";
 
 const cardBoxStyle = {
   display: "flex",
@@ -15,6 +19,7 @@ const cardBoxStyle = {
   borderRadius: "10px",
   paddingBottom: "10px",
   overflow: "auto",
+  paddingTop: "5px",
 };
 
 const iconStyle = {
@@ -52,6 +57,9 @@ const cardTitleStyle = {
 };
 
 interface IDeviceCard {
+  devices: Device[];
+  setDevices: (devices: Device[]) => void;
+  deviceId: ObjectId;
   deviceName: string;
   deviceIp: string;
   deviceModel: string;
@@ -59,6 +67,25 @@ interface IDeviceCard {
 }
 
 const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
+  const onDeleteDeviceClick = () => {
+    fetch(config.DEVICE_MANAGER_ENDPOINT + "/" + props.deviceId, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(`Failed to delete device: ${response.statusText}`);
+        } else {
+          return response.json();
+        }
+      })
+      .then((_data) => {
+        const newDevices = props.devices.filter(
+          (device) => device._id !== props.deviceId
+        );
+        props.setDevices(newDevices);
+      });
+  };
+
   return (
     <Box style={cardBoxStyle}>
       <Grid container style={gridContainerStyle}>
@@ -82,7 +109,7 @@ const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
         </Grid>
         <Grid item xs={2}>
           <IconButton size="medium">
-            <DeleteIcon style={iconStyle} />
+            <DeleteIcon onClick={onDeleteDeviceClick} style={iconStyle} />
           </IconButton>
           <IconButton size="medium">
             <EditIcon style={iconStyle} />

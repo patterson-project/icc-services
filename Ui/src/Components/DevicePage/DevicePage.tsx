@@ -1,6 +1,5 @@
 import { Grid, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
-
 import DeviceCard from "./DeviceCard";
 import IccAppBar from "../Common/IccAppBar";
 import { gridItemStyle, titleStyle } from "../../Styles/CommonStyles";
@@ -46,6 +45,9 @@ const DevicePage: FC = () => {
         {devices?.map((device) => (
           <Grid item xs={12} style={gridItemStyle}>
             <DeviceCard
+              devices={devices}
+              setDevices={setDevices}
+              deviceId={device._id}
               deviceName={device.name}
               deviceModel={device.model}
               deviceIp={device.ip}

@@ -31,7 +31,7 @@ loop = asyncio.new_event_loop()
 def get_bulb_devices():
     kasa_bulbs = list(
         Device(**device)
-        for device in devices.find({"type": "Lighting", "model": "Kasa KL-215"})
+        for device in devices.find({"type": "Lighting", "model": "Kasa Bulb"})
     )
 
     for bulb in kasa_bulbs:
@@ -39,6 +39,9 @@ def get_bulb_devices():
         asyncio.run_coroutine_threadsafe(
             bulb_controller.create_bulb(bulb.ip), loop)
         bulbs[bulb.id] = bulb_controller
+
+
+""" Routes """
 
 
 @app.errorhandler(404)

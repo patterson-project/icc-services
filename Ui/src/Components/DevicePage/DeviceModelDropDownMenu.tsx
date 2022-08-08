@@ -9,8 +9,16 @@ interface DeviceModel {
 
 const lightingDeviceModels: DeviceModel[] = [
   {
-    value: "kasa-kl-215",
-    label: "Kasa KL-215",
+    value: "kasa-bulb",
+    label: "Kasa Bulb",
+  },
+  {
+    value: "custom-led-strip",
+    label: "Custom Led Strip",
+  },
+  {
+    value: "kasa-led-strip",
+    label: "Kasa Led Strip",
   },
 ];
 

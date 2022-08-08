@@ -20,7 +20,7 @@ import { gridContainerStyle } from "../../Styles/CommonStyles";
 import DeviceModelDropDownMenu from "./DeviceModelDropDownMenu";
 import { post } from "../../utils";
 import config from "../../config";
-import { Device } from "../../types";
+import { AddDeviceDto, Device } from "../../types";
 
 interface IAddDeviceModal {
   devices: Device[];
@@ -109,17 +109,31 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
 
   const handleOpen = () => setOpen(true);
   const handleSave = () => {
-    const device: Device = {
+    const device: AddDeviceDto = {
       name: name,
       type: type,
       model: model,
       ip: ip,
     };
-    post(config.DEVICE_MANAGER_ENDPOINT, device);
 
-    const newDevices = props.devices.concat(device);
-    props.setDevices(newDevices);
-
+    fetch(config.DEVICE_MANAGER_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(device),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(`Failed to create device: ${response.statusText}`);
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        const newDevices = props.devices.concat(data.data as Device);
+        props.setDevices(newDevices);
+      });
     setOpen(false);
   };
 
