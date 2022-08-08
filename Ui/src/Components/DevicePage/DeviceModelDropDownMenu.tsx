@@ -9,15 +9,15 @@ interface DeviceModel {
 
 const lightingDeviceModels: DeviceModel[] = [
   {
-    value: "kasa-bulb",
+    value: "Kasa Bulb",
     label: "Kasa Bulb",
   },
   {
-    value: "custom-led-strip",
+    value: "Custom Led Strip",
     label: "Custom Led Strip",
   },
   {
-    value: "kasa-led-strip",
+    value: "Kasa Led Strip",
     label: "Kasa Led Strip",
   },
 ];
@@ -44,7 +44,7 @@ const DeviceModelDropDownMenu: FC<IDeviceModelDropDownMenu> = (props) => {
   }, [props.type]);
 
   useEffect(() => {
-    props.setModel(lightingDeviceModels[0].label);
+    props.setModel(lightingDeviceModels[0].value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

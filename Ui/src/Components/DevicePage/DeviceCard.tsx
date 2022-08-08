@@ -5,7 +5,6 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import config from "../../config";
-import { Http } from "@mui/icons-material";
 import { ObjectId } from "mongodb";
 import { Device } from "../../types";
 

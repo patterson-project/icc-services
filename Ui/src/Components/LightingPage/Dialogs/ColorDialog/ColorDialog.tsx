@@ -4,7 +4,11 @@ import BrightnessLowIcon from "@mui/icons-material/BrightnessLow";
 import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import { Device, TemperatureRequest } from "../../../../types";
+import {
+  BrightnessRequest,
+  Device,
+  TemperatureRequest,
+} from "../../../../types";
 import config from "../../../../config";
 import { post } from "../../../../utils";
 import { pageDivStyle, subHeadingStyle } from "../../../../Styles/CommonStyles";
@@ -56,35 +60,33 @@ const ColorDialog: FC<IColorDialog> = (props) => {
   const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
 
   const onChangeBrightness = (value: number) => {
-    // const brightnessRequest: BrightnessRequest = {
-    //   operation: "brightness",
-    //   brightness: value,
-    // };
-    // if (ledStripTarget) {
-    //   post(config.LED_STRIP_ENDPOINT + "/request", brightnessRequest);
-    // }
-    // if (bulbOneTarget) {
-    //   post(config.BULB_ENDPOINT + "/request", brightnessRequest);
-    // }
-    // if (bulbTwoTarget) {
-    //   post(config.BULB_ENDPOINT + "/request", brightnessRequest);
-    // }
+    targetDevices.forEach((device) => {
+      const brightnessRequest: BrightnessRequest = {
+        target: device._id,
+        operation: "brightness",
+        brightness: value,
+      };
+      if (device.model === "Kasa Bulb") {
+        post(config.BULB_ENDPOINT + "/request", brightnessRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", brightnessRequest);
+      }
+    });
   };
 
   const onChangeBulbTemperature = (value: number) => {
-    // const temperatureRequest: TemperatureRequest = {
-    //   operation: "temperature",
-    //   temperature: value,
-    // };
-    // if (bulbOneTarget) {
-    //   post(config.BULB_ENDPOINT + "/request", temperatureRequest);
-    // }
-    // if (bulbTwoTarget) {
-    //   post(config.BULB_ENDPOINT + "/request", temperatureRequest);
-    // }
-    // if (ledStripTarget) {
-    //   post(config.LED_STRIP_ENDPOINT + "/request", temperatureRequest);
-    // }
+    targetDevices.forEach((device) => {
+      const temperatureRequest: TemperatureRequest = {
+        target: device._id,
+        operation: "temperature",
+        temperature: value,
+      };
+      if (device.model === "Kasa Bulb") {
+        post(config.BULB_ENDPOINT + "/request", temperatureRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", temperatureRequest);
+      }
+    });
   };
 
   return (

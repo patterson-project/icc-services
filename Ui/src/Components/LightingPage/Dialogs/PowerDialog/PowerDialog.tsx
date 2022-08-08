@@ -8,8 +8,7 @@ import {
   subHeadingStyle,
   titleStyle,
 } from "../../../../Styles/CommonStyles";
-import { LightingPowerStatus, LightingRequest } from "../../../../types";
-import { post } from "../../../../utils";
+import { LightingPowerStatus } from "../../../../types";
 import PowerButton from "./PowerButton";
 
 const categoryTitleBoxStyle = {
@@ -54,7 +53,7 @@ const PowerDialog: FC = () => {
         config.BULB_ENDPOINT + "/status/on"
       );
       const ledStripPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.LED_STRIP_ENDPOINT + "/status/on"
+        config.CUSTOM_LED_STRIP_ENDPOINT + "/status/on"
       );
 
       setBulbOneState(bulbOnePowerStatus.on);

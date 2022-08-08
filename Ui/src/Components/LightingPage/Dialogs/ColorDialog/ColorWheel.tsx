@@ -46,8 +46,10 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
         h: hue,
       };
 
-      if (device.model === "Kasa KL-215") {
+      if (device.model === "Kasa Bulb") {
         post(config.BULB_ENDPOINT + "/request", hsvRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", hsvRequest);
       }
     });
   }, [hue]);
@@ -59,8 +61,10 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
         operation: "off",
       };
 
-      if (device.model === "Kasa KL-215") {
+      if (device.model === "Kasa Bulb") {
         post(config.BULB_ENDPOINT + "/request", offRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", offRequest);
       }
     });
   };

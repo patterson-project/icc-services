@@ -60,17 +60,19 @@ const ColorChart: FC<IColorChart> = (props) => {
   };
 
   useDidMountEffect(() => {
-    props.targetDevices?.forEach((target) => {
+    props.targetDevices?.forEach((device) => {
       const hsvRequest: HsvRequest = {
-        target: target._id as ObjectId,
+        target: device._id as ObjectId,
         operation: "hsv",
         h: hsvColor.h,
         s: hsvColor.s,
         v: hsvColor.v,
       };
 
-      if (target.model === "Kasa KL-215") {
+      if (device.model === "Kasa Bulb") {
         post(config.BULB_ENDPOINT + "/request", hsvRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", hsvRequest);
       }
     });
   }, [hsvColor]);

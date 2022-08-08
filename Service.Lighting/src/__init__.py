@@ -36,7 +36,7 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/lighting/ledstrip/request", methods=["POST"])
+@app.route("/lighting/customledstrip/request", methods=["POST"])
 def led_strip() -> Response:
     try:
         requests.post(

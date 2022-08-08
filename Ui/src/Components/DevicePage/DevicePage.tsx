@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, memo, useEffect, useState } from "react";
 import DeviceCard from "./DeviceCard";
 import IccAppBar from "../Common/IccAppBar";
 import { gridItemStyle, titleStyle } from "../../Styles/CommonStyles";
@@ -61,4 +61,4 @@ const DevicePage: FC = () => {
   );
 };
 
-export default DevicePage;
+export default memo(DevicePage);

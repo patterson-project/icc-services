@@ -18,7 +18,6 @@ import DeviceTypeDropDownMenu from "./DeviceTypeDropDownMenu";
 import CloseIcon from "@mui/icons-material/Close";
 import { gridContainerStyle } from "../../Styles/CommonStyles";
 import DeviceModelDropDownMenu from "./DeviceModelDropDownMenu";
-import { post } from "../../utils";
 import config from "../../config";
 import { AddDeviceDto, Device } from "../../types";
 
@@ -108,6 +107,7 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
   const [type, setType] = useState<string>("");
 
   const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleSave = () => {
     const device: AddDeviceDto = {
       name: name,
@@ -131,10 +131,11 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
         }
       })
       .then((data) => {
-        const newDevices = props.devices.concat(data.data as Device);
+        console.log(`Data: ${JSON.stringify(data)}`);
+        const newDevices = props.devices.concat(data as Device);
         props.setDevices(newDevices);
+        setOpen(false);
       });
-    setOpen(false);
   };
 
   return (
@@ -159,7 +160,7 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
               <Typography style={dialogTitleStyle}>Add a Device</Typography>
             </Grid>
             <Grid item xs={2} style={iconGridItemStyle}>
-              <IconButton size="large" onClick={handleSave}>
+              <IconButton size="large" onClick={handleClose}>
                 <CloseIcon style={iconStyle} />
               </IconButton>
             </Grid>
@@ -206,7 +207,5 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
     </div>
   );
 };
-
-//change button
 
 export default AddDeviceModal;

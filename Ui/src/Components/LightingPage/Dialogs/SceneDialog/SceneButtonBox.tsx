@@ -1,12 +1,9 @@
 import { Box, Grid } from "@mui/material";
 import React, { FC } from "react";
-import config from "../../../../config";
 import {
   gridContainerStyle,
   gridItemStyle,
 } from "../../../../Styles/CommonStyles";
-import { LightingRequest } from "../../../../types";
-import { post } from "../../../../utils";
 import OperationButton from "../../../Common/OperationButton";
 
 const buttonBoxStyle = {
