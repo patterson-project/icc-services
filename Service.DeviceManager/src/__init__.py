@@ -38,7 +38,7 @@ def index() -> Response:
 def new_device() -> Response:
     device = Device(**request.get_json())
     new_device_id = devices.insert_one(device.to_bson()).inserted_id
-    device.id = new_device_id
+    device.id = ObjectId(new_device_id)
     return device.to_json()
 
 
