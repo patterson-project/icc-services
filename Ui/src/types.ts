@@ -30,6 +30,11 @@ export interface AddDeviceDto {
   ip: string;
 }
 
+export interface DeviceState {
+  device: ObjectId;
+  state: boolean;
+}
+
 export interface TemperatureRequest extends LightingRequest {
   temperature: number;
 }

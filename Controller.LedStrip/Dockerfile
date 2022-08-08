@@ -14,4 +14,4 @@ ENV MONGO_DB_PASSWORD "urgarb"
 
 COPY /src/*.py ./
 
-CMD [ "python", "-u", "ledserver.py"]
+CMD [ "python", "-u", "__init__.py"]

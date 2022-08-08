@@ -7,7 +7,7 @@ from typing import Optional
 class State(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     device: PydanticObjectId
-    on: bool
+    true: bool
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)
