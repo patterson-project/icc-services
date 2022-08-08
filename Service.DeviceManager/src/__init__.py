@@ -3,6 +3,7 @@ from bson import ObjectId
 from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+from objectid import PydanticObjectId
 from gevent.pywsgi import WSGIServer
 from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
@@ -38,7 +39,7 @@ def index() -> Response:
 def new_device() -> Response:
     device = Device(**request.get_json())
     new_device_id = devices.insert_one(device.to_bson()).inserted_id
-    device.id = ObjectId(new_device_id)
+    device.id = PydanticObjectId(new_device_id)
     return device.to_json()
 
 
