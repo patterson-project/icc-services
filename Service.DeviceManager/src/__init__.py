@@ -1,4 +1,5 @@
 import os
+from utils import update_bulb_controller
 from bson import ObjectId
 from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
@@ -9,6 +10,7 @@ from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from device import Device
 from state import State
+from config import Config
 
 app = Flask("__main__")
 app.config[
@@ -55,6 +57,7 @@ def add_device() -> Response:
     device = Device(**request.get_json())
     new_device_id = devices.insert_one(device.to_bson()).inserted_id
     device.id = PydanticObjectId(new_device_id)
+    update_bulb_controller(device)
     return device.to_json()
 
 
@@ -73,6 +76,7 @@ def update_device() -> Response:
         return_document=ReturnDocument.AFTER,
     )
     if update_device:
+        update_bulb_controller(device)
         return Device(**updated_device).to_json()
     else:
         abort(404, "Device not found")

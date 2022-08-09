@@ -1,4 +1,5 @@
 import asyncio
+import os
 from threading import Thread
 from bson import ObjectId
 from flask import Flask, Response, jsonify, request
@@ -10,16 +11,21 @@ from lightingrequest import LightingRequest
 from bulb import BulbController
 from gevent.pywsgi import WSGIServer
 from device import Device
-from config import ServiceUris
+from state import State
+
 
 # Flask app object with CORS
 app = Flask("__main__")
-app.config["MONGO_URI"] = ServiceUris.MONGO_DB_URI
-
 CORS(app)
-pymongo = PyMongo(app)
 
-devices: Collection = pymongo.db.devices
+iotdb = PyMongo(
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
+devices: Collection = iotdb.db.devices
+states: Collection = iotdb.db.states
+
+analyticsdb = PyMongo(
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
+state_records: Collection = analyticsdb.db.states
 
 # Global bulb controllers
 bulbs: dict[ObjectId, BulbController] = {}
@@ -54,19 +60,9 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/add/<string:id>", methods=["POST"])
-def add_bulb(id: str):
-    new_bulb_id = ObjectId(id)
-    new_bulb = Device(**devices.find_one_or_404({"_id": new_bulb_id}))
-    bulb_controller = BulbController()
-    asyncio.run_coroutine_threadsafe(
-        bulb_controller.create_bulb(new_bulb.ip), loop)
-    bulbs[new_bulb_id] = bulb_controller
-
-
 @app.route("/update", methods=["PUT"])
 def update_bulbs():
-    bulbs = {}
+    bulbs.clear()
     get_bulb_devices()
 
 
@@ -81,7 +77,20 @@ def lighting_request() -> Response:
             bulb_controller.operation_callback_by_name[bulb_request.operation](
             ), loop
         )
+
+        state: bool = None
+        if bulb_request.operation != "off":
+            state = True
+        else:
+            state = False
+
+        states.find_one_and_update({"device": lighting_request.target}, {
+            "$set": {"state": state}}, upsert=True)
+        state_records.insert_one(
+            State(device=lighting_request.target, state=state).to_bson())
+
         return "Success", 200
+
     except (SmartDeviceException, TypeError) as e:
         return str(e), 500
 
