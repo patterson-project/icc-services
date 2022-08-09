@@ -3,6 +3,7 @@ import requests
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+from bson import ObjectId
 from gevent.pywsgi import WSGIServer
 from config import Config
 from pymongo.collection import Collection
@@ -20,7 +21,7 @@ analyticsdb = PyMongo(
 lighting_requests: Collection = analyticsdb.db.lighting_requests
 
 iotdb = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
 devices: Collection = iotdb.db.devices
 
 
@@ -45,7 +46,7 @@ def led_strip() -> Response:
         lighting_request = LightingRequest(**request.get_json())
         device = Device(**devices.find_one({"_id": lighting_request.target}))
         requests.post(
-            f"http://{device.ip}/request", json=request.get_json()
+            f"http://{device.ip}:8000/request", json=request.get_json()
         )
         insert_lighting_request(lighting_requests, request)
         return "Success", 200
