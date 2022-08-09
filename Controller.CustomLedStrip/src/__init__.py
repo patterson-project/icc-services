@@ -17,7 +17,7 @@ iotdb = PyMongo(
 states: Collection = iotdb.db.states
 
 analyticsdb = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
 state_records: Collection = analyticsdb.db.states
 
 
@@ -39,14 +39,14 @@ def lighting_request() -> Response:
 
         state: bool = None
         if lighting_request.operation != "off":
-            state = False
-        else:
             state = True
+        else:
+            state = False
 
-        states.find_one_and_update({"device": lighting_request.id}, {
+        states.find_one_and_update({"device": lighting_request.target}, {
             "$set": {"state": state}}, upsert=True)
         state_records.insert_one(
-            State(device=lighting_request.id, state=state))
+            State(device=lighting_request.target, state=state).to_bson())
 
         return "Success", 200
 
