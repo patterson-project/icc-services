@@ -37,7 +37,7 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("devices/state/<string:id>", methods=["GET"])
+@app.route("/devices/state/<string:id>", methods=["GET"])
 def get_state(id: str) -> Response:
     state = State(**states.find_one({"device": ObjectId(id)}))
     return state.to_json()
