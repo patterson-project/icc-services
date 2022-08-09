@@ -86,7 +86,9 @@ def update_device() -> Response:
 def delete_device(id: str) -> Response:
     deleted_device = devices.find_one_and_delete({"_id": ObjectId(id)})
     if deleted_device:
-        return Device(**deleted_device).to_json()
+        device = Device(**deleted_device)
+        update_bulb_controller(device)
+        return device.to_json()
     else:
         abort(404, "Device not found")
 
