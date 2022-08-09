@@ -2,7 +2,9 @@ import colorsys
 import multiprocessing
 import rpi_ws281x
 import time
-from utils import LightingRequest, LedStripConfig, wheel, convert_K_to_RGB
+from utils import wheel, convert_K_to_RGB
+from ledstripconfig import LedStripConfig
+from lightingrequest import LightingRequest
 
 
 class LedStripController:

@@ -1,8 +1,9 @@
 flask
-flask-pymongo
-fastapi
-aioflask
 flask-cors
+aioflask
 requests
 gevent
+fastapi
+
+flask-pymongo
 pymongo

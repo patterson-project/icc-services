@@ -11,11 +11,12 @@ from repository import insert_lighting_request
 
 
 app: Flask = Flask("__main__")
+CORS(app)
+
 app.config[
     "MONGO_URI"
 ] = f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin"
 
-CORS(app)
 pymongo = PyMongo(app)
 
 lighting_requests: Collection = pymongo.db.lighting_requests
