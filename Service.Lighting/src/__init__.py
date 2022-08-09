@@ -43,7 +43,7 @@ def index() -> Response:
 def led_strip() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
-        device = Device(**devices.find_one({"_id": lighting_request.id}))
+        device = Device(**devices.find_one({"_id": lighting_request.target}))
         requests.post(
             f"http://{device.ip}/request", json=request.get_json()
         )
