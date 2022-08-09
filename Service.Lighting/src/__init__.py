@@ -8,18 +8,20 @@ from config import Config
 from pymongo.collection import Collection
 from pymongo.errors import DuplicateKeyError
 from repository import insert_lighting_request
+from device import Device
+from lightingrequest import LightingRequest
 
 
 app: Flask = Flask("__main__")
 CORS(app)
 
-app.config[
-    "MONGO_URI"
-] = f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin"
+analyticsdb = PyMongo(
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
+lighting_requests: Collection = analyticsdb.db.lighting_requests
 
-pymongo = PyMongo(app)
-
-lighting_requests: Collection = pymongo.db.lighting_requests
+iotdb = PyMongo(
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
+devices: Collection = iotdb.db.devices
 
 
 @app.errorhandler(404)
@@ -40,8 +42,10 @@ def index() -> Response:
 @app.route("/lighting/customledstrip/request", methods=["POST"])
 def led_strip() -> Response:
     try:
+        lighting_request = LightingRequest(**request.get_json())
+        device = Device(**devices.find_one({"_id": lighting_request.id}))
         requests.post(
-            Config.LED_STRIP_SERVICE_URL + "/request", json=request.get_json()
+            f"http://{device.ip}/request", json=request.get_json()
         )
         insert_lighting_request(lighting_requests, request)
         return "Success", 200
