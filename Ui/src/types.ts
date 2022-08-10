@@ -23,6 +23,12 @@ export interface Device {
   ip: string;
 }
 
+export interface State {
+  _id: ObjectId;
+  device: ObjectId;
+  state: boolean;
+}
+
 export interface AddDeviceDto {
   name: string;
   type: string;

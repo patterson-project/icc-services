@@ -46,7 +46,7 @@ const LightingPage: FC = () => {
   const lightingComponents = [
     <ColorDialog devices={devices} />,
     <SceneDialog />,
-    <PowerDialog />,
+    <PowerDialog devices={devices} />,
   ];
 
   const handleBottomNavigationChange = (

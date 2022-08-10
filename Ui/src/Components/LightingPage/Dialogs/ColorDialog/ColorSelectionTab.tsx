@@ -10,9 +10,6 @@ import { Device } from "../../../../types";
 
 interface IColorSelectionTab {
   targetDevices: Device[];
-  ledStripTarget: boolean;
-  bulbOneTarget: boolean;
-  bulbTwoTarget: boolean;
 }
 
 const colorPickerBoxStyle = {
