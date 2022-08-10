@@ -61,25 +61,26 @@ def index() -> Response:
 
 
 @app.route("/update", methods=["PUT"])
-def update_bulbs():
+def update_bulbs() -> Response:
     bulbs.clear()
     get_bulb_devices()
+    return "Success", 200
 
 
 @app.route("/request", methods=["POST"])
 def lighting_request() -> Response:
     try:
-        bulb_request = LightingRequest(**request.get_json())
-        bulb_controller = bulbs[bulb_request.target]
-        bulb_controller.set_request(bulb_request)
+        lighting_request = LightingRequest(**request.get_json())
+        bulb_controller = bulbs[lighting_request.target]
+        bulb_controller.set_request(lighting_request)
         asyncio.run_coroutine_threadsafe(bulb_controller.update_bulb(), loop)
         asyncio.run_coroutine_threadsafe(
-            bulb_controller.operation_callback_by_name[bulb_request.operation](
+            bulb_controller.operation_callback_by_name[lighting_request.operation](
             ), loop
         )
 
         state: bool = None
-        if bulb_request.operation != "off":
+        if lighting_request.operation != "off":
             state = True
         else:
             state = False
