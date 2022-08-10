@@ -39,10 +39,16 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/devices/state/<string:id>", methods=["GET"])
+@app.route("/devices/states/<string:id>", methods=["GET"])
 def get_state(id: str) -> Response:
     state = State(**states.find_one({"device": ObjectId(id)}))
     return state.to_json()
+
+
+@app.route("/devices/states", methods=["GET"])
+def get_all_states():
+    all_states = list(State(**state).to_json() for state in states.find())
+    return jsonify(all_states)
 
 
 @app.route("/devices/states", methods=["POST"])

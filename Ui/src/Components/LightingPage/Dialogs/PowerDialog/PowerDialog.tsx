@@ -1,3 +1,4 @@
+import { Devices, PropaneSharp } from "@mui/icons-material";
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import config from "../../../../config";
@@ -8,8 +9,12 @@ import {
   subHeadingStyle,
   titleStyle,
 } from "../../../../Styles/CommonStyles";
-import { LightingPowerStatus } from "../../../../types";
+import { Device, LightingPowerStatus, State } from "../../../../types";
 import PowerButton from "./PowerButton";
+
+interface IPowerDialog {
+  devices: Device[];
+}
 
 const categoryTitleBoxStyle = {
   display: "flex",
@@ -26,68 +31,35 @@ const categoryTitleStyle = {
   fontWeight: "bold",
 };
 
-const PowerDialog: FC = () => {
-  const [bulbOneState, setBulbOneState] = useState<boolean>(false);
-  const [bulbTwoState, setBulbTwoState] = useState<boolean>(false);
-  const [ledStripState, setLedStripState] = useState<boolean>(false);
+const PowerDialog: FC<IPowerDialog> = (props) => {
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(true);
+  const [deviceStates, setDeviceStates] = useState<Array<[Device, State]>>();
 
   useEffect(() => {
-    const fetchPowerStatus = async (
-      url: string
-    ): Promise<LightingPowerStatus> => {
-      return fetch(url, {
+    const fetchPowerStates = async (): Promise<State[]> => {
+      return fetch(config.DEVICE_MANAGER_ENDPOINT + "/states", {
         method: "GET",
       })
         .then((response) => response.json())
         .then((response) => {
-          return response as LightingPowerStatus;
+          return response as State[];
         });
     };
 
-    const setPowerStates = async () => {
-      const bulbOnePowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_ENDPOINT + "/status/on"
-      );
-      const bulbTwoPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_ENDPOINT + "/status/on"
-      );
-      const ledStripPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.CUSTOM_LED_STRIP_ENDPOINT + "/status/on"
-      );
-
-      setBulbOneState(bulbOnePowerStatus.on);
-      setBulbTwoState(bulbTwoPowerStatus.on);
-      setLedStripState(ledStripPowerStatus.on);
+    const mergeDeviceStates = async () => {
+      const states: State[] = await fetchPowerStates();
+      let newDeviceStates: Array<[Device, State]> = [];
+      for (let i = 0; i < props.devices.length; i++) {
+        newDeviceStates.push([
+          props.devices[i],
+          states.find(
+            (state) => state.device === props.devices[i]._id
+          ) as State,
+        ]);
+      }
+      setDeviceStates(newDeviceStates);
     };
-
-    setPowerStates();
-    setButtonsDisabled(false);
   }, []);
-
-  const onClickBulbOnePower = () => {
-    // setBulbOneState(!bulbOneState);
-    // const powerRequest: LightingRequest = {
-    //   operation: bulbOneState ? "off" : "on",
-    // };
-    // post(config.BULB_ENDPOINT + "/request", powerRequest);
-  };
-
-  const onClickBulbTwoPower = () => {
-    // setBulbTwoState(!bulbTwoState);
-    // const powerRequest: LightingRequest = {
-    //   operation: bulbTwoState ? "off" : "on",
-    // };
-    // post(config.BULB_ENDPOINT + "/request", powerRequest);
-  };
-
-  const onClickLedStripPower = () => {
-    // setLedStripState(!ledStripState);
-    // const powerRequest: LightingRequest = {
-    //   operation: ledStripState ? "off" : "on",
-    // };
-    // post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
-  };
 
   return (
     <div style={pageDivStyle}>

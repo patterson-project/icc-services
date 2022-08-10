@@ -91,7 +91,7 @@ def lighting_request() -> Response:
 
         return "Success", 200
 
-    except (SmartDeviceException, TypeError) as e:
+    except (SmartDeviceException, TypeError, KeyError) as e:
         return str(e), 500
 
 

@@ -7,9 +7,6 @@ interface ILightingDeviceSwitch {
   devices: Device[];
   targetDevices: Device[] | undefined;
   setTargetDevices: (targets: Device[]) => void;
-  setBulbOneTarget(value: boolean): void;
-  setBulbTwoTarget(value: boolean): void;
-  setLedStripTarget(value: boolean): void;
 }
 
 const lightingDeviceSwitchesStyle = {
