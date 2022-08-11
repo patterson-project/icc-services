@@ -11,7 +11,6 @@ interface IPowerButton {
   deviceName: string;
   onClick(): void;
   deviceState: boolean;
-  disabled: boolean;
 }
 
 const powerButtonOnIconStyle = {
@@ -38,11 +37,7 @@ const PowerButton: FC<IPowerButton> = (props): JSX.Element => {
           <Typography style={deviceNameStyle}>{props.deviceName}</Typography>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IconButton
-            color="primary"
-            disabled={props.disabled}
-            onClick={() => props.onClick()}
-          >
+          <IconButton color="primary" onClick={() => props.onClick()}>
             {props.deviceState ? (
               <PowerSettingsNewIcon style={powerButtonOnIconStyle} />
             ) : (

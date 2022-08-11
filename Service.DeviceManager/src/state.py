@@ -1,3 +1,4 @@
+from datetime import datetime
 from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
@@ -7,7 +8,8 @@ from typing import Optional
 class State(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     device: PydanticObjectId
-    true: bool
+    state: bool
+    date: datetime = datetime.utcnow()
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)

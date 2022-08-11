@@ -12,9 +12,9 @@ import {
 import config from "../../../../config";
 import { post } from "../../../../utils";
 import { pageDivStyle, subHeadingStyle } from "../../../../Styles/CommonStyles";
-import ColorSelectionTab from "./ColorSelectionTab";
 import LightingDeviceSwitches from "./LightingDeviceSwitches";
 import Slider from "../../../Common/Slider";
+import ColorChart from "./ColorChart";
 
 interface IColorDialog {
   devices: Device[];
@@ -98,7 +98,7 @@ const ColorDialog: FC<IColorDialog> = (props) => {
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
-          <ColorSelectionTab targetDevices={targetDevices} />
+          <ColorChart targetDevices={targetDevices} />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <LightingDeviceSwitches
