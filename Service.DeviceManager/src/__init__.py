@@ -49,7 +49,7 @@ def get_all_states():
 def add_device() -> Response:
     device = Device(**request.get_json())
     new_device_id = devices.insert_one(device.to_bson()).inserted_id
-    states.insert_one({"device": device.id})
+    states.insert_one({"device": device.id, "state": False})
 
     device.id = PydanticObjectId(new_device_id)
     update_bulb_controller(device)
