@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useState,
-} from "react";
+import React, { FC, useCallback, useState } from "react";
 import { HsvColorPicker, HsvColor } from "react-colorful";
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";
@@ -15,17 +9,16 @@ import { ObjectId } from "mongodb";
 
 interface IColorChart {
   targetDevices: Device[];
-  setModifyingColor: Dispatch<SetStateAction<boolean>>;
 }
 
 const colorChartBoxStyle = {
   display: "flex",
-  alignItems: "top",
+  alignItems: "center",
   justifyContent: "center",
-  width: "340px",
-  height: "340px",
+  width: "90%",
+  height: "350px",
+  backgroundColor: "#2C2C2E",
   borderRadius: "10px",
-  paddingTop: "20px",
 };
 
 const colorChartStyle = {
@@ -46,18 +39,11 @@ const ColorChart: FC<IColorChart> = (props) => {
     setHsvColor(newHsvColor);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedHsvColorChangeHandler = useCallback(
     debounce(changeColor, 30),
     []
   );
-
-  const onTouchStart = () => {
-    props.setModifyingColor(true);
-  };
-
-  const onTouchEnd = () => {
-    props.setModifyingColor(false);
-  };
 
   useDidMountEffect(() => {
     props.targetDevices?.forEach((device) => {
@@ -83,8 +69,6 @@ const ColorChart: FC<IColorChart> = (props) => {
         style={colorChartStyle}
         color={hsvColor}
         onChange={debouncedHsvColorChangeHandler}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
       />
     </Box>
   );

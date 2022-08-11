@@ -1,4 +1,3 @@
-import { Devices, PropaneSharp } from "@mui/icons-material";
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import config from "../../../../config";
@@ -9,7 +8,8 @@ import {
   subHeadingStyle,
   titleStyle,
 } from "../../../../Styles/CommonStyles";
-import { Device, LightingPowerStatus, State } from "../../../../types";
+import { Device, State } from "../../../../types";
+import { post } from "../../../../utils";
 import PowerButton from "./PowerButton";
 
 interface IPowerDialog {
@@ -32,8 +32,7 @@ const categoryTitleStyle = {
 };
 
 const PowerDialog: FC<IPowerDialog> = (props) => {
-  const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(true);
-  const [deviceStates, setDeviceStates] = useState<Array<[Device, State]>>();
+  const [deviceStates, setDeviceStates] = useState<[Device, State][]>();
 
   useEffect(() => {
     const fetchPowerStates = async (): Promise<State[]> => {
@@ -48,7 +47,7 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
 
     const mergeDeviceStates = async () => {
       const states: State[] = await fetchPowerStates();
-      let newDeviceStates: Array<[Device, State]> = [];
+      let newDeviceStates: [Device, State][] = [];
       for (let i = 0; i < props.devices.length; i++) {
         newDeviceStates.push([
           props.devices[i],
@@ -59,7 +58,21 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
       }
       setDeviceStates(newDeviceStates);
     };
+
+    mergeDeviceStates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const onClickPowerButton = (deviceState: [Device, State]) => {
+    deviceState[1].state = !deviceState[1].state;
+    post(config.DEVICE_MANAGER_ENDPOINT + "/states", deviceState[1]);
+    if (deviceStates) {
+      deviceStates[
+        deviceStates.findIndex((ds) => deviceState[0]._id === ds[0]._id)
+      ] = deviceState;
+      setDeviceStates(deviceStates);
+    }
+  };
 
   return (
     <div style={pageDivStyle}>
@@ -74,30 +87,17 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
         <Typography style={categoryTitleStyle}>Bedroom</Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
-        <Grid item xs={12} style={gridItemStyle}>
-          <PowerButton
-            deviceName="Led Strip"
-            onClick={() => onClickLedStripPower()}
-            deviceState={ledStripState}
-            disabled={buttonsDisabled}
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <PowerButton
-            deviceName="Bulb One"
-            onClick={() => onClickBulbOnePower()}
-            deviceState={bulbOneState}
-            disabled={buttonsDisabled}
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <PowerButton
-            deviceName="Bulb Two"
-            onClick={() => onClickBulbTwoPower()}
-            deviceState={bulbTwoState}
-            disabled={buttonsDisabled}
-          />
-        </Grid>
+        {deviceStates?.map((deviceState) => {
+          return (
+            <Grid item xs={12} style={gridItemStyle}>
+              <PowerButton
+                deviceName={deviceState[0].name}
+                onClick={() => onClickPowerButton(deviceState)}
+                deviceState={deviceState[1].state}
+              />
+            </Grid>
+          );
+        })}
       </Grid>
     </div>
   );
