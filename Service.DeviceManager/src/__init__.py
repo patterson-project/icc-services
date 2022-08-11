@@ -39,31 +39,21 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/devices/states/<string:id>", methods=["GET"])
-def get_state(id: str) -> Response:
-    state = State(**states.find_one({"device": ObjectId(id)}))
-    return state.to_json()
-
-
 @app.route("/devices/states", methods=["GET"])
 def get_all_states():
     all_states = list(State(**state).to_json() for state in states.find())
     return jsonify(all_states)
 
 
-@app.route("/devices/states", methods=["POST"])
-def add_state():
-    state = State(**request.get_json())
-    states.update_one(state.to_bson(), upsert=True)
-    return state.to_json()
-
-
 @app.route("/devices", methods=["POST"])
 def add_device() -> Response:
     device = Device(**request.get_json())
     new_device_id = devices.insert_one(device.to_bson()).inserted_id
+    states.insert_one({"device": device.id})
+
     device.id = PydanticObjectId(new_device_id)
     update_bulb_controller(device)
+
     return device.to_json()
 
 
