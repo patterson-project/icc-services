@@ -1,6 +1,6 @@
 
-// const domain = window.location.href;
-const domain = "http://10.0.0.86/";
+const domain = window.location.href;
+// const domain = "http://10.0.0.86/";
 
 const config = {
   CUSTOM_LED_STRIP_ENDPOINT: `${domain}lighting/customledstrip`,
