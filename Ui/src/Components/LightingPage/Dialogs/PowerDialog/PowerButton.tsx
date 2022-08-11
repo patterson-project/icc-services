@@ -5,7 +5,7 @@ import {
   componentBoxStyle,
   gridContainerStyle,
   gridItemStyle,
-} from "../../../Styles/DialogStyles";
+} from "../../../../Styles/CommonStyles";
 
 interface IPowerButton {
   deviceName: string;

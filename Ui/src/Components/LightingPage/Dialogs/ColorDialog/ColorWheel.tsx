@@ -7,17 +7,16 @@ import React, {
 } from "react";
 import ColorPicker from "@radial-color-picker/react-color-picker";
 import "@radial-color-picker/react-color-picker/dist/react-color-picker.min.css";
-import config from "../../../config";
+import config from "../../../../config";
 import { Box } from "@mui/material";
-import { HsvRequest, LightingRequest } from "../../../types";
-import { post, useDidMountEffect } from "../../../utils";
+import { Device, HsvRequest, LightingRequest } from "../../../../types";
+import { post, useDidMountEffect } from "../../../../utils";
 import debounce from "lodash.debounce";
+import { ObjectId } from "mongodb";
 
 interface IColorWheel {
+  targetDevices: Device[] | undefined;
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
-  ledStripTarget: boolean;
-  bulbOneTarget: boolean;
-  bulbTwoTarget: boolean;
 }
 
 const colorWheelStyle = {
@@ -40,32 +39,34 @@ const ColorWheel: FC<IColorWheel> = (props): JSX.Element => {
   const debounceHueChangeHandler = useCallback(debounce(changeHue, 30), []);
 
   useDidMountEffect(() => {
-    const hsvRequest: HsvRequest = {
-      operation: "hsv",
-      h: hue,
-    };
+    props.targetDevices?.forEach((device) => {
+      const hsvRequest: HsvRequest = {
+        target: device._id as ObjectId,
+        operation: "hsv",
+        h: hue,
+      };
 
-    if (props.ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT + "/request", hsvRequest);
-    }
-
-    if (props.bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT + "/request", hsvRequest);
-    }
-
-    if (props.bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT + "/request", hsvRequest);
-    }
+      if (device.model === "Kasa Bulb") {
+        post(config.BULB_ENDPOINT + "/request", hsvRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", hsvRequest);
+      }
+    });
   }, [hue]);
 
   const onSelect = () => {
-    const offRequest: LightingRequest = {
-      operation: "off",
-    };
+    props.targetDevices?.forEach((device) => {
+      const offRequest: LightingRequest = {
+        target: device._id as ObjectId,
+        operation: "off",
+      };
 
-    post(config.LED_STRIP_ENDPOINT + "/request", offRequest);
-    post(config.BULB_1_ENDPOINT + "/request", offRequest);
-    post(config.BULB_2_ENDPOINT + "/request", offRequest);
+      if (device.model === "Kasa Bulb") {
+        post(config.BULB_ENDPOINT + "/request", offRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", offRequest);
+      }
+    });
   };
 
   const onTouchStart = () => {

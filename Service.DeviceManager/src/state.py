@@ -1,20 +1,13 @@
-from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel, Field
 from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel, Field
+from typing import Optional
 
 
-class LightingRequest(BaseModel):
+class State(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
-    target: PydanticObjectId
-    operation: str
-    h: int = 0
-    s: int = 100
-    v: int = 50
-    brightness: int = None
-    temperature: int = None
-    date: datetime = datetime.utcnow()
+    device: PydanticObjectId
+    true: bool
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)

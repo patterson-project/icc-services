@@ -1,16 +1,15 @@
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
-import config from "../../../config";
+import config from "../../../../config";
 import {
   gridContainerStyle,
   gridItemStyle,
   pageDivStyle,
   subHeadingStyle,
   titleStyle,
-} from "../../../Styles/DialogStyles";
-import { LightingPowerStatus, LightingRequest } from "../../../types";
-import { post } from "../../../utils";
-import PowerButton from "../LightingComponents/PowerButton";
+} from "../../../../Styles/CommonStyles";
+import { LightingPowerStatus } from "../../../../types";
+import PowerButton from "./PowerButton";
 
 const categoryTitleBoxStyle = {
   display: "flex",
@@ -48,13 +47,13 @@ const PowerDialog: FC = () => {
 
     const setPowerStates = async () => {
       const bulbOnePowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_1_ENDPOINT + "/status/on"
+        config.BULB_ENDPOINT + "/status/on"
       );
       const bulbTwoPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_2_ENDPOINT + "/status/on"
+        config.BULB_ENDPOINT + "/status/on"
       );
       const ledStripPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.LED_STRIP_ENDPOINT + "/status/on"
+        config.CUSTOM_LED_STRIP_ENDPOINT + "/status/on"
       );
 
       setBulbOneState(bulbOnePowerStatus.on);
@@ -67,30 +66,27 @@ const PowerDialog: FC = () => {
   }, []);
 
   const onClickBulbOnePower = () => {
-    setBulbOneState(!bulbOneState);
-    const powerRequest: LightingRequest = {
-      operation: bulbOneState ? "off" : "on",
-    };
-
-    post(config.BULB_1_ENDPOINT + "/request", powerRequest);
+    // setBulbOneState(!bulbOneState);
+    // const powerRequest: LightingRequest = {
+    //   operation: bulbOneState ? "off" : "on",
+    // };
+    // post(config.BULB_ENDPOINT + "/request", powerRequest);
   };
 
   const onClickBulbTwoPower = () => {
-    setBulbTwoState(!bulbTwoState);
-    const powerRequest: LightingRequest = {
-      operation: bulbTwoState ? "off" : "on",
-    };
-
-    post(config.BULB_2_ENDPOINT + "/request", powerRequest);
+    // setBulbTwoState(!bulbTwoState);
+    // const powerRequest: LightingRequest = {
+    //   operation: bulbTwoState ? "off" : "on",
+    // };
+    // post(config.BULB_ENDPOINT + "/request", powerRequest);
   };
 
   const onClickLedStripPower = () => {
-    setLedStripState(!ledStripState);
-    const powerRequest: LightingRequest = {
-      operation: ledStripState ? "off" : "on",
-    };
-
-    post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
+    // setLedStripState(!ledStripState);
+    // const powerRequest: LightingRequest = {
+    //   operation: ledStripState ? "off" : "on",
+    // };
+    // post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
   };
 
   return (

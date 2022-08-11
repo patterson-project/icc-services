@@ -1,5 +1,5 @@
 {
-  "name": "IotControlCenterUi",
+  "name": "iot-control-center-ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +12,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
+    "@types/mongodb": "^4.0.7",
     "@types/node": "^16.11.19",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
@@ -19,6 +20,7 @@
     "awesome-debounce-promise": "^2.1.0",
     "axios": "^0.24.0",
     "dotnav": "^0.0.1",
+    "ip": "^1.1.8",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "material-ui-dots": "^2.0.2",
@@ -58,7 +60,15 @@
     ]
   },
   "devDependencies": {
+    "@types/ip": "^1.1.0",
     "@types/lodash.debounce": "^4.0.7",
-    "@types/react-swipeable-views": "^0.13.1"
+    "@types/react-swipeable-views": "^0.13.1",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint-plugin-react": "^7.30.1"
+  },
+  "resolutions": {
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2"
   }
 }

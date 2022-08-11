@@ -8,15 +8,14 @@ import React, {
 import { HsvColorPicker, HsvColor } from "react-colorful";
 import debounce from "lodash.debounce";
 import { Box } from "@mui/material";
-import { HsvRequest } from "../../../types";
-import { post, useDidMountEffect } from "../../../utils";
-import config from "../../../config";
+import { Device, HsvRequest } from "../../../../types";
+import { post, useDidMountEffect } from "../../../../utils";
+import config from "../../../../config";
+import { ObjectId } from "mongodb";
 
 interface IColorChart {
+  targetDevices: Device[];
   setModifyingColor: Dispatch<SetStateAction<boolean>>;
-  ledStripTarget: boolean;
-  bulbOneTarget: boolean;
-  bulbTwoTarget: boolean;
 }
 
 const colorChartBoxStyle = {
@@ -61,24 +60,21 @@ const ColorChart: FC<IColorChart> = (props) => {
   };
 
   useDidMountEffect(() => {
-    const hsvRequest: HsvRequest = {
-      operation: "hsv",
-      h: hsvColor.h,
-      s: hsvColor.s,
-      v: hsvColor.v,
-    };
+    props.targetDevices?.forEach((device) => {
+      const hsvRequest: HsvRequest = {
+        target: device._id as ObjectId,
+        operation: "hsv",
+        h: hsvColor.h,
+        s: hsvColor.s,
+        v: hsvColor.v,
+      };
 
-    if (props.ledStripTarget) {
-      post(config.LED_STRIP_ENDPOINT + "/request", hsvRequest);
-    }
-
-    if (props.bulbOneTarget) {
-      post(config.BULB_1_ENDPOINT + "/request", hsvRequest);
-    }
-
-    if (props.bulbTwoTarget) {
-      post(config.BULB_2_ENDPOINT + "/request", hsvRequest);
-    }
+      if (device.model === "Kasa Bulb") {
+        post(config.BULB_ENDPOINT + "/request", hsvRequest);
+      } else if (device.model === "Custom Led Strip") {
+        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", hsvRequest);
+      }
+    });
   }, [hsvColor]);
 
   return (

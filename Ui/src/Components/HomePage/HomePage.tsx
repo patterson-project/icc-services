@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import IccAppBar from "../Components/IccAppBar";
+import IccAppBar from "../Common/IccAppBar";
 
 const homePageDivStyle = {
   height: "100%",

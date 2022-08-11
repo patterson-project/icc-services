@@ -14,9 +14,17 @@ import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import { TransitionProps } from "@mui/material/transitions";
 import DeviceTextField from "./DeviceTextField";
-import DeviceDropDownMenu from "./DeviceDropDownMenu";
+import DeviceTypeDropDownMenu from "./DeviceTypeDropDownMenu";
 import CloseIcon from "@mui/icons-material/Close";
-import { gridContainerStyle } from "../../Styles/DialogStyles";
+import { gridContainerStyle } from "../../Styles/CommonStyles";
+import DeviceModelDropDownMenu from "./DeviceModelDropDownMenu";
+import config from "../../config";
+import { AddDeviceDto, Device } from "../../types";
+
+interface IAddDeviceModal {
+  devices: Device[];
+  setDevices: (devices: Device[]) => void;
+}
 
 const modalDivStyle = {
   height: "100%",
@@ -91,14 +99,44 @@ const addDeviceButton = {
   right: 16,
 };
 
-const AddDeviceModal: FC = () => {
+const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [ip, setIp] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [type, setType] = useState<string>("");
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleSave = () => {
+    const device: AddDeviceDto = {
+      name: name,
+      type: type,
+      model: model,
+      ip: ip,
+    };
+
+    fetch(config.DEVICE_MANAGER_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(device),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(`Failed to create device: ${response.statusText}`);
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log(`Data: ${JSON.stringify(data)}`);
+        const newDevices = props.devices.concat(data as Device);
+        props.setDevices(newDevices);
+        setOpen(false);
+      });
+  };
 
   return (
     <div style={modalDivStyle}>
@@ -114,7 +152,7 @@ const AddDeviceModal: FC = () => {
         <Dialog
           sx={{ bgcolor: "background.paper" }}
           open={open}
-          onClose={handleClose}
+          onClose={handleSave}
           TransitionComponent={Transition}
         >
           <Grid container spacing={1} style={gridContainerStyle}>
@@ -132,10 +170,21 @@ const AddDeviceModal: FC = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
-              <DeviceDropDownMenu
-                id="type"
+              <DeviceTypeDropDownMenu
+                id="type-drop-down"
                 label="Device Type"
-              ></DeviceDropDownMenu>
+                type={type}
+                setType={setType}
+              />
+            </Grid>
+            <Grid item xs={12} style={dialogGridItemStyle}>
+              <DeviceModelDropDownMenu
+                id="model-drop-down"
+                label="Device Model"
+                type={type}
+                model={model}
+                setModel={setModel}
+              />
             </Grid>
             <Grid item xs={12} style={dialogGridItemStyle}>
               <DeviceTextField
@@ -147,16 +196,9 @@ const AddDeviceModal: FC = () => {
             <Grid item xs={12} style={dialogGridItemStyle}>
               <DeviceTextField id="ip" label="Device IP" setText={setIp} />
             </Grid>
-            <Grid item xs={12} style={dialogGridItemStyle}>
-              <DeviceTextField
-                id="model"
-                label="Device Model"
-                setText={setModel}
-              />
-            </Grid>
           </Grid>
           <DialogActions>
-            <IconButton size="large" onClick={handleClose}>
+            <IconButton size="large" onClick={handleSave}>
               <CheckIcon style={iconStyle} />
             </IconButton>
           </DialogActions>
@@ -165,7 +207,5 @@ const AddDeviceModal: FC = () => {
     </div>
   );
 };
-
-//change button
 
 export default AddDeviceModal;

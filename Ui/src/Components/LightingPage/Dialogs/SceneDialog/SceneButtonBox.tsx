@@ -1,13 +1,10 @@
 import { Box, Grid } from "@mui/material";
 import React, { FC } from "react";
-import config from "../../../config";
 import {
   gridContainerStyle,
   gridItemStyle,
-} from "../../../Styles/DialogStyles";
-import { LightingRequest } from "../../../types";
-import { post } from "../../../utils";
-import IOperationButton from "../../OperationButton";
+} from "../../../../Styles/CommonStyles";
+import OperationButton from "../../../Common/OperationButton";
 
 const buttonBoxStyle = {
   display: "flex",
@@ -21,45 +18,45 @@ const buttonBoxStyle = {
 };
 
 const onClickOcean = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "ocean",
-  };
-  post(config.SCENE_ENDPOINT + "/ocean", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "ocean",
+  // };
+  // post(config.SCENE_ENDPOINT + "/ocean", sceneRequest);
 };
 
 const onClickRose = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "rose",
-  };
-  post(config.SCENE_ENDPOINT + "/rose", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "rose",
+  // };
+  // post(config.SCENE_ENDPOINT + "/rose", sceneRequest);
 };
 
 const onClickRainbow = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "rainbow",
-  };
-  post(config.SCENE_ENDPOINT + "/rainbow", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "rainbow",
+  // };
+  // post(config.SCENE_ENDPOINT + "/rainbow", sceneRequest);
 };
 
 const onClickCandy = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "candy",
-  };
-  post(config.SCENE_ENDPOINT + "/candy", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "candy",
+  // };
+  // post(config.SCENE_ENDPOINT + "/candy", sceneRequest);
 };
 
 const onClickPeachy = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "peachy",
-  };
-  post(config.SCENE_ENDPOINT + "/peachy", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "peachy",
+  // };
+  // post(config.SCENE_ENDPOINT + "/peachy", sceneRequest);
 };
 
 const onClickJungle = () => {
-  const sceneRequest: LightingRequest = {
-    operation: "jungle",
-  };
-  post(config.SCENE_ENDPOINT + "/jungle", sceneRequest);
+  // const sceneRequest: LightingRequest = {
+  //   operation: "jungle",
+  // };
+  // post(config.SCENE_ENDPOINT + "/jungle", sceneRequest);
 };
 
 const SceneButtonBox: FC = () => {
@@ -67,46 +64,46 @@ const SceneButtonBox: FC = () => {
     <Box style={buttonBoxStyle}>
       <Grid container spacing={2} style={gridContainerStyle}>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Ocean"}
             color={"#2a5cd1"}
             onClick={onClickOcean}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Rose"}
             color={"#f368f7"}
             onClick={onClickRose}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Candy"}
             color={"#ab5dc7"}
             onClick={onClickCandy}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Rainbow"}
             image={"url(/image.png)"}
             onClick={onClickRainbow}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Peachy"}
             color={"#f09f48"}
             onClick={onClickPeachy}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IOperationButton
+          <OperationButton
             operationName={"Jungle"}
             color={"#227a1c"}
             onClick={onClickJungle}
-          ></IOperationButton>
+          ></OperationButton>
         </Grid>
       </Grid>
     </Box>
