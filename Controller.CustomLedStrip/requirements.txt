@@ -1,9 +1,10 @@
 flask
 flask-cors
-aioflask
 requests
 gevent
 fastapi
 
 flask-pymongo
 pymongo
+
+rpi_ws281x

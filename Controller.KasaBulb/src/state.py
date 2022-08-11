@@ -5,15 +5,10 @@ from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
 
 
-class LightingRequest(BaseModel):
+class State(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
-    target: PydanticObjectId
-    operation: str
-    h: int = 0
-    s: int = 100
-    v: int = 50
-    brightness: int = None
-    temperature: int = None
+    device: PydanticObjectId
+    state: bool
     date: datetime = datetime.utcnow()
 
     def to_json(self):

@@ -1,6 +1,0 @@
-flask
-flask-cors
-requests
-gevent
-rpi_ws281x
-pymongo

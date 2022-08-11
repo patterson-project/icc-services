@@ -1,4 +1,5 @@
 FROM python:buster
+
 LABEL Maintainer="canadrian72"
 
 WORKDIR /app
@@ -8,6 +9,6 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-COPY src/*.py ./
+COPY /src/*.py ./
 
-ENTRYPOINT [ "python", "-u", "__init__.py" ]
+CMD [ "python", "-u", "__init__.py"]
