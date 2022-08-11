@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   kasa-bulb-controller:
-    image: canadrian72/iot-control-center:kasa-bulb-controller
+    image: canadrian72/iot-control-center:kasa-led-strip-controller
     build:
       context: .
       dockerfile: Dockerfile

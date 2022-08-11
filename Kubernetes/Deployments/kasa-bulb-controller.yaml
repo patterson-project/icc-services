@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bulb-controller
+  name: kasa-bulb-controller
 spec:
   selector:
     matchLabels:
-      svc: bulb-controller
+      svc: kasa-bulb-controller
   replicas: 1
   template:
     metadata:
       labels:
-        svc: bulb-controller
+        svc: kasa-bulb-controller
     spec:
       containers:
-        - name: bulb-container
-          image: canadrian72/iot-control-center:bulb-controller
+        - name: kasa-bulb-container
+          image: canadrian72/iot-control-center:kasa-bulb-controller
           imagePullPolicy: Always
           env:
             - name: MONGO_DB_USERNAME

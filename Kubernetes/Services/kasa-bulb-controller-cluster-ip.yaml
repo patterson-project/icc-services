@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bulb-controller-cluster-ip
+  name: kasa-bulb-controller-cluster-ip
 spec:
   type: ClusterIP
   selector:
-    svc: bulb-controller
+    svc: kasa-bulb-controller
   ports:
     - port: 8000
