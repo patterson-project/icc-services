@@ -8,8 +8,7 @@ import {
   subHeadingStyle,
   titleStyle,
 } from "../../../../Styles/CommonStyles";
-import { Device, State } from "../../../../types";
-import { post } from "../../../../utils";
+import { Device, LightingRequest, State } from "../../../../types";
 import PowerButton from "./PowerButton";
 
 interface IPowerDialog {
@@ -32,46 +31,77 @@ const categoryTitleStyle = {
 };
 
 const PowerDialog: FC<IPowerDialog> = (props) => {
-  const [deviceStates, setDeviceStates] = useState<[Device, State][]>();
+  const [deviceStates, setDeviceStates] = useState<State[]>([]);
 
   useEffect(() => {
-    const fetchPowerStates = async (): Promise<State[]> => {
+    const fetchPowerStates = async () => {
       return fetch(config.DEVICE_MANAGER_ENDPOINT + "/states", {
         method: "GET",
       })
-        .then((response) => response.json())
         .then((response) => {
-          return response as State[];
+          if (!response.ok) {
+            console.log("Failed to fetch states");
+          } else {
+            return response.json();
+          }
+        })
+        .then((response) => {
+          setDeviceStates(response as State[]);
         });
     };
 
-    const mergeDeviceStates = async () => {
-      const states: State[] = await fetchPowerStates();
-      let newDeviceStates: [Device, State][] = [];
-      for (let i = 0; i < props.devices.length; i++) {
-        newDeviceStates.push([
-          props.devices[i],
-          states.find(
-            (state) => state.device === props.devices[i]._id
-          ) as State,
-        ]);
-      }
-      setDeviceStates(newDeviceStates);
-    };
+    fetchPowerStates();
 
-    mergeDeviceStates();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClickPowerButton = (deviceState: [Device, State]) => {
-    deviceState[1].state = !deviceState[1].state;
-    post(config.DEVICE_MANAGER_ENDPOINT + "/states", deviceState[1]);
-    if (deviceStates) {
-      deviceStates[
-        deviceStates.findIndex((ds) => deviceState[0]._id === ds[0]._id)
-      ] = deviceState;
-      setDeviceStates(deviceStates);
+  useEffect(() => console.log("CHANGED"), [deviceStates]);
+
+  const onClickPowerButton = (state: State) => {
+    const device = props.devices.find((device) => device._id === state.device);
+
+    let operation: string;
+    if (state.state) {
+      operation = "off";
+    } else {
+      operation = "on";
     }
+
+    const lightingRequest: LightingRequest = {
+      target: state.device,
+      operation: operation,
+    };
+
+    let url: string = "";
+    if (device?.model === "Kasa Bulb") {
+      url = config.BULB_ENDPOINT;
+    } else if (device?.model === "Custom Led Strip") {
+      url = config.CUSTOM_LED_STRIP_ENDPOINT;
+    }
+
+    fetch(url + "/request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(lightingRequest),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log("Failed to set device power state");
+        }
+      })
+      .then(async () => {
+        let newStates: State[] | undefined = [...deviceStates];
+        const stateIndex = deviceStates?.findIndex((s) => s._id === state._id);
+        if (newStates !== undefined && stateIndex !== undefined) {
+          state.state = !state.state;
+          newStates[stateIndex] = state;
+
+          console.log(`New States: ${JSON.stringify(newStates)}`);
+          setDeviceStates(newStates);
+        }
+      });
   };
 
   return (
@@ -87,13 +117,16 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
         <Typography style={categoryTitleStyle}>Bedroom</Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
-        {deviceStates?.map((deviceState) => {
+        {deviceStates.map((state) => {
+          const device: Device | undefined = props.devices.find(
+            (device) => device._id === state.device
+          );
           return (
             <Grid item xs={12} style={gridItemStyle}>
               <PowerButton
-                deviceName={deviceState[0].name}
-                onClick={() => onClickPowerButton(deviceState)}
-                deviceState={deviceState[1].state}
+                deviceName={device?.name ?? ""}
+                onClick={() => onClickPowerButton(state)}
+                deviceState={state.state}
               />
             </Grid>
           );
