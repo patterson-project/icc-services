@@ -35,7 +35,7 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
 
   useEffect(() => {
     const fetchPowerStates = async () => {
-      return fetch(config.DEVICE_MANAGER_ENDPOINT + "/states", {
+      return fetch(config.DEVICE_MANAGER_SERVICE_ENDPOINT + "/states", {
         method: "GET",
       })
         .then((response) => {
@@ -74,9 +74,9 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
 
     let url: string = "";
     if (device?.model === "Kasa Bulb") {
-      url = config.BULB_ENDPOINT;
+      url = config.LIGHTING_SERVICE_ENDPOINT;
     } else if (device?.model === "Custom Led Strip") {
-      url = config.CUSTOM_LED_STRIP_ENDPOINT;
+      url = config.LIGHTING_SERVICE_ENDPOINT;
     }
 
     fetch(url + "/request", {

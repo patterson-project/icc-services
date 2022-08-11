@@ -64,9 +64,9 @@ const ColorDialog: FC<IColorDialog> = (props) => {
         brightness: value,
       };
       if (device.model === "Kasa Bulb") {
-        post(config.BULB_ENDPOINT + "/request", brightnessRequest);
+        post(config.LIGHTING_SERVICE_ENDPOINT + "/request", brightnessRequest);
       } else if (device.model === "Custom Led Strip") {
-        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", brightnessRequest);
+        post(config.LIGHTING_SERVICE_ENDPOINT + "/request", brightnessRequest);
       }
     });
   };
@@ -79,9 +79,9 @@ const ColorDialog: FC<IColorDialog> = (props) => {
         temperature: value,
       };
       if (device.model === "Kasa Bulb") {
-        post(config.BULB_ENDPOINT + "/request", temperatureRequest);
+        post(config.LIGHTING_SERVICE_ENDPOINT + "/request", temperatureRequest);
       } else if (device.model === "Custom Led Strip") {
-        post(config.CUSTOM_LED_STRIP_ENDPOINT + "/request", temperatureRequest);
+        post(config.LIGHTING_SERVICE_ENDPOINT + "/request", temperatureRequest);
       }
     });
   };

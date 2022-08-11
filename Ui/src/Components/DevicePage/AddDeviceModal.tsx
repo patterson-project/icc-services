@@ -116,7 +116,7 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
       ip: ip,
     };
 
-    fetch(config.DEVICE_MANAGER_ENDPOINT, {
+    fetch(config.DEVICE_MANAGER_SERVICE_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

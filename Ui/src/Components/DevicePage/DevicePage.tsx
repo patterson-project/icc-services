@@ -26,7 +26,7 @@ const DevicePage: FC = () => {
   const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {
-    fetch(config.DEVICE_MANAGER_ENDPOINT, {
+    fetch(config.DEVICE_MANAGER_SERVICE_ENDPOINT, {
       method: "GET",
     })
       .then((response) => response.json())
