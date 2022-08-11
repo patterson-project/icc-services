@@ -19,3 +19,9 @@ class Device(BaseModel):
         if data.get("_id") is None:
             data.pop("_id", None)
         return data
+
+
+class LightingDeviceTypes:
+    KasaBulb: str = "Kasa Bulb"
+    CustomLedStrip: str = "Custom Led Strip"
+    KasaLedStrip: str = "Kasa Led Strip"
