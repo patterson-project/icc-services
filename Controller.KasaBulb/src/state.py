@@ -1,8 +1,8 @@
 from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel, Field
 from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel, Field
-from typing import Optional
 
 
 class State(BaseModel):

@@ -1,6 +1,6 @@
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   componentBoxStyle,
   gridContainerStyle,
@@ -11,7 +11,6 @@ interface IPowerButton {
   deviceName: string;
   onClick(): void;
   deviceState: boolean;
-  disabled: boolean;
 }
 
 const powerButtonOnIconStyle = {
@@ -31,6 +30,10 @@ const deviceNameStyle = {
 };
 
 const PowerButton: FC<IPowerButton> = (props): JSX.Element => {
+  useEffect(() => {
+    console.log(`New Device state`);
+  }, [props.deviceState]);
+
   return (
     <Box style={componentBoxStyle}>
       <Grid container style={gridContainerStyle}>
@@ -38,11 +41,7 @@ const PowerButton: FC<IPowerButton> = (props): JSX.Element => {
           <Typography style={deviceNameStyle}>{props.deviceName}</Typography>
         </Grid>
         <Grid item xs={6} style={gridItemStyle}>
-          <IconButton
-            color="primary"
-            disabled={props.disabled}
-            onClick={() => props.onClick()}
-          >
+          <IconButton color="primary" onClick={() => props.onClick()}>
             {props.deviceState ? (
               <PowerSettingsNewIcon style={powerButtonOnIconStyle} />
             ) : (

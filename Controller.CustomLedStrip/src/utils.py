@@ -69,35 +69,3 @@ def convert_K_to_RGB(colour_temperature) -> tuple[int, int, int]:
             blue = tmp_blue
 
     return int(red), int(green), int(blue)
-
-
-class LedStripConfig:
-    COUNT = 100
-    PIN = 18
-    FREQ_HZ = 800000
-    DMA = 10
-    BRIGHTNESS = 255
-    INVERT = False
-    CHANNEL = 0
-
-
-class LightingRequest:
-    def __init__(
-        self,
-        operation: str,
-        h: int = 0,
-        s: int = 100,
-        v: int = 50,
-        brightness: int = None,
-        temperature: int = None,
-    ):
-        self.operation = operation
-        self.brightness = brightness
-        self.temperature = temperature
-        self.h = h
-        self.s = s
-        self.v = v
-
-
-class ServiceUris:
-    MONGO_DB = "10.0.0.34:27017"

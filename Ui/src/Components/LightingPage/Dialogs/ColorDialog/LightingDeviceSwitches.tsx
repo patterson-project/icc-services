@@ -7,9 +7,6 @@ interface ILightingDeviceSwitch {
   devices: Device[];
   targetDevices: Device[] | undefined;
   setTargetDevices: (targets: Device[]) => void;
-  setBulbOneTarget(value: boolean): void;
-  setBulbTwoTarget(value: boolean): void;
-  setLedStripTarget(value: boolean): void;
 }
 
 const lightingDeviceSwitchesStyle = {
@@ -72,7 +69,7 @@ const LightingDeviceSwitch: FC<ILightingDeviceSwitch> = (
                 style={formControlLabelStyle}
                 control={
                   <IosSwitch
-                    onChange={(event) => {
+                    onChange={(event: any) => {
                       if (event.target.checked) {
                         const newTargets = props.targetDevices?.concat(
                           device as Device

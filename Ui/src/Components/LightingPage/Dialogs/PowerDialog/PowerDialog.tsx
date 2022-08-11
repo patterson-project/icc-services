@@ -8,8 +8,12 @@ import {
   subHeadingStyle,
   titleStyle,
 } from "../../../../Styles/CommonStyles";
-import { LightingPowerStatus } from "../../../../types";
+import { Device, LightingRequest, State } from "../../../../types";
 import PowerButton from "./PowerButton";
+
+interface IPowerDialog {
+  devices: Device[];
+}
 
 const categoryTitleBoxStyle = {
   display: "flex",
@@ -26,67 +30,78 @@ const categoryTitleStyle = {
   fontWeight: "bold",
 };
 
-const PowerDialog: FC = () => {
-  const [bulbOneState, setBulbOneState] = useState<boolean>(false);
-  const [bulbTwoState, setBulbTwoState] = useState<boolean>(false);
-  const [ledStripState, setLedStripState] = useState<boolean>(false);
-  const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(true);
+const PowerDialog: FC<IPowerDialog> = (props) => {
+  const [deviceStates, setDeviceStates] = useState<State[]>([]);
 
   useEffect(() => {
-    const fetchPowerStatus = async (
-      url: string
-    ): Promise<LightingPowerStatus> => {
-      return fetch(url, {
+    const fetchPowerStates = async () => {
+      return fetch(config.DEVICE_MANAGER_ENDPOINT + "/states", {
         method: "GET",
       })
-        .then((response) => response.json())
         .then((response) => {
-          return response as LightingPowerStatus;
+          if (!response.ok) {
+            console.log("Failed to fetch states");
+          } else {
+            return response.json();
+          }
+        })
+        .then((response) => {
+          setDeviceStates(response as State[]);
         });
     };
 
-    const setPowerStates = async () => {
-      const bulbOnePowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_ENDPOINT + "/status/on"
-      );
-      const bulbTwoPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.BULB_ENDPOINT + "/status/on"
-      );
-      const ledStripPowerStatus: LightingPowerStatus = await fetchPowerStatus(
-        config.CUSTOM_LED_STRIP_ENDPOINT + "/status/on"
-      );
+    fetchPowerStates();
 
-      setBulbOneState(bulbOnePowerStatus.on);
-      setBulbTwoState(bulbTwoPowerStatus.on);
-      setLedStripState(ledStripPowerStatus.on);
-    };
-
-    setPowerStates();
-    setButtonsDisabled(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClickBulbOnePower = () => {
-    // setBulbOneState(!bulbOneState);
-    // const powerRequest: LightingRequest = {
-    //   operation: bulbOneState ? "off" : "on",
-    // };
-    // post(config.BULB_ENDPOINT + "/request", powerRequest);
-  };
+  useEffect(() => console.log("CHANGED"), [deviceStates]);
 
-  const onClickBulbTwoPower = () => {
-    // setBulbTwoState(!bulbTwoState);
-    // const powerRequest: LightingRequest = {
-    //   operation: bulbTwoState ? "off" : "on",
-    // };
-    // post(config.BULB_ENDPOINT + "/request", powerRequest);
-  };
+  const onClickPowerButton = (state: State) => {
+    const device = props.devices.find((device) => device._id === state.device);
 
-  const onClickLedStripPower = () => {
-    // setLedStripState(!ledStripState);
-    // const powerRequest: LightingRequest = {
-    //   operation: ledStripState ? "off" : "on",
-    // };
-    // post(config.LED_STRIP_ENDPOINT + "/request", powerRequest);
+    let operation: string;
+    if (state.state) {
+      operation = "off";
+    } else {
+      operation = "on";
+    }
+
+    const lightingRequest: LightingRequest = {
+      target: state.device,
+      operation: operation,
+    };
+
+    let url: string = "";
+    if (device?.model === "Kasa Bulb") {
+      url = config.BULB_ENDPOINT;
+    } else if (device?.model === "Custom Led Strip") {
+      url = config.CUSTOM_LED_STRIP_ENDPOINT;
+    }
+
+    fetch(url + "/request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(lightingRequest),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log("Failed to set device power state");
+        }
+      })
+      .then(async () => {
+        let newStates: State[] | undefined = [...deviceStates];
+        const stateIndex = deviceStates?.findIndex((s) => s._id === state._id);
+        if (newStates !== undefined && stateIndex !== undefined) {
+          state.state = !state.state;
+          newStates[stateIndex] = state;
+
+          console.log(`New States: ${JSON.stringify(newStates)}`);
+          setDeviceStates(newStates);
+        }
+      });
   };
 
   return (
@@ -102,30 +117,20 @@ const PowerDialog: FC = () => {
         <Typography style={categoryTitleStyle}>Bedroom</Typography>
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
-        <Grid item xs={12} style={gridItemStyle}>
-          <PowerButton
-            deviceName="Led Strip"
-            onClick={() => onClickLedStripPower()}
-            deviceState={ledStripState}
-            disabled={buttonsDisabled}
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <PowerButton
-            deviceName="Bulb One"
-            onClick={() => onClickBulbOnePower()}
-            deviceState={bulbOneState}
-            disabled={buttonsDisabled}
-          />
-        </Grid>
-        <Grid item xs={12} style={gridItemStyle}>
-          <PowerButton
-            deviceName="Bulb Two"
-            onClick={() => onClickBulbTwoPower()}
-            deviceState={bulbTwoState}
-            disabled={buttonsDisabled}
-          />
-        </Grid>
+        {deviceStates.map((state) => {
+          const device: Device | undefined = props.devices.find(
+            (device) => device._id === state.device
+          );
+          return (
+            <Grid item xs={12} style={gridItemStyle}>
+              <PowerButton
+                deviceName={device?.name ?? ""}
+                onClick={() => onClickPowerButton(state)}
+                deviceState={state.state}
+              />
+            </Grid>
+          );
+        })}
       </Grid>
     </div>
   );

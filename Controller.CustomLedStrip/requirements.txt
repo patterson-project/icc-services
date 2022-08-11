@@ -2,5 +2,9 @@ flask
 flask-cors
 requests
 gevent
-rpi_ws281x
+fastapi
+
+flask-pymongo
 pymongo
+
+rpi_ws281x

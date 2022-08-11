@@ -12,9 +12,9 @@ import {
 import config from "../../../../config";
 import { post } from "../../../../utils";
 import { pageDivStyle, subHeadingStyle } from "../../../../Styles/CommonStyles";
-import ColorSelectionTab from "./ColorSelectionTab";
 import LightingDeviceSwitches from "./LightingDeviceSwitches";
 import Slider from "../../../Common/Slider";
+import ColorChart from "./ColorChart";
 
 interface IColorDialog {
   devices: Device[];
@@ -55,9 +55,6 @@ const rightIconStyle = {
 
 const ColorDialog: FC<IColorDialog> = (props) => {
   const [targetDevices, setTargetDevices] = useState<Device[]>([]);
-  const [bulbOneTarget, setBulbOneTarget] = useState<boolean>(false);
-  const [bulbTwoTarget, setBulbTwoTarget] = useState<boolean>(false);
-  const [ledStripTarget, setLedStripTarget] = useState<boolean>(false);
 
   const onChangeBrightness = (value: number) => {
     targetDevices.forEach((device) => {
@@ -101,21 +98,13 @@ const ColorDialog: FC<IColorDialog> = (props) => {
       </Box>
       <Grid container spacing={1.5} style={gridContainerStyle}>
         <Grid item xs={12} style={gridItemStyle}>
-          <ColorSelectionTab
-            targetDevices={targetDevices}
-            ledStripTarget={ledStripTarget}
-            bulbOneTarget={bulbOneTarget}
-            bulbTwoTarget={bulbTwoTarget}
-          />
+          <ColorChart targetDevices={targetDevices} />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
           <LightingDeviceSwitches
             targetDevices={targetDevices}
             setTargetDevices={setTargetDevices}
             devices={props.devices}
-            setBulbOneTarget={setBulbOneTarget}
-            setBulbTwoTarget={setBulbTwoTarget}
-            setLedStripTarget={setLedStripTarget}
           />
         </Grid>
         <Grid item xs={12} style={gridItemStyle}>
