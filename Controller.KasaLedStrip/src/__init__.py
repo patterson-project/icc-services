@@ -75,8 +75,6 @@ def lighting_request() -> Response:
         led_strip_controller.set_request(lighting_request)
 
         asyncio.run_coroutine_threadsafe(
-            led_strip_controller.update_strip(), loop)
-        asyncio.run_coroutine_threadsafe(
             led_strip_controller.operation_callback_by_name[lighting_request.operation](
             ), loop
         )

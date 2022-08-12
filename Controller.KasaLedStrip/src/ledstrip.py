@@ -39,10 +39,6 @@ class LedStripController:
             self.sequence_task.cancel()
             self.sequence_task = None
 
-    async def update_strip(self):
-        await self.strip.update()
-        return True
-
     async def on(self):
         self.terminate_task()
         await self.strip.turn_on()
