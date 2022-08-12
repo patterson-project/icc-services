@@ -1,5 +1,5 @@
 import os
-from utils import update_bulb_controller
+from utils import update_controllers
 from bson import ObjectId
 from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
@@ -52,7 +52,7 @@ def add_device() -> Response:
 
     device.id = PydanticObjectId(new_device_id)
     states.insert_one({"device": device.id, "state": False})
-    update_bulb_controller(device)
+    update_controllers(device)
 
     return device.to_json()
 
@@ -72,7 +72,7 @@ def update_device() -> Response:
         return_document=ReturnDocument.AFTER,
     )
     if update_device:
-        update_bulb_controller(device)
+        update_controllers(device)
         return Device(**updated_device).to_json()
     else:
         abort(404, "Device not found")
@@ -83,7 +83,7 @@ def delete_device(id: str) -> Response:
     deleted_device = devices.find_one_and_delete({"_id": ObjectId(id)})
     if deleted_device:
         device = Device(**deleted_device)
-        update_bulb_controller(device)
+        update_controllers(device)
         states.find_one_and_delete({"device": device.id})
         return device.to_json()
     else:
