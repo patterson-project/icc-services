@@ -73,7 +73,6 @@ def lighting_request() -> Response:
         lighting_request = LightingRequest(**request.get_json())
         bulb_controller = bulbs[lighting_request.target]
         bulb_controller.set_request(lighting_request)
-        asyncio.run_coroutine_threadsafe(bulb_controller.update_bulb(), loop)
         asyncio.run_coroutine_threadsafe(
             bulb_controller.operation_callback_by_name[lighting_request.operation](
             ), loop
