@@ -73,6 +73,7 @@ def lighting_request() -> Response:
         lighting_request = LightingRequest(**request.get_json())
         led_strip_controller = strips[lighting_request.target]
         led_strip_controller.set_request(lighting_request)
+
         asyncio.run_coroutine_threadsafe(
             led_strip_controller.update_strip(), loop)
         asyncio.run_coroutine_threadsafe(
@@ -80,11 +81,9 @@ def lighting_request() -> Response:
             ), loop
         )
 
-        state: bool = None
+        state: bool = False
         if lighting_request.operation != "off":
             state = True
-        else:
-            state = False
 
         states.find_one_and_update({"device": lighting_request.target}, {
             "$set": {"state": state}}, upsert=True)

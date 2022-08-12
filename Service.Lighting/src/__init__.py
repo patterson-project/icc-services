@@ -53,6 +53,9 @@ def led_strip() -> Response:
             requests.post(
                 f"http://{device.ip}:8000/request", json=request.get_json()
             )
+        elif device.model == LightingDeviceTypes.KasaLedStrip:
+            requests.post(Config.LED_CONTROLLER_URL +
+                          "/request", json=request.get_json())
 
         insert_lighting_request(lighting_requests, request)
 
