@@ -71,7 +71,8 @@ class LedStripController:
         r, g, b = convert_K_to_RGB(self.request.temperature)
         h, s, v = colorsys.rgb_to_hsv(r, g, b)
         await self.strip.set_hsv(
-            int(self.request.h), int(self.request.s), int(self.request.v)
+            int(h*179), int(s *
+                            255), int(v*255)
         )
 
     async def rainbow(self):
