@@ -72,14 +72,7 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
       operation: operation,
     };
 
-    let url: string = "";
-    if (device?.model === "Kasa Bulb") {
-      url = config.LIGHTING_SERVICE_ENDPOINT;
-    } else if (device?.model === "Custom Led Strip") {
-      url = config.LIGHTING_SERVICE_ENDPOINT;
-    }
-
-    fetch(url + "/request", {
+    fetch(config.LIGHTING_SERVICE_ENDPOINT + "/request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
