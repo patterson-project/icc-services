@@ -68,11 +68,12 @@ class LedStripController:
 
     async def temperature(self):
         self.terminate_task()
-        r, g, b = convert_K_to_RGB(self.request.temperature)
-        h, s, v = colorsys.rgb_to_hsv(r, g, b)
+        (r, g, b) = convert_K_to_RGB(self.request.temperature)
+        (r, g, b) = (r / 255, g / 255, b / 255)
+        (h, s, v) = colorsys.rgb_to_hsv(r, g, b)
         await self.strip.set_hsv(
-            int(h*179), int(s *
-                            255), int(v*255)
+            int(h*360), int(s *
+                            100), int(v*100)
         )
 
     async def rainbow(self):
