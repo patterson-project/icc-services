@@ -1,7 +1,9 @@
 import asyncio
 import time
 import kasa
+import colorsys
 from lightingrequest import LightingRequest
+from utils import convert_K_to_RGB
 
 
 class LedStripController:
@@ -66,7 +68,11 @@ class LedStripController:
 
     async def temperature(self):
         self.terminate_task()
-        await self.strip.set_color_temp(int(self.request.temperature))
+        r, g, b = convert_K_to_RGB(self.request.temperature)
+        h, s, v = colorsys.rgb_to_hsv(r, g, b)
+        await self.strip.set_hsv(
+            int(self.request.h), int(self.request.s), int(self.request.v)
+        )
 
     async def rainbow(self):
         self.terminate_task()
