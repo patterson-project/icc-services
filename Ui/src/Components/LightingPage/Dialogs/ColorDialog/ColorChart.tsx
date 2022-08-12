@@ -55,11 +55,8 @@ const ColorChart: FC<IColorChart> = (props) => {
         v: hsvColor.v,
       };
 
-      if (device.model === "Kasa Bulb") {
-        post(config.LIGHTING_SERVICE_ENDPOINT + "/request", hsvRequest);
-      } else if (device.model === "Custom Led Strip") {
-        post(config.LIGHTING_SERVICE_ENDPOINT + "/request", hsvRequest);
-      }
+      // TODO: add snackbar here on success ?
+      post(config.LIGHTING_SERVICE_ENDPOINT + "/request", hsvRequest);
     });
   }, [hsvColor]);
 
