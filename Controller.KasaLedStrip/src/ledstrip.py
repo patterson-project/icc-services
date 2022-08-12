@@ -69,7 +69,7 @@ class LedStripController:
     async def temperature(self):
         self.terminate_task()
         r, g, b = convert_K_to_RGB(self.request.temperature)
-        h, s, v = colorsys.rgb_to_hsv(r, g, b)
+        h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
         await self.strip.set_hsv(
             int(h*179), int(s *
                             255), int(v*255)
