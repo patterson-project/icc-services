@@ -1,99 +1,81 @@
-# Home LED Control Center
+# Iot Control Center
 
-A set of docker-based services which use Raspberry Pis and MQTT to control WS2811 LED strips.
+A local area network kubernetes cluster for managing and controlling IoT devices.
 
-- Quick Kube notes:
-  - Must enable metallb load balancing with ` enable metallb:<local_pi_ip:local_pi_ip>`
-  - To add a node:
-    - ` join 10.0.0.34:25000/378ff66642ed6791ec4bf7fcfa446826/6fdae4403366 --worker`
-    - Or:
+# Installation
 
-```
-  join 10.0.0.34:25000/378ff66642ed6791ec4bf7fcfa446826/6fdae4403366
-  join 2607:fa49:6040:8300::8bb2:25000/378ff66642ed6791ec4bf7fcfa446826/6fdae4403366
-  join 2607:fa49:6040:8300:dea6:32ff:feeb:63ef:25000/378ff66642ed6791ec4bf7fcfa446826/6fdae4403366
-```
+1. Flash an SD card with **Ubuntu Server OS Arm64 Architecture**
 
-## Repository Structure
+   - Can be done using the [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
+   - Before flashing, configure the network connection settings and enable SSH to allow the Pi connection to the internet
+   - Alternatively, this can be done manually by editing the `/etc/netplan/50-cloud-init.yaml` found in Ubuntu
 
-- `/IotControlCenterUi`
-  - Holds React-Typescript app for user interface
-- `/Api`
-  - Holds flask API to handle UI calls and publish MQTT messages to IoT devices accordingly
-- `/LedController`
-  - Holds python service to listen for MQTT events and change LED strip behavior accordingly
-- `/BulbController`
-  - Holds python service to listen for MQTT events and change TPLink kasa-smart bulb behavior accordingly
-- `/SystemdFiles`
-  - Systemd service configuration files to allow each microservice to be automatically deployed and updated startup on raspberry pi boot
-- `install.sh`
-  - Copies Systemd configuration files into `/etc/systemd/systm/` of raspberry pis
-  - Makes `start.sh` and `stop.sh` scripts executable
+---
 
-## IotControlCenterUi
+2. Boot up the Raspberry Pi and SSH into it
 
-- React-Typescript web app hosted with an nginx server
-- Docker compose file used to build react app and host on nginx
-- All components found in `/src`
-- Look of web-page:
+---
 
-<p align="center">
-<image src="https://user-images.githubusercontent.com/47571939/165000409-ac0a3dea-c6bd-47ba-8e7b-fbc39a63c5c4.png">
-</p>
- <p align="center">
-<image src="https://user-images.githubusercontent.com/47571939/165000413-6a617da4-144f-4c0c-9eb6-fb35e98e3c34.png">
-</p>
-  
-* Allows to change LED strip color, brightness, and activate different sequences
+3. Docker and docker-compose Installation
 
-## Api
+   - [Docker Installation on Ubuntu Docs](https://docs.docker.com/engine/install/ubuntu/#install-docker-engine)
 
-- Flask API to provide endpoints to activate different commands
-- After each route is called, MQTT is used to publish this command to the other raspberry pi
-  - e.g the LED route publishs an object of type `LedRequest` as a dictionary with options for LED command (i.e. brightness, HSV values, operation)
-- Docker compose file used to build dockerfile to host and expose the flask API
+---
 
-## LedController
+4. Login to a [dockerhub](https://hub.docker.com/) account
 
-- Holds code which actually interfaces with LED strip
-  - `led_operation.py` contains functions to execute different operations on the LEDs (e.g. rainbow, change brightness, set all pixels as RGB value, etc.)
-  - `mqtt_client.py` starts an MQTT client to listen for publish events from flask API
-- Docker compose builds docker file to host and expose service on local area network
+   - Can be done with the `docker login` command
 
-## SystemdFiles
+---
 
-- Holds configuration files for each service
-  - Allows each service to be automatically started on boot
+5. Install Kubernetes
 
-## install.sh
+   - [Rancher Docs](https://rancher.com/docs/k3s/latest/en/installation/install-options/)
 
-- Each service has a folder called `/ShellScripts`
-  - These scripts start and stop the service by calling `docker-compose up ...` or `docker-compose down ...` respectively
-- Install .sh makes each shell script executable and moves Systemd files into the root file system
+---
 
-## Hardware
+6. Clone this Repository
 
-### Raspberry Pi 4 with Ubuntu server OS
+---
 
-- Runs the **LedApi** and **IotControlCenterUi** services
+7. Build and push the local docker containers to dockerhub
+
+   - `cd` into the `/Kubernetes` folder of this repo
+   - Execute the `update_cluster.sh` script to build and push all containers
+
+---
+
+8. Configure your cluster secrets
+
+   - Copy the `secrets.yaml` found under `/Kubernetes/Secrets`. Rename it to `secrets.yaml` or another name of your choosing
+   - Edit the file with a text editor to add the secrets. You'll need to add:
+     - A Mongo Database Username and Password
+     - The address of the Mongo Database (i.e. the address of the current Raspberry Pi. This can be found using `ifconfig`)
+   - Apply the secrets to your cluster using `kubernetes apply -f secrets.yaml`
+
+---
+
+9. Deploy the Mongo Database
+
+   - Add the same Mongo credentials to your environment variables:
+     - `sudo vim ~/.bashrc`
+     - Add the following at the bottom:
+       - `export MONGO_DB_USERNAME=<your_username>`
+       - `export MONGO_DB_PASSWORD=<your_password>`
+   - Build and bring up the docker container for the database
+     - `cd` into `/MongoDb`
+     - Run `docker-compose up --build -d`
+
+---
+
+10. Deploy the cluster
+
+    - `cd` into `/Kubernetes`
+    - Run `deploy_cluster.sh` to deploy the cluster
+    - Check your device IP from anywhere on your LAN, you should see the IoT Control Center Home page!
+
+---
 
 <p align="center">
 <image src="https://user-images.githubusercontent.com/47571939/151073711-508f1d52-cf0e-45ec-99c4-fd5c7f7579c4.png">
-</p>
-    
-### Raspberry Pi Zero W
-  * Runs the **LedController** service
-
-<p align="center">
-<image src="https://user-images.githubusercontent.com/47571939/151073762-67bad429-5483-4f62-b2af-727edb21bb57.png">
-</p>
-  
-* Installation specific to these two devices found in `/SystemdFiles/README.md`
-  
-### WS2811 LED Strip
-* Interfaces with raspberry pi zero w GPIO pin 18
-  * LED Config found in utils in the `LedController` service
-  
-<p align="center">
-<image src="https://user-images.githubusercontent.com/47571939/151074248-d8d76d5a-f586-437f-8991-516312ab2b83.png">
 </p>

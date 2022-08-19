@@ -3,3 +3,4 @@ __pycache__/
 node_modules/
 database/
 init-mongo.js/
+secrets.yaml
