@@ -67,7 +67,7 @@ interface IDeviceCard {
 
 const DeviceCard: FC<IDeviceCard> = (props): JSX.Element => {
   const onDeleteDeviceClick = () => {
-    fetch(config.DEVICE_MANAGER_ENDPOINT + "/" + props.deviceId, {
+    fetch(config.DEVICE_MANAGER_SERVICE_ENDPOINT + "/" + props.deviceId, {
       method: "DELETE",
     })
       .then((response) => {

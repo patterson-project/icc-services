@@ -1,14 +1,16 @@
 import asyncio
 import time
 import kasa
+import colorsys
 from lightingrequest import LightingRequest
+from utils import convert_K_to_RGB
 
 
-class BulbController:
-    async def create_bulb(self, ip_address: str) -> None:
+class LedStripController:
+    async def create_strip(self, ip_address: str) -> None:
         self.ip_address: str = ip_address
-        self.bulb: kasa.SmartBulb = None
-        await self.bulb_init()
+        self.strip: kasa.SmartLightStrip = None
+        await self.strip_init()
         self.sequence_task: asyncio.Task = None
         self.request: LightingRequest = None
         self.operation_callback_by_name = {
@@ -20,12 +22,12 @@ class BulbController:
             "rainbow_cycle": self.rainbow,
             "temperature": self.temperature,
         }
-        print("Bulb controller initialization completed successfully.")
+        print("Led Strip controller initialization completed successfully.")
 
-    async def bulb_init(self) -> kasa.SmartBulb:
+    async def strip_init(self) -> kasa.SmartLightStrip:
         try:
-            self.bulb = kasa.SmartBulb(self.ip_address)
-            await (self.bulb.update())
+            self.strip = kasa.SmartLightStrip(self.ip_address)
+            await (self.strip.update())
         except kasa.SmartDeviceException:
             print("SmartDeviceException: Unable to establish connection with device.")
 
@@ -39,30 +41,36 @@ class BulbController:
 
     async def on(self):
         self.terminate_task()
-        await self.bulb.turn_on()
+        await self.strip.turn_on()
 
     async def off(self):
         self.terminate_task()
-        await self.bulb.turn_off()
+        await self.strip.turn_off()
 
     async def hsv(self):
         self.terminate_task()
-        await self.bulb.set_hsv(
+        await self.strip.set_hsv(
             int(self.request.h), int(self.request.s), int(self.request.v)
         )
 
     async def brightness(self):
         if self.sequence_task is None:
-            await self.bulb.set_brightness(self.request.brightness)
+            await self.strip.set_brightness(self.request.brightness)
         else:
             last_sequence = self.sequence_task.get_name()
             self.terminate_task()
-            await self.bulb.set_brightness(self.request.brightness)
+            await self.strip.set_brightness(self.request.brightness)
             await self.operation_callback_by_name[last_sequence]()
 
     async def temperature(self):
         self.terminate_task()
-        await self.bulb.set_color_temp(int(self.request.temperature))
+        (r, g, b) = convert_K_to_RGB(self.request.temperature)
+        (r, g, b) = (r / 255, g / 255, b / 255)
+        (h, s, v) = colorsys.rgb_to_hsv(r, g, b)
+        await self.strip.set_hsv(
+            int(h*360), int(s *
+                            100), int(v*100)
+        )
 
     async def rainbow(self):
         self.terminate_task()
@@ -72,5 +80,5 @@ class BulbController:
     async def rainbow_loop(self):
         while True:
             for i in range(359):
-                await self.bulb.set_hsv(i, 100, 100)
+                await self.strip.set_hsv(i, 100, 100)
                 time.sleep(0.05)

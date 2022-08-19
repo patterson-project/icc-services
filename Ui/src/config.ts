@@ -1,12 +1,10 @@
-
-const domain = window.location.href;
-// const domain = "http://10.0.0.86/";
+/* Uncomment and set domain to local db for testing */
+// const domain = window.location.href;
+const domain = "http://10.0.0.86/";
 
 const config = {
-  CUSTOM_LED_STRIP_ENDPOINT: `${domain}lighting/customledstrip`,
-  BULB_ENDPOINT: `${domain}lighting/bulb`,
-  SCENE_ENDPOINT: `${domain}lighting/scene`,
-  DEVICE_MANAGER_ENDPOINT: `${domain}devices`
+  DEVICE_MANAGER_SERVICE_ENDPOINT: `${domain}devices`,
+  LIGHTING_SERVICE_ENDPOINT: `${domain}lighting`
 };
 
 export default config;

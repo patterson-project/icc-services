@@ -8,7 +8,7 @@ from flask_pymongo import PyMongo
 from pymongo.collection import Collection
 from kasa import SmartDeviceException
 from lightingrequest import LightingRequest
-from bulb import BulbController
+from ledstrip import LedStripController
 from gevent.pywsgi import WSGIServer
 from device import Device
 from state import State
@@ -28,23 +28,23 @@ analyticsdb = PyMongo(
 state_records: Collection = analyticsdb.db.states
 
 # Global bulb controllers
-bulbs: dict[ObjectId, BulbController] = {}
+strips: dict[ObjectId, LedStripController] = {}
 
 # Event loop for running bulb commands in a seperate thread
 loop = asyncio.new_event_loop()
 
 
-def get_bulb_devices():
-    kasa_bulbs = list(
+def get_led_strip_devices():
+    kasa_led_strips = list(
         Device(**device)
-        for device in devices.find({"type": "Lighting", "model": "Kasa Bulb"})
+        for device in devices.find({"type": "Lighting", "model": "Kasa Led Strip"})
     )
 
-    for bulb in kasa_bulbs:
-        bulb_controller = BulbController()
+    for strip in kasa_led_strips:
+        led_strip_controller = LedStripController()
         asyncio.run_coroutine_threadsafe(
-            bulb_controller.create_bulb(bulb.ip), loop)
-        bulbs[bulb.id] = bulb_controller
+            led_strip_controller.create_strip(strip.ip), loop)
+        strips[strip.id] = led_strip_controller
 
 
 """ Routes """
@@ -62,8 +62,8 @@ def index() -> Response:
 
 @app.route("/update", methods=["PUT"])
 def update_bulbs() -> Response:
-    bulbs.clear()
-    get_bulb_devices()
+    strips.clear()
+    get_led_strip_devices()
     return "Success", 200
 
 
@@ -71,18 +71,17 @@ def update_bulbs() -> Response:
 def lighting_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
-        bulb_controller = bulbs[lighting_request.target]
-        bulb_controller.set_request(lighting_request)
+        led_strip_controller = strips[lighting_request.target]
+        led_strip_controller.set_request(lighting_request)
+
         asyncio.run_coroutine_threadsafe(
-            bulb_controller.operation_callback_by_name[lighting_request.operation](
+            led_strip_controller.operation_callback_by_name[lighting_request.operation](
             ), loop
         )
 
-        state: bool = None
+        state: bool = False
         if lighting_request.operation != "off":
             state = True
-        else:
-            state = False
 
         states.find_one_and_update({"device": lighting_request.target}, {
             "$set": {"state": state}}, upsert=True)
@@ -101,10 +100,10 @@ def start_background_loop(loop):
 
 
 if __name__ == "__main__":
-    get_bulb_devices()
-    bulb_thread = Thread(target=start_background_loop,
-                         args=(loop,), daemon=True)
-    bulb_thread.start()
+    get_led_strip_devices()
+    strip_thread = Thread(target=start_background_loop,
+                          args=(loop,), daemon=True)
+    strip_thread.start()
 
     http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()

@@ -3,8 +3,7 @@ from config import Config
 import requests
 
 
-def update_bulb_controller(device: Device):
-    if device.model == "Kasa Bulb":
-        requests.put(
-            Config.BULB_CONTROLLER_URL + "/update"
-        )
+def update_controllers(device: Device):
+    requests.put(
+        Config.UrlGivenModel[device.model] + "/update"
+    )

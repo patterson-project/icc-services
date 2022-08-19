@@ -9,6 +9,7 @@ from pymongo.collection import Collection
 from state import State
 from flask_pymongo import PyMongo
 
+
 app: Flask = Flask("__main__")
 CORS(app)
 
@@ -37,11 +38,9 @@ def lighting_request() -> Response:
         led_strip.set_request(lighting_request)
         led_strip.operation_callback_by_name[lighting_request.operation]()
 
-        state: bool = None
+        state: bool = False
         if lighting_request.operation != "off":
             state = True
-        else:
-            state = False
 
         states.find_one_and_update({"device": lighting_request.target}, {
             "$set": {"state": state}}, upsert=True)
