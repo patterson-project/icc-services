@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: lighting-service-container
-          image: canadrian72/iot-control-center:lighting-service
+          image: $DOCKERHUB_USERNAME/iot-control-center:lighting-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

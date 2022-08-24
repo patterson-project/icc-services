@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kasa-led-strip-container
-          image: canadrian72/iot-control-center:kasa-led-strip-controller
+          image: $DOCKERHUB_USERNAME/iot-control-center:kasa-led-strip-controller
           imagePullPolicy: Always
           env:
             - name: MONGO_DB_USERNAME

@@ -1,7 +1,5 @@
 FROM python:buster
 
-LABEL Maintainer="canadrian72"
-
 WORKDIR /app
 
 COPY ./requirements.txt /app/

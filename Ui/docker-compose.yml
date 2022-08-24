@@ -1,10 +1,10 @@
-version: '3.8'
+version: "3.8"
 
 services:
   ui:
-    image: canadrian72/iot-control-center:ui
+    image: $DOCKERHUB_USERNAME/iot-control-center:ui
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '80:80'     
+      - "80:80"

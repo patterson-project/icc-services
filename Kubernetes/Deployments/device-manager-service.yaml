@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: device-manager-container
-          image: canadrian72/iot-control-center:device-manager-service
+          image: $DOCKERHUB_USERNAME/iot-control-center:device-manager-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

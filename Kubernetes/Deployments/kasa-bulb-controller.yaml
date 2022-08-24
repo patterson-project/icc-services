@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kasa-bulb-container
-          image: canadrian72/iot-control-center:kasa-bulb-controller
+          image: $DOCKERHUB_USERNAME/iot-control-center:kasa-bulb-controller
           imagePullPolicy: Always
           env:
             - name: MONGO_DB_USERNAME
