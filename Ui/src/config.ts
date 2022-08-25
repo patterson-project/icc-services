@@ -1,6 +1,6 @@
 /* Uncomment and set domain to local db for testing */
-// const domain = window.location.href;
-const domain = "http://10.0.0.86/";
+const domain = window.location.href;
+// const domain = "http://10.0.0.86/";
 
 const config = {
   DEVICE_MANAGER_SERVICE_ENDPOINT: `${domain}devices`,
