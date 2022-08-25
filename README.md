@@ -19,33 +19,66 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 3. Docker and docker-compose Installation
 
    - [Docker Installation on Ubuntu Docs](https://docs.docker.com/engine/install/ubuntu/#install-docker-engine)
+   - Allow docker **rootless** permissions for docker and docker-compose, or build scripts will not work
 
 ---
 
 4. Login to a [dockerhub](https://hub.docker.com/) account
 
-   - Can be done with the `docker login` command
+   - If you do not already have a dockerhub account, create one since it is needed
+   - Log in with the `docker login` command
+   - In the [dockerhub portal](https://hub.docker.com/), **create a project** called `iot-control-center`
 
 ---
 
 5. Install Kubernetes
 
    - [Rancher Docs](https://rancher.com/docs/k3s/latest/en/installation/install-options/)
+     - Default installation can be done with the following command:
+       - `curl -sfL https://get.k3s.io | sh -`
+   - [Enable cgroups](https://rancher.com/docs/k3s/latest/en/advanced/#enabling-cgroups-for-raspberry-pi-os)
+   - Install [linux-modules-extra-raspi](https://rancher.com/docs/k3s/latest/en/advanced/#enabling-cgroups-for-raspberry-pi-os) with:
+     - `sudo apt install linux-modules-extra-raspi`
 
 ---
 
-6. Clone this Repository
+6. Set up your environment variables
+
+- There are 4 environment variables needed for the build script to work:
+
+  1.  `MONGO_DB_USERNAME`
+      - Your chosen database username
+  2.  `MONGO_DB_PASSWORD`
+      - Your chosen database password
+  3.  `MONGO_DB_IP`
+      - The IP address of the raspberry pi (which hosts the database)
+      - This IP address can be found by running `ifconfig`
+  4.  `DOCKERHUB_USERNAME`
+      - The username of the dockerhub account logged into in step 4
+
+- These environment variables can be set by appending the following to your `~/.bashrc` file:
+
+  ```sh
+  export MONGO_DB_USERNAME="<your chosen database username>"
+  export MONGO_DB_PASSWORD="<your chosen database password>"
+  export MONGO_DB_IP="<the IP of the pi>"
+  export DOCKERHUB_USERNAME="<your dockerhub username>"
+  ```
 
 ---
 
-7. Build and push the local docker containers to dockerhub
+7. Clone this Repository
+
+---
+
+8. Build and push the local docker containers to dockerhub
 
    - `cd` into the `/Kubernetes` folder of this repo
    - Execute the `update_cluster.sh` script to build and push all containers
 
 ---
 
-8. Configure your cluster secrets
+9. Configure your cluster secrets
 
    - Copy the `secrets.yaml` found under `/Kubernetes/Secrets`. Rename it to `secrets.yaml` or another name of your choosing
    - Edit the file with a text editor to add the secrets. You'll need to add:
@@ -55,20 +88,22 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 
 ---
 
-9. Deploy the Mongo Database
+10. Deploy the Mongo Database
 
-   - Add the same Mongo credentials to your environment variables:
-     - `sudo vim ~/.bashrc`
-     - Add the following at the bottom:
-       - `export MONGO_DB_USERNAME=<your_username>`
-       - `export MONGO_DB_PASSWORD=<your_password>`
-   - Build and bring up the docker container for the database
-     - `cd` into `/MongoDb`
-     - Run `docker-compose up --build -d`
+- Add the same Mongo credentials to your environment variables:
+  - `sudo vim ~/.bashrc`
+  - Add the following at the bottom:
+    - `export MONGO_DB_USERNAME=<your_username>`
+    - `export MONGO_DB_PASSWORD=<your_password>`
+- Build and bring up the docker container for the database
+  - `cd` into `/MongoDb`
+  - Run `docker-compose up --build -d`
+- To validate, visit the IP address at port 8081 to validate the mongo express UI appears
+  - e.g. `http://10.0.0.4:8081`
 
 ---
 
-10. Deploy the cluster
+11. Deploy the cluster
 
     - `cd` into `/Kubernetes`
     - Run `deploy_cluster.sh` to deploy the cluster
