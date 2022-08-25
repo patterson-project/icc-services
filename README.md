@@ -75,6 +75,7 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 
    - `cd` into the `/Kubernetes` folder of this repo
    - Execute the `update_cluster.sh` script to build and push all containers
+      - This may take quite some time on the first go. Depending on your RPi specs, could take anywhere from 5-20 minutes
 
 ---
 
