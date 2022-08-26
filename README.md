@@ -53,7 +53,7 @@ A local area network kubernetes cluster for managing and controlling IoT devices
       - Purge the DNS pod in the `kube-system` namespace
          - Get the DNS pod name with `kubectl get pods --all-namespaces`, e.g. `coredns-b96499967-ggsj5`
          - Delete it
-            - `kubectl delete pods coredns-b96499967-ggsj5`     
+            - `kubectl delete pods coredns-b96499967-ggsj5 --namespace="kube-system"`     
 
 ---
 
