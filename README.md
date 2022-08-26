@@ -4,34 +4,32 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 
 # Installation
 
-1. Flash an SD card with **Ubuntu Server OS Arm64 Architecture**
+## 1. Flash an SD card with **Ubuntu Server OS Arm64 Architecture**
 
-   - Can be done using the [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
-   - Before flashing, configure the network connection settings and enable SSH to allow the Pi connection to the internet
-   - Alternatively, this can be done manually by editing the `/etc/netplan/50-cloud-init.yaml` found in Ubuntu
+   - [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
+   - Connect the Pi to your network
+      - Can be configured from Raspberry Pi Imager in options
+      - Alternatively this can be done manually by editing the `/etc/netplan/50-cloud-init.yaml` found in Ubuntu
+         - Remember to `netplan apply`
 
----
 
-2. Boot up the Raspberry Pi and SSH into it
+## 2. Boot up the Raspberry Pi and SSH into it
 
----
 
-3. Docker and docker-compose Installation
+## 3. Docker and docker-compose Installation
 
    - [Docker Installation on Ubuntu Docs](https://docs.docker.com/engine/install/ubuntu/#install-docker-engine)
    - Allow docker **rootless** permissions for docker and docker-compose, or build scripts will not work
 
----
 
-4. Login to a [dockerhub](https://hub.docker.com/) account
+## 4. Login to a [dockerhub](https://hub.docker.com/) account
 
    - If you do not already have a dockerhub account, create one since it is needed
    - Log in with the `docker login` command
    - In the [dockerhub portal](https://hub.docker.com/), **create a project** called `iot-control-center`
 
----
 
-5. Install Kubernetes
+## 5. Install Kubernetes
 
    - [Rancher Docs](https://rancher.com/docs/k3s/latest/en/installation/install-options/)
      - Default installation can be done with the following command:
@@ -55,9 +53,8 @@ A local area network kubernetes cluster for managing and controlling IoT devices
          - Delete it
             - `kubectl delete pods coredns-b96499967-ggsj5 --namespace="kube-system"`     
 
----
 
-6. Set up your environment variables
+## 6. Set up your environment variables
 
 - There are 4 environment variables needed for the build script to work:
 
@@ -80,21 +77,20 @@ A local area network kubernetes cluster for managing and controlling IoT devices
   export DOCKERHUB_USERNAME="<your dockerhub username>"
   ```
 
----
 
-7. Clone this Repository
+## 7. Clone this Repository
 
----
 
-8. Build and push the local docker containers to dockerhub
+
+## 8. Build and push the local docker containers to dockerhub
 
    - `cd` into the `/Kubernetes` folder of this repo
    - Execute the `update_cluster.sh` script to build and push all containers
       - This may take quite some time on the first go. Depending on your RPi specs, could take anywhere from 5-20 minutes
 
----
 
-9. Configure your cluster secrets
+
+## 9. Configure your cluster secrets
 
    - Copy the `secrets.yaml` found under `/Kubernetes/Secrets`. Rename it to `secrets.yaml` or another name of your choosing
    - Edit the file with a text editor to add the secrets. You'll need to add:
@@ -102,9 +98,9 @@ A local area network kubernetes cluster for managing and controlling IoT devices
      - The address of the Mongo Database (i.e. the address of the current Raspberry Pi. This can be found using `ifconfig`)
    - Apply the secrets to your cluster using `kubernetes apply -f secrets.yaml`
 
----
 
-10. Deploy the Mongo Database
+
+## 10. Deploy the Mongo Database
 
 - Build and bring up the docker container for the database
   - `cd` into `/MongoDb`
@@ -112,13 +108,13 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 - To validate, visit the IP address at port 8081 to validate the mongo express UI appears
   - e.g. `http://10.0.0.4:8081`
 
----
 
-11. Deploy the cluster
 
-    - `cd` into `/Kubernetes`
-    - Run `deploy_cluster.sh` to deploy the cluster
-    - Check your device IP from anywhere on your LAN, you should see the IoT Control Center Home page!
+## 11. Deploy the cluster
+
+ - `cd` into `/Kubernetes`
+ - Run `deploy_cluster.sh` to deploy the cluster
+ - Check your device IP from anywhere on your LAN, you should see the IoT Control Center Home page!
 
 ---
 
