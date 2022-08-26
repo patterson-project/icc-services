@@ -106,11 +106,6 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 
 10. Deploy the Mongo Database
 
-- Add the same Mongo credentials to your environment variables:
-  - `sudo vim ~/.bashrc`
-  - Add the following at the bottom:
-    - `export MONGO_DB_USERNAME=<your_username>`
-    - `export MONGO_DB_PASSWORD=<your_password>`
 - Build and bring up the docker container for the database
   - `cd` into `/MongoDb`
   - Run `docker-compose up --build -d`
