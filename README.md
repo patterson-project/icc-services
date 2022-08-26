@@ -39,6 +39,21 @@ A local area network kubernetes cluster for managing and controlling IoT devices
    - [Enable cgroups](https://rancher.com/docs/k3s/latest/en/advanced/#enabling-cgroups-for-raspberry-pi-os)
    - Install [linux-modules-extra-raspi](https://rancher.com/docs/k3s/latest/en/advanced/#enabling-cgroups-for-raspberry-pi-os) with:
      - `sudo apt install linux-modules-extra-raspi`
+   - Configure DNS
+      - Use a text editor to add the following to `/etc/resolv.conf`:
+      ```sh 
+         namespace 8.8.8.8
+         namespace 8.8.4.4
+      ```   
+      - Then, restart daemon and docker systemctl services
+      ```sh
+         sudo systemctl daemon-reload
+         sudo systemctl restart docker
+      ```
+      - Purge the DNS pod in the `kube-system` namespace
+         - Get the DNS pod name with `kubectl get pods --all-namespaces`, e.g. `coredns-b96499967-ggsj5`
+         - Delete it
+            - `kubectl delete pods coredns-b96499967-ggsj5`     
 
 ---
 
