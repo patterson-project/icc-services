@@ -11,7 +11,7 @@ class LedStripController:
         self.ip_address: str = ip_address
         self.strip: kasa.SmartLightStrip = None
         await self.strip_init()
-        self.sequence_event_loop: asyncio.AbstractEventLoop = None
+        self.sequence_task: asyncio.Task = None
         self.request: LightingRequest = None
         self.operation_callback_by_name = {
             "on": self.on,
@@ -34,36 +34,36 @@ class LedStripController:
     def set_request(self, request: LightingRequest) -> None:
         self.request = request
 
-    def stop_sequence_event_loop(self) -> None:
-        if self.sequence_event_loop is not None:
-            self.sequence_event_loop.stop()
-            self.sequence_event_loop = None
+    def terminate_task(self) -> None:
+        if self.sequence_task is not None:
+            self.sequence_task.cancel()
+            self.sequence_task = None
 
     async def on(self):
-        self.stop_sequence_event_loop()
+        self.terminate_task()
         await self.strip.turn_on()
 
     async def off(self):
-        self.stop_sequence_event_loop()
+        self.terminate_task()
         await self.strip.turn_off()
 
     async def hsv(self):
-        self.stop_sequence_event_loop()
+        self.terminate_task()
         await self.strip.set_hsv(
             int(self.request.h), int(self.request.s), int(self.request.v)
         )
 
     async def brightness(self):
-        if self.sequence_event_loop is None:
+        if self.sequence_task is None:
             await self.strip.set_brightness(self.request.brightness)
         else:
-            last_sequence = self.sequence_event_loop.get_name()
-            self.stop_sequence_event_loop()
+            last_sequence = self.sequence_task.get_name()
+            self.terminate_task()
             await self.strip.set_brightness(self.request.brightness)
             await self.operation_callback_by_name[last_sequence]()
 
     async def temperature(self):
-        self.stop_sequence_event_loop()
+        self.terminate_task()
         (r, g, b) = convert_K_to_RGB(self.request.temperature)
         (r, g, b) = (r / 255, g / 255, b / 255)
         (h, s, v) = colorsys.rgb_to_hsv(r, g, b)
@@ -73,13 +73,11 @@ class LedStripController:
         )
 
     async def rainbow(self):
-        self.stop_sequence_event_loop()
-        self.sequence_event_loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(self.sequence_event_loop)
-        self.sequence_event_loop.run_forever(self.rainbow_loop())
+        self.terminate_task()
+        self.sequence_task = asyncio.ensure_future(self.rainbow_loop())
+        self.sequence_task.set_name("rainbow")
 
     async def rainbow_loop(self):
-        print("looping")
         while True:
             for i in range(359):
                 await self.strip.set_hsv(i, 100, 100)
