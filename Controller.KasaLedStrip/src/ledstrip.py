@@ -74,7 +74,8 @@ class LedStripController:
 
     async def rainbow(self):
         self.stop_sequence_event_loop()
-        self.sequence_event_loop = asyncio.get_event_loop()
+        self.sequence_event_loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.sequence_event_loop)
         self.sequence_event_loop.run_forever(self.rainbow_loop())
 
     async def rainbow_loop(self):
