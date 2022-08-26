@@ -61,13 +61,7 @@ class LedStripController:
         )
 
     async def brightness(self):
-        if self.sequence_task is None:
-            await self.strip.set_brightness(self.request.brightness)
-        else:
-            self.sequence_cancel_event.clear()
-            await self.sequence_task
-            await self.strip.set_brightness(self.request.brightness)
-            await self.operation_callback_by_name[self.sequence_task.get_name()]()
+        await self.strip.set_brightness(self.request.brightness)
 
     async def temperature(self):
         await self.terminate_task()
