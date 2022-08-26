@@ -10,6 +10,7 @@ class BulbController:
         self.bulb: kasa.SmartBulb = None
         await self.bulb_init()
         self.sequence_task: asyncio.Task = None
+        self.sequence_cancel_event: asyncio.Event = asyncio.Event()
         self.request: LightingRequest = None
         self.operation_callback_by_name = {
             "on": self.on,
@@ -32,21 +33,27 @@ class BulbController:
     def set_request(self, request: LightingRequest) -> None:
         self.request = request
 
-    def terminate_task(self) -> None:
+    async def terminate_task(self) -> None:
         if self.sequence_task is not None:
-            self.sequence_task.cancel()
+            self.sequence_cancel_event.clear()
+            await self.sequence_task
             self.sequence_task = None
 
     async def on(self):
-        self.terminate_task()
-        await self.bulb.turn_on()
+        if self.sequence_task is None:
+            await self.bulb.turn_on()
+        else:
+            await self.operation_callback_by_name[self.sequence_task.get_name()]()
 
     async def off(self):
-        self.terminate_task()
+        if self.sequence_task is not None:
+            self.sequence_cancel_event.clear()
+            await self.sequence_task
+
         await self.bulb.turn_off()
 
     async def hsv(self):
-        self.terminate_task()
+        await self.terminate_task()
         await self.bulb.set_hsv(
             int(self.request.h), int(self.request.s), int(self.request.v)
         )
@@ -55,22 +62,29 @@ class BulbController:
         if self.sequence_task is None:
             await self.bulb.set_brightness(self.request.brightness)
         else:
-            last_sequence = self.sequence_task.get_name()
-            self.terminate_task()
+            self.sequence_cancel_event.clear()
+            await self.sequence_task
             await self.bulb.set_brightness(self.request.brightness)
-            await self.operation_callback_by_name[last_sequence]()
+            await self.operation_callback_by_name[self.sequence_task.get_name()]()
 
     async def temperature(self):
-        self.terminate_task()
+        await self.terminate_task()
         await self.bulb.set_color_temp(int(self.request.temperature))
 
     async def rainbow(self):
-        self.terminate_task()
+        await self.terminate_task()
+        self.sequence_cancel_event.set()
         self.sequence_task = asyncio.create_task(self.rainbow_loop())
         self.sequence_task.set_name("rainbow")
 
     async def rainbow_loop(self):
-        while True:
+        running = True
+
+        while running:
             for i in range(359):
+                if not self.sequence_cancel_event.is_set():
+                    running = False
+                    break
+
                 await self.bulb.set_hsv(i, 100, 100)
                 time.sleep(0.05)

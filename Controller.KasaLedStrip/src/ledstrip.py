@@ -12,7 +12,7 @@ class LedStripController:
         self.strip: kasa.SmartLightStrip = None
         await self.strip_init()
         self.sequence_task: asyncio.Task = None
-        self.sequence_task_event: asyncio.Event = asyncio.Event()
+        self.sequence_cancel_event: asyncio.Event = asyncio.Event()
         self.request: LightingRequest = None
         self.operation_callback_by_name = {
             "on": self.on,
@@ -37,9 +37,8 @@ class LedStripController:
 
     async def terminate_task(self) -> None:
         if self.sequence_task is not None:
-            self.sequence_task_event.clear()
+            self.sequence_cancel_event.clear()
             await self.sequence_task
-
             self.sequence_task = None
 
     async def on(self):
@@ -50,7 +49,7 @@ class LedStripController:
 
     async def off(self):
         if self.sequence_task is not None:
-            self.sequence_task_event.clear()
+            self.sequence_cancel_event.clear()
             await self.sequence_task
 
         await self.strip.turn_off()
@@ -65,7 +64,7 @@ class LedStripController:
         if self.sequence_task is None:
             await self.strip.set_brightness(self.request.brightness)
         else:
-            self.sequence_task_event.clear()
+            self.sequence_cancel_event.clear()
             await self.sequence_task
             await self.strip.set_brightness(self.request.brightness)
             await self.operation_callback_by_name[self.sequence_task.get_name()]()
@@ -82,17 +81,18 @@ class LedStripController:
 
     async def rainbow(self):
         await self.terminate_task()
-        self.sequence_task_event.set()
+        self.sequence_cancel_event.set()
         self.sequence_task = asyncio.create_task(self.rainbow_loop())
         self.sequence_task.set_name("rainbow")
 
     async def rainbow_loop(self):
-        while True:
-            if not self.sequence_task_event.is_set():
-                break
+        running = True
 
+        while running:
             for i in range(359):
-                if not self.sequence_task_event.is_set():
+                if not self.sequence_cancel_event.is_set():
+                    running = False
                     break
+
                 await self.strip.set_hsv(i, 100, 100)
                 time.sleep(0.05)
