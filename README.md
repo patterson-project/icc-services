@@ -17,7 +17,6 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 ## 3. Docker and docker-compose Installation
 
 - [Docker Installation on Ubuntu Docs](https://docs.docker.com/engine/install/ubuntu/#install-docker-engine)
-- Allow docker **rootless** permissions for docker and sudo docker compose, or build scripts will not work
 
 ## 4. Login to a [dockerhub](https://hub.docker.com/) account
 
@@ -63,13 +62,13 @@ A local area network kubernetes cluster for managing and controlling IoT devices
   4.  `DOCKERHUB_USERNAME`
       - The username of the dockerhub account logged into in step 4
 
-- These environment variables can be set by appending the following to your `~/.bashrc` file:
+- These environment variables can be set by appending the following to your `/etc/environment` file:
 
   ```sh
-  export MONGO_DB_USERNAME="<your chosen database username>"
-  export MONGO_DB_PASSWORD="<your chosen database password>"
-  export MONGO_DB_IP="<the IP of the pi>"
-  export DOCKERHUB_USERNAME="<your dockerhub username>"
+  MONGO_DB_USERNAME="<your chosen database username>"
+  MONGO_DB_PASSWORD="<your chosen database password>"
+  MONGO_DB_IP="<the IP of the pi>"
+  DOCKERHUB_USERNAME="<your dockerhub username>"
   ```
 
 ## 7. Clone this Repository
@@ -77,7 +76,7 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 ## 8. Build and push the local docker containers to dockerhub
 
 - `cd` into the `/Kubernetes` folder of this repo
-- Execute the `update_cluster.sh` script to build and push all containers
+- Execute the `update_cluster.sh` script to build and push all containers with sudo permissions
   - This may take quite some time on the first go. Depending on your RPi specs, could take anywhere from 5-20 minutes
 
 ## 9. Configure your cluster secrets
