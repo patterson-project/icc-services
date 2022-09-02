@@ -10,7 +10,7 @@ cyn=$'\e[1;36m'
 end=$'\e[0m'
 
 # Installing docker and docker compose
-printf "%s\n\n" "${cyn}1. Installing docker and docker compose...${end}"
+printf "\n%s\n" "${cyn}1. Installing docker and docker compose...${end}"
 sleep 1
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl gnupg lsb-release
