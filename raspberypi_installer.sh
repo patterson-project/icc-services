@@ -43,10 +43,11 @@ cd MongoDb
 sudo docker compose up --build -d
 
 # Deploying cluster infrastructure
-sudo bash /Kubernetes/deploy_infrastructure.sh
+cd Kubernetes
+sudo bash deploy_infrastructure.sh
 
 # Building and deploying cluster
-sudo bash /Kubernetes/deploy_cluster.sh
+sudo bash deploy_cluster.sh
 
 # Restarting for changes to take effect
 sudo reboot
