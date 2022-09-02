@@ -10,7 +10,7 @@ cyn=$'\e[1;36m'
 end=$'\e[0m'
 
 # Installing docker and docker compose
-printf "%s\n" "${cyn}1. Installing docker and docker compose...${end}"
+printf "%s\n\n" "${cyn}1. Installing docker and docker compose...${end}"
 sleep 1
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl gnupg lsb-release
@@ -25,12 +25,12 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 # Logging user into dockerhub
-printf "%s\n" "${cyn}2. Log into docker hub${end}"
+printf "%s\n\n" "${cyn}2. Log into docker hub${end}"
 sleep 1
 sudo docker login
 
 # Installing Kubernetes
-printf "%s\n" "${cyn}3. Installing k3s...${end}"
+printf "%s\n\n" "${cyn}3. Installing k3s...${end}"
 sleep 1
 curl -sfL https://get.k3s.io | sh -
 # sudo apt install -y linux-modules-extra-raspi
@@ -40,7 +40,7 @@ echo "namespace 8.8.8.8" >> /etc/resolv.conf
 echo "namespace 8.8.4.4" >> /etc/resolv.conf
 
 # Setting up environment variables
-printf "%s\n" "${cyn}4. Environment variable setup${end}"
+printf "%s\n\n" "${cyn}4. Environment variable setup${end}"
 sleep 1
 echo "Environment variable setup"
 read -p "Choose a database username: " mongo_username
@@ -56,23 +56,23 @@ echo "DOCKERHUB_USERNAME=$dockerhub_username" >> /etc/environment
 source /etc/environment
 
 # Deploying the MongoDb locally
-printf "%s\n" "${cyn}5. Deploying local Mongo Database...${end}"
+printf "%s\n\n" "${cyn}5. Deploying local Mongo Database...${end}"
 sleep 1
 cd MongoDb
 sudo docker compose up --build -d
 cd ..
 
 # Deploying cluster infrastructure
-printf "%s\n" "${cyn}6. Deploying kubernetes cluster infrastructure...${end}"
+printf "%s\n\n" "${cyn}6. Deploying kubernetes cluster infrastructure...${end}"
 sleep 1
 sudo bash Kubernetes/deploy_infrastructure.sh
 
 # Building and deploying cluster
-printf "%s\n" "${cyn}7. Deploying kubernetes pods...${end}"
+printf "%s\n\n" "${cyn}7. Deploying kubernetes pods...${end}"
 sleep 1
 sudo bash Kubernetes/deploy_cluster.sh
 
 # Restarting for changes to take effect
-printf "%s\n" "${grn}Done! Restarting for changes to take effect...${end}"
+printf "%s\n\n" "${grn}Done! Restarting for changes to take effect...${end}"
 sleep 2
 sudo reboot
