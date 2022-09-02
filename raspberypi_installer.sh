@@ -32,7 +32,7 @@ sudo docker login
 # Installing Kubernetes
 printf "\n%s\n" "${cyn}3. Installing k3s...${end}"
 sleep 1
-curl -sfL https://get.k3s.io | sh -
+curl -sfL https://get.k3s.io | sudo sh -
 # sudo apt install -y linux-modules-extra-raspi
 # sudo sed -i '$s/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/cmdline.txt 
 
