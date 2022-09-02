@@ -21,7 +21,7 @@ A local area network kubernetes cluster for managing and controlling IoT devices
 ## 4. Login to a [dockerhub](https://hub.docker.com/) account
 
 - If you do not already have a dockerhub account, create one since it is needed
-- Log in with the `docker login` command
+- Log in with the `sudo docker login` command
 - In the [dockerhub portal](https://hub.docker.com/), **create a project** called `iot-control-center`
 
 ## 5. Install Kubernetes
