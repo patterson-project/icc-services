@@ -65,12 +65,13 @@ cd ..
 # Deploying cluster infrastructure
 printf "\n%s\n" "${cyn}6. Deploying kubernetes cluster infrastructure...${end}"
 sleep 1
-sudo bash Kubernetes/deploy_infrastructure.sh
+cd Kubernetes
+sudo bash deploy_infrastructure.sh
 
 # Building and deploying cluster
 printf "\n%s\n" "${cyn}7. Deploying kubernetes pods...${end}"
 sleep 1
-sudo bash Kubernetes/deploy_cluster.sh
+sudo bash deploy_cluster.sh
 
 # Restarting for changes to take effect
 printf "\n%s\n" "${grn}Done! Restarting for changes to take effect...${end}"
