@@ -62,17 +62,6 @@ cd MongoDb
 sudo docker compose up --build -d
 cd ..
 
-# Deploying cluster infrastructure
-printf "\n%s\n" "${cyn}6. Deploying kubernetes cluster infrastructure...${end}"
-sleep 1
-cd Kubernetes
-sudo bash deploy_infrastructure.sh
-
-# Building and deploying cluster
-printf "\n%s\n" "${cyn}7. Deploying kubernetes pods...${end}"
-sleep 1
-sudo bash deploy_cluster.sh
-
 # Restarting for changes to take effect
 printf "\n%s\n" "${grn}Done! Restarting for changes to take effect...${end}"
 sleep 2
