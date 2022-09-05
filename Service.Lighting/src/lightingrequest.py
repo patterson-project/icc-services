@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel, Field
 from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
@@ -7,7 +7,8 @@ from fastapi.encoders import jsonable_encoder
 
 class LightingRequest(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
-    target: PydanticObjectId
+    target: Optional[PydanticObjectId]
+    name: Optional[str]
     operation: str
     h: int = 0
     s: int = 100
