@@ -6,6 +6,7 @@ from flask_pymongo import PyMongo
 from gevent.pywsgi import WSGIServer
 from config import Config
 from pymongo.collection import Collection
+from bson import ObjectId
 from pymongo.errors import DuplicateKeyError
 from repository import insert_lighting_request
 from device import Device, LightingDeviceTypes
@@ -40,11 +41,10 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/lighting/request/id", methods=["POST"])
-def id_request() -> Response:
+@app.route("/lighting/request/<str:id>", methods=["POST"])
+def id_request(id: str) -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
-        device = Device(**devices.find_one({"_id": lighting_request.target}))
+        device = Device(**devices.find_one({"_id": ObjectId(id)}))
 
         rp = ReverseProxy(device)
         rp.handle()
@@ -57,11 +57,10 @@ def id_request() -> Response:
         return str(e), 500
 
 
-@app.route("/lighting/request/name", methods=["POST"])
-def name_request() -> Response:
+@app.route("/lighting/request/<str:name>", methods=["POST"])
+def name_request(name: str) -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
-        device = Device(**devices.find_one({"name": lighting_request.target}))
+        device = Device(**devices.find_one({"name": name}))
 
         rp = ReverseProxy(device)
         rp.handle()
