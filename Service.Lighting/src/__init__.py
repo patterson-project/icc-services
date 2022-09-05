@@ -47,7 +47,7 @@ def id_request() -> Response:
         device = Device(**devices.find_one({"_id": lighting_request.target}))
 
         rp = ReverseProxy(device)
-        rp.handle()
+        rp.handle(request)
 
         insert_lighting_request(lighting_requests, request)
 
@@ -64,7 +64,7 @@ def name_request() -> Response:
         device = Device(**devices.find_one({"name": lighting_request.name}))
 
         rp = ReverseProxy(device)
-        rp.handle()
+        rp.handle(request)
 
         insert_lighting_request(lighting_requests, request)
 
