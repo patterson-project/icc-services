@@ -41,7 +41,7 @@ def index() -> Response:
 
 
 @app.route("/lighting/request/id", methods=["POST"])
-def led_strip() -> Response:
+def id_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
         device = Device(**devices.find_one({"_id": lighting_request.target}))
@@ -58,7 +58,7 @@ def led_strip() -> Response:
 
 
 @app.route("/lighting/request/name", methods=["POST"])
-def led_strip() -> Response:
+def name_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
         device = Device(**devices.find_one({"name": lighting_request.target}))
