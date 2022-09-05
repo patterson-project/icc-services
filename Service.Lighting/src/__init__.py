@@ -3,7 +3,6 @@ import requests
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from flask_pymongo import PyMongo
-from bson import ObjectId
 from gevent.pywsgi import WSGIServer
 from config import Config
 from pymongo.collection import Collection
@@ -11,6 +10,7 @@ from pymongo.errors import DuplicateKeyError
 from repository import insert_lighting_request
 from device import Device, LightingDeviceTypes
 from lightingrequest import LightingRequest
+from reverseproxy import ReverseProxy
 
 
 app: Flask = Flask("__main__")
@@ -40,22 +40,31 @@ def index() -> Response:
     return "Healthy", 200
 
 
-@app.route("/lighting/request", methods=["POST"])
+@app.route("/lighting/request/id", methods=["POST"])
 def led_strip() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
         device = Device(**devices.find_one({"_id": lighting_request.target}))
 
-        if device.model == LightingDeviceTypes.KasaBulb:
-            requests.post(Config.BULB_CONTROLLER_URL +
-                          "/request", json=request.get_json())
-        elif device.model == LightingDeviceTypes.CustomLedStrip:
-            requests.post(
-                f"http://{device.ip}:8000/request", json=request.get_json()
-            )
-        elif device.model == LightingDeviceTypes.KasaLedStrip:
-            requests.post(Config.LED_CONTROLLER_URL +
-                          "/request", json=request.get_json())
+        rp = ReverseProxy(device)
+        rp.handle()
+
+        insert_lighting_request(lighting_requests, request)
+
+        return "Success", 200
+
+    except requests.HTTPError as e:
+        return str(e), 500
+
+
+@app.route("/lighting/request/name", methods=["POST"])
+def led_strip() -> Response:
+    try:
+        lighting_request = LightingRequest(**request.get_json())
+        device = Device(**devices.find_one({"name": lighting_request.target}))
+
+        rp = ReverseProxy(device)
+        rp.handle()
 
         insert_lighting_request(lighting_requests, request)
 
