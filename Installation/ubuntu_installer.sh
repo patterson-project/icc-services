@@ -35,8 +35,6 @@ sudo docker login
 printf "\n%s\n" "${cyn}3. Installing k3s...${end}"
 sleep 1
 curl -sfL https://get.k3s.io | sudo sh -
-sudo apt install -y linux-modules-extra-raspi
-sudo sed -i '$s/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/cmdline.txt 
 
 echo "namespace 8.8.8.8" >> /etc/resolv.conf
 echo "namespace 8.8.4.4" >> /etc/resolv.conf
