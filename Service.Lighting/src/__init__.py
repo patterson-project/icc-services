@@ -62,6 +62,7 @@ def name_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
         device = Device(**devices.find_one({"name": lighting_request.name}))
+        lighting_request.target = device.id
 
         rp = ReverseProxy(device)
         rp.handle(request)
