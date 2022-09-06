@@ -56,7 +56,7 @@ const ColorChart: FC<IColorChart> = (props) => {
       };
 
       // TODO: add snackbar here on success ?
-      post(config.LIGHTING_SERVICE_ENDPOINT + "/request", hsvRequest);
+      post(config.LIGHTING_SERVICE_ENDPOINT + "/request/id", hsvRequest);
     });
   }, [hsvColor]);
 

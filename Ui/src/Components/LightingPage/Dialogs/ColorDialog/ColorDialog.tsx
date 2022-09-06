@@ -63,7 +63,7 @@ const ColorDialog: FC<IColorDialog> = (props) => {
         operation: "brightness",
         brightness: value,
       };
-      post(config.LIGHTING_SERVICE_ENDPOINT + "/request", brightnessRequest);
+      post(config.LIGHTING_SERVICE_ENDPOINT + "/request/id", brightnessRequest);
     });
   };
 
@@ -74,7 +74,10 @@ const ColorDialog: FC<IColorDialog> = (props) => {
         operation: "temperature",
         temperature: value,
       };
-      post(config.LIGHTING_SERVICE_ENDPOINT + "/request", temperatureRequest);
+      post(
+        config.LIGHTING_SERVICE_ENDPOINT + "/request/id",
+        temperatureRequest
+      );
     });
   };
 

@@ -72,7 +72,7 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
       operation: operation,
     };
 
-    fetch(config.LIGHTING_SERVICE_ENDPOINT + "/request", {
+    fetch(config.LIGHTING_SERVICE_ENDPOINT + "/request/id", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
