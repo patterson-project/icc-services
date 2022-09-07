@@ -1,16 +1,20 @@
 import os
 import requests
-from flask import Flask, Response, request, jsonify
+from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+from bson import ObjectId
 from gevent.pywsgi import WSGIServer
-from config import Config
-from pymongo.collection import Collection
+from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from repository import insert_lighting_request
-from device import Device, LightingDeviceTypes
+from device import Device
+from scene import Scene
 from lightingrequest import LightingRequest
 from reverseproxy import ReverseProxy
+
+
+""" Flask and Pymongo Setup """
 
 
 app: Flask = Flask("__main__")
@@ -23,6 +27,10 @@ lighting_requests: Collection = analyticsdb.db.lighting_requests
 iotdb = PyMongo(
     app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
 devices: Collection = iotdb.db.devices
+scenes: Collection = iotdb.db.scenes
+
+
+""" Error Handlers """
 
 
 @app.errorhandler(404)
@@ -35,9 +43,15 @@ def resource_not_found(e) -> Response:
     return jsonify(error=f"Duplicate key error."), 400
 
 
+""" Health """
+
+
 @app.route("/lighting/health", methods=["GET"])
 def index() -> Response:
     return "Healthy", 200
+
+
+""" Lighting Requests """
 
 
 @app.route("/lighting/request/id", methods=["POST"])
@@ -73,6 +87,47 @@ def name_request() -> Response:
 
     except requests.HTTPError as e:
         return str(e), 500
+
+
+""" Scene CRUD """
+
+
+@app.route("/lighting/scene", methods=["POST"])
+def add_scene() -> Response:
+    scene = Scene(**request.get_json())
+    scenes.insert_one(scene.to_bson())
+
+    return scene.to_json()
+
+
+@app.route("/lighting/scene", methods=["GET"])
+def get_all_scenes() -> Response:
+    all_scenes = list(Scene(**scene).to_json() for scene in scenes.find())
+    return jsonify(all_scenes)
+
+
+@app.route("/lighting/scene", methods=["PUT"])
+def update_scene() -> Response:
+    scene = Scene(**request.get_json())
+    updated_scene = scenes.find_one_and_update(
+        {"_id": scene.id},
+        {"$set": scene.to_bson()},
+        return_document=ReturnDocument.AFTER,
+    )
+    if updated_scene:
+        return Scene(**updated_scene).to_json()
+    else:
+        abort(404, "Scene not found")
+
+
+@app.route("/lighting/scene/<string:id>", methods=["DELETE"])
+def delete_device(id: str) -> Response:
+    deleted_scene = scenes.find_one_and_delete({"_id": ObjectId(id)})
+    if deleted_scene:
+        scene = Scene(**deleted_scene)
+        return scene.to_json()
+    else:
+        abort(404, "Scene not found")
 
 
 if __name__ == "__main__":
