@@ -40,6 +40,7 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
       })
         .then((response) => {
           if (!response.ok) {
+            // TODO: notification for failure
             console.log("Failed to fetch states");
           } else {
             return response.json();
@@ -54,8 +55,6 @@ const PowerDialog: FC<IPowerDialog> = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => console.log("CHANGED"), [deviceStates]);
 
   const onClickPowerButton = (state: State) => {
     const device = props.devices.find((device) => device._id === state.device);
