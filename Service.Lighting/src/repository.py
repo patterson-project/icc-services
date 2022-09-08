@@ -1,5 +1,5 @@
 from lightingrequest import LightingRequest
-from scene import Scene
+from scenerequest import SceneRequest
 from pymongo.collection import Collection
 from flask import Request
 
@@ -10,5 +10,5 @@ def insert_lighting_request(lighting_requests: Collection, request: Request):
 
 
 def insert_scene_request(scene_requests: Collection, request: Request):
-    scene_request = Scene(**request.get_json())
+    scene_request = SceneRequest(**request.get_json())
     scene_requests.insert_one(scene_request.to_bson())

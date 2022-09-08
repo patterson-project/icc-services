@@ -15,7 +15,7 @@ class LightingRequest(BaseModel):
     v: int = 50
     brightness: int = None
     temperature: int = None
-    date: datetime = datetime.utcnow()
+    date: datetime = datetime.utcnow().isoformat()
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)

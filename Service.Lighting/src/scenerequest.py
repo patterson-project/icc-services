@@ -3,12 +3,14 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
 from typing import Optional
 from lightingrequest import LightingRequest
+from datetime import datetime
 
 
-class Scene(BaseModel):
+class SceneRequest(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
-    requests: list[LightingRequest]
+    requests: Optional[list[LightingRequest]]
+    date: datetime = datetime.utcnow().isoformat()
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)
