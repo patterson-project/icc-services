@@ -1,5 +1,5 @@
 from lightingrequest import LightingRequest
-from scenerequest import Scene, SceneRequest
+from scenerequest import SceneRequest
 from pymongo.collection import Collection
 from flask import Request
 
