@@ -7,7 +7,7 @@ from bson import ObjectId
 from gevent.pywsgi import WSGIServer
 from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
-from repository import insert_lighting_request
+from repository import insert_lighting_request, insert_scene_request
 from device import Device
 from scene import Scene
 from lightingrequest import LightingRequest
@@ -23,6 +23,7 @@ CORS(app)
 analyticsdb = PyMongo(
     app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
 lighting_requests: Collection = analyticsdb.db.lighting_requests
+scene_requests: Collection = analyticsdb.db.scene_requests
 
 iotdb = PyMongo(
     app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
@@ -68,7 +69,7 @@ def id_request() -> Response:
         return "Success", 200
 
     except requests.HTTPError as e:
-        return str(e), 500
+        return str(e), e.errno
 
 
 @app.route("/lighting/request/name", methods=["POST"])
@@ -86,7 +87,25 @@ def name_request() -> Response:
         return "Success", 200
 
     except requests.HTTPError as e:
-        return str(e), 500
+        return str(e), e.errno
+
+
+@app.route("/lighting/request/scene", methods=["POST"])
+def scene_request() -> Response:
+    try:
+        scene_request = Scene(**request.get_json())
+
+        for lighting_request in scene_request.requests:
+            device = Device(
+                **devices.find_one({"name": lighting_request.name}))
+
+            rp = ReverseProxy(device)
+            rp.handle(lighting_request)
+
+        insert_scene_request(scene_requests, request)
+
+    except requests.HTTPError as e:
+        return str(e), e.errno
 
 
 """ Scene CRUD """
