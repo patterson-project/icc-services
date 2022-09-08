@@ -105,6 +105,8 @@ def scene_request() -> Response:
 
         insert_scene_request(scene_requests, request)
 
+        return "Success", 200
+
     except requests.HTTPError as e:
         return str(e), e.errno
 
