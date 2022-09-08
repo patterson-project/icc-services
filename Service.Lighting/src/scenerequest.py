@@ -6,11 +6,10 @@ from lightingrequest import LightingRequest
 from datetime import datetime
 
 
-class SceneRequest(BaseModel):
+class Scene(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
     requests: Optional[list[LightingRequest]]
-    date: datetime = datetime.utcnow().isoformat()
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)
@@ -20,3 +19,8 @@ class SceneRequest(BaseModel):
         if data.get("_id") is None:
             data.pop("_id", None)
         return data
+
+
+class SceneRequest:
+    name: str
+    date: datetime = datetime.utcnow().isoformat()

@@ -9,7 +9,7 @@ from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from repository import insert_lighting_request, insert_scene_request
 from device import Device
-from scenerequest import SceneRequest
+from scenerequest import Scene, SceneRequest
 from lightingrequest import LightingRequest
 from reverseproxy import ReverseProxy
 
@@ -94,8 +94,9 @@ def name_request() -> Response:
 def scene_request() -> Response:
     try:
         scene_request = SceneRequest(**request.get_json())
+        scene = Scene(**scenes.find_one({"name": scene_request.name}))
 
-        for lighting_request in scene_request.requests:
+        for lighting_request in scene.requests:
             device = Device(
                 **devices.find_one({"name": lighting_request.name}))
 
@@ -113,7 +114,7 @@ def scene_request() -> Response:
 
 @app.route("/lighting/scene", methods=["POST"])
 def add_scene() -> Response:
-    scene = SceneRequest(**request.get_json())
+    scene = Scene(**request.get_json())
     scenes.insert_one(scene.to_bson())
 
     return scene.to_json()
@@ -121,21 +122,21 @@ def add_scene() -> Response:
 
 @app.route("/lighting/scene", methods=["GET"])
 def get_all_scenes() -> Response:
-    all_scenes = list(SceneRequest(**scene).to_json()
+    all_scenes = list(Scene(**scene).to_json()
                       for scene in scenes.find())
     return jsonify(all_scenes)
 
 
 @app.route("/lighting/scene", methods=["PUT"])
 def update_scene() -> Response:
-    scene = SceneRequest(**request.get_json())
+    scene = Scene(**request.get_json())
     updated_scene = scenes.find_one_and_update(
         {"_id": scene.id},
         {"$set": scene.to_bson()},
         return_document=ReturnDocument.AFTER,
     )
     if updated_scene:
-        return SceneRequest(**updated_scene).to_json()
+        return Scene(**updated_scene).to_json()
     else:
         abort(404, "Scene not found")
 
@@ -144,7 +145,7 @@ def update_scene() -> Response:
 def delete_device(id: str) -> Response:
     deleted_scene = scenes.find_one_and_delete({"_id": ObjectId(id)})
     if deleted_scene:
-        scene = SceneRequest(**deleted_scene)
+        scene = Scene(**deleted_scene)
         return scene.to_json()
     else:
         abort(404, "Scene not found")
