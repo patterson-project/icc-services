@@ -98,7 +98,7 @@ def scene_request() -> Response:
 
         for lighting_request in scene.requests:
             device = Device(
-                **devices.find_one({"name": lighting_request.name}))
+                **devices.find_one({"_id": lighting_request.target}))
 
             rp = ReverseProxy(device)
             rp.handle(lighting_request)
