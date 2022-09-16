@@ -10,18 +10,22 @@ from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from device import Device
 from state import State
-from config import Config
+
+
+""" Flask and Pymongo Setup """
+
 
 app = Flask("__main__")
-app.config[
-    "MONGO_URI"
-] = f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin"
-
 CORS(app)
-pymongo = PyMongo(app)
+
+pymongo = PyMongo(
+    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
 
 devices: Collection = pymongo.db.devices
 states: Collection = pymongo.db.states
+
+
+""" Error Handlers"""
 
 
 @app.errorhandler(404)
@@ -34,6 +38,9 @@ def resource_not_found(e) -> Response:
     return jsonify(error=f"Duplicate key error."), 400
 
 
+""" Health """
+
+
 @app.route("/devices/health")
 def index() -> Response:
     return "Healthy", 200
@@ -43,6 +50,9 @@ def index() -> Response:
 def get_all_states():
     all_states = list(State(**state).to_json() for state in states.find())
     return jsonify(all_states)
+
+
+""" Device CRUD """
 
 
 @app.route("/devices", methods=["POST"])
@@ -71,7 +81,7 @@ def update_device() -> Response:
         {"$set": device.to_bson()},
         return_document=ReturnDocument.AFTER,
     )
-    if update_device:
+    if updated_device:
         update_controllers(device)
         return Device(**updated_device).to_json()
     else:
