@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Colors
+cyn=$'\e[1;36m'
+grn=$'\e[1;32m'
+end=$'\e[0m'
+
 printf "Deleting all SECRETS...\n"
 sudo kubectl delete secret iot-secrets --wait=false
 printf "\nApplying secrets"
