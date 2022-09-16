@@ -6,16 +6,15 @@ import requests
 
 
 class ReverseProxy:
-    def __init__(self, device: Device):
-        self.device = device
+    def __init__(self):
         self.proxy = {
             LightingDeviceTypes.KasaBulb: self.kasa_bulb_request,
             LightingDeviceTypes.CustomLedStrip: self.custom_led_strip_request,
             LightingDeviceTypes.KasaLedStrip: self.kasa_led_strip_request,
         }
 
-    def handle(self, request: Request):
-        self.proxy[self.device.model](request)
+    def handle(self, request: Request, device: Device):
+        self.proxy[device.model](request)
 
     def kasa_bulb_request(self, request: LightingRequest):
         requests.post(Config.BULB_CONTROLLER_URL +
