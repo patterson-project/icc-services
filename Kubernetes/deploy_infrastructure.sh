@@ -5,29 +5,27 @@ cyn=$'\e[1;36m'
 grn=$'\e[1;32m'
 end=$'\e[0m'
 
-printf "%s\n" "${cyn}Deleting all SECRETS...${end}"
+printf "%s\n" "${cyn}Deploying all SECRETS...${end}"
 sudo kubectl delete secret iot-secrets --wait=false
-printf "\n%s" "Applying secrets"
 envsubst < Secrets/secrets.yaml | sudo kubectl apply -f -
 
 
-printf "\n%s\n" "${cyn}Deleting all SERVICES...${end}"
+printf "\n%s\n" "${cyn}Deploying all SERVICES...${end}"
 sudo kubectl delete --all services --wait=false --namespace=default
 for filename in Services/*.yaml; do
     printf "%s\n" "Applying $filename"
     envsubst < $filename | sudo kubectl apply -f -
 done
 
-printf "\n%s\n" "${cyn}Deleting all INGRESS routing...${end}"
+printf "\n%s\n" "${cyn}Deploying all INGRESS routing...${end}"
 sudo kubectl delete --all ingress --wait=false --namespace=default
 for filename in Ingress/*.yaml; do
     printf "%s\n" "Applying $filename"
     envsubst < $filename | sudo kubectl apply -f -
 done
 
-printf "\n%s\n" "Deleting all DEPLOYMENTS..."
+printf "\n%s\n" "${cyn}Deploying all DEPLOYMENTS...${end}"
 sudo kubectl delete --all deployments --wait=false --namespace=default
-printf "\n"
 for filename in Deployments/*.yaml; do
     printf "Applying $filename\n"
     envsubst < $filename | sudo kubectl apply -f -
