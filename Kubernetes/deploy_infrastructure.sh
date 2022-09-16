@@ -28,4 +28,4 @@ for filename in Deployments/*.yaml; do
     envsubst < $filename | sudo kubectl apply -f -
 done
 
-printf "\n%s\n" "${grn}Done.${end}"
+printf "\n%s\n\n" "${grn}Done.${end}"

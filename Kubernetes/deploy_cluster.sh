@@ -20,4 +20,4 @@ cd Controller.KasaBulb && bash dockerpush.sh && cd ../
 printf "\n%s\n" "${cyn}Building and pushing KASA LED STRIP service to dockerhub...${end}"
 cd Controller.KasaLedStrip && bash dockerpush.sh && cd ../
 
-printf "\n%s\n" "${grn}Done.${end}"
+printf "\n%s\n\n" "${grn}Done.${end}"
