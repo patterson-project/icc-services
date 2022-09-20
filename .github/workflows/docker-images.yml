@@ -11,9 +11,15 @@ on:
     branches: 
     - master 
 
+env:
+  MONGO_DB_IP: ${{ secrets.MONGO_DB_IP }}
+  MONGO_DB_USERNAME: ${{ secrets.MONGO_DB_USERNAME }}
+  MONGO_DB_PASSWORD: ${{ secrets.MONGO_DB_PASSWORD }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
 jobs:
 
-  build:
+  lighting_service:
 
     runs-on: ubuntu-latest
 
