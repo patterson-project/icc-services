@@ -30,6 +30,7 @@ jobs:
     -
       name: Build and push Lighting Service
       run: |
+        cd Service.Lighting
         docker compose build
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/lighting-service:latest
         
