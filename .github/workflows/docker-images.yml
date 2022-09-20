@@ -83,7 +83,7 @@ jobs:
     -
       name: Build and push UI
       run: |
-        cd Service.UI
+        cd Ui
         docker compose build
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:ui
     
@@ -106,7 +106,7 @@ jobs:
     -
       name: Build and push Kasa Bulb Controller
       run: |
-        cd Controller.KasaBulbController
+        cd Controller.KasaBulb
         docker compose build
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:kasa-bulb-controller   
   
