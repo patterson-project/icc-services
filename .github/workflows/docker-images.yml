@@ -20,6 +20,8 @@ env:
 jobs:
 
   lighting_service:
+  
+    name: Lighting Service
 
     runs-on: ubuntu-latest
 
@@ -40,3 +42,94 @@ jobs:
         docker compose build
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:lighting-service
         
+  device_manager_service:
+  
+    name: Device Manager Service
+
+    runs-on: ubuntu-latest
+
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+    - 
+      name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    -
+      name: Build and push Device Manager Service
+      run: |
+        cd Service.DeviceManager
+        docker compose build
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:device-manager-service
+        
+  ui:
+    name: UI
+
+    runs-on: ubuntu-latest
+
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+    - 
+      name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    -
+      name: Build and push UI
+      run: |
+        cd Service.UI
+        docker compose build
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:ui
+    
+  kasa_bulb_controller:
+    
+    name: Kasa Bulb Controller
+
+    runs-on: ubuntu-latest
+
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+    - 
+      name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    -
+      name: Build and push Kasa Bulb Controller
+      run: |
+        cd Controller.KasaBulbController
+        docker compose build
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:kasa-bulb-controller   
+  
+  kasa_led_strip_controller:
+    
+    name: Kasa LED Strip Controller
+
+    runs-on: ubuntu-latest
+
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+    - 
+      name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    -
+      name: Build and push Kasa Led Strip Controller
+      run: |
+        cd Controller.KasaLedStrip
+        docker compose build
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:kasa-led-strip-controller   
+  
