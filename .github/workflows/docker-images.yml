@@ -38,5 +38,5 @@ jobs:
       run: |
         cd Service.Lighting
         docker compose build
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/lighting-service:latest
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/iot-control-center:lighting-service
         
