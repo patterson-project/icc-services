@@ -35,7 +35,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: aarch64
-          distro: ubuntu_lates
+          distro: ubuntu_latest
           githubToken: ${{ github.token }}
           run: |
             cd Service.Lighting
