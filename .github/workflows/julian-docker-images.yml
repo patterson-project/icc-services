@@ -34,7 +34,7 @@ jobs:
       - name: Build and push Lighting Service
         run: |
           cd Service.Lighting
-          docker buildx build --platform linux/arm64/v8 ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }} --push .
+          docker buildx build --platform linux/arm64/v8 -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }} --push .
 
 #   device_manager_service:
 #     name: Device Manager Service
