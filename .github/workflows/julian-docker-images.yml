@@ -31,8 +31,8 @@ jobs:
         with:
           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
-      - name: Build and push Lighting Service
-        uses: uraimo/run-on-arch-action@v2
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build and push Lighting Service
         with:
           arch: aarch64
           distro: ubuntu_latest
