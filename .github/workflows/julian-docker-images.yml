@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-      - feature/adrian/*
-      - bug/adrian/*
+      - feature/julian/*
+      - bug/julian/*
 
   pull_request:
     branches:
@@ -32,92 +32,85 @@ jobs:
           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Lighting Service
-        uses: uraimo/run-on-arch-action@v2
+        uses: docker/build-push-action@v3
         with:
-          arch: aarch64
-          distro: ubuntu_latest
-          githubToken: ${{ github.token }}
-          install: 
-            docker
-          run: |
-            cd Service.Lighting
-            docker compose build
-            docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service
-            
-          
+          context: Service.Lighting
+          push: true
+          platforms: linux/arm64/v8
+          tags: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service        
 
-  device_manager_service:
-    name: Device Manager Service
+#   device_manager_service:
+#     name: Device Manager Service
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
-      - name: Build and push Device Manager Service
-        run: |
-          cd Service.DeviceManager
-          docker compose build
-          docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
+#       - name: Build and push Device Manager Service
+#         run: |
+#           cd Service.DeviceManager
+#           docker compose build
+#           docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service
 
-  ui:
-    name: UI
+#   ui:
+#     name: UI
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
-      - name: Build and push UI
-        run: |
-          cd Ui
-          docker compose build
-          docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
+#       - name: Build and push UI
+#         run: |
+#           cd Ui
+#           docker compose build
+#           docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui
 
-  kasa_bulb_controller:
-    name: Kasa Bulb Controller
+#   kasa_bulb_controller:
+#     name: Kasa Bulb Controller
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
-      - name: Build and push Kasa Bulb Controller
-        run: |
-          cd Controller.KasaBulb
-          docker compose build
-          docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
+#       - name: Build and push Kasa Bulb Controller
+#         run: |
+#           cd Controller.KasaBulb
+#           docker compose build
+#           docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller
 
-  kasa_led_strip_controller:
-    name: Kasa LED Strip Controller
+#   kasa_led_strip_controller:
+#     name: Kasa LED Strip Controller
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
-      - name: Build and push Kasa Led Strip Controller
-        run: |
-          cd Controller.KasaLedStrip
-          docker compose build
-          docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
+#       - name: Build and push Kasa Led Strip Controller
+#         run: |
+#           cd Controller.KasaLedStrip
+#           docker compose build
+#           docker push ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller
