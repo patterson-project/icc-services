@@ -35,9 +35,10 @@ jobs:
         with:
           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
+      - name: Cd into correct directory
+        run: cd Service.Lighting
       - name: Build and push Lighting Service
         run: |
-          cd Service.Lighting
           docker buildx build \
           --platform linux/arm64 \ 
           --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service \
