@@ -1,4 +1,4 @@
-name: Adrian Docker CI
+name: Julian Docker CI
 
 on:
   push:
