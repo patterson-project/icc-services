@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   device-manager-service:
-    image: $DOCKERHUB_USERNAME/iot-control-center:device-manager-service
+    image: $DOCKER_HUB_USERNAME/iot-control-center:device-manager-service
     build:
       context: .
       dockerfile: Dockerfile

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   kasa-bulb-controller:
-    image: $DOCKERHUB_USERNAME/iot-control-center:kasa-led-strip-controller
+    image: $DOCKER_HUB_USERNAME/iot-control-center:kasa-led-strip-controller
     build:
       context: .
       dockerfile: Dockerfile

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   lighting-service:
-    image: $DOCKERHUB_USERNAME/iot-control-center:lighting-service
+    image: $DOCKER_HUB_USERNAME/iot-control-center:lighting-service
     build:
       context: .
       dockerfile: Dockerfile

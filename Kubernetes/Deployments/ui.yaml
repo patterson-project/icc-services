@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ui-container
-          image: $DOCKERHUB_USERNAME/iot-control-center:ui
+          image: $DOCKER_HUB_USERNAME/iot-control-center:ui
           imagePullPolicy: Always
           ports:
             - containerPort: 80

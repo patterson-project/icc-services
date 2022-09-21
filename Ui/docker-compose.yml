@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   ui:
-    image: $DOCKERHUB_USERNAME/iot-control-center:ui
+    image: $DOCKER_HUB_USERNAME/iot-control-center:ui
     build:
       context: .
       dockerfile: Dockerfile

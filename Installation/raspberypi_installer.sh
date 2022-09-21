@@ -49,7 +49,7 @@ read -p "Enter your dockerhub username: " dockerhub_username
 echo "MONGO_DB_USERNAME=$mongo_username" >> /etc/environment
 echo "MONGO_DB_PASSWORD=$mongo_password" >> /etc/environment
 echo "MONGO_DB_IP=$mongo_ip" >> /etc/environment
-echo "DOCKERHUB_USERNAME=$dockerhub_username" >> /etc/environment
+echo "DOCKER_HUB_USERNAME=$dockerhub_username" >> /etc/environment
 
 source /etc/environment
 

@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   led-strip-controller:
-    image: $DOCKERHUB_USERNAME/iot-control-center:led-controller
+    image: $DOCKER_HUB_USERNAME/iot-control-center:led-controller
     privileged: true
     build:
       context: .
