@@ -41,9 +41,7 @@ jobs:
           docker buildx build \
           --platform linux/arm64 \ 
           --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service \
-          --push \
-          --file ./Dockerfile \
-          .
+          --push .
 
   device_manager_service:
     name: Device Manager Service
