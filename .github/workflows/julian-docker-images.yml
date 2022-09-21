@@ -32,9 +32,14 @@ jobs:
           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Lighting Service
-        run: |
-          cd Service.Lighting
-          docker buildx build -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }} --push .
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: aarch64
+          distro: ubuntu_lates
+          githubToken: ${{ github.token }}
+          run: |
+            cd Service.Lighting
+            docker buildx build -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }} --push .
 
 #   device_manager_service:
 #     name: Device Manager Service
