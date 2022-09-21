@@ -1,4 +1,4 @@
-FROM python:buster
+FROM arm64v8/python:buster
 
 WORKDIR /app
 
