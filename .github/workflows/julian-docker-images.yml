@@ -32,12 +32,9 @@ jobs:
           username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Lighting Service
-        uses: docker/build-push-action@v3
-        with:
-          context: Service.Lighting
-          push: true
-          platforms: linux/arm64/v8
-          tags: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service        
+        run: |
+          cd Service.Lighting
+          docker buildx build --platform linux/arm64/v8 ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }} --push .
 
 #   device_manager_service:
 #     name: Device Manager Service
