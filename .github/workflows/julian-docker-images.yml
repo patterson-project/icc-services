@@ -41,8 +41,7 @@ jobs:
           docker buildx build \
           --platform linux/arm64 \ 
           -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service \
-          --push \
-          .
+          --push .
 
   device_manager_service:
     name: Device Manager Service
@@ -67,8 +66,7 @@ jobs:
           docker buildx build \
           --platform linux/arm64 \ 
           -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service \
-          --push \
-          .
+          --push .
   ui:
     name: UI
 
@@ -92,8 +90,7 @@ jobs:
           docker buildx build \
           --platform linux/arm64 \ 
           -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui \
-          --push \
-          .
+          --push .
           
   kasa_bulb_controller:
     name: Kasa Bulb Controller
@@ -118,8 +115,7 @@ jobs:
           docker buildx build \
           --platform linux/arm64 \ 
           -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller \
-          --push \
-          .
+          --push .
           
   kasa_led_strip_controller:
     name: Kasa LED Strip Controller
@@ -144,5 +140,4 @@ jobs:
           docker buildx build \
           --platform linux/arm64 \ 
           -t ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller \
-          --push \
-          .
+          --push .
