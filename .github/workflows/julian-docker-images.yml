@@ -35,7 +35,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: Service.Lighting
-          file: ./Dockerfile
           push: true
           tags: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service
           platforms: linux/arm64/v8
