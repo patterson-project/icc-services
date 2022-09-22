@@ -12,9 +12,11 @@ class ReverseProxy:
             LightingDeviceTypes.CustomLedStrip: self.custom_led_strip_request,
             LightingDeviceTypes.KasaLedStrip: self.kasa_led_strip_request,
         }
+        self.device = None
 
     def handle(self, request: Request, device: Device):
         self.proxy[device.model](request)
+        self.device = device
 
     def kasa_bulb_request(self, request: LightingRequest):
         requests.post(Config.BULB_CONTROLLER_URL +
