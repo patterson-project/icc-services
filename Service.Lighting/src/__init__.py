@@ -30,8 +30,6 @@ iotdb = PyMongo(
 devices: Collection = iotdb.db.devices
 scenes: Collection = iotdb.db.scenes
 
-rp = ReverseProxy()
-
 
 """ Error Handlers """
 
@@ -63,7 +61,8 @@ def id_request() -> Response:
         lighting_request = LightingRequest(**request.get_json())
         device = Device(**devices.find_one({"_id": lighting_request.target}))
 
-        rp.handle(lighting_request, device)
+        rp = ReverseProxy(device)
+        rp.handle(lighting_request)
 
         insert_lighting_request(lighting_requests, request)
 
@@ -80,7 +79,8 @@ def name_request() -> Response:
         device = Device(**devices.find_one({"name": lighting_request.name}))
         lighting_request.target = device.id
 
-        rp.handle(lighting_request, device)
+        rp = ReverseProxy(device)
+        rp.handle(lighting_request)
 
         insert_lighting_request(lighting_requests, request)
 
@@ -100,7 +100,8 @@ def scene_request() -> Response:
             device = Device(
                 **devices.find_one({"_id": lighting_request.target}))
 
-            rp.handle(lighting_request, device)
+            rp = ReverseProxy(device)
+            rp.handle(lighting_request)
 
         insert_scene_request(scene_requests, request)
 
