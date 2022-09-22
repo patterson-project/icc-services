@@ -11,12 +11,6 @@ on:
     branches:
       - master
 
-env:
-  MONGO_DB_IP: ${{ secrets.JULIAN_MONGO_DB_IP }}
-  MONGO_DB_USERNAME: ${{ secrets.JULIAN_MONGO_DB_USERNAME }}
-  MONGO_DB_PASSWORD: ${{ secrets.JULIAN_MONGO_DB_PASSWORD }}
-  DOCKER_HUB_USERNAME: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
-
 jobs:
   lighting_service:
     name: Lighting Service
@@ -82,7 +76,7 @@ jobs:
         run: |
           cd Ui
           docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui --push .
-          
+
   kasa_bulb_controller:
     name: Kasa Bulb Controller
 
@@ -104,7 +98,7 @@ jobs:
         run: |
           cd Controller.KasaBulb
           docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller --push .
-          
+
   kasa_led_strip_controller:
     name: Kasa LED Strip Controller
 
