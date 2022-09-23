@@ -1,11 +1,11 @@
-name: Adrian Docker CI
+name: Linux/Amd64 Docker CI
 
 on:
   push:
     branches:
       - master
-      - feature/adrian/*
-      - bug/adrian/*
+      - feature/amd64/*
+      - bug/amd64/*
 
   pull_request:
     branches:
@@ -66,8 +66,7 @@ jobs:
           password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Ui
         run: |
-          cd Ui
-          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui --push .
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui --push Ui
 
   kasa_bulb_controller:
     name: Kasa Bulb Controller
@@ -86,8 +85,7 @@ jobs:
           password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Kasa Bulb Controller
         run: |
-          cd Controller.KasaBulb
-          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller --push .
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller --push Controller.KasaBulb
 
   kasa_led_strip_controller:
     name: Kasa LED Strip Controller
@@ -106,5 +104,4 @@ jobs:
           password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Kasa LED Strip Controller
         run: |
-          cd Controller.KasaLedStrip
-          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller --push .
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller --push Controller.KasaLedStrip
