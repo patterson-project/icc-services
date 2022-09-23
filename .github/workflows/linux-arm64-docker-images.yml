@@ -1,11 +1,11 @@
-name: Julian Docker CI
+name: Linux/Arm64 Docker CI
 
 on:
   push:
     branches:
       - master
-      - feature/julian/*
-      - bug/julian/*
+      - feature/arm64/*
+      - bug/arm64/*
 
   pull_request:
     branches:
@@ -31,8 +31,7 @@ jobs:
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Lighting Service
         run: |
-          cd Service.Lighting
-          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service --push .
+          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service --push Service.Lighting
 
   device_manager_service:
     name: Device Manager Service
@@ -53,8 +52,7 @@ jobs:
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Device Manager Service
         run: |
-          cd Service.DeviceManager
-          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service --push .
+          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service --push Service.DeviceManager
   ui:
     name: UI
 
@@ -74,8 +72,7 @@ jobs:
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Ui
         run: |
-          cd Ui
-          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui --push .
+          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui --push Ui
 
   kasa_bulb_controller:
     name: Kasa Bulb Controller
@@ -96,8 +93,7 @@ jobs:
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Kasa Bulb Controller
         run: |
-          cd Controller.KasaBulb
-          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller --push .
+          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-bulb-controller --push Controller.KasaBulb
 
   kasa_led_strip_controller:
     name: Kasa LED Strip Controller
@@ -118,5 +114,4 @@ jobs:
           password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Kasa LED Strip Controller
         run: |
-          cd Controller.KasaLedStrip
-          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller --push .
+          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller --push Controller.KasaLedStrip
