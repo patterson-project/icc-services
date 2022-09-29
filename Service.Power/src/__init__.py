@@ -44,7 +44,7 @@ def resource_not_found(e) -> Response:
 """ Health """
 
 
-@app.route("/lighting/health", methods=["GET"])
+@app.route("/power/health", methods=["GET"])
 def index() -> Response:
     return "Healthy", 200
 
@@ -52,7 +52,7 @@ def index() -> Response:
 """ Lighting Requests """
 
 
-@app.route("/lighting/request/id", methods=["POST"])
+@app.route("/power/request/id", methods=["POST"])
 def id_request() -> Response:
     try:
         power_request = PowerRequest(**request.get_json())
@@ -69,7 +69,7 @@ def id_request() -> Response:
         return str(e), e.errno
 
 
-@app.route("/lighting/request/name", methods=["POST"])
+@app.route("/power/request/name", methods=["POST"])
 def name_request() -> Response:
     try:
         power_request = PowerRequest(**request.get_json())
