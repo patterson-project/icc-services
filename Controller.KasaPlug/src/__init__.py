@@ -38,7 +38,7 @@ loop = asyncio.new_event_loop()
 def get_plug_devices():
     kasa_plugs = list(
         Device(**device)
-        for device in devices.find({"type": "Lighting", "model": "Kasa Plug"})
+        for device in devices.find({"type": "Power", "model": "Kasa Plug"})
     )
 
     for plug_device in kasa_plugs:
