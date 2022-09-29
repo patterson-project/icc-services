@@ -3,8 +3,12 @@ import TextField from "@mui/material/TextField";
 
 const deviceTypes = [
   {
-    value: "lighting",
+    value: "Lighting",
     label: "Lighting",
+  },
+  {
+    value: "Power",
+    label: "Power",
   },
 ];
 
