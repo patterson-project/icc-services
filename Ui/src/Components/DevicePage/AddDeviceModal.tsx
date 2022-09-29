@@ -20,6 +20,7 @@ import { gridContainerStyle } from "../../Styles/CommonStyles";
 import DeviceModelDropDownMenu from "./DeviceModelDropDownMenu";
 import config from "../../config";
 import { AddDeviceDto, Device } from "../../types";
+import { GpsFixed } from "@mui/icons-material";
 
 interface IAddDeviceModal {
   devices: Device[];
@@ -27,8 +28,13 @@ interface IAddDeviceModal {
 }
 
 const modalDivStyle = {
-  height: "100%",
   margin: "0px",
+  width: "100%",
+  height: "100%",
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 0,
   minHeight: "100vh",
   backgroundColor: "#151515",
 };
