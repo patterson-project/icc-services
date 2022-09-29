@@ -22,6 +22,4 @@ class Device(BaseModel):
 
 
 class LightingDeviceTypes:
-    KasaBulb: str = "Kasa Bulb"
-    CustomLedStrip: str = "Custom Led Strip"
-    KasaLedStrip: str = "Kasa Led Strip"
+    KasaPlug: str = "Kasa Plug"

@@ -8,8 +8,7 @@ import requests
 class ReverseProxy:
     def __init__(self, device):
         self.proxy = {
-            LightingDeviceTypes.KasaBulb: self.kasa_plug_request,
-
+            LightingDeviceTypes.KasaPlug: self.kasa_plug_request,
         }
         self.device: Device = device
 
@@ -17,5 +16,5 @@ class ReverseProxy:
         self.proxy[self.device.model](request)
 
     def kasa_plug_request(self, request: PowerRequest):
-        requests.post(Config.PLUG_CONTROLLER_URL +
+        requests.post(Config.UrlGivenModel[self.device.model] +
                       "/request", json=request.to_json())
