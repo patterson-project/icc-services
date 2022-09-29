@@ -31,6 +31,25 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:lighting-service --push Service.Lighting
 
+  power_service:
+    name: Power Service
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
+      - name: Build and push Power Service
+        run: |
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service --push Service.Power
+
   device_manager_service:
     name: Device Manager Service
 
@@ -49,6 +68,7 @@ jobs:
       - name: Build and push Device Manager Service
         run: |
           docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service --push Service.DeviceManager
+
   ui:
     name: UI
 
@@ -105,3 +125,22 @@ jobs:
       - name: Build and push Kasa LED Strip Controller
         run: |
           docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-led-strip-controller --push Controller.KasaLedStrip
+
+  kasa_plug_controller:
+    name: Kasa Plug Controller
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
+      - name: Build and push Kasa Plug Controller
+        run: |
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:kasa-plug-controller --push Controller.KasaPlug
