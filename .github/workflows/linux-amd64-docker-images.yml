@@ -48,7 +48,7 @@ jobs:
           password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Power Service
         run: |
-          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:device-manager-service --push Service.Power
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:power-service --push Service.Power
 
   device_manager_service:
     name: Device Manager Service
