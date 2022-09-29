@@ -17,5 +17,5 @@ class ReverseProxy:
         self.proxy[self.device.model](request)
 
     def kasa_plug_request(self, request: PowerRequest):
-        requests.post(Config.BULB_CONTROLLER_URL +
+        requests.post(Config.PLUG_CONTROLLER_URL +
                       "/request", json=request.to_json())
