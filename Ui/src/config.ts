@@ -1,5 +1,5 @@
 /* Uncomment and set domain to local db for testing */
-// const domain = "http://10.0.0.86/";
+// const domain = "http://10.0.0.87";
 const domain = 'http://'+window.location.hostname.split('.').join('.');
 
 

@@ -1,32 +1,22 @@
-import os
+from repository import DeviceRepository, StateRepository
 from utils import update_controllers
-from bson import ObjectId
 from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
-from flask_pymongo import PyMongo
-from objectid import PydanticObjectId
 from gevent.pywsgi import WSGIServer
-from pymongo.collection import Collection, ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from device import Device
-from state import State
 
 
 """ Flask and Pymongo Setup """
 
-
 app = Flask("__main__")
 CORS(app)
 
-pymongo = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
-
-devices: Collection = pymongo.db.devices
-states: Collection = pymongo.db.states
+device_repository: DeviceRepository = DeviceRepository(app)
+state_repository: StateRepository = StateRepository(app)
 
 
 """ Error Handlers"""
-
 
 @app.errorhandler(404)
 def resource_not_found(e) -> Response:
@@ -40,28 +30,25 @@ def resource_not_found(e) -> Response:
 
 """ Health """
 
-
 @app.route("/devices/health")
 def index() -> Response:
     return "Healthy", 200
 
 
+""" Device & State CRUD """
+
 @app.route("/devices/states", methods=["GET"])
 def get_all_states():
-    all_states = list(State(**state).to_json() for state in states.find())
+    all_states = state_repository.find_all()
     return jsonify(all_states)
-
-
-""" Device CRUD """
 
 
 @app.route("/devices", methods=["POST"])
 def add_device() -> Response:
-    device = Device(**request.get_json())
-    new_device_id = devices.insert_one(device.to_bson()).inserted_id
+    new_device = device_repository.save(request)
+    state_repository.save(new_device.inserted_id, False)
 
-    device.id = PydanticObjectId(new_device_id)
-    states.insert_one({"device": device.id, "state": False})
+    device = Device(**request.get_json())
     update_controllers(device)
 
     return device.to_json()
@@ -69,19 +56,16 @@ def add_device() -> Response:
 
 @app.route("/devices", methods=["GET"])
 def get_all_devices() -> Response:
-    all_devices = list(Device(**device).to_json() for device in devices.find())
+    all_devices = device_repository.find_all()
     return jsonify(all_devices)
 
 
 @app.route("/devices", methods=["PUT"])
 def update_device() -> Response:
-    device = Device(**request.get_json())
-    updated_device = devices.find_one_and_update(
-        {"_id": device.id},
-        {"$set": device.to_bson()},
-        return_document=ReturnDocument.AFTER,
-    )
+    updated_device = device_repository.update(request)
+
     if updated_device:
+        device = Device(**request.get_json())
         update_controllers(device)
         return Device(**updated_device).to_json()
     else:
@@ -90,11 +74,11 @@ def update_device() -> Response:
 
 @app.route("/devices/<string:id>", methods=["DELETE"])
 def delete_device(id: str) -> Response:
-    deleted_device = devices.find_one_and_delete({"_id": ObjectId(id)})
+    deleted_device = device_repository.delete(id)
     if deleted_device:
         device = Device(**deleted_device)
         update_controllers(device)
-        states.find_one_and_delete({"device": device.id})
+        state_repository.delete(id)
         return device.to_json()
     else:
         abort(404, "Device not found")

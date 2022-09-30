@@ -1,14 +1,15 @@
 import asyncio
 from threading import Thread
-from utils import initialize_led_strips, start_background_loop
-from objectid import PydanticObjectId
+from utils import initialize_plugs, start_background_loop
 from repository import AnalyticsRepository, DeviceRepository, StateRepository
+from objectid import PydanticObjectId
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from kasa import SmartDeviceException
-from lightingrequest import LightingRequest
-from ledstrip import LedStrip
+from powerrequest import PowerRequest
+from plug import Plug
 from gevent.pywsgi import WSGIServer
+from state import State
 
 
 """ Flask and Repository Setup """
@@ -21,11 +22,11 @@ state_repository: StateRepository = StateRepository(app)
 analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
 
 
-""" Led Strips and Asyncio Event Loop """
+""" Plugs and Asyncio Event Loop """
 
 loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
-global led_strips
-led_strips: dict[PydanticObjectId, LedStrip] = initialize_led_strips(device_repository, loop)
+global plugs
+plugs: dict[PydanticObjectId, Plug] = initialize_plugs(device_repository, loop)
 
 
 """ Error Handler """
@@ -42,34 +43,34 @@ def index() -> Response:
     return "Healthy", 200
 
 
-""" Bulb Requests"""
+""" Plug Requests"""
 
 @app.route("/update", methods=["PUT"])
-def update_led_strips() -> Response:
-    global led_strips
-    led_strips = initialize_led_strips(device_repository, loop)
+def update_bulbs() -> Response:
+    global plugs
+    plugs = initialize_plugs(device_repository, loop)
     return "Success", 200
 
 
 @app.route("/request", methods=["POST"])
-def lighting_request() -> Response:
+def plug_request() -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
-        led_strip_controller = led_strips[lighting_request.target]
-        led_strip_controller.set_request(lighting_request)
+        power_request: PowerRequest = PowerRequest(**request.get_json())
+        plug: Plug = plugs[power_request.target]
+        plug.set_request(power_request)
 
         asyncio.run_coroutine_threadsafe(
-            led_strip_controller.operation_callback_by_name[lighting_request.operation](
+            plug.operation_callback_by_name[power_request.operation](
             ), loop
         )
 
         state: bool = False
-        if lighting_request.operation != "off":
+        if power_request.operation != "off":
             state = True
 
-        state_repository.update(lighting_request.target, state)
-        analytics_repository.save(lighting_request.target, state)
-        
+        state_repository.update(power_request.target, state)
+        analytics_repository.save(power_request.target, state)
+
         return "Success", 200
 
     except (SmartDeviceException, TypeError, KeyError) as e:

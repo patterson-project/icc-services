@@ -125,6 +125,7 @@ const AddDeviceModal: FC<IAddDeviceModal> = (props) => {
     })
       .then((response) => {
         if (!response.ok) {
+          // TODO: Add toast here
           console.log(`Failed to create device: ${response.statusText}`);
         } else {
           return response.json();

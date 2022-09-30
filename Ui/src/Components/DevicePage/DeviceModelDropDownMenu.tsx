@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDidMountEffect } from "../../utils";
+import { drop } from "lodash";
 
 interface DeviceModel {
   value: string;
@@ -22,6 +23,13 @@ const lightingDeviceModels: DeviceModel[] = [
   },
 ];
 
+const powerDeviceModels: DeviceModel[] = [
+  {
+    value: "Kasa Plug",
+    label: "Kasa Plug",
+  },
+];
+
 interface IDeviceModelDropDownMenu {
   id: string;
   label: string;
@@ -36,17 +44,22 @@ const DeviceModelDropDownMenu: FC<IDeviceModelDropDownMenu> = (props) => {
   );
 
   useDidMountEffect(() => {
+    console.log(props.type);
     if (props.type === "Lighting") {
       setDropDownList(lightingDeviceModels);
+    } else if (props.type === "Power") {
+      setDropDownList(powerDeviceModels);
     } else {
       setDropDownList(null);
     }
   }, [props.type]);
 
   useEffect(() => {
-    props.setModel(lightingDeviceModels[0].value);
+    if (dropDownList) {
+      props.setModel(dropDownList[0].value);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dropDownList]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setModel(event.target.value);
