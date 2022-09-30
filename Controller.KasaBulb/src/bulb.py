@@ -4,7 +4,7 @@ import kasa
 from lightingrequest import LightingRequest
 
 
-class BulbController:
+class Bulb:
     async def create_bulb(self, ip_address: str) -> None:
         self.ip_address: str = ip_address
         self.bulb: kasa.SmartBulb = None

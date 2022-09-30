@@ -1,69 +1,55 @@
 import asyncio
-import os
 from threading import Thread
+from utils import initialize_led_strips
+from objectid import PydanticObjectId
+from repository import AnalyticsRepository, DeviceRepository, StateRepository
 from bson import ObjectId
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
-from flask_pymongo import PyMongo
-from pymongo.collection import Collection
 from kasa import SmartDeviceException
 from lightingrequest import LightingRequest
-from ledstrip import LedStripController
+from ledstrip import LedStrip
 from gevent.pywsgi import WSGIServer
 from device import Device
 from state import State
 
 
-# Flask app object with CORS
+""" Flask and Repository Setup """
+
 app = Flask("__main__")
 CORS(app)
 
-iotdb = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
-devices: Collection = iotdb.db.devices
-states: Collection = iotdb.db.states
-
-analyticsdb = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
-state_records: Collection = analyticsdb.db.states
-
-# Global bulb controllers
-strips: dict[ObjectId, LedStripController] = {}
-
-# Event loop for running bulb commands in a seperate thread
-loop = asyncio.new_event_loop()
+device_repository: DeviceRepository = DeviceRepository(app)
+state_repository: StateRepository = StateRepository(app)
+analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
 
 
-def get_led_strip_devices():
-    kasa_led_strips = list(
-        Device(**device)
-        for device in devices.find({"type": "Lighting", "model": "Kasa Led Strip"})
-    )
+""" Led Strips and Asyncio Event Loop """
 
-    for strip in kasa_led_strips:
-        led_strip_controller = LedStripController()
-        asyncio.run_coroutine_threadsafe(
-            led_strip_controller.create_strip(strip.ip), loop)
-        strips[strip.id] = led_strip_controller
+loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
+led_strips: dict[PydanticObjectId, LedStrip] = initialize_led_strips(device_repository, loop)
 
 
-""" Routes """
-
+""" Error Handler """
 
 @app.errorhandler(404)
 def resource_not_found(e):
     return jsonify(error=str(e)), 404
 
 
+""" Health """
+
 @app.route("/health")
 def index() -> Response:
     return "Healthy", 200
 
 
+""" Bulb Requests"""
+
 @app.route("/update", methods=["PUT"])
-def update_bulbs() -> Response:
-    strips.clear()
-    get_led_strip_devices()
+def update_led_strips() -> Response:
+    led_strips.clear()
+    led_strips = initialize_led_strips(device_repository, loop)
     return "Success", 200
 
 
@@ -71,7 +57,7 @@ def update_bulbs() -> Response:
 def lighting_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
-        led_strip_controller = strips[lighting_request.target]
+        led_strip_controller = led_strips[lighting_request.target]
         led_strip_controller.set_request(lighting_request)
 
         asyncio.run_coroutine_threadsafe(
@@ -83,24 +69,21 @@ def lighting_request() -> Response:
         if lighting_request.operation != "off":
             state = True
 
-        states.find_one_and_update({"device": lighting_request.target}, {
-            "$set": {"state": state}}, upsert=True)
-        state_records.insert_one(
-            State(device=lighting_request.target, state=state).to_bson())
-
+        state_repository.update(lighting_request.target, state)
+        analytics_repository.save(lighting_request.target, state)
+        
         return "Success", 200
 
     except (SmartDeviceException, TypeError, KeyError) as e:
         return str(e), 500
 
 
-def start_background_loop(loop):
+def start_background_loop(loop: asyncio.AbstractEventLoop):
     asyncio.set_event_loop(loop)
     loop.run_forever()
 
 
 if __name__ == "__main__":
-    get_led_strip_devices()
     strip_thread = Thread(target=start_background_loop,
                           args=(loop,), daemon=True)
     strip_thread.start()

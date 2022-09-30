@@ -1,7 +1,5 @@
-
 import os
 from typing import Any
-from bson import ObjectId
 from pymongo import ReturnDocument
 from device import Device
 from objectid import PydanticObjectId

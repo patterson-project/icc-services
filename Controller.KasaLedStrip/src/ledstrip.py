@@ -6,7 +6,7 @@ from lightingrequest import LightingRequest
 from utils import convert_K_to_RGB
 
 
-class LedStripController:
+class LedStrip:
     async def create_strip(self, ip_address: str) -> None:
         self.ip_address: str = ip_address
         self.strip: kasa.SmartLightStrip = None

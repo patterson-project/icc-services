@@ -1,17 +1,15 @@
 import requests
-from lightingrepository import AnalyticsRepository, DeviceRepository, SceneRepository
+from repository import AnalyticsRepository, DeviceRepository, SceneRepository
 from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
-from pymongo.collection import ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from scenerequest import Scene, SceneRequest
 from lightingrequest import LightingRequest
 from reverseproxy import ReverseProxy
 
 
-""" Flask and Pymongo Setup """
-
+""" Flask and Repository Setup """
 
 app: Flask = Flask("__main__")
 CORS(app)
@@ -22,7 +20,6 @@ scene_repository: SceneRepository = SceneRepository(app)
 
 
 """ Error Handlers """
-
 
 @app.errorhandler(404)
 def resource_not_found(e) -> Response:
@@ -36,14 +33,12 @@ def resource_not_found(e) -> Response:
 
 """ Health """
 
-
 @app.route("/lighting/health", methods=["GET"])
 def index() -> Response:
     return "Healthy", 200
 
 
 """ Lighting Requests """
-
 
 @app.route("/lighting/request/id", methods=["POST"])
 def id_request() -> Response:
@@ -99,7 +94,6 @@ def scene_request() -> Response:
 
 
 """ Scene CRUD """
-
 
 @ app.route("/lighting/scene", methods=["POST"])
 def add_scene() -> Response:
