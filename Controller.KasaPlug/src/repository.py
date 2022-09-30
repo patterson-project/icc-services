@@ -17,7 +17,7 @@ class DeviceRepository:
     def find_all_kasa_plugs(self) -> list[Device]:
         return list(
             Device(**device)
-            for device in self.devices.find({"type": "Lighting", "model": "Kasa Plug"})
+            for device in self.devices.find({"type": "Power", "model": "Kasa Plug"})
         )
 
 
