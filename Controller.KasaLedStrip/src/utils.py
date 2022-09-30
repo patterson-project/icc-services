@@ -16,3 +16,6 @@ def initialize_led_strips(device_repository: DeviceRepository, loop: asyncio.Abs
 
     return led_strips
 
+def start_background_loop(loop: asyncio.AbstractEventLoop):
+    asyncio.set_event_loop(loop)
+    loop.run_forever()

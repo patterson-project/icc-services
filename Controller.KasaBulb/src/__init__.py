@@ -1,7 +1,7 @@
 import asyncio
 from threading import Thread
 from objectid import PydanticObjectId
-from utils import initialize_bulbs
+from utils import initialize_bulbs, start_background_loop
 from repository import DeviceRepository, StateRepository, AnalyticsRepository
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
@@ -24,6 +24,7 @@ analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
 """ Bulbs and Asyncio Event Loop """
 
 loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
+global bulbs
 bulbs: dict[PydanticObjectId, Bulb] = initialize_bulbs(device_repository, loop)
 
 
@@ -45,7 +46,7 @@ def index() -> Response:
 
 @app.route("/update", methods=["PUT"])
 def update_bulbs() -> Response:
-    bulbs.clear()
+    global bulbs
     bulbs = initialize_bulbs(device_repository, loop)
     return "Success", 200
 
@@ -74,11 +75,6 @@ def lighting_request() -> Response:
 
     except (SmartDeviceException, TypeError, KeyError) as e:
         return str(e), 500
-
-
-def start_background_loop(loop: asyncio.AbstractEventLoop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever()
 
 
 if __name__ == "__main__":

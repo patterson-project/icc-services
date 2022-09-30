@@ -15,3 +15,8 @@ def initialize_bulbs(device_repository: DeviceRepository, loop: asyncio.Abstract
         bulbs[bulb_device.id] = bulb
 
     return bulbs
+
+
+def start_background_loop(loop: asyncio.AbstractEventLoop):
+    asyncio.set_event_loop(loop)
+    loop.run_forever()

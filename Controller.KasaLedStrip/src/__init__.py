@@ -1,17 +1,14 @@
 import asyncio
 from threading import Thread
-from utils import initialize_led_strips
+from utils import initialize_led_strips, start_background_loop
 from objectid import PydanticObjectId
 from repository import AnalyticsRepository, DeviceRepository, StateRepository
-from bson import ObjectId
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from kasa import SmartDeviceException
 from lightingrequest import LightingRequest
 from ledstrip import LedStrip
 from gevent.pywsgi import WSGIServer
-from device import Device
-from state import State
 
 
 """ Flask and Repository Setup """
@@ -27,6 +24,7 @@ analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
 """ Led Strips and Asyncio Event Loop """
 
 loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
+global led_strips
 led_strips: dict[PydanticObjectId, LedStrip] = initialize_led_strips(device_repository, loop)
 
 
@@ -48,7 +46,7 @@ def index() -> Response:
 
 @app.route("/update", methods=["PUT"])
 def update_led_strips() -> Response:
-    led_strips.clear()
+    global led_strips
     led_strips = initialize_led_strips(device_repository, loop)
     return "Success", 200
 
@@ -76,11 +74,6 @@ def lighting_request() -> Response:
 
     except (SmartDeviceException, TypeError, KeyError) as e:
         return str(e), 500
-
-
-def start_background_loop(loop: asyncio.AbstractEventLoop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever()
 
 
 if __name__ == "__main__":
