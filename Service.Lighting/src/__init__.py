@@ -1,14 +1,10 @@
-import os
 import requests
+from lightingrepository import AnalyticsRepository, DeviceRepository, SceneRepository
 from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
-from flask_pymongo import PyMongo
-from bson import ObjectId
 from gevent.pywsgi import WSGIServer
-from pymongo.collection import Collection, ReturnDocument
+from pymongo.collection import ReturnDocument
 from pymongo.errors import DuplicateKeyError
-from repository import insert_lighting_request, insert_scene_request
-from device import Device
 from scenerequest import Scene, SceneRequest
 from lightingrequest import LightingRequest
 from reverseproxy import ReverseProxy
@@ -20,15 +16,9 @@ from reverseproxy import ReverseProxy
 app: Flask = Flask("__main__")
 CORS(app)
 
-analyticsdb = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/analytics?authSource=admin")
-lighting_requests: Collection = analyticsdb.db.lighting_requests
-scene_requests: Collection = analyticsdb.db.scene_requests
-
-iotdb = PyMongo(
-    app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
-devices: Collection = iotdb.db.devices
-scenes: Collection = iotdb.db.scenes
+device_repository: DeviceRepository = DeviceRepository(app)
+analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
+scene_repository: SceneRepository = SceneRepository(app)
 
 
 """ Error Handlers """
@@ -59,13 +49,12 @@ def index() -> Response:
 def id_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
-        device = Device(**devices.find_one({"_id": lighting_request.target}))
+        device = device_repository.find_by_id(lighting_request.target)
 
         rp = ReverseProxy(device)
         rp.handle(lighting_request)
 
-        insert_lighting_request(lighting_requests, request)
-
+        analytics_repository.save_lighting_request(request)
         return "Success", 200
 
     except requests.HTTPError as e:
@@ -76,14 +65,14 @@ def id_request() -> Response:
 def name_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
-        device = Device(**devices.find_one({"name": lighting_request.name}))
+        device = device_repository.find_by_name(lighting_request.name)
+
         lighting_request.target = device.id
 
         rp = ReverseProxy(device)
         rp.handle(lighting_request)
 
-        insert_lighting_request(lighting_requests, request)
-
+        analytics_repository.save_lighting_request(request)
         return "Success", 200
 
     except requests.HTTPError as e:
@@ -94,17 +83,15 @@ def name_request() -> Response:
 def scene_request() -> Response:
     try:
         scene_request = SceneRequest(**request.get_json())
-        scene = Scene(**scenes.find_one({"name": scene_request.name}))
+        scene = scene_repository.find_by_name(scene_request.name)
 
         for lighting_request in scene.requests:
-            device = Device(
-                **devices.find_one({"_id": lighting_request.target}))
+            device = device_repository.find_by_id(lighting_request.target)
 
             rp = ReverseProxy(device)
             rp.handle(lighting_request)
 
-        insert_scene_request(scene_requests, request)
-
+        analytics_repository.save_scene_request(request)
         return "Success", 200
 
     except requests.HTTPError as e:
@@ -114,38 +101,30 @@ def scene_request() -> Response:
 """ Scene CRUD """
 
 
-@app.route("/lighting/scene", methods=["POST"])
+@ app.route("/lighting/scene", methods=["POST"])
 def add_scene() -> Response:
-    scene = Scene(**request.get_json())
-    scenes.insert_one(scene.to_bson())
-
-    return scene.to_json()
+    scene_repository.save(request)
+    return request.to_json()
 
 
-@app.route("/lighting/scene", methods=["GET"])
+@ app.route("/lighting/scene", methods=["GET"])
 def get_all_scenes() -> Response:
-    all_scenes = list(Scene(**scene).to_json()
-                      for scene in scenes.find())
+    all_scenes = scene_repository.find_all()
     return jsonify(all_scenes)
 
 
-@app.route("/lighting/scene", methods=["PUT"])
+@ app.route("/lighting/scene", methods=["PUT"])
 def update_scene() -> Response:
-    scene = Scene(**request.get_json())
-    updated_scene = scenes.find_one_and_update(
-        {"_id": scene.id},
-        {"$set": scene.to_bson()},
-        return_document=ReturnDocument.AFTER,
-    )
+    updated_scene = scene_repository.update(request)
     if updated_scene:
         return Scene(**updated_scene).to_json()
     else:
         abort(404, "Scene not found")
 
 
-@app.route("/lighting/scene/<string:id>", methods=["DELETE"])
+@ app.route("/lighting/scene/<string:id>", methods=["DELETE"])
 def delete_device(id: str) -> Response:
-    deleted_scene = scenes.find_one_and_delete({"_id": ObjectId(id)})
+    deleted_scene = scene_repository.delete(id)
     if deleted_scene:
         scene = Scene(**deleted_scene)
         return scene.to_json()
