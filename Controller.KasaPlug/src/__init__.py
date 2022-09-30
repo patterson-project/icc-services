@@ -53,7 +53,7 @@ def update_bulbs() -> Response:
 
 
 @app.route("/request", methods=["POST"])
-def lighting_request() -> Response:
+def plug_request() -> Response:
     try:
         power_request: PowerRequest = PowerRequest(**request.get_json())
         plug: Plug = plugs[power_request.target]
@@ -68,8 +68,8 @@ def lighting_request() -> Response:
         if power_request.operation != "off":
             state = True
 
-        state_repository.update(lighting_request.target, state)
-        analytics_repository.save(lighting_request.target, state)
+        state_repository.update(power_request.target, state)
+        analytics_repository.save(power_request.target, state)
 
         return "Success", 200
 
