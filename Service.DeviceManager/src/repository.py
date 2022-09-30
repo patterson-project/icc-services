@@ -6,6 +6,7 @@ from device import Device
 from objectid import PydanticObjectId
 from flask import Flask, Request
 from flask_pymongo import PyMongo
+from pymongo.results import InsertOneResult
 from pymongo.collection import Collection
 
 class DeviceRepository:
@@ -14,9 +15,9 @@ class DeviceRepository:
             app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
         self.devices: Collection = self.iotdb.db.devices
 
-    def save(self, request: Request) -> None:
+    def save(self, request: Request) -> InsertOneResult:
         device = Device(**request.get_json())
-        self.devices.insert_one(device.to_bson())
+        return self.devices.insert_one(device.to_bson())
 
     def update(self, request: Request) -> Any:
         device = Device(**request.get_json())
