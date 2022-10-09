@@ -41,7 +41,7 @@ def index() -> Response:
 
 
 @app.route("/displays/chromecast/movie", methods=["POST"])
-def chromecast_request() -> Response:
+def chromecast_movie_request() -> Response:
     movie_request = MovieRequest(**request.get_json())
 
     rp = ReverseProxy()
@@ -52,7 +52,7 @@ def chromecast_request() -> Response:
 
 
 @app.route("/displays/chromecast/show", methods=["POST"])
-def chromecast_request() -> Response:
+def chromecast_show_request() -> Response:
     show_request = ShowRequest(**request.get_json())
 
     rp = ReverseProxy()
