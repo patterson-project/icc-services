@@ -34,7 +34,7 @@ def resource_not_found(e) -> Response:
 
 @app.route("/displays/health", methods=["GET"])
 def index() -> Response:
-    return 200
+    return "Success", 200
 
 
 """ Display Requests """
@@ -48,7 +48,7 @@ def chromecast_movie_request() -> Response:
     rp.chromecast_movie_request(movie_request)
 
     analytics_repository.save_movie_request(request)
-    return 200
+    return "Success", 200
 
 
 @app.route("/displays/chromecast/show", methods=["POST"])
@@ -59,7 +59,7 @@ def chromecast_show_request() -> Response:
     rp.chromecast_show_request(show_request)
 
     analytics_repository.save_show_request(request)
-    return 200
+    return "Success", 200
 
 
 @app.route("/displays/videos/shows", methods=["GET"])

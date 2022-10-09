@@ -41,7 +41,7 @@ def resource_not_found(e):
 
 @app.route("/health")
 def index() -> Response:
-    return 200
+    return "Success", 200
 
 
 """ Bulb Requests"""
@@ -51,7 +51,7 @@ def index() -> Response:
 def update_chromecasts() -> Response:
     global chromecasts
     chromecasts = initialize_chromecasts(device_repository)
-    return 200
+    return "Success", 200
 
 
 @app.route("/request/movie", methods=["POST"])
@@ -68,7 +68,7 @@ def movie_request() -> Response:
         asyncio.run_coroutine_threadsafe(
             chromecast.cast_media(movie_path), loop)
 
-        return 200
+        return "Success", 200
 
     except KeyError as e:
         return str(e), 404
@@ -90,7 +90,7 @@ def show_request() -> Response:
         asyncio.run_coroutine_threadsafe(
             chromecast.cast_media(episode_path), loop)
 
-        return 200
+        return "Success", 200
 
     except KeyError as e:
         return str(e), 404
