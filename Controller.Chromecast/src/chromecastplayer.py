@@ -10,4 +10,4 @@ class ChromecastPlayer:
         cast_command = "cvlc -vvv --sout=\"#chromecast{ip=" + self.ip_address + \
             "}\" --demux-filter=demux_chromecast \"" + path + "\""
         print(cast_command)
-        subprocess.Popen(cast_command)
+        subprocess.Popen(cast_command, shell=True)

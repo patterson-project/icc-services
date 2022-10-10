@@ -45,10 +45,10 @@ def chromecast_movie_request() -> Response:
     movie_request = MovieRequest(**request.get_json())
 
     rp = ReverseProxy()
-    rp.chromecast_movie_request(movie_request)
+    response = rp.chromecast_movie_request(movie_request)
 
     analytics_repository.save_movie_request(request)
-    return "Success", 200
+    return response
 
 
 @app.route("/displays/chromecast/show", methods=["POST"])
@@ -56,10 +56,10 @@ def chromecast_show_request() -> Response:
     show_request = ShowRequest(**request.get_json())
 
     rp = ReverseProxy()
-    rp.chromecast_show_request(show_request)
+    response = rp.chromecast_show_request(show_request)
 
     analytics_repository.save_show_request(request)
-    return "Success", 200
+    return response
 
 
 @app.route("/displays/videos/shows", methods=["GET"])

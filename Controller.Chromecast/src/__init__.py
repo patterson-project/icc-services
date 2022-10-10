@@ -42,7 +42,7 @@ def index() -> Response:
     return "Success", 200
 
 
-""" Bulb Requests"""
+""" Chromecast Requests"""
 
 
 @app.route("/update", methods=["PUT"])
