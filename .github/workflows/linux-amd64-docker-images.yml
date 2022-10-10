@@ -124,7 +124,7 @@ jobs:
           password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Media Drive Service
         run: |
-          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:scene-service --push Service.MediaDrive
+          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:media-drive-service --push Service.MediaDrive
 
   ui:
     name: UI
