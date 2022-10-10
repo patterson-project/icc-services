@@ -57,7 +57,7 @@ def movie_request() -> Response:
     try:
         movie_request = MovieRequest(**request.get_json())
         movie_path = os.path.join(
-            "media", "Movies", movie_request.movie_title)
+            "Movies", movie_request.movie_title)
 
         if not os.path.exists(movie_path):
             raise OSError("Movie not found")
@@ -78,7 +78,7 @@ def show_request() -> Response:
     try:
         show_request = ShowRequest(**request.get_json())
         episode_path = os.path.join(
-            "media", "Shows", show_request.show_title, show_request.season, show_request.episode)
+            "Shows", show_request.show_title, show_request.season, show_request.episode)
 
         if not os.path.exists(episode_path):
             raise OSError("Show not found")
