@@ -4,7 +4,7 @@ from chromecastplayer import ChromecastPlayer
 from showrequest import ShowRequest
 from movierequest import MovieRequest
 from objectid import PydanticObjectId
-from utils import initialize_chromecasts, start_background_loop
+from utils import initialize_chromecasts
 from repository import DeviceRepository
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
