@@ -4,4 +4,4 @@ fastapi
 requests
 gevent
 python-kasa
-python-vlc
+pychromecast

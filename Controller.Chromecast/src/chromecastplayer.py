@@ -1,12 +1,11 @@
-import subprocess
+import os
+import pychromecast
 
 
 class ChromecastPlayer:
-    def __init__(self, ip_address):
-        self.ip_address = ip_address
+    def __init__(self, chromecast: pychromecast.Chromecast):
+        self.chromecast = chromecast
 
     def cast_media(self, path: str):
-        cast_command = "cvlc -vvv --sout=\"#chromecast{ip=" + self.ip_address + \
-            "}\" --demux-filter=demux_chromecast \"" + path + "\""
-        print(cast_command)
-        subprocess.Popen(cast_command, shell=True)
+        self.chromecast.media_controller.play_media(
+            f"http://{os.getenv('MEDIA_DRIVE_IP')}/public/{path}")
