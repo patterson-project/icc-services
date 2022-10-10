@@ -14,7 +14,7 @@ def initialize_chromecasts(device_repository: DeviceRepository) -> dict[Pydantic
         chromecast_player = next(
             (cc for cc in network_chromecasts if cc.cast_info.host == chromecast_device.ip), None)
 
-        if chromecast_device is not None:
+        if chromecast_player is not None:
             chromecasts[chromecast_device.id] = ChromecastPlayer(
                 chromecast_player)
             print(f"{chromecast_player.cast_info.host} initialized")
