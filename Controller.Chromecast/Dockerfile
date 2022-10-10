@@ -10,6 +10,6 @@ EXPOSE 8000
 COPY src/*.py ./
 
 RUN apt update
-RUN apt install vlc
+RUN apt -y install vlc
 
 ENTRYPOINT [ "python", "-u", "__init__.py" ]
