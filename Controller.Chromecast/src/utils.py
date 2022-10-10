@@ -1,3 +1,4 @@
+from flask import Flask
 import pychromecast
 from chromecastplayer import ChromecastPlayer
 from objectid import PydanticObjectId
@@ -24,3 +25,8 @@ def initialize_chromecasts(device_repository: DeviceRepository) -> dict[Pydantic
             print(f"{chromecast_player.cast_info.host} initialized")
 
     return chromecasts
+
+
+app = Flask("__main__")
+dp = DeviceRepository(app)
+initialize_chromecasts(dp)
