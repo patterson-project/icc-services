@@ -13,8 +13,3 @@ def initialize_chromecasts(device_repository: DeviceRepository) -> dict[Pydantic
         print(f"{chromecast.ip} initialized")
 
     return chromecasts
-
-
-def start_background_loop(loop: asyncio.AbstractEventLoop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever()

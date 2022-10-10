@@ -1,4 +1,3 @@
-import asyncio
 import os
 from threading import Thread
 from chromecastplayer import ChromecastPlayer
@@ -22,7 +21,6 @@ device_repository: DeviceRepository = DeviceRepository(app)
 
 """ Chromecast Initialization """
 
-loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
 global chromecasts
 chromecasts: dict[PydanticObjectId,
                   ChromecastPlayer] = initialize_chromecasts(device_repository)
@@ -65,8 +63,7 @@ def movie_request() -> Response:
             raise OSError("Movie not found")
 
         chromecast = chromecasts[movie_request.target]
-        asyncio.run_coroutine_threadsafe(
-            chromecast.cast_media(movie_path), loop)
+        chromecast.cast_media(movie_path)
 
         return "Success", 200
 
@@ -87,8 +84,7 @@ def show_request() -> Response:
             raise OSError("Show not found")
 
         chromecast = chromecasts[movie_request.target]
-        asyncio.run_coroutine_threadsafe(
-            chromecast.cast_media(episode_path), loop)
+        chromecast.cast_media(episode_path)
 
         return "Success", 200
 
@@ -99,8 +95,5 @@ def show_request() -> Response:
 
 
 if __name__ == "__main__":
-    cast_thread = Thread(target=start_background_loop,
-                         args=(loop,), daemon=True)
-    cast_thread.start()
     http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()
