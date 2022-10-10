@@ -8,4 +8,4 @@ class ChromecastPlayer:
 
     def cast_media(self, path: str):
         self.chromecast.media_controller.play_media(
-            f"http://{os.getenv('MEDIA_DRIVE_IP')}/public/{path}")
+            f"http://{os.getenv('MEDIA_DRIVE_IP')}/public/{path}", content_type="video/mp4")
