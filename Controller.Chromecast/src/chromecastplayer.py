@@ -9,7 +9,7 @@ class ChromecastPlayer:
         print(f"{self.chromecast.cast_info.host} initialized")
 
     def cast_media(self, path: str):
+        print(f"{Config.MEDIA_DRIVE_SERVICE_URL}/{path}")
         self.chromecast.media_controller.play_media(
             f"{Config.MEDIA_DRIVE_SERVICE_URL}/{path}", content_type="video/mp4")
         self.chromecast.media_controller.block_until_active()
-        self.chromecast.media_controller.play()
