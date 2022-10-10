@@ -7,4 +7,4 @@ class ChromecastPlayer:
 
     def cast_media(self, path: str):
         os.system(
-            "cvlc -vvv \"" + path + "\" --sout=\"#chromecast{ip=" + self.ip_address + "}\" --demux-filter=demux_chromecast")
+            "cvlc -vvv \"" + path + "\" --sout=\"#chromecast{ip=" + self.ip_address + "}\" --demux-filter=demux_chromecast --enable-run-as-root")
