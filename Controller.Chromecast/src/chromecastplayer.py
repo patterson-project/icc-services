@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 
 class ChromecastPlayer:
@@ -6,5 +7,7 @@ class ChromecastPlayer:
         self.ip_address = ip_address
 
     def cast_media(self, path: str):
-        os.system(
-            "cvlc -vvv --sout=\"#chromecast{ip=" + self.ip_address + "}\" --demux-filter=demux_chromecast \"" + path + "\"")
+        cast_command = "cvlc -vvv --sout=\"#chromecast{ip=" + self.ip_address + \
+            "}\" --demux-filter=demux_chromecast \"" + path + "\""
+        print(cast_command)
+        subprocess.Popen(cast_command)
