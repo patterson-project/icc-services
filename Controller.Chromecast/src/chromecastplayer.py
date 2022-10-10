@@ -1,4 +1,4 @@
-from config import Config
+import os
 import pychromecast
 
 
@@ -9,7 +9,7 @@ class ChromecastPlayer:
         print(f"{self.chromecast.cast_info.host} initialized")
 
     def cast_media(self, path: str):
-        print(f"{Config.MEDIA_DRIVE_SERVICE_URL}/{path}")
+        print(f"http://{os.getenv('MEDIA_DRIVE_IP')}/media/{path}")
         self.chromecast.media_controller.play_media(
-            f"{Config.MEDIA_DRIVE_SERVICE_URL}/{path}", content_type="video/mp4")
+            f"http://{os.getenv('MEDIA_DRIVE_IP')}/media/{path}", content_type="video/mp4")
         self.chromecast.media_controller.block_until_active()
