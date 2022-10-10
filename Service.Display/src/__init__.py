@@ -1,8 +1,10 @@
+import requests
 from reverseproxy import ReverseProxy
 from showrequest import ShowRequest
 from movierequest import MovieRequest
 from repository import AnalyticsRepository
 from flask import Flask, Response, request, jsonify
+from config import Config
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
@@ -59,6 +61,12 @@ def chromecast_show_request() -> Response:
     response = rp.chromecast_show_request(show_request)
 
     analytics_repository.save_show_request(request)
+    return response
+
+
+@app.route("/displays/chromecast/update", methods=["PUT"])
+def update_chromecasts():
+    response = requests.put(Config.CHROMECAST_CONTROLLER_URL)
     return response
 
 
