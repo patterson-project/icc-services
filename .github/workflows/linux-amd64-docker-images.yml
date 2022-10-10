@@ -200,5 +200,5 @@ jobs:
           password: ${{ secrets.ADRIAN_DOCKER_HUB_TOKEN }}
       - name: Build and push Chromecast Controller
         run: |
-          docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:chromecast-controller --push Controller.Chromecast
+          docker buildx build --volume ${{ secrets.ADRIAN_VIDEOS_MOUNT }}:/mnt/media --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:chromecast-controller --push Controller.Chromecast
 
