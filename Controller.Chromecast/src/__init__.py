@@ -59,9 +59,6 @@ def movie_request() -> Response:
         movie_path = os.path.join(
             "Movies", movie_request.movie_title)
 
-        if not os.path.exists(movie_path):
-            raise OSError("Movie not found")
-
         chromecast = chromecasts[movie_request.target]
         chromecast.cast_media(movie_path)
 
@@ -80,10 +77,7 @@ def show_request() -> Response:
         episode_path = os.path.join(
             "Shows", show_request.show_title, show_request.season, show_request.episode)
 
-        if not os.path.exists(episode_path):
-            raise OSError("Show not found")
-
-        chromecast = chromecasts[movie_request.target]
+        chromecast = chromecasts[show_request.target]
         chromecast.cast_media(episode_path)
 
         return "Success", 200

@@ -50,7 +50,7 @@ def chromecast_movie_request() -> Response:
     response = rp.chromecast_movie_request(movie_request)
 
     analytics_repository.save_movie_request(request)
-    return response
+    return (response.content, response.status_code, response.headers.items())
 
 
 @app.route("/displays/chromecast/show", methods=["POST"])
@@ -61,13 +61,13 @@ def chromecast_show_request() -> Response:
     response = rp.chromecast_show_request(show_request)
 
     analytics_repository.save_show_request(request)
-    return response
+    return (response.content, response.status_code, response.headers.items())
 
 
 @app.route("/displays/chromecast/update", methods=["PUT"])
 def update_chromecasts():
     response = requests.put(Config.CHROMECAST_CONTROLLER_URL)
-    return response
+    return (response.content, response.status_code, response.headers.items())
 
 
 @app.route("/displays/videos/shows", methods=["GET"])
