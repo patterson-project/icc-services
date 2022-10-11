@@ -12,4 +12,3 @@ class ChromecastPlayer:
         self.chromecast.media_controller.play_media(
             f"http://{os.getenv('MEDIA_DRIVE_IP')}/media/{path}", content_type="video/mp4")
         self.chromecast.media_controller.block_until_active()
-        self.chromecast.media_controller.play()

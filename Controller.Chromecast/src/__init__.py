@@ -60,7 +60,8 @@ def movie_request() -> Response:
             "Movies", movie_request.movie_title)
 
         chromecast = chromecasts[movie_request.target]
-        chromecast.cast_media(movie_path)
+        cast_thread = Thread(target=chromecast.cast_media, args=movie_path)
+        cast_thread.start()
 
         return "Success", 200
 
