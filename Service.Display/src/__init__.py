@@ -1,7 +1,6 @@
 import requests
 from reverseproxy import ReverseProxy
-from showrequest import ShowRequest
-from movierequest import MovieRequest
+from chromecastrequest import ChromecastRequest
 from repository import AnalyticsRepository
 from flask import Flask, Response, request, jsonify
 from config import Config
@@ -42,25 +41,14 @@ def index() -> Response:
 """ Display Requests """
 
 
-@app.route("/displays/chromecast/movie", methods=["POST"])
+@app.route("/displays/chromecast/cast", methods=["POST"])
 def chromecast_movie_request() -> Response:
-    movie_request = MovieRequest(**request.get_json())
+    chromecast_request = ChromecastRequest(**request.get_json())
 
     rp = ReverseProxy()
-    response = rp.chromecast_movie_request(movie_request)
+    response = rp.cast_request(chromecast_request)
 
-    analytics_repository.save_movie_request(request)
-    return (response.content, response.status_code, response.headers.items())
-
-
-@app.route("/displays/chromecast/show", methods=["POST"])
-def chromecast_show_request() -> Response:
-    show_request = ShowRequest(**request.get_json())
-
-    rp = ReverseProxy()
-    response = rp.chromecast_show_request(show_request)
-
-    analytics_repository.save_show_request(request)
+    analytics_repository.save_chromecast_request(request)
     return (response.content, response.status_code, response.headers.items())
 
 

@@ -1,14 +1,13 @@
-from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field
 from objectid import PydanticObjectId
 from fastapi.encoders import jsonable_encoder
 
 
-class MovieRequest(BaseModel):
+class ChromecastRequest(BaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
-    target: Optional[PydanticObjectId]
-    movie_title: str
+    target: PydanticObjectId
+    path: str
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)

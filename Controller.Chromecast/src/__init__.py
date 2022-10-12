@@ -1,8 +1,7 @@
 import os
 from threading import Thread
 from chromecastplayer import ChromecastPlayer
-from showrequest import ShowRequest
-from movierequest import MovieRequest
+from chromecastrequest import ChromecastRequest
 from objectid import PydanticObjectId
 from utils import initialize_chromecasts
 from repository import DeviceRepository
@@ -52,40 +51,18 @@ def update_chromecasts() -> Response:
     return "Success", 200
 
 
-@app.route("/request/movie", methods=["POST"])
+@app.route("/request/cast", methods=["POST"])
 def movie_request() -> Response:
     try:
-        movie_request = MovieRequest(**request.get_json())
-        movie_path = os.path.join(
-            "Movies", movie_request.movie_title)
-
-        chromecast = chromecasts[movie_request.target]
-        cast_thread = Thread(target=chromecast.cast_media, args=(movie_path,))
+        chromecast_request = ChromecastRequest(**request.get_json())
+        chromecast = chromecasts[chromecast_request.target]
+        cast_thread = Thread(target=chromecast.cast_media,
+                             args=(chromecast_request.path,))
         cast_thread.start()
 
         return "Success", 200
 
     except KeyError as e:
-        return str(e), 404
-    except OSError as e:
-        return str(e), 404
-
-
-@app.route("/request/show", methods=["POST"])
-def show_request() -> Response:
-    try:
-        show_request = ShowRequest(**request.get_json())
-        episode_path = os.path.join(
-            "Shows", show_request.show_title, show_request.season, show_request.episode)
-
-        chromecast = chromecasts[show_request.target]
-        chromecast.cast_media(episode_path)
-
-        return "Success", 200
-
-    except KeyError as e:
-        return str(e), 404
-    except OSError as e:
         return str(e), 404
 
 
