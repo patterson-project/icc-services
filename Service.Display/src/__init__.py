@@ -41,12 +41,21 @@ def index() -> Response:
 """ Display Requests """
 
 
-@app.route("/displays/chromecast/cast", methods=["POST"])
-def chromecast_movie_request() -> Response:
+@app.route("/displays/chromecast/media", methods=["POST"])
+def chromecast_media_request() -> Response:
     chromecast_request = ChromecastRequest(**request.get_json())
 
     rp = ReverseProxy()
-    response = rp.cast_request(chromecast_request)
+    response = rp.media_request(chromecast_request)
+
+    analytics_repository.save_chromecast_request(request)
+    return (response.content, response.status_code, response.headers.items())
+
+
+@app.route("/displays/chromecast/media", methods=["GET"])
+def get_all_media() -> Response:
+    rp = ReverseProxy()
+    response = rp.media_request()
 
     analytics_repository.save_chromecast_request(request)
     return (response.content, response.status_code, response.headers.items())

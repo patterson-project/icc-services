@@ -1,9 +1,10 @@
+import json
 import os
 from threading import Thread
 from chromecastplayer import ChromecastPlayer
 from chromecastrequest import ChromecastRequest
 from objectid import PydanticObjectId
-from utils import initialize_chromecasts
+from utils import initialize_chromecasts, jsonify_directory
 from repository import DeviceRepository
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
@@ -51,8 +52,8 @@ def update_chromecasts() -> Response:
     return "Success", 200
 
 
-@app.route("/request/cast", methods=["POST"])
-def movie_request() -> Response:
+@app.route("/request/media", methods=["POST"])
+def get_media() -> Response:
     try:
         chromecast_request = ChromecastRequest(**request.get_json())
         chromecast = chromecasts[chromecast_request.target]
@@ -61,6 +62,16 @@ def movie_request() -> Response:
         cast_thread.start()
 
         return "Success", 200
+
+    except KeyError as e:
+        return str(e), 404
+
+
+@app.route("/media", methods=["GET"])
+def get_media() -> Response:
+    try:
+        print(json.dumps(jsonify_directory("media")))
+        return json.dumps(jsonify_directory("media")), 200
 
     except KeyError as e:
         return str(e), 404

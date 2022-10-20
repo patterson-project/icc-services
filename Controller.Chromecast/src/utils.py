@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 import pychromecast
 from chromecastplayer import ChromecastPlayer
@@ -20,3 +21,14 @@ def initialize_chromecasts(device_repository: DeviceRepository) -> dict[Pydantic
                 chromecast_player)
 
     return chromecasts
+
+
+def jsonify_directory(path: str) -> dict[str, str]:
+    d = {'name': os.path.basename(path)}
+    if os.path.isdir(path):
+        d['type'] = "directory"
+        d['children'] = [jsonify_directory(
+            os.path.join(path, x)) for x in os.listdir(path)]
+    else:
+        d['type'] = "file"
+    return d
