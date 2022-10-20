@@ -12,7 +12,7 @@ class Plug:
             "on": self.on,
             "off": self.off,
         }
-        print("Plug controller initialization completed successfully.")
+        print(f"{self.ip_address} initialized")
 
     async def strip_init(self) -> kasa.SmartPlug:
         try:

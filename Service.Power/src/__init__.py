@@ -19,6 +19,7 @@ analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
 
 """ Error Handlers """
 
+
 @app.errorhandler(404)
 def resource_not_found(e) -> Response:
     return jsonify(error=str(e)), 404
@@ -31,12 +32,14 @@ def resource_not_found(e) -> Response:
 
 """ Health """
 
+
 @app.route("/power/health", methods=["GET"])
 def index() -> Response:
     return "Healthy", 200
 
 
 """ Lighting Requests """
+
 
 @app.route("/power/request/id", methods=["POST"])
 def id_request() -> Response:
@@ -45,10 +48,10 @@ def id_request() -> Response:
         device = device_repository.find_by_id(power_request.target)
 
         rp = ReverseProxy(device)
-        rp.handle(power_request)
+        response = rp.handle(power_request)
 
         analytics_repository.save_power_request(request)
-        return "Success", 200
+        return (response.content, response.status_code, response.headers.items())
 
     except requests.HTTPError as e:
         return str(e), e.errno
@@ -62,10 +65,10 @@ def name_request() -> Response:
         power_request.target = device.id
 
         rp = ReverseProxy(device)
-        rp.handle(power_request)
+        response = rp.handle(power_request)
 
         analytics_repository.save_power_request(request)
-        return "Success", 200
+        return (response.content, response.status_code, response.headers.items())
 
     except requests.HTTPError as e:
         return str(e), e.errno

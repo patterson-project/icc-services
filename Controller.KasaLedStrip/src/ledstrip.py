@@ -5,6 +5,7 @@ import kasa
 import colorsys
 from lightingrequest import LightingRequest
 
+
 class LedStrip:
     async def create_strip(self, ip_address: str) -> None:
         self.ip_address: str = ip_address
@@ -22,7 +23,7 @@ class LedStrip:
             "rainbow_cycle": self.rainbow,
             "temperature": self.temperature,
         }
-        print("Led Strip controller initialization completed successfully.")
+        print(f"{self.ip_address} initialized")
 
     async def strip_init(self) -> kasa.SmartLightStrip:
         try:
@@ -89,7 +90,7 @@ class LedStrip:
 
                 await self.strip.set_hsv(i, 100, 100)
                 time.sleep(0.05)
-    
+
     def convert_K_to_RGB(self, colour_temperature) -> tuple[int, int, int]:
         # range check
         if colour_temperature < 1000:
@@ -103,7 +104,8 @@ class LedStrip:
         if tmp_internal <= 66:
             red = 255
         else:
-            tmp_red = 329.698727446 * math.pow(tmp_internal - 60, -0.1332047592)
+            tmp_red = 329.698727446 * \
+                math.pow(tmp_internal - 60, -0.1332047592)
             if tmp_red < 0:
                 red = 0
             elif tmp_red > 255:
@@ -121,7 +123,8 @@ class LedStrip:
             else:
                 green = tmp_green
         else:
-            tmp_green = 288.1221695283 * math.pow(tmp_internal - 60, -0.0755148492)
+            tmp_green = 288.1221695283 * \
+                math.pow(tmp_internal - 60, -0.0755148492)
             if tmp_green < 0:
                 green = 0
             elif tmp_green > 255:

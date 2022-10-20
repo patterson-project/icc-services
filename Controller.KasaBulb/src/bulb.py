@@ -21,7 +21,7 @@ class Bulb:
             "rainbow_cycle": self.rainbow,
             "temperature": self.temperature,
         }
-        print("Bulb controller initialization completed successfully.")
+        print(f"{self.ip_address} initialized")
 
     async def bulb_init(self) -> kasa.SmartBulb:
         try:
