@@ -53,7 +53,7 @@ def update_chromecasts() -> Response:
 
 
 @app.route("/request/media", methods=["POST"])
-def get_media() -> Response:
+def media_cast_request() -> Response:
     try:
         chromecast_request = ChromecastRequest(**request.get_json())
         chromecast = chromecasts[chromecast_request.target]
@@ -70,7 +70,6 @@ def get_media() -> Response:
 @app.route("/media", methods=["GET"])
 def get_media() -> Response:
     try:
-        print(json.dumps(jsonify_directory("media")))
         return json.dumps(jsonify_directory("media")), 200
 
     except KeyError as e:
