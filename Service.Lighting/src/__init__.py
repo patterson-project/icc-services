@@ -1,11 +1,10 @@
 import requests
-from repository import AnalyticsRepository, DeviceRepository, SceneRepository
-from flask import Flask, Response, request, jsonify, abort
+from repository import AnalyticsRepository, DeviceRepository
+from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
-from scenerequest import Scene, SceneRequest
-from lightingrequest import LightingRequest
+from icc.models import LightingRequest
 from reverseproxy import ReverseProxy
 
 
@@ -16,7 +15,6 @@ CORS(app)
 
 device_repository: DeviceRepository = DeviceRepository(app)
 analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
-scene_repository: SceneRepository = SceneRepository(app)
 
 
 """ Error Handlers """

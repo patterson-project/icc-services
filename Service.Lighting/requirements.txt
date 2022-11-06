@@ -7,3 +7,5 @@ fastapi
 
 flask-pymongo
 pymongo
+
+python-icc

@@ -1,7 +1,6 @@
 from flask import Request
 from config import Config
-from device import Device, LightingDeviceTypes
-from lightingrequest import LightingRequest
+from icc.models import LightingRequest, Device, LightingDeviceTypes
 import requests
 
 
