@@ -1,13 +1,13 @@
 import requests
 from flask import Request
 from config import Config
-from icc.models import LightingDeviceTypes, PowerRequest, Device
+from icc.models import PowerDeviceTypes, PowerRequest, Device
 
 
 class ReverseProxy:
     def __init__(self, device):
         self.proxy = {
-            LightingDeviceTypes.KasaPlug: self.kasa_plug_request,
+            PowerDeviceTypes.KasaPlug: self.kasa_plug_request,
         }
         self.device: Device = device
 
