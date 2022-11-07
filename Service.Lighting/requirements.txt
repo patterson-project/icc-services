@@ -4,8 +4,6 @@ aioflask
 requests
 gevent
 fastapi
-
 flask-pymongo
 pymongo
-
 python-icc

@@ -1,14 +1,12 @@
 import json
-import os
 from threading import Thread
 from chromecastplayer import ChromecastPlayer
-from chromecastrequest import ChromecastRequest
-from objectid import PydanticObjectId
 from utils import initialize_chromecasts, jsonify_directory
 from repository import DeviceRepository
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
+from icc.models import ChromecastRequest, PydanticObjectId
 
 
 """ Flask and Repository Setup """

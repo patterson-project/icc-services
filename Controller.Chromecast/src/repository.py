@@ -1,5 +1,5 @@
 import os
-from device import Device
+from icc.models import Device
 from flask import Flask
 from flask_pymongo import PyMongo
 from pymongo.collection import Collection

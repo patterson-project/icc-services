@@ -2,14 +2,12 @@ import asyncio
 from threading import Thread
 from utils import initialize_plugs, start_background_loop
 from repository import AnalyticsRepository, DeviceRepository, StateRepository
-from objectid import PydanticObjectId
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from kasa import SmartDeviceException
-from powerrequest import PowerRequest
 from plug import Plug
 from gevent.pywsgi import WSGIServer
-from state import State
+from icc.models import PowerRequest, PydanticObjectId
 
 
 """ Flask and Repository Setup """
@@ -31,6 +29,7 @@ plugs: dict[PydanticObjectId, Plug] = initialize_plugs(device_repository, loop)
 
 """ Error Handler """
 
+
 @app.errorhandler(404)
 def resource_not_found(e):
     return jsonify(error=str(e)), 404
@@ -38,12 +37,14 @@ def resource_not_found(e):
 
 """ Health """
 
+
 @app.route("/health")
 def index() -> Response:
     return "Healthy", 200
 
 
 """ Plug Requests"""
+
 
 @app.route("/update", methods=["PUT"])
 def update_bulbs() -> Response:

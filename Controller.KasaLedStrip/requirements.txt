@@ -4,3 +4,4 @@ fastapi
 requests
 gevent
 python-kasa
+python-icc
