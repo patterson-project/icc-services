@@ -4,8 +4,8 @@ from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
-from scene import Scene, SceneDto
 from reverseproxy import ReverseProxy
+from icc.models import Scene, SceneRequest
 
 
 """ Flask and Repository Setup """
@@ -45,7 +45,7 @@ def index() -> Response:
 @app.route("/scenes/request", methods=["POST"])
 def scene_request() -> Response:
     try:
-        scene_request = SceneDto(**request.get_json())
+        scene_request = SceneRequest(**request.get_json())
         scene = Scene(**scene_repository.find_by_name(scene_request.name))
 
         for lighting_request in scene.lighting_requests:

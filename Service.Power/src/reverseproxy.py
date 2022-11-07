@@ -1,8 +1,7 @@
+import requests
 from flask import Request
 from config import Config
-from device import Device, LightingDeviceTypes
-from powerrequest import PowerRequest
-import requests
+from icc.models import LightingDeviceTypes, PowerRequest, Device
 
 
 class ReverseProxy:

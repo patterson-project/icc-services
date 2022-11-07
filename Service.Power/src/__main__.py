@@ -1,4 +1,3 @@
-from powerrequest import PowerRequest
 import requests
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
@@ -6,6 +5,7 @@ from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
 from repository import AnalyticsRepository, DeviceRepository
 from reverseproxy import ReverseProxy
+from icc.models import PowerRequest
 
 
 """ Flask and Pymongo Setup """

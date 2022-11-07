@@ -4,7 +4,7 @@ from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
-from device import Device
+from icc.models import Device
 
 
 """ Flask and Pymongo Setup """
@@ -18,6 +18,7 @@ state_repository: StateRepository = StateRepository(app)
 
 """ Error Handlers"""
 
+
 @app.errorhandler(404)
 def resource_not_found(e) -> Response:
     return jsonify(error=str(e)), 404
@@ -30,12 +31,14 @@ def resource_not_found(e) -> Response:
 
 """ Health """
 
+
 @app.route("/devices/health")
 def index() -> Response:
     return "Healthy", 200
 
 
 """ Device & State CRUD """
+
 
 @app.route("/devices/states", methods=["GET"])
 def get_all_states():

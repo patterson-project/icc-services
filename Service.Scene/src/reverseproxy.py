@@ -1,8 +1,6 @@
-from powerrequest import PowerRequest
 from flask import Request
 from config import Config
-from device import Device, LightingDeviceTypes, PowerDeviceTypes
-from lightingrequest import LightingRequest
+from icc.models import LightingDeviceTypes, PowerDeviceTypes, LightingRequest, Device, PowerRequest
 import requests
 
 

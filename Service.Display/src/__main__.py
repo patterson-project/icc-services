@@ -1,12 +1,12 @@
 import requests
 from reverseproxy import ReverseProxy
-from chromecastrequest import ChromecastRequest
 from repository import AnalyticsRepository
 from flask import Flask, Response, request, jsonify
 from config import Config
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
+from icc.models import ChromecastRequest
 
 
 """ Flask and Repository Setup """

@@ -1,12 +1,8 @@
 import os
-from typing import Any
-from pymongo import ReturnDocument
-from device import Device
-from objectid import PydanticObjectId
-from powerrequest import PowerRequest
 from flask import Flask, Request
 from flask_pymongo import PyMongo
 from pymongo.collection import Collection
+from icc.models import Device, PydanticObjectId, PowerRequest
 
 class DeviceRepository:
     def __init__(self, app: Flask):

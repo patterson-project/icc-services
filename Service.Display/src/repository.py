@@ -2,7 +2,7 @@ import os
 from flask import Flask, Request
 from flask_pymongo import PyMongo
 from pymongo.collection import Collection
-from chromecastrequest import ChromecastRequest
+from icc.models import ChromecastRequest
 
 
 class AnalyticsRepository:
