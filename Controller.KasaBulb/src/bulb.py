@@ -1,7 +1,7 @@
 import asyncio
 import time
 import kasa
-from lightingrequest import LightingRequest
+from icc.models import LightingRequest
 
 
 class Bulb:

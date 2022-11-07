@@ -9,4 +9,4 @@ EXPOSE 5000
 
 COPY src/*.py ./
 
-ENTRYPOINT [ "python", "-u", "__init__.py" ]
+ENTRYPOINT [ "python", "-u", "__main__.py" ]

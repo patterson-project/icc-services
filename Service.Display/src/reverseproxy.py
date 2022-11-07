@@ -1,4 +1,4 @@
-from chromecastrequest import ChromecastRequest
+from icc.models import ChromecastRequest
 from config import Config
 import requests
 

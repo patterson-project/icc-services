@@ -1,13 +1,12 @@
 import os
 from typing import Any
-from state import State
 from pymongo import ReturnDocument
-from device import Device
-from objectid import PydanticObjectId
 from flask import Flask, Request
 from flask_pymongo import PyMongo
 from pymongo.results import InsertOneResult
 from pymongo.collection import Collection
+from icc.models import Device, PydanticObjectId, State
+
 
 class DeviceRepository:
     def __init__(self, app: Flask):
@@ -46,7 +45,7 @@ class StateRepository:
     def update(self, device: PydanticObjectId, state: bool) -> None:
         self.states.find_one_and_update({"device": device}, {
             "$set": {"state": state}}, upsert=True)
-        
+
     def find_all(self) -> list[Any]:
         return list(State(**state).to_json() for state in self.states.find())
 

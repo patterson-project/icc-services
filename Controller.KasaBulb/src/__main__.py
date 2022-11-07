@@ -1,14 +1,13 @@
 import asyncio
 from threading import Thread
-from utils import initialize_led_strips, start_background_loop
-from objectid import PydanticObjectId
-from repository import AnalyticsRepository, DeviceRepository, StateRepository
+from utils import initialize_bulbs, start_background_loop
+from repository import DeviceRepository, StateRepository, AnalyticsRepository
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from kasa import SmartDeviceException
-from lightingrequest import LightingRequest
-from ledstrip import LedStrip
+from bulb import Bulb
 from gevent.pywsgi import WSGIServer
+from icc.models import LightingRequest, PydanticObjectId
 
 
 """ Flask and Repository Setup """
@@ -21,14 +20,15 @@ state_repository: StateRepository = StateRepository(app)
 analytics_repository: AnalyticsRepository = AnalyticsRepository(app)
 
 
-""" Led Strips and Asyncio Event Loop """
+""" Bulbs and Asyncio Event Loop """
 
 loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
-global led_strips
-led_strips: dict[PydanticObjectId, LedStrip] = initialize_led_strips(device_repository, loop)
+global bulbs
+bulbs: dict[PydanticObjectId, Bulb] = initialize_bulbs(device_repository, loop)
 
 
 """ Error Handler """
+
 
 @app.errorhandler(404)
 def resource_not_found(e):
@@ -37,6 +37,7 @@ def resource_not_found(e):
 
 """ Health """
 
+
 @app.route("/health")
 def index() -> Response:
     return "Healthy", 200
@@ -44,10 +45,11 @@ def index() -> Response:
 
 """ Bulb Requests"""
 
+
 @app.route("/update", methods=["PUT"])
-def update_led_strips() -> Response:
-    global led_strips
-    led_strips = initialize_led_strips(device_repository, loop)
+def update_bulbs() -> Response:
+    global bulbs
+    bulbs = initialize_bulbs(device_repository, loop)
     return "Success", 200
 
 
@@ -55,21 +57,22 @@ def update_led_strips() -> Response:
 def lighting_request() -> Response:
     try:
         lighting_request = LightingRequest(**request.get_json())
-        led_strip_controller = led_strips[lighting_request.target]
-        led_strip_controller.set_request(lighting_request)
-
+        bulb_controller = bulbs[lighting_request.target]
+        bulb_controller.set_request(lighting_request)
         asyncio.run_coroutine_threadsafe(
-            led_strip_controller.operation_callback_by_name[lighting_request.operation](
+            bulb_controller.operation_callback_by_name[lighting_request.operation](
             ), loop
         )
 
-        state: bool = False
+        state: bool = None
         if lighting_request.operation != "off":
             state = True
+        else:
+            state = False
 
         state_repository.update(lighting_request.target, state)
         analytics_repository.save(lighting_request.target, state)
-        
+
         return "Success", 200
 
     except (SmartDeviceException, TypeError, KeyError) as e:
@@ -77,9 +80,9 @@ def lighting_request() -> Response:
 
 
 if __name__ == "__main__":
-    strip_thread = Thread(target=start_background_loop,
-                          args=(loop,), daemon=True)
-    strip_thread.start()
+    bulb_thread = Thread(target=start_background_loop,
+                         args=(loop,), daemon=True)
+    bulb_thread.start()
 
     http_server = WSGIServer(("", 8000), app)
     http_server.serve_forever()

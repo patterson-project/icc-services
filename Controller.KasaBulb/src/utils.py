@@ -1,5 +1,5 @@
 import asyncio
-from objectid import PydanticObjectId
+from icc.models import PydanticObjectId
 from bulb import Bulb
 from repository import DeviceRepository
 

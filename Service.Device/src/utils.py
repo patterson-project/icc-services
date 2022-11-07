@@ -1,4 +1,4 @@
-from device import Device
+from icc.models import Device
 from config import Config
 import requests
 

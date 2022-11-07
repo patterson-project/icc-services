@@ -1,13 +1,10 @@
 import os
 from typing import Any
 from pymongo import ReturnDocument
-from device import Device
-from objectid import PydanticObjectId
-from lightingrequest import LightingRequest
 from flask import Flask, Request
 from flask_pymongo import PyMongo
 from pymongo.collection import Collection
-from scene import Scene, SceneDto
+from icc.models import Scene,SceneRequest, PydanticObjectId, Device
 
 
 class SceneRepository:
@@ -17,7 +14,7 @@ class SceneRepository:
         self.scenes: Collection = self.iotdb.db.scenes
 
     def save(self, request: Request) -> None:
-        scene_request = SceneDto(**request.get_json())
+        scene_request = SceneRequest(**request.get_json())
         self.scenes.insert_one(scene_request.to_bson())
 
     def find_by_name(self, name: str) -> Scene:
@@ -57,5 +54,5 @@ class AnalyticsRepository:
         self.scene_requests: Collection = self.analyticsdb.db.scene_requests
 
     def save_scene_request(self, request: Request):
-        scene_request = SceneDto(**request.get_json())
+        scene_request = SceneRequest(**request.get_json())
         self.scene_requests.insert_one(scene_request.to_bson())

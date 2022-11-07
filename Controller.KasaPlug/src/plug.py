@@ -1,5 +1,5 @@
 import kasa
-from powerrequest import PowerRequest
+from icc.models import PowerRequest
 
 
 class Plug:

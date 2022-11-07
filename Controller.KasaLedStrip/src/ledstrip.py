@@ -3,7 +3,7 @@ import math
 import time
 import kasa
 import colorsys
-from lightingrequest import LightingRequest
+from icc.models import LightingRequest
 
 
 class LedStrip:
