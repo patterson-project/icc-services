@@ -55,7 +55,7 @@ def chromecast_media_request() -> Response:
 @app.route("/displays/chromecast/media", methods=["GET"])
 def get_all_media() -> Response:
     rp = ReverseProxy()
-    response = rp.media_request()
+    response = rp.get_media()
 
     analytics_repository.save_chromecast_request(request)
     return (response.content, response.status_code, response.headers.items())
@@ -65,18 +65,6 @@ def get_all_media() -> Response:
 def update_chromecasts():
     response = requests.put(Config.CHROMECAST_CONTROLLER_URL)
     return (response.content, response.status_code, response.headers.items())
-
-
-@app.route("/displays/videos/shows", methods=["GET"])
-def get_all_shows() -> None:
-    # return list of shows each with a title and list of seasons & episodes
-    pass
-
-
-@app.route("/displays/videos/movies", methods=["GET"])
-def get_all_movies() -> None:
-    # return list of movies each with a title
-    pass
 
 
 if __name__ == "__main__":
