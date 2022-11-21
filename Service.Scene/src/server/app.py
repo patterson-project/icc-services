@@ -5,7 +5,8 @@ from routes.scenerequest import router as SceneRequestRouter
 app = FastAPI(
     title="Scenes API",
     description="API to perform CRUD operations on ICC scenes",
-    docs_url="/scenes/docs"
+    docs_url="/scenes/docs",
+    openapi_url="/scenes/docs/openapi.json"
 )
 
 
