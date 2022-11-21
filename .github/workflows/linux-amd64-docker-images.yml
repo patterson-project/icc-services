@@ -126,7 +126,7 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64 --tag ${{ secrets.ADRIAN_DOCKER_HUB_USERNAME }}/iot-control-center:media-drive-service --push Service.MediaDrive
 
- kasa-bulb-controller:
+  kasa-bulb-controller:
     name: Kasa Bulb Controller
 
     runs-on: ubuntu-latest
