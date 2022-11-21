@@ -4,14 +4,15 @@ from routes.scenerequest import router as SceneRequestRouter
 
 app = FastAPI(
     title="Scenes API",
-    description="API to perform CRUD operations on ICC scenes"
+    description="API to perform CRUD operations on ICC scenes",
+    docs_url="/scenes/docs"
 )
 
 
-@app.get("/healthz", tags=["Health"])
+@app.get("/scenes/healthz", tags=["Health"])
 async def health():
     return "Healthy"
 
 app.include_router(SceneRequestRouter, tags=[
-                   "Scene Requests"], prefix="/scene/request")
-app.include_router(SceneRouter, tags=["Scenes"], prefix="/scene")
+                   "Scene Requests"], prefix="/scenes/request")
+app.include_router(SceneRouter, tags=["Scenes"], prefix="/scenes")
