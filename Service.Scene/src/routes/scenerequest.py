@@ -14,7 +14,7 @@ device_repository = DeviceRepository()
 analytics_repository = AnalyticsRepository()
 
 
-@router.post("", tags=["Scenes"], summary="Request a scene", response_description="Scene which was executed")
+@router.post("", summary="Request a scene", response_description="Scene which was executed")
 async def scene_request(scene_request: SceneRequestDto):
     scene: SceneModel = await scene_repository.find_by_name(scene_request.name)
     tasks = []
