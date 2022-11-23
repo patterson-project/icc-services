@@ -22,12 +22,12 @@ async def scene_request(scene_request: SceneRequestDto):
     for lighting_request in scene.lighting_requests:
         device = await device_repository.find_by_id(lighting_request.target_id)
         tasks.append(asyncio.create_task(http_client.post(DeviceControllerProxy.device_model_to_url.get(
-            device.model) + "/request", data=lighting_request.to_json())))
+            device.model) + "/request", json=lighting_request.to_json())))
 
     for power_request in scene.power_requests:
         device = await device_repository.find_by_id(power_request.target_id)
         tasks.append(asyncio.create_task(http_client.post(DeviceControllerProxy.device_model_to_url.get(
-            device.model) + "/request", data=power_request.to_json())))
+            device.model) + "/request", json=power_request.to_json())))
 
     await asyncio.gather(*tasks)
     await analytics_repository.insert_scene(scene_request)
