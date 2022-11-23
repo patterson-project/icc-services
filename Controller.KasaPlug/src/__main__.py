@@ -7,7 +7,7 @@ from flask_cors import CORS
 from kasa import SmartDeviceException
 from plug import Plug
 from gevent.pywsgi import WSGIServer
-from icc.models import PowerRequest, PydanticObjectId
+from icc.models import PowerRequestDto, PydanticObjectId
 
 
 """ Flask and Repository Setup """
@@ -56,7 +56,7 @@ def update_bulbs() -> Response:
 @app.route("/request", methods=["POST"])
 def plug_request() -> Response:
     try:
-        power_request: PowerRequest = PowerRequest(**request.get_json())
+        power_request: PowerRequestDto = PowerRequestDto(**request.get_json())
         plug: Plug = plugs[power_request.target]
         plug.set_request(power_request)
 

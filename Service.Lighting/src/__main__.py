@@ -4,7 +4,7 @@ from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo.errors import DuplicateKeyError
-from icc.models import LightingRequest
+from icc.models import LightingRequestDto
 from reverseproxy import ReverseProxy
 
 
@@ -44,7 +44,7 @@ def index() -> Response:
 @app.route("/lighting/request/id", methods=["POST"])
 def id_request() -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
+        lighting_request = LightingRequestDto(**request.get_json())
         device = device_repository.find_by_id(lighting_request.target)
 
         rp = ReverseProxy(device)
@@ -60,7 +60,7 @@ def id_request() -> Response:
 @app.route("/lighting/request/name", methods=["POST"])
 def name_request() -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
+        lighting_request = LightingRequestDto(**request.get_json())
         device = device_repository.find_by_name(lighting_request.name)
 
         lighting_request.target = device.id

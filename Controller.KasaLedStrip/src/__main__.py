@@ -7,7 +7,7 @@ from flask_cors import CORS
 from kasa import SmartDeviceException
 from ledstrip import LedStrip
 from gevent.pywsgi import WSGIServer
-from icc.models import PydanticObjectId, LightingRequest
+from icc.models import PydanticObjectId, LightingRequestDto
 
 
 """ Flask and Repository Setup """
@@ -57,7 +57,7 @@ def update_led_strips() -> Response:
 @app.route("/request", methods=["POST"])
 def lighting_request() -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
+        lighting_request = LightingRequestDto(**request.get_json())
         led_strip_controller = led_strips[lighting_request.target]
         led_strip_controller.set_request(lighting_request)
 
