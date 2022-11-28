@@ -139,28 +139,6 @@ jobs:
         run: |
           docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:media-drive-service --push Service.MediaDrive
 
-
-  ui:
-    name: UI
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.JULIAN_DOCKER_HUB_TOKEN }}
-      - name: Build and push Ui
-        run: |
-          docker buildx build --platform linux/arm64 --tag ${{ secrets.JULIAN_DOCKER_HUB_USERNAME }}/iot-control-center:ui --push Ui
-
   kasa-bulb-controller:
     name: Kasa Bulb Controller
 

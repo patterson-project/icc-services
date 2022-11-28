@@ -7,7 +7,7 @@ from flask_cors import CORS
 from kasa import SmartDeviceException
 from ledstrip import LedStrip
 from gevent.pywsgi import WSGIServer
-from icc.models import PydanticObjectId, LightingRequest
+from icc.models import PydanticObjectId, LightingRequestDto
 
 
 """ Flask and Repository Setup """
@@ -57,8 +57,8 @@ def update_led_strips() -> Response:
 @app.route("/request", methods=["POST"])
 def lighting_request() -> Response:
     try:
-        lighting_request = LightingRequest(**request.get_json())
-        led_strip_controller = led_strips[lighting_request.target]
+        lighting_request = LightingRequestDto(**request.get_json())
+        led_strip_controller = led_strips[lighting_request.target_id]
         led_strip_controller.set_request(lighting_request)
 
         asyncio.run_coroutine_threadsafe(
@@ -70,8 +70,8 @@ def lighting_request() -> Response:
         if lighting_request.operation != "off":
             state = True
 
-        state_repository.update(lighting_request.target, state)
-        analytics_repository.save(lighting_request.target, state)
+        state_repository.update(lighting_request.target_id, state)
+        analytics_repository.save(lighting_request.target_id, state)
 
         return "Success", 200
 

@@ -7,7 +7,7 @@ from flask_cors import CORS
 from kasa import SmartDeviceException
 from plug import Plug
 from gevent.pywsgi import WSGIServer
-from icc.models import PowerRequest, PydanticObjectId
+from icc.models import PowerRequestDto, PydanticObjectId
 
 
 """ Flask and Repository Setup """
@@ -56,8 +56,8 @@ def update_bulbs() -> Response:
 @app.route("/request", methods=["POST"])
 def plug_request() -> Response:
     try:
-        power_request: PowerRequest = PowerRequest(**request.get_json())
-        plug: Plug = plugs[power_request.target]
+        power_request: PowerRequestDto = PowerRequestDto(**request.get_json())
+        plug: Plug = plugs[power_request.target_id]
         plug.set_request(power_request)
 
         asyncio.run_coroutine_threadsafe(
@@ -69,8 +69,8 @@ def plug_request() -> Response:
         if power_request.operation != "off":
             state = True
 
-        state_repository.update(power_request.target, state)
-        analytics_repository.save(power_request.target, state)
+        state_repository.update(power_request.target_id, state)
+        analytics_repository.save(power_request.target_id, state)
 
         return "Success", 200
 
