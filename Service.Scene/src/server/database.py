@@ -10,8 +10,7 @@ class SceneRepository:
         self.scenes: motor.motor_asyncio.AsyncIOMotorCollection = self.db.iot.scenes
 
     async def insert(self, scene: SceneDto) -> None:
-        inserted_scene = await self.scenes.insert_one(scene.to_bson())
-        return inserted_scene.inserted_id
+        await self.scenes.insert_one(scene.to_bson())
 
     async def find_all(self) -> list[SceneModel]:
         cursor: motor.motor_asyncio.AsyncIOMotorCursor = self.scenes.find()

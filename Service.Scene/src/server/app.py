@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes.scene import router as SceneRouter
+from routes.scenes import router as SceneRouter
 from routes.scenerequest import router as SceneRequestRouter
 
 app = FastAPI(
