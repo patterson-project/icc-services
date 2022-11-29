@@ -6,7 +6,7 @@ app = FastAPI(
     title="Scenes API",
     description="API to perform CRUD operations on ICC scenes",
     docs_url="/scenes/docs",
-    openapi_url="/scenes/docs/openapi.json"
+    openapi_url="/scenes/docs/openapi.json",
 )
 
 

@@ -1,6 +1,7 @@
 import os
 import motor.motor_asyncio
-from icc.models import DeviceDto, DeviceModel, PydanticObjectId
+from fastapi import HTTPException
+from icc.models import DeviceDto, DeviceModel, PydanticObjectId, RoomDto, RoomModel
 
 
 class DeviceRepository:
@@ -8,9 +9,13 @@ class DeviceRepository:
         self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
             f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
         self.devices: motor.motor_asyncio.AsyncIOMotorCollection = self.db.iot.devices
+        self.rooms: motor.motor_asyncio.AsyncIOMotorCollection = self.db.iot.rooms
 
     async def insert(self, device: DeviceDto) -> None:
-        await self.devices.insert_one(device.to_bson())
+        if await self.rooms.find({"_id": device.room}).count() == 0:
+            raise HTTPException(status_code=404, detail="Room not found")
+        else:
+            await self.devices.insert_one(device.to_bson())
 
     async def find_by_id(self, id: PydanticObjectId) -> DeviceModel:
         return DeviceModel(**(await self.devices.find_one({"_id": id})))
@@ -25,23 +30,23 @@ class DeviceRepository:
     async def delete(self, id: PydanticObjectId) -> DeviceModel:
         return DeviceModel(**(await self.devices.find_one_and_delete({"_id": id})))
 
-# TODO: State management
 
-# class StateRepository:
-#     def __init__(self, app: Flask):
-#         self.iotdb = PyMongo(
-#             app, uri=f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/iot?authSource=admin")
-#         self.states: Collection = self.iotdb.db.states
+class RoomRepository:
+    def __init__(self):
+        self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
+            f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
+        self.rooms: motor.motor_asyncio.AsyncIOMotorCollection = self.db.iot.rooms
 
-#     def save(self, device: PydanticObjectId, state: bool) -> None:
-#         self.states.insert_one({"device": device, "state": state})
+    async def insert(self, room: RoomDto) -> None:
+        await self.rooms.insert_one(room.to_bson())
 
-#     def update(self, device: PydanticObjectId, state: bool) -> None:
-#         self.states.find_one_and_update({"device": device}, {
-#             "$set": {"state": state}}, upsert=True)
+    async def find_all(self) -> list[RoomModel]:
+        print("IN FIND ALLLLLLLLLLLLLLl")
+        cursor: motor.motor_asyncio.AsyncIOMotorCursor = self.rooms.find()
+        return [RoomModel(**room) for room in await cursor.to_list(None)]
 
-#     def find_all(self) -> list[Any]:
-#         return list(State(**state).to_json() for state in self.states.find())
+    async def update(self, id: PydanticObjectId, room: RoomDto) -> RoomModel:
+        return RoomModel(**(await self.rooms.find_one_and_replace({"_id": id}, room.to_bson())))
 
-#     def delete(self, id: str) -> None:
-#         self.states.find_one_and_delete({"device": PydanticObjectId(id)})
+    async def delete(self, id: PydanticObjectId) -> RoomModel:
+        return RoomModel(**(await self.rooms.find_one_and_delete({"_id": id})))
