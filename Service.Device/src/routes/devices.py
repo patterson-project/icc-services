@@ -9,11 +9,15 @@ device_repository = DeviceRepository()
 http_client = AsyncClient()
 
 
+async def update_controller(device_model: str) -> None:
+    await http_client.post(DeviceControllerProxy.device_model_to_url.get(
+        device_model) + "/update")
+
+
 @router.post("", summary="Create a device", response_description="The created device")
 async def create_device(device: DeviceDto):
     await device_repository.insert(device)
-    http_client.post(DeviceControllerProxy.device_model_to_url.get(
-        device.type) + "/update")
+    await update_controller(device.model)
     return device.to_json()
 
 
@@ -32,12 +36,13 @@ async def get_all_devices():
 @router.put("/{id}", summary="Update a device", response_description="Updated device object")
 async def update_device(id: PydanticObjectId, device: DeviceDto):
     updated_device = await device_repository.update(id, device)
-    http_client.post(DeviceControllerProxy.device_model_to_url.get(
-        device.type) + "/update")
+    await update_controller(device.model)
     return jsonable_encoder(updated_device)
 
 
 @router.delete("/{id}", summary="Delete a device", response_description="Deleted device")
 async def delete_device(id: PydanticObjectId):
+    device = await device_repository.find_by_id(id)
     deleted_device = await device_repository.delete(id)
+    await update_controller(device.model)
     return jsonable_encoder(deleted_device)

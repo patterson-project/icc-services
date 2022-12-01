@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from routes.devices import router as DeviceRouter
-from routes.rooms import router as RoomRouter
 
 app = FastAPI(
     title="Devices API",
@@ -16,5 +15,3 @@ async def health():
 
 app.include_router(DeviceRouter, tags=[
                    "Devices"], prefix="/devices")
-app.include_router(RoomRouter, tags=[
-                   "Rooms"], prefix="/devices/rooms")
