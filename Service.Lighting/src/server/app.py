@@ -12,6 +12,6 @@ app.include_router(LightingRouter, tags=[
                    "Lighting Requests"], prefix="/lighting")
 
 
-@app.get("/scenes/healthz", tags=["Health"])
+@app.get("/lighting/healthz", tags=["Health"])
 async def health():
     return "Healthy"

@@ -13,6 +13,6 @@ app.include_router(DeviceRouter, tags=[
                    "Devices"], prefix="/devices")
 
 
-@app.get("/scenes/healthz", tags=["Health"])
+@app.get("/devices/healthz", tags=["Health"])
 async def health():
     return "Healthy"
