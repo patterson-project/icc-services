@@ -1,9 +1,6 @@
-flask
-flask-cors
-aioflask
-requests
-gevent
+uvicorn
 fastapi
-flask-pymongo
-pymongo
+motor
 python-icc
+httpx
+asyncio
