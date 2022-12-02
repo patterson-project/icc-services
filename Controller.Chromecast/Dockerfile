@@ -7,6 +7,6 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-COPY src/*.py ./
+COPY ./src/ ./
 
 ENTRYPOINT [ "python", "-u", "__main__.py" ]
