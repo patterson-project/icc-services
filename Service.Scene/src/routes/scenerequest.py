@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from server.database import SceneRepository, DeviceRepository, AnalyticsRepository
-from icc.models import SceneRequestDto, SceneModel, DeviceControllerProxy
+from datetime import datetime
+from icc.models import SceneRequestDto, SceneModel, DeviceControllerProxy, SceneRequestRecord
 from threading import Thread
 from httpx import AsyncClient
 import asyncio
@@ -30,6 +31,9 @@ async def scene_request(scene_request: SceneRequestDto):
             device.model) + "/request", json=power_request.to_json())))
 
     await asyncio.gather(*tasks)
-    await analytics_repository.insert_scene(scene_request)
+
+    request_record = SceneRequestRecord(
+        time=datetime.utcnow().isoformat(), **scene_request.__dict__)
+    await analytics_repository.insert(request_record)
 
     return jsonable_encoder(scene)

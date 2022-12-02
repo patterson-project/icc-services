@@ -1,6 +1,7 @@
 import os
 import motor.motor_asyncio
-from icc.models import SceneDto, SceneModel, PydanticObjectId, Device, SceneRequestDto
+from fastapi import HTTPException
+from icc.models import SceneDto, SceneModel, PydanticObjectId, Device, SceneRequestRecord
 
 
 class SceneRepository:
@@ -17,7 +18,10 @@ class SceneRepository:
         return [SceneModel(**scene) for scene in await cursor.to_list(None)]
 
     async def find_by_name(self, name: str) -> SceneModel:
-        return SceneModel(**(await self.scenes.find_one({"name": name})))
+        scene = await self.scenes.find_one({"name": name})
+        if scene is None:
+            raise HTTPException(status_code=404, detail="Scene not found")
+        return SceneModel(**scene)
 
     async def update(self, id: PydanticObjectId, scene: SceneDto) -> SceneModel:
         return SceneModel(**(await self.scenes.find_one_and_replace({"_id": id}, scene.to_bson())))
@@ -40,7 +44,7 @@ class AnalyticsRepository:
     def __init__(self):
         self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
             f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
-        self.scene_requests: motor.motor_asyncio.AsyncIOMotorCollection = self.db.analytics.scene_requests
+        self.scene_analytics: motor.motor_asyncio.AsyncIOMotorCollection = self.db.analytics.scenes
 
-    async def insert_scene(self, scene_request: SceneRequestDto):
-        self.scene_requests.insert_one(scene_request.to_bson())
+    async def insert(self, scene_request: SceneRequestRecord):
+        self.scene_analytics.insert_one(scene_request.to_bson())

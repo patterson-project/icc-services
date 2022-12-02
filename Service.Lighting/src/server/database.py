@@ -1,7 +1,7 @@
 import os
 import motor.motor_asyncio
 from fastapi import HTTPException
-from icc.models import DeviceDto, DeviceModel, PydanticObjectId
+from icc.models import LightingRequestRecord, DeviceDto, DeviceModel, PydanticObjectId
 
 
 class DeviceRepository:
@@ -19,15 +19,12 @@ class DeviceRepository:
             raise HTTPException(status_code=404, detail="Device not found")
         return DeviceModel(**(device))
 
-    async def find_all(self) -> list[DeviceModel]:
-        cursor: motor.motor_asyncio.AsyncIOMotorCursor = self.devices.find()
-        return [DeviceModel(**device) for device in await cursor.to_list(None)]
 
-    async def update(self, id: PydanticObjectId, device: DeviceDto) -> DeviceModel:
-        device = await self.devices.find_one_and_replace({"_id": id}, device.to_bson())
-        if device is None:
-            raise HTTPException(status_code=404, detail="Device not found")
-        return DeviceModel(**(device))
+class AnalyticsRepository:
+    def __init__(self):
+        self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
+            f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
+        self.lighting_analytics: motor.motor_asyncio.AsyncIOMotorCollection = self.db.analytics.lighting
 
-    async def delete(self, id: PydanticObjectId) -> DeviceModel:
-        return DeviceModel(**(await self.devices.find_one_and_delete({"_id": id})))
+    async def insert(self, lighting_request: LightingRequestRecord) -> None:
+        await self.lighting_analytics.insert_one(lighting_request.to_bson())

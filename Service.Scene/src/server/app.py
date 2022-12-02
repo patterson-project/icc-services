@@ -10,10 +10,11 @@ app = FastAPI(
 )
 
 
-@app.get("/scenes/healthz", tags=["Health"])
-async def health():
-    return "Healthy"
-
 app.include_router(SceneRequestRouter, tags=[
                    "Scene Requests"], prefix="/scenes/request")
 app.include_router(SceneRouter, tags=["Scenes"], prefix="/scenes")
+
+
+@app.get("/scenes/healthz", tags=["Health"])
+async def health():
+    return "Healthy"
