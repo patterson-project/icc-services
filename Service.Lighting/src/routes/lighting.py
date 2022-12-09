@@ -13,6 +13,7 @@ http_client = AsyncClient()
 @router.post("", summary="Create a lighting request", response_description="The created device")
 async def create_device(lighting_request: LightingRequestDto):
     device = await device_repository.find_by_id(lighting_request.target_id)
+
     await http_client.post(DeviceControllerProxy.device_model_to_url.get(
         device.model) + "/request", json=lighting_request.to_json())
 

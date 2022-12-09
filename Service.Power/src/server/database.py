@@ -1,7 +1,7 @@
 import os
 import motor.motor_asyncio
 from fastapi import HTTPException
-from icc.models import LightingRequestRecord, DeviceDto, DeviceModel, PydanticObjectId
+from icc.models import PowerRequestDto, DeviceModel, PydanticObjectId
 
 
 class DeviceRepository:
@@ -21,7 +21,7 @@ class AnalyticsRepository:
     def __init__(self):
         self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
             f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
-        self.lighting_analytics: motor.motor_asyncio.AsyncIOMotorCollection = self.db.analytics.lighting
+        self.power_analytics: motor.motor_asyncio.AsyncIOMotorCollection = self.db.analytics.power
 
-    async def insert(self, lighting_request: LightingRequestRecord) -> None:
-        await self.lighting_analytics.insert_one(lighting_request.to_bson())
+    async def insert(self, power_request: PowerRequestDto) -> None:
+        await self.power_analytics.insert_one(power_request.to_bson())
