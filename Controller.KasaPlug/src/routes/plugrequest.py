@@ -7,8 +7,6 @@ from utils import initialize_plugs
 router = APIRouter()
 device_repository = DeviceRepository()
 
-# TODO: Fix import plug error
-
 global plugs
 plugs: dict[PydanticObjectId, Plug] = initialize_plugs(device_repository)
 
