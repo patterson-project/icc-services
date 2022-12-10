@@ -1,5 +1,5 @@
 import kasa
-from icc.models import PowerRequest
+from icc.models import PowerRequestDto
 
 
 class Plug:
@@ -7,7 +7,6 @@ class Plug:
         self.ip_address: str = ip_address
         self.plug: kasa.SmartPlug = None
         await self.strip_init()
-        self.request: PowerRequest = None
         self.operation_callback_by_name = {
             "on": self.on,
             "off": self.off,
@@ -21,11 +20,11 @@ class Plug:
         except kasa.SmartDeviceException:
             print("SmartDeviceException: Unable to establish connection with device.")
 
-    def set_request(self, request: PowerRequest) -> None:
-        self.request = request
+    async def execute_request(self, power_request: PowerRequestDto) -> None:
+        self.operation_callback_by_name[power_request.operation]()
 
-    async def on(self):
+    async def on(self) -> None:
         await self.plug.turn_on()
 
-    async def off(self):
+    async def off(self) -> None:
         await self.plug.turn_off()
