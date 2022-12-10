@@ -21,7 +21,7 @@ class Plug:
             print("SmartDeviceException: Unable to establish connection with device.")
 
     async def execute_request(self, power_request: PowerRequestDto) -> None:
-        self.operation_callback_by_name[power_request.operation]()
+        await locals()[power_request.operation]()
 
     async def on(self) -> None:
         await self.plug.turn_on()
