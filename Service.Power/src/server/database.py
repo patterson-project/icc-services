@@ -7,7 +7,8 @@ from icc.models import PowerRequestDto, DeviceModel, PydanticObjectId
 class DeviceRepository:
     def __init__(self):
         self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
-            f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
+            f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin"
+        )
         self.devices: motor.motor_asyncio.AsyncIOMotorCollection = self.db.iot.devices
 
     async def find_by_id(self, id: PydanticObjectId) -> DeviceModel:
@@ -20,8 +21,11 @@ class DeviceRepository:
 class AnalyticsRepository:
     def __init__(self):
         self.db: motor.motor_asyncio.AsyncIOMotorClient = motor.motor_asyncio.AsyncIOMotorClient(
-            f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin")
-        self.power_analytics: motor.motor_asyncio.AsyncIOMotorCollection = self.db.analytics.power
+            f"mongodb://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@{os.getenv('MONGO_DB_IP')}:27017/?authSource=admin"
+        )
+        self.power_analytics: motor.motor_asyncio.AsyncIOMotorCollection = (
+            self.db.analytics.power
+        )
 
     async def insert(self, power_request: PowerRequestDto) -> None:
         await self.power_analytics.insert_one(power_request.to_bson())

@@ -10,15 +10,22 @@ device_repository = DeviceRepository()
 http_client = AsyncClient()
 
 
-@router.post("", summary="Create a lighting request", response_description="The created device")
+@router.post(
+    "",
+    summary="Create a power request",
+    response_description="The created power request",
+)
 async def create_device(power_request: PowerRequestDto):
     device = await device_repository.find_by_id(power_request.target_id)
 
-    await http_client.post(DeviceControllerProxy.device_model_to_url.get(
-        device.model) + "/request", json=power_request.to_json())
+    await http_client.post(
+        DeviceControllerProxy.device_model_to_url.get(device.model) + "/request",
+        json=power_request.to_json(),
+    )
 
     request_record = PowerRequestRecord(
-        time=datetime.utcnow().isoformat(), **power_request.__dict__)
+        time=datetime.utcnow().isoformat(), **power_request.__dict__
+    )
     await analytics_repository.insert(request_record)
 
     return power_request.to_json()
