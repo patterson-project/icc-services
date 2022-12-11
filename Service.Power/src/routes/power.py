@@ -15,11 +15,12 @@ http_client = AsyncClient()
     summary="Create a power request",
     response_description="The created power request",
 )
-async def create_device(power_request: PowerRequestDto):
+async def create_power_request(power_request: PowerRequestDto):
     device = await device_repository.find_by_id(power_request.target_id)
 
     await http_client.post(
-        DeviceControllerProxy.device_model_to_url.get(device.model) + "/request",
+        DeviceControllerProxy.device_model_to_url.get(
+            device.model) + "/request",
         json=power_request.to_json(),
     )
 

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes.plugrequest import router as KasaPlugRequestRouter
+from routes.request import router as KasaPlugRequestRouter
 
 app = FastAPI(
     title="Kasa Plug API",
@@ -9,7 +9,7 @@ app = FastAPI(
 )
 
 app.include_router(
-    KasaPlugRequestRouter, tags=["Kasa Plug Requests"], prefix="/request"
+    KasaPlugRequestRouter, tags=["Kasa Plug Requests"]
 )
 
 
