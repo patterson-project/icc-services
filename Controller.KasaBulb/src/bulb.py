@@ -28,7 +28,7 @@ class Bulb:
             self.bulb = kasa.SmartBulb(self.ip_address)
             await (self.bulb.update())
         except kasa.SmartDeviceException:
-            print("SmartDeviceException: Unable to establish connection with device.")
+            print("Unable to establish connection with device.")
 
     def set_request(self, request: LightingRequest) -> None:
         self.request = request

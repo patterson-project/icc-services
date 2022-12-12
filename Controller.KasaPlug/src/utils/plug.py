@@ -16,7 +16,7 @@ class Plug:
             print(f"{self.ip_address} initialized")
         except kasa.SmartDeviceException:
             print(
-                f"SmartDeviceException: Unable to establish connection with Kasa Plug ({self.ip_address})")
+                f"Unable to establish connection with Kasa Plug ({self.ip_address})")
 
     async def execute_request(self, power_request: PowerRequestDto) -> None:
         try:

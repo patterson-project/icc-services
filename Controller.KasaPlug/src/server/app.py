@@ -3,7 +3,7 @@ from routes.request import router as KasaPlugRequestRouter
 
 app = FastAPI(
     title="Kasa Plug API",
-    description="API to make Kasa Plug requests",
+    description="API to make Kasa Plug power requests",
     docs_url="/docs",
     openapi_url="/docs/openapi.json",
 )

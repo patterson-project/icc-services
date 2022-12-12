@@ -10,8 +10,8 @@ class DeviceRepository:
         )
         self.devices: motor.motor_asyncio.AsyncIOMotorCollection = self.db.iot.devices
 
-    async def find_all_kasa_plugs(self) -> list[DeviceModel]:
+    async def find_all_kasa_led_strips(self) -> list[DeviceModel]:
         cursor: motor.motor_asyncio.AsyncIOMotorCursor = self.devices.find(
-            {"type": "Power", "model": "Kasa Plug"}
+            {"type": "Lighting", "model": "Kasa Led Strip"}
         )
         return [DeviceModel(**device) for device in await cursor.to_list(None)]
