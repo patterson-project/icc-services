@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response
 from server.database import DeviceRepository
 from icc.models import PowerRequestDto, PydanticObjectId, DeviceModel
-from utils.plug import Plug, initialize_plugs
+from utils.plug import Plug
 
 router = APIRouter()
 device_repository = DeviceRepository()

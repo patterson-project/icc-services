@@ -1,43 +1,35 @@
 import kasa
-from icc.models import PowerRequestDto, DeviceModel, PydanticObjectId
-from server.database import DeviceRepository
+from icc.models import PowerRequestDto
+from fastapi import HTTPException
 
 
 class Plug:
     async def create_plug(self, ip_address: str) -> None:
         self.ip_address: str = ip_address
         self.plug: kasa.SmartPlug = None
-        self.operation_callback_by_name = {
-            "on": self.on,
-            "off": self.off,
-        }
-        await self.strip_init()
+        await self.plug_init()
 
-    async def strip_init(self) -> kasa.SmartPlug:
+    async def plug_init(self) -> kasa.SmartPlug:
         try:
             self.plug = kasa.SmartPlug(self.ip_address)
             await self.plug.update()
             print(f"{self.ip_address} initialized")
         except kasa.SmartDeviceException:
-            print("SmartDeviceException: Unable to establish connection with device.")
+            print(
+                f"SmartDeviceException: Unable to establish connection with Kasa Plug ({self.ip_address})")
 
     async def execute_request(self, power_request: PowerRequestDto) -> None:
-        await locals()[power_request.operation]()
+        try:
+            operation = getattr(self, power_request.operation)
+            await operation(power_request)
+        except AttributeError:
+            raise HTTPException(
+                status_code=400, detail="Invalid Kasa Led Strip operation invoked")
 
-    async def on(self) -> None:
+    async def on(self, power_request: PowerRequestDto) -> None:
+        del power_request
         await self.plug.turn_on()
 
-    async def off(self) -> None:
+    async def off(self, power_request: PowerRequestDto) -> None:
+        del power_request
         await self.plug.turn_off()
-
-
-async def initialize_plugs(device_repository: DeviceRepository):
-    kasa_plugs: list[DeviceModel] = device_repository.find_all_kasa_plugs()
-    plugs: dict[PydanticObjectId, Plug] = {}
-
-    for device in kasa_plugs:
-        plug = Plug()
-        await plug.create_plug(device.ip)
-        plugs[device.id] = plug
-
-    return plugs
