@@ -13,10 +13,10 @@ strips: dict[PydanticObjectId, LedStrip] = {}
 async def initialize_strips():
     kasa_led_strips: list[DeviceModel] = await device_repository.find_all_kasa_led_strips()
 
+    global strips
     for device in kasa_led_strips:
         strip = LedStrip()
         await strip.create_strip(device.ip)
-        global strips
         strips[device.id] = strip
 
 
@@ -33,6 +33,5 @@ async def create_power_request(lighting_request: LightingRequestDto):
     path="/update", summary="Update & reinitialize Kasa Led Strip controllers", response_description="Success message"
 )
 async def update_plugs():
-    global strips
-    strips = await initialize_strips()
+    await initialize_strips()
     return Response(status_code=200)

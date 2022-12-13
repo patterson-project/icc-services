@@ -13,10 +13,10 @@ plugs: dict[PydanticObjectId, Plug] = {}
 async def initialize_plugs():
     kasa_plugs: list[DeviceModel] = await device_repository.find_all_kasa_plugs()
 
+    global plugs
     for device in kasa_plugs:
         plug = Plug()
         await plug.create_plug(device.ip)
-        global plugs
         plugs[device.id] = plug
 
 
@@ -33,6 +33,5 @@ async def create_power_request(power_request: PowerRequestDto):
     path="/update", summary="Update & reinitialize Kasa plug controllers", response_description="Success message"
 )
 async def update_plugs():
-    global plugs
-    plugs = await initialize_plugs()
+    await initialize_plugs()
     return Response(status_code=200)
