@@ -13,10 +13,10 @@ strips: dict[PydanticObjectId, LedStrip] = {}
 async def initialize_strips():
     kasa_led_strips: list[DeviceModel] = await device_repository.find_all_kasa_led_strips()
 
-    global strips
     for device in kasa_led_strips:
         strip = LedStrip()
         await strip.create_strip(device.ip)
+        global strips
         strips[device.id] = strip
 
 

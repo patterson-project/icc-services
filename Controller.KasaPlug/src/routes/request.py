@@ -13,10 +13,10 @@ plugs: dict[PydanticObjectId, Plug] = {}
 async def initialize_plugs():
     kasa_plugs: list[DeviceModel] = await device_repository.find_all_kasa_plugs()
 
-    global plugs
     for device in kasa_plugs:
         plug = Plug()
         await plug.create_plug(device.ip)
+        global plugs
         plugs[device.id] = plug
 
 
