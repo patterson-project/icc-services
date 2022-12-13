@@ -1,22 +1,20 @@
-
 import math
 
 
-def convert_K_to_RGB(self, colour_temperature) -> tuple[int, int, int]:
+def convert_K_to_RGB(temperature) -> tuple[int, int, int]:
     # range check
-    if colour_temperature < 1000:
-        colour_temperature = 1000
-    elif colour_temperature > 40000:
-        colour_temperature = 40000
+    if temperature < 1000:
+        temperature = 1000
+    elif temperature > 40000:
+        temperature = 40000
 
-    tmp_internal = colour_temperature / 100.0
+    tmp_internal = temperature / 100.0
 
     # red
     if tmp_internal <= 66:
         red = 255
     else:
-        tmp_red = 329.698727446 * \
-            math.pow(tmp_internal - 60, -0.1332047592)
+        tmp_red = 329.698727446 * math.pow(tmp_internal - 60, -0.1332047592)
         if tmp_red < 0:
             red = 0
         elif tmp_red > 255:
@@ -34,8 +32,7 @@ def convert_K_to_RGB(self, colour_temperature) -> tuple[int, int, int]:
         else:
             green = tmp_green
     else:
-        tmp_green = 288.1221695283 * \
-            math.pow(tmp_internal - 60, -0.0755148492)
+        tmp_green = 288.1221695283 * math.pow(tmp_internal - 60, -0.0755148492)
         if tmp_green < 0:
             green = 0
         elif tmp_green > 255:
@@ -49,8 +46,7 @@ def convert_K_to_RGB(self, colour_temperature) -> tuple[int, int, int]:
     elif tmp_internal <= 19:
         blue = 0
     else:
-        tmp_blue = 138.5177312231 * \
-            math.log(tmp_internal - 10) - 305.0447927307
+        tmp_blue = 138.5177312231 * math.log(tmp_internal - 10) - 305.0447927307
         if tmp_blue < 0:
             blue = 0
         elif tmp_blue > 255:
