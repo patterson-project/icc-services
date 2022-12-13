@@ -1,17 +1,11 @@
 from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from server.database import DeviceRepository
-from icc.models import DeviceDto, PydanticObjectId, DeviceControllerProxy
-from httpx import AsyncClient
+from utils.controllers import update_controller
+from icc.models import DeviceDto, PydanticObjectId
 
 router = APIRouter()
 device_repository = DeviceRepository()
-http_client = AsyncClient()
-
-
-async def update_controller(device_model: str) -> None:
-    await http_client.post(DeviceControllerProxy.device_model_to_url.get(
-        device_model) + "/update")
 
 
 @router.post("", summary="Create a device", response_description="The created device")

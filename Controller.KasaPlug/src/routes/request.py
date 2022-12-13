@@ -35,5 +35,6 @@ async def create_power_request(power_request: PowerRequestDto):
 )
 async def update_plugs():
     global plugs
+    plugs.clear()
     plugs = await initialize_plugs()
     return Response(status_code=200)

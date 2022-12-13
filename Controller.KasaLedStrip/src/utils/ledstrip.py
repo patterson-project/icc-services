@@ -22,7 +22,7 @@ class LedStrip:
             print(f"{self.ip_address} initialized")
         except kasa.SmartDeviceException:
             print(
-                f"Unable to establish connection with Kasa Led Strip ({self.ip_address}).")
+                f"Unable to establish connection to Kasa Led Strip at {self.ip_address}.")
 
     async def execute_request(self, lighting_request: LightingRequestDto) -> None:
         try:
@@ -76,7 +76,6 @@ class LedStrip:
 
     async def rainbow(self, lighting_request: LightingRequestDto):
         del lighting_request
-
         await self.terminate_task()
         self.sequence_cancel_event.set()
         self.sequence_task = asyncio.create_task(self.rainbow_loop())

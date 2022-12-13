@@ -35,5 +35,6 @@ async def create_power_request(lighting_request: LightingRequestDto):
 )
 async def update_plugs():
     global strips
+    strips.clear()
     strips = await initialize_strips()
     return Response(status_code=200)
