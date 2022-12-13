@@ -22,7 +22,8 @@ class LedStrip:
             print(f"{self.ip_address} initialized")
         except kasa.SmartDeviceException:
             print(
-                f"Unable to establish connection to Kasa Led Strip at {self.ip_address}.")
+                f"Unable to establish connection to Kasa Led Strip at {self.ip_address}."
+            )
 
     async def execute_request(self, lighting_request: LightingRequestDto) -> None:
         try:
@@ -30,7 +31,8 @@ class LedStrip:
             await operation(lighting_request)
         except AttributeError:
             raise HTTPException(
-                status_code=400, detail="Invalid Kasa Plug operation invoked")
+                status_code=400, detail="Invalid Kasa Plug operation invoked"
+            )
 
     async def terminate_task(self) -> None:
         if self.sequence_task is not None:
@@ -57,9 +59,11 @@ class LedStrip:
     async def hsv(self, lighting_request: LightingRequestDto):
         await self.terminate_task()
         await self.strip.set_hsv(
-            int(lighting_request.h), int(
-                lighting_request.s), int(lighting_request.v)
+            int(lighting_request.h), int(lighting_request.s), int(lighting_request.v)
         )
+
+        if lighting_request.brightness is not None:
+            await self.strip.set_brightness(lighting_request.brightness)
 
     async def brightness(self, lighting_request: LightingRequestDto):
         await self.strip.set_brightness(lighting_request.brightness)
@@ -69,10 +73,10 @@ class LedStrip:
         (r, g, b) = convert_K_to_RGB(lighting_request.temperature)
         (r, g, b) = (r / 255, g / 255, b / 255)
         (h, s, v) = colorsys.rgb_to_hsv(r, g, b)
-        await self.strip.set_hsv(
-            int(h*360), int(s *
-                            100), int(v*100)
-        )
+        await self.strip.set_hsv(int(h * 360), int(s * 100), int(v * 100))
+
+        if lighting_request.brightness is not None:
+            await self.strip.set_brightness(lighting_request.brightness)
 
     async def rainbow(self, lighting_request: LightingRequestDto):
         del lighting_request
